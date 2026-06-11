@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'GT America:Regular';
+  src: url('/fonts/GT-America-Standard-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT America:Medium';
+  src: url('/fonts/GT-America-Standard-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT Super Display:Regular';
+  src: url('/fonts/GT-Super-Display-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT Super Display:Medium';
+  src: url('/fonts/GT-Super-Display-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT Super Text:Book';
+  src: url('/fonts/GT-Super-Text-Book.woff2') format('woff2');
+  font-weight: 350;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --green\/1000: #042a21;
+  --green\/900: #12473a;
+  --green\/800: #445f59;
+  --green\/700: #61706f;
+  --green\/200: #9fb5af;
+  --teal\/900: #07777e;
+  --teal\/800: #068089;
+  --tan\/500: #d8a577;
+  --tan\/200: #e0c9b4;
+  --border\/neutral: #d1d1d1;
+}
+
+@keyframes gentle-bounce {
+  0%, 100% { transform: translateY(0); animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+  50% { transform: translateY(-7px); animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1); }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
