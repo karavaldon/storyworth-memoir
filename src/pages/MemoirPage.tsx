@@ -1,9 +1,7 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 
 // Figma asset URLs — valid for 7 days. Replace with permanent assets in /public/assets/.
-const imgIcon = "https://www.figma.com/api/mcp/asset/6ca46781-e838-4e5d-ae23-4a57f9badc6b";
 const imgIcon1 = "https://www.figma.com/api/mcp/asset/336ec853-d321-4a58-aa97-7d758fb88627";
-const imgVector17 = "https://www.figma.com/api/mcp/asset/c2e538dd-d4c5-470b-b60e-8009d8edda64";
 const imgPhoto1 = "https://www.figma.com/api/mcp/asset/5f979193-4b47-472c-8d48-c8edeb0f8ea8";
 const img3 = "https://www.figma.com/api/mcp/asset/6be8cd1e-69a3-4b27-95eb-52e7e61bb4e4";
 const imgPhoto2 = "https://www.figma.com/api/mcp/asset/5c281eb9-409b-4314-b508-b165a1b4956c";
@@ -15,24 +13,6 @@ const imgStoryworthMark = "https://www.figma.com/api/mcp/asset/7210ece4-e04d-401
 const imgEllipse25 = "https://www.figma.com/api/mcp/asset/8e5582e8-ce5b-43ee-aea8-edde718ad727";
 const imgEllipse26 = "https://www.figma.com/api/mcp/asset/f4dcf0b6-d30b-43dd-ad6c-2f9938365cb8";
 const imgPolygon1 = "https://www.figma.com/api/mcp/asset/9a25b6eb-6639-444c-b9ae-433d1a61df59";
-const imgVector = "https://www.figma.com/api/mcp/asset/b21437b9-adfc-4cc2-bae2-0c5e4eba92f2";
-const imgVector1 = "https://www.figma.com/api/mcp/asset/2271798c-2403-4130-bb01-68c319214455";
-const imgVector2 = "https://www.figma.com/api/mcp/asset/ad5f9ef9-9d15-420f-899d-9752bb4b5bcd";
-const imgVector3 = "https://www.figma.com/api/mcp/asset/6cd0dd2d-8461-46bc-a24c-01e764ab1cd6";
-const imgVector4 = "https://www.figma.com/api/mcp/asset/cd40c651-e1f4-49ea-8bd3-663522ea019b";
-const imgVector5 = "https://www.figma.com/api/mcp/asset/822fdb58-8212-4ee3-b124-831889838dd3";
-const imgVector6 = "https://www.figma.com/api/mcp/asset/d325922a-6edd-4b4b-a5cc-57589894cd77";
-const imgVector7 = "https://www.figma.com/api/mcp/asset/05555bbf-caa0-4f88-970d-ffb1f27ead41";
-const imgVector8 = "https://www.figma.com/api/mcp/asset/fbb7cf6e-155f-4a2a-a611-0940696adc16";
-const imgVector9 = "https://www.figma.com/api/mcp/asset/582e564c-1043-489a-b75f-fd28e92d5889";
-const imgVector10 = "https://www.figma.com/api/mcp/asset/e3af2137-71a7-4650-b5e5-923655ad42a9";
-const imgVector11 = "https://www.figma.com/api/mcp/asset/20cdb04a-fe99-4501-a926-b0c95c734062";
-const imgVector12 = "https://www.figma.com/api/mcp/asset/d1500074-621b-45c1-89ed-256f0e1603cc";
-const imgVector13 = "https://www.figma.com/api/mcp/asset/dfe0caf3-d42e-4f32-85ac-b43ff326e636";
-const imgVector14 = "https://www.figma.com/api/mcp/asset/41b52a17-c348-4e68-870b-2a8fccba86f2";
-const imgVector15 = "https://www.figma.com/api/mcp/asset/a285e1fe-bf13-43a7-87eb-e1bc0a0c6340";
-const imgVector16 = "https://www.figma.com/api/mcp/asset/bf772c3c-0f9c-4c31-b675-d9fc68469859";
-const imgVector18 = "https://www.figma.com/api/mcp/asset/e2d854bf-0905-45af-b46c-02e607025c7a";
 const imgFrame = "https://www.figma.com/api/mcp/asset/3a5676f8-d428-4da3-a661-ab7e968d51be";
 // Stories bar action button icons (node 1:646)
 const imgReorderIcon = "https://www.figma.com/api/mcp/asset/5f04b2a7-7492-4d90-a5d1-75251892d4fb";
