@@ -40,7 +40,7 @@ const imgNewStoryIcon = "https://www.figma.com/api/mcp/asset/6efd11e4-cd5d-4095-
 // Book card hover-state button icons (node 1:798)
 const imgEditCoverIcon = "https://www.figma.com/api/mcp/asset/787def91-0b2d-43ee-9040-568b41159dd1";
 const imgPreviewBookIcon = "https://www.figma.com/api/mcp/asset/214f0276-0857-44b8-8082-1b891eb13c00";
-const imgElements1 = "https://www.figma.com/api/mcp/asset/61bdf83b-96bf-41ed-bd2d-c77c155dbe50";
+
 const imgHeart = "https://www.figma.com/api/mcp/asset/7546f9e9-6e41-44f2-92aa-ece8b45cee3a";
 const imgChat = "https://www.figma.com/api/mcp/asset/1c19f4f9-a182-4ad0-b4ff-4e21f44a4a75";
 const imgBookIlloA = "https://www.figma.com/api/mcp/asset/837238c7-da8e-4b08-952a-059501a12a7e";
@@ -54,18 +54,6 @@ const imgPhoto8 = "https://www.figma.com/api/mcp/asset/10ae6512-65f9-45fe-86eb-5
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
-function EditIconButton({ className }: { className?: string }) {
-  return (
-    <div className={className ?? "relative size-[40px]"}>
-      <div className="absolute bg-white border-2 border-[var(--teal\/800,#068089)] border-solid inset-0 rounded-[24px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]" />
-      <div className="absolute inset-1/4 overflow-clip">
-        <div className="absolute inset-[15%]">
-          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIcon} />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function GiftIcon() {
   return (
@@ -228,38 +216,6 @@ function Navbar({ scenario, onScenarioChange }: { scenario: string; onScenarioCh
   )
 }
 
-function BookIllo({ h, w, v17h, v17w }: { h: number; w: number; v17h: number; v17w: number }) {
-  return (
-    <div className="overflow-clip relative flex-shrink-0" style={{ height: h, width: w }}>
-      <div className="absolute inset-[0_19.32%_0.09%_0]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector} /></div>
-      <div className="absolute inset-[0_0.02%_0.09%_93.23%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector1} /></div>
-      <div className="absolute inset-[72.13%_40.56%_17.75%_16.19%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector2} /></div>
-      <div className="absolute inset-[9.67%_1.73%_85.82%_94.96%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector3} /></div>
-      <div className="absolute inset-[10.3%_2.5%_86.45%_95.72%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector4} /></div>
-      <div className="absolute inset-[75.72%_2.05%_22.97%_95.53%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector5} /></div>
-      <div className="absolute inset-[77.5%_2.1%_21.25%_95.58%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector6} /></div>
-      <div className="absolute inset-[79.21%_2.05%_18.83%_95.53%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector7} /></div>
-      <div className="absolute inset-[81.8%_2.1%_16.85%_95.58%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector8} /></div>
-      <div className="absolute inset-[83.58%_2.1%_14.57%_95.58%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector9} /></div>
-      <div className="absolute inset-[85.86%_2.1%_11.51%_95.58%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector10} /></div>
-      <div className="absolute inset-[88.9%_2.05%_9.14%_95.53%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector11} /></div>
-      <div className="absolute inset-[91.48%_2.1%_7.17%_95.58%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector12} /></div>
-      <div className="absolute inset-[93.29%_2.1%_5.46%_95.58%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector13} /></div>
-      <div className="absolute inset-[95.09%_2.1%_3.5%_95.58%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector14} /></div>
-      <div className="absolute inset-[6.42%_32.56%_6.79%_13.43%]">
-        <div className="absolute inset-[-0.2%_-0.39%]"><img alt="" className="block max-w-none size-full" src={imgVector15} /></div>
-      </div>
-      <div className="absolute inset-[9.85%_29.86%_10.22%_10.73%]">
-        <div className="absolute inset-[-0.22%_-0.35%]"><img alt="" className="block max-w-none size-full" src={imgVector16} /></div>
-      </div>
-      <div className="absolute inset-[20.67%_42.28%_37.04%_23.15%]">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" height={v17h} src={imgVector17} width={v17w} />
-      </div>
-      <div className="absolute inset-[0_94.16%_0.09%_3.14%]"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector18} /></div>
-    </div>
-  )
-}
-
 function BookCard({ variant = 'a' }: { variant?: 'a' | 'b' }) {
   const [hovered, setHovered] = useState(false)
 
@@ -409,45 +365,6 @@ function ShuffleHint({
   )
 }
 
-function ThisWeekCard({ hideHint = false }: { hideHint?: boolean }) {
-  const [shufflePos, setShufflePos] = useState<number | null>(null)
-
-  const isShuffled = shufflePos !== null
-  const currentQuestion = isShuffled ? weekQuestions[shufflePos] : weekQuestions[0]
-  const total = weekQuestions.length - 1
-
-  const hintProps = {
-    isShuffled,
-    shufflePos: shufflePos ?? 0,
-    total,
-    onShuffle: () => setShufflePos(1),
-    onPrev: () => setShufflePos(shufflePos! > 1 ? shufflePos! - 1 : null),
-    onNext: () => shufflePos! < total && setShufflePos(shufflePos! + 1),
-  }
-
-  return (
-    <div className="bg-white border-2 border-transparent cursor-pointer drop-shadow-[0px_8px_17px_rgba(137,137,137,0.12)] flex flex-col gap-[32px] items-start justify-center pb-[30px] pt-[27px] px-[24px] rounded-[12px] transition-all duration-200 hover:-translate-y-1 hover:bg-[#f0faf9] hover:border-[#068089] w-full">
-      <div className="flex flex-col gap-[27px] items-center w-full">
-        <div className="flex flex-col gap-[22px] items-center w-full">
-          <p className="font-['GT_America:Regular'] leading-[20px] text-[16px] text-[#12473a] whitespace-nowrap">
-            For you this week • Asked by Alex
-          </p>
-          <p className="font-['GT_Super_Display:Regular'] leading-[36px] max-w-[760px] text-[26px] sm:text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] text-center transition-all duration-200">
-            {currentQuestion}
-          </p>
-        </div>
-        <div className="flex flex-col gap-[16px] items-center">
-          <button type="button" className="bg-[var(--teal\/800,#068089)] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
-            <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">
-              tell my story
-            </span>
-          </button>
-          {!hideHint && <ShuffleHint {...hintProps} variant="a" />}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 const shuffleAskers = ['Raymond', 'Storyworth', 'Raymond', 'Storyworth', 'Raymond']
 
