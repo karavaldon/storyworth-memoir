@@ -814,7 +814,7 @@ function OptionCMidSub() {
         </div>
       </button>
     )}
-    <div className="flex items-start px-[40px] lg:px-[100px] pt-[32px] pb-[80px]">
+    <div className="flex items-start px-[40px] lg:px-[100px] pt-0 pb-[80px]">
       {/* Left sticky panel */}
       <div className="sticky top-[70px] md:top-[105px] w-[260px] lg:w-[300px] flex-none pr-[22px] flex flex-col gap-[32px] pb-8">
         <div className="flex items-center justify-center">
