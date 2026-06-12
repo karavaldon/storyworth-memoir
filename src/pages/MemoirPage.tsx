@@ -56,6 +56,7 @@ const devScenarios: { label: string; id: string; implemented: boolean }[] = [
   { label: 'Option B — New user',  id: 'b-new',    implemented: true  },
   { label: 'Option B — Mid sub',   id: 'b-month4', implemented: true  },
   { label: 'Option B — Month 10',  id: 'b-month10',implemented: false },
+  { label: 'Option C — Mid sub',   id: 'c-month4', implemented: true  },
 ]
 
 function DevToolsMenu({ onClose, scenario, onSelect }: { onClose: () => void; scenario: string; onSelect: (id: string) => void }) {
@@ -759,6 +760,197 @@ function HeroContent({ variant = 'a', scenarioId = 'a-month4' }: { variant?: 'a'
   )
 }
 
+// ─── Option C Mid-sub ────────────────────────────────────────────────────────
+
+const optionCWeeks: {
+  weekNum: number
+  asker?: string
+  question: string
+  story?: Story
+  isThisWeek?: boolean
+  isUpcoming?: boolean
+}[] = [
+  { weekNum: 1, question: stories[0].question, story: stories[0] },
+  { weekNum: 2, question: stories[1].question, story: stories[1] },
+  { weekNum: 3, question: stories[2].question, story: stories[2] },
+  { weekNum: 4, asker: 'Raymond', question: 'What kinds of jobs did you have in high school?', isThisWeek: true },
+  { weekNum: 5,  asker: 'Raymond',    question: 'What do you want your college experience to be remembered for?', isUpcoming: true },
+  { weekNum: 6,  asker: 'Storyworth', question: 'What legacy do you want to leave behind?', isUpcoming: true },
+  { weekNum: 7,  asker: 'Storyworth', question: 'What do you hope your friends will remember most about you?', isUpcoming: true },
+  { weekNum: 8,  asker: 'Storyworth', question: 'What memories from your childhood would you like to share with future generations?', isUpcoming: true },
+  { weekNum: 9,  asker: 'Storyworth', question: 'How would you like to be remembered?', isUpcoming: true },
+  { weekNum: 10, asker: 'Storyworth', question: 'What was the most memorable moment of your first day at the Academy?', isUpcoming: true },
+]
+
+function OptionCMidSub() {
+  const thisWeekRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'instant' })
+  }, [])
+
+  return (
+    <div className="flex items-start px-[40px] lg:px-[100px] pt-[32px] pb-[80px]">
+      {/* Left sticky panel */}
+      <div className="sticky top-[70px] md:top-[105px] w-[260px] lg:w-[300px] flex-none pr-[22px] flex flex-col gap-[32px] pb-8">
+        <div className="flex items-center justify-center">
+          <div className="h-[194px] w-[164px] relative flex-shrink-0">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBookIlloB} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-[32px]">
+          <div className="flex flex-col gap-[24px]">
+            <div className="flex flex-col gap-[16px]">
+              <h1 className="font-['GT_Super_Display:Regular'] text-[42px] lg:text-[50px] leading-[56px] lg:leading-[64px] tracking-[-0.5px] text-[#15372f] m-0">
+                Brian Little
+              </h1>
+              <h2 className="font-['GT_Super_Display:Regular'] text-[26px] lg:text-[32px] leading-[normal] tracking-[-0.32px] text-[#15372f] m-0">
+                My Life Stories
+              </h2>
+            </div>
+            <div className="font-['GT_Super_Text:Book'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/900,#12473a)]">
+              <p className="m-0">10 stories · 54 pages</p>
+              <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">
+                Read by 2 people
+              </button>
+            </div>
+            <p className="font-['GT_Super_Text:Book'] text-[16px] lg:text-[18px] leading-[28px] text-[#445f59] m-0">
+              🏆 What an achievement! You've written 10 stories for your memoir.
+            </p>
+          </div>
+          <div className="flex flex-col gap-[6px]">
+            {['Edit book cover', 'Preview book', 'Add readers', 'Manage questions'].map((label) => (
+              <button
+                key={label}
+                type="button"
+                className="font-['GT_America:Medium'] text-[14px] lg:text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[color:var(--teal\/900,#07777e)] py-[14px] lg:py-[16px] text-left cursor-pointer hover:opacity-70 transition-opacity"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Vertical divider */}
+      <div className="self-stretch w-px bg-[#d1d1d1] flex-none" />
+
+      {/* Right: weeks list */}
+      <div className="flex-1 min-w-0 pl-[16px] lg:pl-[24px]">
+        {optionCWeeks.map((week) => {
+          if (week.isThisWeek) {
+            return (
+              <div key={week.weekNum} className="py-[24px]">
+                <div
+                  ref={thisWeekRef}
+                  className="bg-white border border-[#07777e] rounded-[12px] drop-shadow-[0px_4px_10px_rgba(0,0,0,0.08)] p-[24px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[16px]"
+                >
+                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                    <p className="font-['GT_America:Regular'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
+                      This week · Asked by {week.asker}
+                    </p>
+                    <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
+                      {week.question}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="flex-none bg-[var(--teal\/800,#068089)] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity"
+                  >
+                    <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
+                      tell my story
+                    </span>
+                  </button>
+                </div>
+              </div>
+            )
+          }
+
+          if (week.isUpcoming) {
+            return (
+              <div key={week.weekNum} className="border-b border-[#d1d1d1] py-[24px] px-[24px] opacity-50 flex flex-col gap-[12px]">
+                <p className="font-['GT_America:Regular'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
+                  Week {week.weekNum} · Asked by {week.asker}
+                </p>
+                <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
+                  {week.question}
+                </p>
+              </div>
+            )
+          }
+
+          const story = week.story!
+          return (
+            <div key={week.weekNum} className="border-b border-[#d1d1d1] py-[24px] px-[24px] flex items-start justify-between gap-[24px]">
+              <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
+                <p className="font-['GT_America:Regular'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
+                  Week {week.weekNum}
+                </p>
+                <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
+                  {story.question}
+                </p>
+                <div className="flex gap-[24px] items-start">
+                  <p className="font-['GT_Super_Text:Book'] text-[16px] lg:text-[18px] leading-[28px] text-[color:var(--green\/800,#445f59)] m-0 flex-1 min-w-0">
+                    {story.excerpt}
+                  </p>
+                  {story.photos.length > 0 && (
+                    <div className="border-2 border-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] w-[60px] h-[77px] relative flex-shrink-0">
+                      <img alt="" className="absolute inset-0 size-full object-cover" src={story.photos[0]} />
+                    </div>
+                  )}
+                </div>
+                {story.reactions.length > 0 && (
+                  <div className="flex gap-[8px] items-center">
+                    {story.reactions.map((r, i) => (
+                      <div key={i} className="flex gap-[8px] items-center">
+                        <div className="relative size-[24px] flex-shrink-0">
+                          <img alt="" className="absolute block inset-0 max-w-none size-full" src={r.icon} />
+                        </div>
+                        <span className="font-['GT_America:Regular'] text-[16px] text-[color:var(--teal\/900,#07777e)]">{r.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="flex-none pt-[40px]">
+                <ReaderAvatars readers={story.readers} />
+              </div>
+            </div>
+          )
+        })}
+
+        {/* Pagination */}
+        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+          <button type="button" className="opacity-50 relative size-[40px] flex-none cursor-not-allowed" aria-label="Previous page">
+            <div className="absolute bg-white border-2 border-[#068089] inset-0 rounded-[24px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]" />
+            <div className="absolute flex inset-0 items-center justify-center">
+              <div className="relative size-[18px]">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
+              </div>
+            </div>
+          </button>
+          <div className="flex gap-[10px] items-center">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className={`flex items-center justify-center rounded-[12px] size-[40px] ${n === 1 ? 'bg-[#edf2f0]' : ''}`}>
+                <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[color:var(--green\/1000,#042a21)] text-center">{n}</span>
+              </div>
+            ))}
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#445f59] whitespace-nowrap">1-10 of 52</span>
+          </div>
+          <button type="button" className="relative size-[40px] flex-none cursor-pointer hover:opacity-80 transition-opacity" aria-label="Next page">
+            <div className="absolute bg-white border-2 border-[#068089] inset-0 rounded-[24px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]" />
+            <div className="absolute flex inset-0 items-center justify-center rotate-180">
+              <div className="relative size-[18px]">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Main Page ──────────────────────────────────────────────────────────────
 
 export default function MemoirPage() {
@@ -769,6 +961,7 @@ export default function MemoirPage() {
   const sentinelRef = useRef<HTMLDivElement>(null)
 
   const isOptionB = scenario.startsWith('b-')
+  const isOptionC = scenario.startsWith('c-')
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
 
   useEffect(() => {
@@ -792,7 +985,9 @@ export default function MemoirPage() {
     <div className="bg-white min-h-screen">
       <Navbar scenario={scenario} onScenarioChange={setScenario} />
 
-      {isOptionB ? (
+      {isOptionC ? <OptionCMidSub /> : null}
+
+      {!isOptionC && isOptionB ? (
         <>
           {/* Option B: this-week question in tan hero, book/title below on white */}
           <section className={`bg-[#f8f4f1] relative flex flex-col justify-center${isNewUser ? ' min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]' : ' min-h-[calc(80vh-70px)] md:min-h-[calc(80vh-105px)]'}`}>
@@ -833,7 +1028,7 @@ export default function MemoirPage() {
         </>
       )}
 
-      {/* Progress message */}
+      {!isOptionC && <>{/* Progress message */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[68px] pb-[2px] flex flex-col gap-[16px]">
         <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
           My stories
@@ -942,6 +1137,7 @@ export default function MemoirPage() {
           </div>
         )}
       </div>
+      </>}
 
       {showReorderModal && (
         <div
