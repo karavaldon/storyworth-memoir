@@ -864,25 +864,78 @@ function OptionCMidSub() {
       {/* Story list */}
       <div className="flex-1 min-w-0 bg-white drop-shadow-[0px_22px_15px_rgba(0,0,0,0.07)] pl-[16px] pr-[60px] pb-[80px]">
 
-          {/* Go to this week — inline at top of column */}
-          {showGoBtn && (
-            <div className="flex items-center justify-center pt-[48px] pb-[12px] w-full">
-              <button
-                type="button"
-                onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
-                className="bg-[#068089] text-white rounded-[24px] h-[40px] px-[32px] flex items-center gap-[8px] cursor-pointer hover:opacity-90 transition-opacity"
-                style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
-              >
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
-                  go to this week's question
+        {/* Floating notification — only visible when this-week card is off-screen */}
+        {showGoBtn && (
+          <div
+            className="flex items-center justify-center pb-[24px] pt-[32px] w-full"
+            style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
+          >
+            <button
+              type="button"
+              onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
+              className="bg-[#f3f7f7] border-2 border-[#accfd3] hover:border-[#068089] rounded-[8px] px-[24px] py-[16px] flex gap-[10px] items-center justify-center drop-shadow-[0px_4px_10px_rgba(6,128,137,0.06)] cursor-pointer transition-colors"
+            >
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#068089] text-center whitespace-nowrap m-0">
+                Raymond asked a question this week —{' '}
+                <span className="font-['GT_America:Medium']">See what they asked</span>
+              </p>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-none">
+                <path d="M4 7L10 13L16 7" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Sticky tab bar */}
+        <div className="sticky top-0 z-10 bg-white border-b border-[#ebebeb] px-[24px] py-[24px] flex items-center justify-between">
+          <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
+            <div className="flex items-center">
+              <div className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px]">
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">
+                  week by week
                 </span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                  <path d="M7 2v10M2.5 8l4.5 4.5L11.5 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+              </div>
+              <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
+                  stories (4)
+                </span>
+              </button>
+              <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
+                  drafts (2)
+                </span>
               </button>
             </div>
-          )}
-          {optionCWeeks.map((week, i) => {
+          </div>
+          <div className="flex gap-[12px] items-center">
+            <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <div className="overflow-clip relative size-[24px] flex-shrink-0">
+                <div className="absolute inset-[12.5%]">
+                  <div className="absolute inset-[-4.17%]">
+                    <img alt="" className="block max-w-none size-full" src={imgReorderIcon} />
+                  </div>
+                </div>
+              </div>
+              <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">
+                reorder
+              </span>
+            </button>
+            <button type="button" className="bg-[#068089] border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+              <div className="overflow-clip relative size-[24px] flex-shrink-0">
+                <div className="absolute inset-[8.33%]">
+                  <div className="absolute inset-[-3.75%]">
+                    <img alt="" className="block max-w-none size-full" src={imgNewStoryIcon} />
+                  </div>
+                </div>
+              </div>
+              <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-white whitespace-nowrap">
+                new story
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {optionCWeeks.map((week, i) => {
           if (week.isThisWeek) {
             return (
               <div key={week.weekNum} className="py-[42px] px-[24px] flex flex-col gap-[24px] items-center">
@@ -919,7 +972,7 @@ function OptionCMidSub() {
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} className="border-b border-[#d1d1d1] py-[24px] px-[24px] opacity-50 hover:opacity-100 flex items-center justify-between gap-[24px] group transition-opacity cursor-pointer">
+              <div key={week.weekNum} className="border-b border-[#ebebeb] py-[24px] px-[24px] opacity-50 hover:opacity-100 flex items-center justify-between gap-[24px] group transition-opacity cursor-pointer">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
@@ -943,7 +996,7 @@ function OptionCMidSub() {
           const story = week.story!
           const isLastBeforeThisWeek = optionCWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#d1d1d1] '}py-[24px] px-[24px] flex items-start justify-between gap-[24px]`}>
+            <div key={week.weekNum} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] px-[24px] flex items-start justify-between gap-[24px]`}>
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
