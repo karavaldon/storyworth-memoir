@@ -762,6 +762,17 @@ function HeroContent({ variant = 'a', scenarioId = 'a-month4' }: { variant?: 'a'
 
 // ─── Option C Mid-sub ────────────────────────────────────────────────────────
 
+const thisWeekQuestionPool = [
+  'What kinds of jobs did you have in high school?',
+  'What was your most memorable birthday growing up?',
+  'What do you remember about your first car?',
+  'What was the greatest piece of advice you ever received?',
+  'Describe the home you grew up in.',
+  'What was the bravest thing you ever did?',
+  'Who had the biggest influence on who you became?',
+  'What is something you wish you had told your parents?',
+]
+
 const optionCWeeks: {
   weekNum: number
   asker?: string
@@ -785,50 +796,57 @@ const optionCWeeks: {
 function OptionCMidSub() {
   const thisWeekRef = useRef<HTMLDivElement>(null)
   const [showGoBtn, setShowGoBtn] = useState(true)
+  const [thisWeekQuestion, setThisWeekQuestion] = useState(thisWeekQuestionPool[0])
 
+  function shuffleQuestion() {
+    const others = thisWeekQuestionPool.filter(q => q !== thisWeekQuestion)
+    setThisWeekQuestion(others[Math.floor(Math.random() * others.length)])
+  }
+  // Hide go-to button when this week card is visible
   useEffect(() => {
     const el = thisWeekRef.current
     if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowGoBtn(!entry.isIntersecting),
+    const obs = new IntersectionObserver(
+      ([e]) => setShowGoBtn(!e.isIntersecting),
       { threshold: 0.5 }
     )
-    observer.observe(el)
-    return () => observer.disconnect()
+    obs.observe(el)
+    return () => obs.disconnect()
   }, [])
 
   return (
-    <div className="flex items-start px-[60px] pt-[32px] pb-[80px] gap-[12px]">
-      {/* Left sticky panel */}
-      <div className="sticky top-[70px] md:top-[105px] w-[300px] flex-none pr-[22px] pt-[32px] flex flex-col gap-[16px]">
-        <div className="flex items-center justify-center">
-          <div className="h-[194px] w-[164px] relative flex-shrink-0">
+    // Outer: tan bg fills full left side via background bleed
+    <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
+
+      {/* ── Left sticky panel ── */}
+      <div
+        className="sticky top-0 self-start flex-none w-[382px]
+                   pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[16px] overflow-hidden"
+        style={{ height: '100vh' }}
+      >
+        <div className="flex items-start">
+          <div className="h-[166px] w-[140px] relative flex-shrink-0">
             <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBookIlloB} />
           </div>
         </div>
-        {/* core-content */}
         <div className="flex flex-col gap-[16px] w-full">
-          {/* text group */}
-          <div className="flex flex-col gap-[18px] w-full">
-            <div className="flex flex-col gap-[12px] w-full">
-              <h1 className="font-['GT_Super_Display:Regular'] text-[50px] leading-[64px] tracking-[-0.5px] text-[#15372f] m-0 whitespace-nowrap">
-                Brian Little
-              </h1>
-              <h2 className="font-['GT_Super_Display:Regular'] text-[32px] leading-[normal] tracking-[-0.32px] text-[#15372f] m-0">
-                My Life Stories
-              </h2>
-            </div>
-            <p className="font-['GT_Super_Text:Book'] leading-[0] text-[color:var(--green\/900,#12473a)] m-0 whitespace-pre-wrap">
-              <span className="leading-[28px] text-[20px]">10 stories · 54 pages{'\n'}</span>
-              <button type="button" className="leading-[28px] text-[20px] underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
-                Read by 2 people
-              </button>
-            </p>
-            <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#445f59] m-0">
-              🏆 What an achievement! You've written 10 stories for your memoir.
-            </p>
+          <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">
+            4 stories · 54 pages · Read by{' '}
+            <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
+              2 people
+            </button>
+          </p>
+          <div className="flex flex-col gap-[12px] w-full">
+            <h1 className="font-['GT_Super_Display:Regular'] text-[40px] leading-[normal] tracking-[-0.4px] text-[#15372f] m-0 whitespace-nowrap">
+              Brian Little
+            </h1>
+            <h2 className="font-['GT_Super_Display:Regular'] text-[30px] leading-[normal] tracking-[-0.3px] text-[#15372f] m-0">
+              My Life Stories
+            </h2>
           </div>
-          {/* action links */}
+          <p className="font-['GT_Super_Text:Book'] text-[20px] leading-[28px] text-[#445f59] m-0">
+            Hey, Brian! Your book is taking shape—keep going.
+          </p>
           <div className="flex flex-col">
             {['Edit book cover', 'Preview book', 'Add readers', 'Manage questions'].map((label) => (
               <button
@@ -843,40 +861,41 @@ function OptionCMidSub() {
         </div>
       </div>
 
-      {/* Vertical divider */}
-      <div className="self-stretch w-px bg-[#d1d1d1] flex-none" />
+      {/* Story list */}
+      <div className="flex-1 min-w-0 bg-white drop-shadow-[0px_22px_15px_rgba(0,0,0,0.07)] pl-[16px] pr-[60px] pb-[80px]">
 
-      {/* Right: weeks list */}
-      <div className="flex-1 min-w-0 pl-[16px]">
-        {/* Go to this week — inline at top of right column */}
-        {showGoBtn && (
-          <div className="flex items-center justify-center py-[12px] w-full">
-            <button
-              type="button"
-              onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
-              className="bg-[#068089] text-white rounded-[24px] h-[40px] px-[32px] flex items-center cursor-pointer hover:opacity-90 transition-opacity"
-              style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
-            >
-              <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
-                go to this week's question
-              </span>
-            </button>
-          </div>
-        )}
-        {optionCWeeks.map((week) => {
+          {/* Go to this week — inline at top of column */}
+          {showGoBtn && (
+            <div className="flex items-center justify-center pt-[48px] pb-[12px] w-full">
+              <button
+                type="button"
+                onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
+                className="bg-[#068089] text-white rounded-[24px] h-[40px] px-[32px] flex items-center gap-[8px] cursor-pointer hover:opacity-90 transition-opacity"
+                style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
+              >
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
+                  go to this week's question
+                </span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <path d="M7 2v10M2.5 8l4.5 4.5L11.5 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          )}
+          {optionCWeeks.map((week, i) => {
           if (week.isThisWeek) {
             return (
-              <div key={week.weekNum} className="py-[24px]">
+              <div key={week.weekNum} className="py-[42px] px-[24px] flex flex-col gap-[24px] items-center">
                 <div
                   ref={thisWeekRef}
-                  className="bg-white border border-[#07777e] rounded-[12px] drop-shadow-[0px_4px_10px_rgba(0,0,0,0.08)] p-[24px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[16px]"
+                  className="bg-white border-2 border-[#c7ddde] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] p-[24px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#edf2f0] hover:border-[#068089] hover:-translate-y-1 transition-all"
                 >
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                    <p className="font-['GT_America:Regular'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
-                      This week · Asked by {week.asker}
+                    <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
+                      This week • Asked by {week.asker}
                     </p>
                     <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
-                      {week.question}
+                      {thisWeekQuestion}
                     </p>
                   </div>
                   <button
@@ -888,28 +907,45 @@ function OptionCMidSub() {
                     </span>
                   </button>
                 </div>
+                <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0 text-center">
+                  Not feeling it?{' '}
+                  <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">Pick a new one</button>
+                  {' '}or{' '}
+                  <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">shuffle this question</button>
+                </p>
               </div>
             )
           }
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} className="border-b border-[#d1d1d1] py-[24px] px-[24px] opacity-50 flex flex-col gap-[12px]">
-                <p className="font-['GT_America:Regular'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
-                  Week {week.weekNum} · Asked by {week.asker}
-                </p>
-                <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
-                  {week.question}
-                </p>
+              <div key={week.weekNum} className="border-b border-[#d1d1d1] py-[24px] px-[24px] opacity-50 hover:opacity-100 flex items-center justify-between gap-[24px] group transition-opacity cursor-pointer">
+                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
+                    Week {week.weekNum} · Asked by {week.asker}
+                  </p>
+                  <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
+                    {week.question}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="invisible group-hover:visible flex flex-none border-2 border-[#07777e] h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity"
+                >
+                  <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
+                    answer
+                  </span>
+                </button>
               </div>
             )
           }
 
           const story = week.story!
+          const isLastBeforeThisWeek = optionCWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} className="border-b border-[#d1d1d1] py-[24px] px-[24px] flex items-start justify-between gap-[24px]">
+            <div key={week.weekNum} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#d1d1d1] '}py-[24px] px-[24px] flex items-start justify-between gap-[24px]`}>
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
-                <p className="font-['GT_America:Regular'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
+                <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
                 </p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
@@ -947,13 +983,10 @@ function OptionCMidSub() {
 
         {/* Pagination */}
         <div className="flex gap-[24px] items-center justify-center py-[32px]">
-          <button type="button" className="opacity-50 relative size-[40px] flex-none cursor-not-allowed" aria-label="Previous page">
-            <div className="absolute bg-white border-2 border-[#068089] inset-0 rounded-[24px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]" />
-            <div className="absolute flex inset-0 items-center justify-center">
-              <div className="relative size-[18px]">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
-              </div>
-            </div>
+          <button type="button" className="opacity-50 relative size-[40px] flex-none cursor-not-allowed bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center" aria-label="Previous page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M10 3L5.5 8L10 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
           <div className="flex gap-[10px] items-center">
             {[1, 2, 3].map((n) => (
@@ -963,13 +996,10 @@ function OptionCMidSub() {
             ))}
             <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#445f59] whitespace-nowrap">1-10 of 52</span>
           </div>
-          <button type="button" className="relative size-[40px] flex-none cursor-pointer hover:opacity-80 transition-opacity" aria-label="Next page">
-            <div className="absolute bg-white border-2 border-[#068089] inset-0 rounded-[24px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]" />
-            <div className="absolute flex inset-0 items-center justify-center rotate-180">
-              <div className="relative size-[18px]">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
-              </div>
-            </div>
+          <button type="button" className="relative size-[40px] flex-none cursor-pointer hover:opacity-80 transition-opacity bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center" aria-label="Next page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M6 3L10.5 8L6 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
         </div>
       </div>
@@ -980,7 +1010,7 @@ function OptionCMidSub() {
 // ─── Main Page ──────────────────────────────────────────────────────────────
 
 export default function MemoirPage() {
-  const [scenario, setScenario] = useState('b-month4')
+  const [scenario, setScenario] = useState('a-new')
   const [activeTab, setActiveTab] = useState<Tab>('stories')
   const [isStuck, setIsStuck] = useState(false)
   const [showReorderModal, setShowReorderModal] = useState(false)
