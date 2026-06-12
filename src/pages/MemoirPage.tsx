@@ -784,12 +784,36 @@ const optionCWeeks: {
 
 function OptionCMidSub() {
   const thisWeekRef = useRef<HTMLDivElement>(null)
+  const [showGoBtn, setShowGoBtn] = useState(true)
 
   useEffect(() => {
-    thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'instant' })
+    const el = thisWeekRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowGoBtn(!entry.isIntersecting),
+      { threshold: 0.5 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [])
 
   return (
+    <>
+    {showGoBtn && (
+      <button
+        type="button"
+        onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-30 bg-[#068089] text-white rounded-[24px] h-[44px] px-[28px] flex items-center gap-[10px] shadow-[0px_8px_24px_rgba(0,0,0,0.18)] cursor-pointer hover:opacity-90 transition-opacity"
+        style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
+      >
+        <span className="font-['GT_America:Medium'] text-[15px] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">
+          Go to this week's question
+        </span>
+        <div className="relative size-[20px] -rotate-90 flex-shrink-0">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowLeft} style={{ filter: 'brightness(10)' }} />
+        </div>
+      </button>
+    )}
     <div className="flex items-start px-[40px] lg:px-[100px] pt-[32px] pb-[80px]">
       {/* Left sticky panel */}
       <div className="sticky top-[70px] md:top-[105px] w-[260px] lg:w-[300px] flex-none pr-[22px] flex flex-col gap-[32px] pb-8">
@@ -948,6 +972,7 @@ function OptionCMidSub() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
@@ -987,7 +1012,7 @@ export default function MemoirPage() {
 
       {isOptionC ? <OptionCMidSub /> : null}
 
-      {!isOptionC && isOptionB ? (
+      {!isOptionC && (isOptionB ? (
         <>
           {/* Option B: this-week question in tan hero, book/title below on white */}
           <section className={`bg-[#f8f4f1] relative flex flex-col justify-center${isNewUser ? ' min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]' : ' min-h-[calc(80vh-70px)] md:min-h-[calc(80vh-105px)]'}`}>
@@ -1026,7 +1051,7 @@ export default function MemoirPage() {
             {isNewUser ? <WelcomeCard /> : <ThisWeekSection />}
           </div>
         </>
-      )}
+      ))}
 
       {!isOptionC && <>{/* Progress message */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[68px] pb-[2px] flex flex-col gap-[16px]">
