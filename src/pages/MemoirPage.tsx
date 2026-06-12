@@ -798,56 +798,43 @@ function OptionCMidSub() {
   }, [])
 
   return (
-    <>
-    {showGoBtn && (
-      <button
-        type="button"
-        onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-30 bg-[#068089] text-white rounded-[24px] h-[44px] px-[28px] flex items-center gap-[10px] shadow-[0px_8px_24px_rgba(0,0,0,0.18)] cursor-pointer hover:opacity-90 transition-opacity"
-        style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
-      >
-        <span className="font-['GT_America:Medium'] text-[15px] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">
-          Go to this week's question
-        </span>
-        <div className="relative size-[20px] -rotate-90 flex-shrink-0">
-          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowLeft} style={{ filter: 'brightness(10)' }} />
-        </div>
-      </button>
-    )}
-    <div className="flex items-start px-[40px] lg:px-[100px] pt-0 pb-[80px]">
+    <div className="flex items-start px-[60px] pt-[32px] pb-[80px] gap-[12px]">
       {/* Left sticky panel */}
-      <div className="sticky top-[70px] md:top-[105px] w-[260px] lg:w-[300px] flex-none pr-[22px] flex flex-col gap-[32px] pb-8">
+      <div className="sticky top-[70px] md:top-[105px] w-[300px] flex-none pr-[22px] pt-[32px] flex flex-col gap-[16px]">
         <div className="flex items-center justify-center">
           <div className="h-[194px] w-[164px] relative flex-shrink-0">
             <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBookIlloB} />
           </div>
         </div>
-        <div className="flex flex-col gap-[32px]">
-          <div className="flex flex-col gap-[24px]">
-            <div className="flex flex-col gap-[16px]">
-              <h1 className="font-['GT_Super_Display:Regular'] text-[42px] lg:text-[50px] leading-[56px] lg:leading-[64px] tracking-[-0.5px] text-[#15372f] m-0">
+        {/* core-content */}
+        <div className="flex flex-col gap-[16px] w-full">
+          {/* text group */}
+          <div className="flex flex-col gap-[18px] w-full">
+            <div className="flex flex-col gap-[12px] w-full">
+              <h1 className="font-['GT_Super_Display:Regular'] text-[50px] leading-[64px] tracking-[-0.5px] text-[#15372f] m-0 whitespace-nowrap">
                 Brian Little
               </h1>
-              <h2 className="font-['GT_Super_Display:Regular'] text-[26px] lg:text-[32px] leading-[normal] tracking-[-0.32px] text-[#15372f] m-0">
+              <h2 className="font-['GT_Super_Display:Regular'] text-[32px] leading-[normal] tracking-[-0.32px] text-[#15372f] m-0">
                 My Life Stories
               </h2>
             </div>
-            <div className="font-['GT_Super_Text:Book'] text-[18px] lg:text-[20px] leading-[28px] text-[color:var(--green\/900,#12473a)]">
-              <p className="m-0">10 stories · 54 pages</p>
-              <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">
+            <p className="font-['GT_Super_Text:Book'] leading-[0] text-[color:var(--green\/900,#12473a)] m-0 whitespace-pre-wrap">
+              <span className="leading-[28px] text-[20px]">10 stories · 54 pages{'\n'}</span>
+              <button type="button" className="leading-[28px] text-[20px] underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
                 Read by 2 people
               </button>
-            </div>
-            <p className="font-['GT_Super_Text:Book'] text-[16px] lg:text-[18px] leading-[28px] text-[#445f59] m-0">
+            </p>
+            <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#445f59] m-0">
               🏆 What an achievement! You've written 10 stories for your memoir.
             </p>
           </div>
-          <div className="flex flex-col gap-[6px]">
+          {/* action links */}
+          <div className="flex flex-col">
             {['Edit book cover', 'Preview book', 'Add readers', 'Manage questions'].map((label) => (
               <button
                 key={label}
                 type="button"
-                className="font-['GT_America:Medium'] text-[14px] lg:text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[color:var(--teal\/900,#07777e)] py-[14px] lg:py-[16px] text-left cursor-pointer hover:opacity-70 transition-opacity"
+                className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[color:var(--teal\/900,#07777e)] py-[16px] text-left cursor-pointer hover:opacity-70 transition-opacity"
               >
                 {label}
               </button>
@@ -860,7 +847,22 @@ function OptionCMidSub() {
       <div className="self-stretch w-px bg-[#d1d1d1] flex-none" />
 
       {/* Right: weeks list */}
-      <div className="flex-1 min-w-0 pl-[16px] lg:pl-[24px]">
+      <div className="flex-1 min-w-0 pl-[16px]">
+        {/* Go to this week — inline at top of right column */}
+        {showGoBtn && (
+          <div className="flex items-center justify-center py-[12px] w-full">
+            <button
+              type="button"
+              onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
+              className="bg-[#068089] text-white rounded-[24px] h-[40px] px-[32px] flex items-center cursor-pointer hover:opacity-90 transition-opacity"
+              style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
+            >
+              <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
+                go to this week's question
+              </span>
+            </button>
+          </div>
+        )}
         {optionCWeeks.map((week) => {
           if (week.isThisWeek) {
             return (
@@ -972,7 +974,6 @@ function OptionCMidSub() {
         </div>
       </div>
     </div>
-    </>
   )
 }
 
