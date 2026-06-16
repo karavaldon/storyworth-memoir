@@ -1845,14 +1845,9 @@ function OptionAEnd() {
             <div className="flex gap-6 sm:gap-[32px] flex-col sm:flex-row sm:items-center">
               <BookCard variant="a" />
               <div className="flex flex-col gap-[16px] lg:w-[470px]">
-                <div className="flex gap-[16px] items-center">
-                  <h1 className="font-['GT_Super_Display:Regular'] text-[#15372f] text-[50px] leading-[64px] tracking-[-0.5px] m-0">
-                    My Life Stories
-                  </h1>
-                  <div className="relative size-[28px] flex-shrink-0">
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPencilIcon} />
-                  </div>
-                </div>
+                <h1 className="font-['GT_Super_Display:Regular'] text-[#15372f] text-[50px] leading-[64px] tracking-[-0.5px] m-0">
+                  My Life Stories
+                </h1>
                 <h2 className="font-['GT_Super_Display:Regular'] text-[#15372f] text-[32px] tracking-[-0.32px] m-0 leading-[normal]">
                   by Brian Little
                 </h2>
@@ -1877,7 +1872,7 @@ function OptionAEnd() {
       </section>
 
       {/* ── Print banner (overlaps tan hero) ── */}
-      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 sm:-mt-[78px] pb-[20px]">
+      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 sm:-mt-[62px] pb-[20px]">
         <div className="relative bg-[#d7e9e4] border-2 border-[#a4c1b9] rounded-[8px] px-[24px] py-[16px] flex items-center justify-between gap-[22px] drop-shadow-[0px_4px_10px_rgba(6,128,137,0.06)] overflow-hidden">
           <div className="absolute pointer-events-none" style={{ left: 109, top: 104 }}><div style={{ transform: 'rotate(-23deg)', background: '#9d6cb4', width: 16.6, height: 6.5, borderRadius: 1 }} /></div>
           <div className="absolute pointer-events-none" style={{ left: 285, top: 10 }}><div style={{ transform: 'rotate(19.5deg)', background: '#29b58f', width: 16.6, height: 6.5, borderRadius: 1 }} /></div>
@@ -2327,7 +2322,7 @@ export default function MemoirPage() {
               <HeroContent scenarioId={scenario} />
             </div>
           </section>
-          <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 sm:-mt-[78px] pb-[20px]">
+          <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isNewUser ? 'sm:-mt-[62px]' : 'sm:-mt-[78px]'} pb-[20px]`}>
             {isNewUser ? <WelcomeCard /> : <ThisWeekSection />}
           </div>
         </>
