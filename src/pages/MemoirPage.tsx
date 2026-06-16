@@ -16,7 +16,6 @@ const imgPolygon1 = "https://www.figma.com/api/mcp/asset/9a25b6eb-6639-444c-b9ae
 const imgFrame = "https://www.figma.com/api/mcp/asset/3a5676f8-d428-4da3-a661-ab7e968d51be";
 // Stories bar action button icons (node 1:646)
 const imgReorderIcon = "https://www.figma.com/api/mcp/asset/5f04b2a7-7492-4d90-a5d1-75251892d4fb";
-const imgNewStoryIcon = "https://www.figma.com/api/mcp/asset/6efd11e4-cd5d-4095-98cc-3836f0694828";
 // Book card hover-state button icons (node 1:798)
 const imgEditCoverIcon = "https://www.figma.com/api/mcp/asset/787def91-0b2d-43ee-9040-568b41159dd1";
 const imgPreviewBookIcon = "https://www.figma.com/api/mcp/asset/214f0276-0857-44b8-8082-1b891eb13c00";
@@ -49,13 +48,14 @@ function GiftIcon() {
 
 // ─── Dev tools ───────────────────────────────────────────────────────────────
 
-const devScenarios: { label: string; id: string; implemented: boolean }[] = [
+const devScenarios: { label: string; id: string; implemented: boolean; hidden?: boolean }[] = [
   { label: 'Option A — New user',  id: 'a-new',    implemented: true  },
   { label: 'Option A — Mid sub',   id: 'a-month4', implemented: true  },
   { label: 'Option A — Month 10',  id: 'a-month10',implemented: false },
-  { label: 'Option B — New user',  id: 'b-new',    implemented: true  },
-  { label: 'Option B — Mid sub',   id: 'b-month4', implemented: true  },
-  { label: 'Option B — Month 10',  id: 'b-month10',implemented: false },
+  { label: 'Option B — New user',  id: 'b-new',    implemented: true,  hidden: true },
+  { label: 'Option B — Mid sub',   id: 'b-month4', implemented: true,  hidden: true },
+  { label: 'Option B — Month 10',  id: 'b-month10',implemented: false, hidden: true },
+  { label: 'Option C — New user',   id: 'c-new',    implemented: true  },
   { label: 'Option C — Mid sub',   id: 'c-month4', implemented: true  },
 ]
 
@@ -65,7 +65,7 @@ function DevToolsMenu({ onClose, scenario, onSelect }: { onClose: () => void; sc
       <div className="px-[12px] py-[8px] border-b border-[#333]">
         <span className="font-mono text-[10px] text-[#666] uppercase tracking-[1.5px]">Dev tools</span>
       </div>
-      {devScenarios.map((s) => {
+      {devScenarios.filter(s => !s.hidden).map((s) => {
         const isCurrent = s.id === scenario
         return (
           <button
@@ -722,7 +722,7 @@ function HeroMenuButton({ paddingX = '16px' }: { paddingX?: string }) {
   )
 }
 
-type Tab = 'stories' | 'drafts' | 'past'
+type Tab = 'week-by-week' | 'stories' | 'drafts'
 
 // ─── Shared hero content (book + title + My Memoir button) ──────────────────
 
@@ -791,7 +791,301 @@ const optionCWeeks: {
   { weekNum: 8,  asker: 'Storyworth', question: 'What memories from your childhood would you like to share with future generations?', isUpcoming: true },
   { weekNum: 9,  asker: 'Storyworth', question: 'How would you like to be remembered?', isUpcoming: true },
   { weekNum: 10, asker: 'Storyworth', question: 'What was the most memorable moment of your first day at the Academy?', isUpcoming: true },
+  { weekNum: 11, asker: 'Raymond',    question: 'What is your earliest memory from childhood?', isUpcoming: true },
+  { weekNum: 12, asker: 'Storyworth', question: 'What hobbies brought you the most joy growing up?', isUpcoming: true },
+  { weekNum: 13, asker: 'Storyworth', question: 'Describe a meal or recipe that holds a special place in your memory.', isUpcoming: true },
+  { weekNum: 14, asker: 'Raymond',    question: 'What world event had the biggest impact on your life?', isUpcoming: true },
+  { weekNum: 15, asker: 'Storyworth', question: 'Who was your childhood hero, and why?', isUpcoming: true },
+  { weekNum: 16, asker: 'Storyworth', question: 'What is the bravest thing you\'ve ever done?', isUpcoming: true },
+  { weekNum: 17, asker: 'Raymond',    question: 'How did your family celebrate the holidays when you were young?', isUpcoming: true },
+  { weekNum: 18, asker: 'Storyworth', question: 'What is the most important lesson your parents ever taught you?', isUpcoming: true },
+  { weekNum: 19, asker: 'Storyworth', question: 'Describe a time when you had to make a very difficult decision.', isUpcoming: true },
+  { weekNum: 20, asker: 'Raymond',    question: 'What place in the world feels most like home to you, and why?', isUpcoming: true },
+  { weekNum: 21, asker: 'Storyworth', question: 'What was your favorite book or story as a child?', isUpcoming: true },
+  { weekNum: 22, asker: 'Storyworth', question: 'How did you decide on your career path?', isUpcoming: true },
+  { weekNum: 23, asker: 'Raymond',    question: 'What is the most spontaneous thing you\'ve ever done?', isUpcoming: true },
+  { weekNum: 24, asker: 'Storyworth', question: 'Describe a friendship that changed your life.', isUpcoming: true },
+  { weekNum: 25, asker: 'Storyworth', question: 'What invention or technology has changed your daily life the most?', isUpcoming: true },
+  { weekNum: 26, asker: 'Raymond',    question: 'What is the most beautiful thing you\'ve ever witnessed?', isUpcoming: true },
+  { weekNum: 27, asker: 'Storyworth', question: 'How have your beliefs or values shifted as you\'ve grown older?', isUpcoming: true },
+  { weekNum: 28, asker: 'Storyworth', question: 'What is a skill you wish you had learned when you were younger?', isUpcoming: true },
+  { weekNum: 29, asker: 'Raymond',    question: 'Describe your favorite vacation or adventure.', isUpcoming: true },
+  { weekNum: 30, asker: 'Storyworth', question: 'What is the funniest thing that has ever happened to you?', isUpcoming: true },
+  { weekNum: 31, asker: 'Storyworth', question: 'How did you handle a time when life didn\'t go as planned?', isUpcoming: true },
+  { weekNum: 32, asker: 'Raymond',    question: 'What cause or issue do you feel most passionate about?', isUpcoming: true },
+  { weekNum: 33, asker: 'Storyworth', question: 'Describe a moment when you felt genuinely proud of yourself.', isUpcoming: true },
+  { weekNum: 34, asker: 'Storyworth', question: 'What is something important you\'ve changed your mind about over the years?', isUpcoming: true },
+  { weekNum: 35, asker: 'Raymond',    question: 'What piece of advice would you give your younger self?', isUpcoming: true },
+  { weekNum: 36, asker: 'Storyworth', question: 'Describe a time when a stranger showed you unexpected kindness.', isUpcoming: true },
+  { weekNum: 37, asker: 'Storyworth', question: 'What did a typical weekend look like for you as a teenager?', isUpcoming: true },
+  { weekNum: 38, asker: 'Raymond',    question: 'What is the greatest risk you ever took, and how did it turn out?', isUpcoming: true },
+  { weekNum: 39, asker: 'Storyworth', question: 'Who in your family do you feel most similar to, and why?', isUpcoming: true },
+  { weekNum: 40, asker: 'Storyworth', question: 'What is a secret talent or passion most people don\'t know you have?', isUpcoming: true },
+  { weekNum: 41, asker: 'Raymond',    question: 'Describe your ideal day from morning to night.', isUpcoming: true },
+  { weekNum: 42, asker: 'Storyworth', question: 'What do you wish you had spent more time doing in your life?', isUpcoming: true },
+  { weekNum: 43, asker: 'Storyworth', question: 'What historical moment did you witness that you\'ll never forget?', isUpcoming: true },
+  { weekNum: 44, asker: 'Raymond',    question: 'How did you navigate your first real heartbreak or disappointment?', isUpcoming: true },
+  { weekNum: 45, asker: 'Storyworth', question: 'What goal did you set and achieve that you\'re most proud of?', isUpcoming: true },
+  { weekNum: 46, asker: 'Storyworth', question: 'Describe the house or neighborhood you grew up in.', isUpcoming: true },
+  { weekNum: 47, asker: 'Raymond',    question: 'What is one thing you would do differently if you could go back?', isUpcoming: true },
+  { weekNum: 48, asker: 'Storyworth', question: 'Who has been the most influential mentor in your life?', isUpcoming: true },
+  { weekNum: 49, asker: 'Storyworth', question: 'What smell or sound instantly takes you back to your childhood?', isUpcoming: true },
+  { weekNum: 50, asker: 'Raymond',    question: 'Describe the moment in your life when you felt most alive.', isUpcoming: true },
+  { weekNum: 51, asker: 'Storyworth', question: 'What does family mean to you?', isUpcoming: true },
+  { weekNum: 52, asker: 'Storyworth', question: 'If you could leave one message for future generations of your family, what would it be?', isUpcoming: true },
 ]
+
+const WEEKS_PER_PAGE = 10
+
+function OptionCNew() {
+  const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
+  const tabBarSentinelRef = useRef<HTMLDivElement>(null)
+  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
+  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
+  const [tabBarStuck, setTabBarStuck] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
+
+  const totalPages = Math.ceil(optionCWeeks.length / WEEKS_PER_PAGE)
+  const pageWeeks = optionCWeeks.slice((currentPage - 1) * WEEKS_PER_PAGE, currentPage * WEEKS_PER_PAGE)
+  const pageWeeksRef = useRef(pageWeeks)
+  pageWeeksRef.current = pageWeeks
+  useEffect(() => {
+    function handleScroll() {
+      const viewportMid = window.scrollY + window.innerHeight / 2
+      let closestWeek = pageWeeksRef.current[0]?.weekNum ?? 1
+      let closestDist = Infinity
+      weekRowRefs.current.forEach((ref, idx) => {
+        if (!ref) return
+        const rect = ref.getBoundingClientRect()
+        const rowMid = window.scrollY + rect.top + rect.height / 2
+        const dist = Math.abs(rowMid - viewportMid)
+        if (dist < closestDist) { closestDist = dist; closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek }
+      })
+      setActiveTimelineWeek(closestWeek)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => { setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1) }, [currentPage])
+
+  useEffect(() => {
+    if (pendingScrollWeek === null) return
+    const idx = pageWeeks.findIndex(w => w.weekNum === pendingScrollWeek)
+    if (idx >= 0) weekRowRefs.current[idx]?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    setPendingScrollWeek(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingScrollWeek])
+
+  useEffect(() => {
+    const sentinel = tabBarSentinelRef.current
+    if (!sentinel) return
+    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
+    obs.observe(sentinel)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
+
+      {/* ── Left sticky panel ── */}
+      <div
+        className="sticky top-0 self-start flex-none w-[382px] pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[24px] overflow-hidden"
+        style={{ height: '100vh' }}
+      >
+        <div className="flex items-start">
+          <div className="h-[166px] w-[140px] relative flex-shrink-0">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBookIlloB} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-[16px] w-full">
+          <div className="flex flex-col gap-[12px] w-full">
+            <h1 className="font-['GT_Super_Display:Regular'] text-[35px] leading-[normal] tracking-[-0.35px] text-[#15372f] m-0">My Life Stories</h1>
+            <h2 className="font-['GT_Super_Display:Regular'] text-[26px] leading-[normal] tracking-[-0.26px] text-[#15372f] m-0">by Brian Little</h2>
+          </div>
+          <div className="flex flex-col gap-[16px] pb-[10px]">
+            <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#12473a] m-0">
+              Welcome to your memoir—your stories are waiting to be written.
+            </p>
+            <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#12473a] m-0">
+              Read by{' '}
+              <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">2 people</button>
+            </p>
+          </div>
+          <div className="h-px bg-[#d1d1d1] w-full" />
+          <div className="flex flex-col">
+            {['Edit book cover', 'Preview book', 'Add readers', 'Manage questions'].map((label) => (
+              <button key={label} type="button" className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#07777e] py-[16px] text-left cursor-pointer hover:opacity-70 transition-opacity">
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Right story list ── */}
+      <div className="flex-1 min-w-0 bg-white drop-shadow-[0px_22px_15px_rgba(0,0,0,0.07)] pl-[16px] pr-[60px] pb-[80px]">
+
+        {/* Welcome floating button */}
+        <div className="flex flex-col items-center justify-center pt-[62px] pb-[50px] w-full gap-[16px]"
+          style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}>
+          <div className="bg-[#288068] border-2 border-[#288068] rounded-[8px] px-[24px] py-[16px] flex items-center justify-center drop-shadow-[0px_4px_10px_rgba(6,128,137,0.06)]">
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-white text-center whitespace-nowrap m-0">
+              Hi Brian! Your first question will arrive on Monday, June 3rd. In the meantime,{' '}
+              <span className="font-['GT_America:Medium']">explore your questions below.</span>
+            </p>
+          </div>
+          <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#6b6b6b] text-center m-0">
+            You can always{' '}
+            <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">change your questions</button>
+            {' '}or{' '}
+            <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">reorder them</button>.
+          </p>
+        </div>
+
+        {/* Sentinel */}
+        <div ref={tabBarSentinelRef} className="h-0" aria-hidden />
+
+        {/* Sticky tab bar */}
+        <div className="sticky top-0 z-10 bg-white border-b border-[#ebebeb] px-[24px] pt-[24px] pb-[16px] flex flex-col gap-[12px]">
+          <div className="flex items-center justify-between">
+            <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
+              <div className="flex items-center">
+                <div className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px] cursor-pointer">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">week by week</span>
+                </div>
+                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">stories</span>
+                </button>
+                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">drafts</span>
+                </button>
+              </div>
+            </div>
+            <div className="flex gap-[12px] items-center">
+              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <div className="overflow-clip relative size-[24px] flex-shrink-0">
+                  <div className="absolute inset-[12.5%]">
+                    <div className="absolute inset-[-4.17%]">
+                      <img alt="" className="block max-w-none size-full" src={imgReorderIcon} />
+                    </div>
+                  </div>
+                </div>
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">reorder</span>
+              </button>
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
+                  <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">new story</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Scrubber */}
+          <div className={`transition-all duration-300 ${tabBarStuck ? 'opacity-100 max-h-[200px] overflow-visible' : 'opacity-0 max-h-0 pointer-events-none overflow-hidden'}`}>
+            <div className="relative">
+              {hoverWeek !== null && (
+                <div className="absolute top-[calc(100%+4px)] pointer-events-none whitespace-nowrap z-10 flex flex-col items-center"
+                  style={{ left: `${((hoverWeek - 0.5) / 52) * 100}%`, transform: 'translateX(-50%)' }}>
+                  <svg width="18" height="9" viewBox="0 0 18 9" fill="none" aria-hidden className="flex-none relative z-10">
+                    <path d="M9 0L18 9H0L9 0Z" fill="white"/>
+                  </svg>
+                  <div className="bg-white rounded-[8px] px-[10px] py-[4px] -mt-[1px] drop-shadow-[0px_4px_8px_rgba(0,0,0,0.12)]">
+                    <span className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#042a21]">Week {hoverWeek}</span>
+                  </div>
+                </div>
+              )}
+              <div className="relative h-[12px] w-full cursor-pointer"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect()
+                  setHoverWeek(Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52)))))
+                }}
+                onMouseLeave={() => setHoverWeek(null)}
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect()
+                  const week = Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52))))
+                  const targetPage = Math.ceil(week / WEEKS_PER_PAGE)
+                  setCurrentPage(targetPage)
+                  setPendingScrollWeek(week)
+                }}>
+                <div className="absolute inset-0 bg-[#f7f7f7] rounded-full border border-[#eaeaea] overflow-hidden">
+                  {(() => { const w = hoverWeek ?? activeTimelineWeek; return (
+                    <div className={`absolute top-0 h-full border-2 border-[#288068] pointer-events-none${w === 1 ? ' rounded-l-full' : ''}${w === 52 ? ' rounded-r-full' : ''}`}
+                      style={{ left: `${((w - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
+                  ); })()}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between mt-[8px]">
+              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#445f59]">You're just getting started—explore your upcoming questions.</span>
+              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] whitespace-nowrap">week 1 of 52</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Week rows */}
+        {pageWeeks.map((week, i) => (
+          <div
+            key={week.weekNum}
+            ref={el => { weekRowRefs.current[i] = el }}
+            className="border-b border-[#ebebeb] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group transition-opacity cursor-pointer opacity-50 hover:opacity-100"
+          >
+            <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+              <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
+                {week.weekNum === 1
+                  ? `Week 1 · Asked by Raymond (Sends Monday, June 3rd)`
+                  : week.weekNum === 2 || week.weekNum === 3
+                    ? `Week ${week.weekNum} · Asked by Raymond`
+                    : `Week ${week.weekNum} · Asked by ${week.asker}`}
+              </p>
+              <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">
+                {week.question}
+              </p>
+            </div>
+            <button type="button" className="invisible group-hover:visible flex-none border-2 border-[#07777e] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+              <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
+            </button>
+          </div>
+        ))}
+
+        {/* Pagination */}
+        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+          <button type="button" disabled={currentPage === 1}
+            onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
+            className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
+            aria-label="Previous page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M10 3L5.5 8L10 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <div className="flex gap-[10px] items-center">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+              <button key={n} type="button"
+                onClick={() => { setCurrentPage(n); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}>
+                <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
+              </button>
+            ))}
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#445f59] whitespace-nowrap">
+              {(currentPage - 1) * WEEKS_PER_PAGE + 1}–{Math.min(currentPage * WEEKS_PER_PAGE, optionCWeeks.length)} of {optionCWeeks.length}
+            </span>
+          </div>
+          <button type="button" disabled={currentPage === totalPages}
+            onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
+            className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
+            aria-label="Next page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M6 3L10.5 8L6 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function OptionCMidSub() {
   const thisWeekRef = useRef<HTMLDivElement>(null)
@@ -814,6 +1108,70 @@ function OptionCMidSub() {
     return () => obs.disconnect()
   }, [])
 
+  const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
+  const tabBarSentinelRef = useRef<HTMLDivElement>(null)
+  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
+  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
+  const [tabBarStuck, setTabBarStuck] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
+  const [focusThisWeek, setFocusThisWeek] = useState(false)
+  const focusThisWeekRef = useRef(false)
+
+  const totalPages = Math.ceil(optionCWeeks.length / WEEKS_PER_PAGE)
+  const pageWeeks = optionCWeeks.slice((currentPage - 1) * WEEKS_PER_PAGE, currentPage * WEEKS_PER_PAGE)
+  const pageWeeksRef = useRef(pageWeeks)
+  pageWeeksRef.current = pageWeeks
+
+  useEffect(() => {
+    function handleScroll() {
+      const viewportMid = window.scrollY + window.innerHeight / 2
+      let closestWeek = pageWeeksRef.current[0]?.weekNum ?? 1
+      let closestDist = Infinity
+      weekRowRefs.current.forEach((ref, idx) => {
+        if (!ref) return
+        const rect = ref.getBoundingClientRect()
+        const rowMid = window.scrollY + rect.top + rect.height / 2
+        const dist = Math.abs(rowMid - viewportMid)
+        if (dist < closestDist) {
+          closestDist = dist
+          closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek
+        }
+      })
+      setActiveTimelineWeek(closestWeek)
+      if (focusThisWeekRef.current) {
+        focusThisWeekRef.current = false
+        setFocusThisWeek(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1)
+  }, [currentPage])
+
+  useEffect(() => {
+    if (pendingScrollWeek === null) return
+    const idxInPage = pageWeeks.findIndex(w => w.weekNum === pendingScrollWeek)
+    if (idxInPage >= 0) {
+      weekRowRefs.current[idxInPage]?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    }
+    setPendingScrollWeek(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingScrollWeek])
+
+  useEffect(() => {
+    const sentinel = tabBarSentinelRef.current
+    if (!sentinel) return
+    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
+    obs.observe(sentinel)
+    return () => obs.disconnect()
+  }, [])
+
+  const filledWeekNums = optionCWeeks.filter(w => w.story).map(w => w.weekNum)
+
   return (
     // Outer: tan bg fills full left side via background bleed
     <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
@@ -821,7 +1179,7 @@ function OptionCMidSub() {
       {/* ── Left sticky panel ── */}
       <div
         className="sticky top-0 self-start flex-none w-[382px]
-                   pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[16px] overflow-hidden"
+                   pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[24px] overflow-hidden"
         style={{ height: '100vh' }}
       >
         <div className="flex items-start">
@@ -830,23 +1188,26 @@ function OptionCMidSub() {
           </div>
         </div>
         <div className="flex flex-col gap-[16px] w-full">
-          <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">
-            4 stories · 54 pages · Read by{' '}
-            <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
-              2 people
-            </button>
-          </p>
           <div className="flex flex-col gap-[12px] w-full">
-            <h1 className="font-['GT_Super_Display:Regular'] text-[40px] leading-[normal] tracking-[-0.4px] text-[#15372f] m-0 whitespace-nowrap">
-              Brian Little
-            </h1>
-            <h2 className="font-['GT_Super_Display:Regular'] text-[30px] leading-[normal] tracking-[-0.3px] text-[#15372f] m-0">
+            <h1 className="font-['GT_Super_Display:Regular'] text-[35px] leading-[normal] tracking-[-0.35px] text-[#15372f] m-0">
               My Life Stories
+            </h1>
+            <h2 className="font-['GT_Super_Display:Regular'] text-[26px] leading-[normal] tracking-[-0.26px] text-[#15372f] m-0">
+              by Brian Little
             </h2>
           </div>
-          <p className="font-['GT_Super_Text:Book'] text-[20px] leading-[28px] text-[#445f59] m-0">
-            Hey, Brian! Your book is taking shape—keep going.
-          </p>
+          <div className="flex flex-col gap-[16px] pb-[10px]">
+            <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#12473a] m-0">
+              4 stories · 54 pages
+            </p>
+            <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#12473a] m-0">
+              Read by{' '}
+              <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
+                2 people
+              </button>
+            </p>
+          </div>
+          <div className="h-px bg-[#d1d1d1] w-full" />
           <div className="flex flex-col">
             {['Edit book cover', 'Preview book', 'Add readers', 'Manage questions'].map((label) => (
               <button
@@ -867,93 +1228,170 @@ function OptionCMidSub() {
         {/* Floating notification — only visible when this-week card is off-screen */}
         {showGoBtn && (
           <div
-            className="flex items-center justify-center pb-[24px] pt-[32px] w-full"
+            className="flex items-center justify-center pt-[62px] pb-[50px] w-full"
             style={{ animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
           >
             <button
               type="button"
-              onClick={() => thisWeekRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })}
-              className="bg-[#f3f7f7] border-2 border-[#accfd3] hover:border-[#068089] rounded-[8px] px-[24px] py-[16px] flex gap-[10px] items-center justify-center drop-shadow-[0px_4px_10px_rgba(6,128,137,0.06)] cursor-pointer transition-colors"
+              onClick={() => {
+                const el = thisWeekRef.current
+                if (el) {
+                  const rect = el.getBoundingClientRect()
+                  window.scrollTo({ top: window.scrollY + rect.top - window.innerHeight / 2 + el.offsetHeight / 2, behavior: 'smooth' })
+                }
+                focusThisWeekRef.current = true
+                setFocusThisWeek(true)
+              }}
+              className="bg-[#288068] border-2 border-[#288068] hover:opacity-90 rounded-[8px] px-[24px] py-[16px] flex gap-[16px] items-center justify-center drop-shadow-[0px_4px_10px_rgba(6,128,137,0.06)] cursor-pointer transition-opacity"
             >
-              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#068089] text-center whitespace-nowrap m-0">
-                Raymond asked a question this week —{' '}
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-white text-center whitespace-nowrap m-0">
+                Hi, Brian! Raymond asked a question this week —{' '}
                 <span className="font-['GT_America:Medium']">See what they asked</span>
               </p>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-none">
-                <path d="M4 7L10 13L16 7" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              {currentPage === Math.ceil((optionCWeeks.findIndex(w => w.isThisWeek) + 1) / WEEKS_PER_PAGE) && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-none">
+                  <path d="M6 9L12 15L18 9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
             </button>
           </div>
         )}
 
+        {/* Sentinel — when this leaves the viewport the tab bar is stuck */}
+        <div ref={tabBarSentinelRef} className="h-0" aria-hidden />
+
         {/* Sticky tab bar */}
-        <div className="sticky top-0 z-10 bg-white border-b border-[#ebebeb] px-[24px] py-[24px] flex items-center justify-between">
-          <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
-            <div className="flex items-center">
-              <div className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px]">
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">
-                  week by week
-                </span>
+        <div className="sticky top-0 z-10 bg-white border-b border-[#ebebeb] px-[24px] pt-[24px] pb-[16px] flex flex-col gap-[12px]">
+          <div className="flex items-center justify-between">
+            <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
+              <div className="flex items-center">
+                <button
+                  type="button"
+                  onClick={() => { setCurrentPage(1); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
+                  className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px] cursor-pointer"
+                >
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">
+                    week by week
+                  </span>
+                </button>
+                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
+                    stories (4)
+                  </span>
+                </button>
+                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
+                    drafts (2)
+                  </span>
+                </button>
               </div>
-              <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
-                  stories (4)
+            </div>
+            <div className="flex gap-[12px] items-center">
+              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <div className="overflow-clip relative size-[24px] flex-shrink-0">
+                  <div className="absolute inset-[12.5%]">
+                    <div className="absolute inset-[-4.17%]">
+                      <img alt="" className="block max-w-none size-full" src={imgReorderIcon} />
+                    </div>
+                  </div>
+                </div>
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">
+                  reorder
                 </span>
               </button>
-              <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
-                  drafts (2)
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
+                  <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">
+                  new story
                 </span>
               </button>
             </div>
           </div>
-          <div className="flex gap-[12px] items-center">
-            <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
-              <div className="overflow-clip relative size-[24px] flex-shrink-0">
-                <div className="absolute inset-[12.5%]">
-                  <div className="absolute inset-[-4.17%]">
-                    <img alt="" className="block max-w-none size-full" src={imgReorderIcon} />
+
+          {/* Horizontal week scrubber — only visible when tab bar is sticky */}
+          <div className={`transition-all duration-300 ${tabBarStuck ? 'opacity-100 max-h-[200px] overflow-visible' : 'opacity-0 max-h-0 pointer-events-none overflow-hidden'}`}>
+            <div className="relative">
+              {hoverWeek !== null && (
+                <div
+                  className="absolute top-[calc(100%+4px)] pointer-events-none whitespace-nowrap z-10 flex flex-col items-center"
+                  style={{ left: `${((hoverWeek - 0.5) / 52) * 100}%`, transform: 'translateX(-50%)' }}
+                >
+                  <svg width="18" height="9" viewBox="0 0 18 9" fill="none" aria-hidden className="flex-none relative z-10">
+                    <path d="M9 0L18 9H0L9 0Z" fill="white"/>
+                  </svg>
+                  <div className="bg-white rounded-[8px] px-[10px] py-[4px] -mt-[1px] drop-shadow-[0px_4px_8px_rgba(0,0,0,0.12)]">
+                    <span className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#042a21]">Week {hoverWeek}</span>
                   </div>
                 </div>
-              </div>
-              <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">
-                reorder
-              </span>
-            </button>
-            <button type="button" className="bg-[#068089] border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-              <div className="overflow-clip relative size-[24px] flex-shrink-0">
-                <div className="absolute inset-[8.33%]">
-                  <div className="absolute inset-[-3.75%]">
-                    <img alt="" className="block max-w-none size-full" src={imgNewStoryIcon} />
-                  </div>
+              )}
+              <div
+                className="relative h-[12px] w-full cursor-pointer"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect()
+                  setHoverWeek(Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52)))))
+                }}
+                onMouseLeave={() => setHoverWeek(null)}
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect()
+                  const week = Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52))))
+                  const targetPage = Math.ceil(week / WEEKS_PER_PAGE)
+                  setCurrentPage(targetPage)
+                  setPendingScrollWeek(week)
+                }}
+              >
+                {/* Bar track — overflow-hidden clips the fill to rounded ends */}
+                <div className="absolute inset-0 bg-[#f7f7f7] rounded-full border border-[#eaeaea] overflow-hidden">
+                  {filledWeekNums.length > 0 && (
+                    <div
+                      className="absolute top-0 left-0 h-full bg-[#cde3dd]"
+                      style={{ width: `${(Math.max(...filledWeekNums) / 52) * 100}%` }}
+                    />
+                  )}
+                  {(() => { const w = hoverWeek ?? activeTimelineWeek; return (
+                    <div
+                      className={`absolute top-0 h-full border-2 border-[#288068] pointer-events-none${w === 1 ? ' rounded-l-full' : ''}${w === 52 ? ' rounded-r-full' : ''}`}
+                      style={{ left: `${((w - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }}
+                    />
+                  ); })()}
                 </div>
               </div>
-              <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-white whitespace-nowrap">
-                new story
+            </div>
+            <div className="flex items-center justify-between mt-[8px]">
+              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#445f59]">
+                You've written a streak of 3 stories—keep going!
               </span>
-            </button>
+              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] whitespace-nowrap">
+                week 4 of 52
+              </span>
+            </div>
           </div>
         </div>
 
-        {optionCWeeks.map((week, i) => {
+        {pageWeeks.map((week, i) => {
           if (week.isThisWeek) {
             return (
-              <div key={week.weekNum} className="py-[42px] px-[24px] flex flex-col gap-[24px] items-center">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="py-[72px] px-[24px] flex flex-col gap-[24px] items-center">
                 <div
                   ref={thisWeekRef}
-                  className="bg-white border-2 border-[#c7ddde] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] p-[24px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#edf2f0] hover:border-[#068089] hover:-translate-y-1 transition-all"
+                  className="bg-white border border-[#288068] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] px-[24px] py-[36px] flex items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#f0f7f4] hover:-translate-y-1 transition-all"
                 >
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                    <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
-                      This week • Asked by {week.asker}
-                    </p>
-                    <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
+                    <div className="flex gap-[12px] items-center">
+                      <div className="bg-[#d8e8e3] px-[12px] py-[2px] rounded-[6px] flex-shrink-0">
+                        <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#117459] whitespace-nowrap">Week {week.weekNum}</span>
+                      </div>
+                      <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#61706f] whitespace-nowrap">This week {week.asker} asked:</span>
+                    </div>
+                    <p className="font-['GT_Super_Display:Medium'] text-[24px] leading-[34px] tracking-[-0.24px] text-[#042a21] m-0 max-w-[600px]">
                       {thisWeekQuestion}
                     </p>
                   </div>
                   <button
                     type="button"
-                    className="flex-none bg-[var(--teal\/800,#068089)] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity"
+                    className="flex-none bg-[#288068] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity"
                   >
                     <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
                       tell my story
@@ -972,7 +1410,7 @@ function OptionCMidSub() {
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} className="border-b border-[#ebebeb] py-[24px] px-[24px] opacity-50 hover:opacity-100 flex items-center justify-between gap-[24px] group transition-opacity cursor-pointer">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group transition-opacity cursor-pointer ${focusThisWeek ? 'opacity-50' : 'opacity-50 hover:opacity-100'}`}>
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
@@ -994,9 +1432,9 @@ function OptionCMidSub() {
           }
 
           const story = week.story!
-          const isLastBeforeThisWeek = optionCWeeks[i + 1]?.isThisWeek
+          const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] px-[24px] flex items-start justify-between gap-[24px]`}>
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] px-[24px] flex items-start justify-between gap-[24px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
@@ -1005,14 +1443,14 @@ function OptionCMidSub() {
                   {story.question}
                 </p>
                 <div className="flex gap-[24px] items-start">
-                  <p className="font-['GT_Super_Text:Book'] text-[16px] lg:text-[18px] leading-[28px] text-[color:var(--green\/800,#445f59)] m-0 flex-1 min-w-0">
-                    {story.excerpt}
-                  </p>
                   {story.photos.length > 0 && (
                     <div className="border-2 border-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] w-[60px] h-[77px] relative flex-shrink-0">
                       <img alt="" className="absolute inset-0 size-full object-cover" src={story.photos[0]} />
                     </div>
                   )}
+                  <p className="font-['GT_Super_Text:Book'] text-[16px] lg:text-[18px] leading-[28px] text-[color:var(--green\/800,#445f59)] m-0 flex-1 min-w-0">
+                    {story.excerpt}
+                  </p>
                 </div>
                 {story.reactions.length > 0 && (
                   <div className="flex gap-[8px] items-center">
@@ -1036,20 +1474,273 @@ function OptionCMidSub() {
 
         {/* Pagination */}
         <div className="flex gap-[24px] items-center justify-center py-[32px]">
-          <button type="button" className="opacity-50 relative size-[40px] flex-none cursor-not-allowed bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center" aria-label="Previous page">
+          <button
+            type="button"
+            disabled={currentPage === 1}
+            onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
+            className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
+            aria-label="Previous page"
+          >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
               <path d="M10 3L5.5 8L10 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
           <div className="flex gap-[10px] items-center">
-            {[1, 2, 3].map((n) => (
-              <div key={n} className={`flex items-center justify-center rounded-[12px] size-[40px] ${n === 1 ? 'bg-[#edf2f0]' : ''}`}>
-                <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[color:var(--green\/1000,#042a21)] text-center">{n}</span>
-              </div>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => { setCurrentPage(n); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}
+              >
+                <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
+              </button>
             ))}
-            <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#445f59] whitespace-nowrap">1-10 of 52</span>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#445f59] whitespace-nowrap">
+              {(currentPage - 1) * WEEKS_PER_PAGE + 1}–{Math.min(currentPage * WEEKS_PER_PAGE, optionCWeeks.length)} of {optionCWeeks.length}
+            </span>
           </div>
-          <button type="button" className="relative size-[40px] flex-none cursor-pointer hover:opacity-80 transition-opacity bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center" aria-label="Next page">
+          <button
+            type="button"
+            disabled={currentPage === totalPages}
+            onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
+            className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
+            aria-label="Next page"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M6 3L10.5 8L6 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  )
+}
+
+// ─── Option A: Week-by-week tab panel ───────────────────────────────────────
+
+function WeekByWeekPanel({ isNewUser }: { isNewUser: boolean }) {
+  const thisWeekRef = useRef<HTMLDivElement>(null)
+  const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
+  const panelTopRef = useRef<HTMLDivElement>(null)
+  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
+  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
+  const [thisWeekQuestion, setThisWeekQuestion] = useState(thisWeekQuestionPool[0])
+
+  const totalPages = Math.ceil(optionCWeeks.length / WEEKS_PER_PAGE)
+  const pageWeeks = optionCWeeks.slice((currentPage - 1) * WEEKS_PER_PAGE, currentPage * WEEKS_PER_PAGE)
+  const pageWeeksRef = useRef(pageWeeks)
+  pageWeeksRef.current = pageWeeks
+  const filledWeekNums = optionCWeeks.filter(w => w.story).map(w => w.weekNum)
+
+  useEffect(() => {
+    function handleScroll() {
+      const viewportMid = window.scrollY + window.innerHeight / 2
+      let closestWeek = pageWeeksRef.current[0]?.weekNum ?? 1
+      let closestDist = Infinity
+      weekRowRefs.current.forEach((ref, idx) => {
+        if (!ref) return
+        const rect = ref.getBoundingClientRect()
+        const rowMid = window.scrollY + rect.top + rect.height / 2
+        const dist = Math.abs(rowMid - viewportMid)
+        if (dist < closestDist) { closestDist = dist; closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek }
+      })
+      setActiveTimelineWeek(closestWeek)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => { setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1) }, [currentPage])
+
+  useEffect(() => {
+    if (pendingScrollWeek === null) return
+    const idx = pageWeeks.findIndex(w => w.weekNum === pendingScrollWeek)
+    if (idx >= 0) weekRowRefs.current[idx]?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    setPendingScrollWeek(null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingScrollWeek])
+
+  function shuffleQuestion() {
+    const others = thisWeekQuestionPool.filter(q => q !== thisWeekQuestion)
+    setThisWeekQuestion(others[Math.floor(Math.random() * others.length)])
+  }
+
+  function snapToTop() {
+    panelTopRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' })
+  }
+
+  return (
+    <div>
+      <div ref={panelTopRef} className="h-0" aria-hidden />
+
+      {/* Scrubber — sticky below Option A tab bar */}
+      <div className="sticky top-[86px] z-10 bg-white border-b border-[#ebebeb] pt-[12px] pb-[16px]">
+        <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="relative">
+            {hoverWeek !== null && (
+              <div className="absolute top-[calc(100%+4px)] pointer-events-none whitespace-nowrap z-10 flex flex-col items-center"
+                style={{ left: `${((hoverWeek - 0.5) / 52) * 100}%`, transform: 'translateX(-50%)' }}>
+                <svg width="18" height="9" viewBox="0 0 18 9" fill="none" aria-hidden className="flex-none relative z-10">
+                  <path d="M9 0L18 9H0L9 0Z" fill="white"/>
+                </svg>
+                <div className="bg-white rounded-[8px] px-[10px] py-[4px] -mt-[1px] drop-shadow-[0px_4px_8px_rgba(0,0,0,0.12)]">
+                  <span className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#042a21]">Week {hoverWeek}</span>
+                </div>
+              </div>
+            )}
+            <div className="relative h-[12px] w-full cursor-pointer"
+              onMouseMove={e => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                setHoverWeek(Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52)))))
+              }}
+              onMouseLeave={() => setHoverWeek(null)}
+              onClick={e => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                const week = Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52))))
+                setCurrentPage(Math.ceil(week / WEEKS_PER_PAGE))
+                setPendingScrollWeek(week)
+              }}>
+              <div className="absolute inset-0 bg-[#f7f7f7] rounded-full border border-[#eaeaea] overflow-hidden">
+                {!isNewUser && filledWeekNums.length > 0 && (
+                  <div className="absolute top-0 left-0 h-full bg-[#cde3dd]"
+                    style={{ width: `${(Math.max(...filledWeekNums) / 52) * 100}%` }} />
+                )}
+                {(() => { const w = hoverWeek ?? activeTimelineWeek; return (
+                  <div className={`absolute top-0 h-full border-2 border-[#288068] pointer-events-none${w === 1 ? ' rounded-l-full' : ''}${w === 52 ? ' rounded-r-full' : ''}`}
+                    style={{ left: `${((w - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
+                ); })()}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-[8px]">
+            <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#445f59]">
+              {isNewUser ? "You're just getting started—explore your upcoming questions." : "You've written a streak of 3 stories—keep going!"}
+            </span>
+            <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] whitespace-nowrap">
+              week {activeTimelineWeek} of 52
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Week rows */}
+      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10">
+        {pageWeeks.map((week, i) => {
+          // This-week card (mid-sub only)
+          if (week.isThisWeek && !isNewUser) {
+            return (
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="py-[72px] flex flex-col gap-[24px] items-center">
+                <div ref={thisWeekRef} className="bg-white border border-[#288068] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] px-[24px] py-[36px] flex items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#f0f7f4] hover:-translate-y-1 transition-all">
+                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                    <div className="flex gap-[12px] items-center">
+                      <div className="bg-[#d8e8e3] px-[12px] py-[2px] rounded-[6px] flex-shrink-0">
+                        <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#117459] whitespace-nowrap">Week {week.weekNum}</span>
+                      </div>
+                      <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#61706f] whitespace-nowrap">This week {week.asker} asked:</span>
+                    </div>
+                    <p className="font-['GT_Super_Display:Medium'] text-[24px] leading-[34px] tracking-[-0.24px] text-[#042a21] m-0 max-w-[600px]">{thisWeekQuestion}</p>
+                  </div>
+                  <button type="button" className="flex-none bg-[#288068] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+                    <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
+                  </button>
+                </div>
+                <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0 text-center">
+                  Not feeling it?{' '}
+                  <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">Pick a new one</button>
+                  {' '}or{' '}
+                  <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">shuffle this question</button>
+                </p>
+              </div>
+            )
+          }
+
+          // Upcoming rows (and all rows for new user)
+          if (week.isUpcoming || isNewUser || (week.isThisWeek && isNewUser)) {
+            return (
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
+                className="border-b border-[#ebebeb] py-[24px] flex items-center justify-between gap-[24px] group transition-opacity cursor-pointer opacity-50 hover:opacity-100">
+                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
+                    Week {week.weekNum} · Asked by {week.asker ?? 'Storyworth'}
+                  </p>
+                  <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">{week.question}</p>
+                </div>
+                <button type="button" className="invisible group-hover:visible flex-none border-2 border-[#07777e] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
+                </button>
+              </div>
+            )
+          }
+
+          // Story rows (mid-sub weeks 1-3)
+          const story = week.story!
+          const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
+          return (
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
+              className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-start justify-between gap-[24px] cursor-pointer hover:bg-[#f7f7f7] transition-all`}>
+              <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
+                <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">Week {week.weekNum}</p>
+                <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">{story.question}</p>
+                <div className="flex gap-[24px] items-start">
+                  {story.photos.length > 0 && (
+                    <div className="border-2 border-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] w-[60px] h-[77px] relative flex-shrink-0">
+                      <img alt="" className="absolute inset-0 size-full object-cover" src={story.photos[0]} />
+                    </div>
+                  )}
+                  <p className="font-['GT_Super_Text:Book'] text-[16px] lg:text-[18px] leading-[28px] text-[#445f59] m-0 flex-1 min-w-0">{story.excerpt}</p>
+                </div>
+                {story.reactions.length > 0 && (
+                  <div className="flex gap-[8px] items-center">
+                    {story.reactions.map((r, ri) => (
+                      <div key={ri} className="flex gap-[8px] items-center">
+                        <div className="relative size-[24px] flex-shrink-0">
+                          <img alt="" className="absolute block inset-0 max-w-none size-full" src={r.icon} />
+                        </div>
+                        <span className="font-['GT_America:Regular'] text-[16px] text-[#07777e]">{r.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="flex-none pt-[40px]">
+                <ReaderAvatars readers={story.readers} />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Pagination */}
+      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+          <button type="button" disabled={currentPage === 1}
+            onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); snapToTop() }}
+            className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
+            aria-label="Previous page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M10 3L5.5 8L10 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <div className="flex gap-[10px] items-center">
+            {Array.from({ length: totalPages }, (_, j) => j + 1).map(n => (
+              <button key={n} type="button"
+                onClick={() => { setCurrentPage(n); snapToTop() }}
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}>
+                <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
+              </button>
+            ))}
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#445f59] whitespace-nowrap">
+              {(currentPage - 1) * WEEKS_PER_PAGE + 1}–{Math.min(currentPage * WEEKS_PER_PAGE, optionCWeeks.length)} of {optionCWeeks.length}
+            </span>
+          </div>
+          <button type="button" disabled={currentPage === totalPages}
+            onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); snapToTop() }}
+            className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
+            aria-label="Next page">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
               <path d="M6 3L10.5 8L6 13" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -1064,8 +1755,7 @@ function OptionCMidSub() {
 
 export default function MemoirPage() {
   const [scenario, setScenario] = useState('a-new')
-  const [activeTab, setActiveTab] = useState<Tab>('stories')
-  const [isStuck, setIsStuck] = useState(false)
+  const [activeTab, setActiveTab] = useState<Tab>('week-by-week')
   const [showReorderModal, setShowReorderModal] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
 
@@ -1073,28 +1763,17 @@ export default function MemoirPage() {
   const isOptionC = scenario.startsWith('c-')
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
 
-  useEffect(() => {
-    const sentinel = sentinelRef.current
-    if (!sentinel) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsStuck(!entry.isIntersecting),
-      { threshold: 0 }
-    )
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [])
-
   const tabs: { key: Tab; label: string }[] = [
+    { key: 'week-by-week', label: 'Week by week' },
     { key: 'stories', label: 'Stories' },
     { key: 'drafts', label: 'Drafts' },
-    { key: 'past', label: 'Past Questions' },
   ]
 
   return (
     <div className="bg-white min-h-screen">
       <Navbar scenario={scenario} onScenarioChange={setScenario} />
 
-      {isOptionC ? <OptionCMidSub /> : null}
+      {scenario === 'c-new' ? <OptionCNew /> : scenario === 'c-month4' ? <OptionCMidSub /> : null}
 
       {!isOptionC && (isOptionB ? (
         <>
@@ -1140,7 +1819,7 @@ export default function MemoirPage() {
       {!isOptionC && <>{/* Progress message */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[68px] pb-[2px] flex flex-col gap-[16px]">
         <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
-          My stories
+          My memoir
         </h2>
         <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[18px] text-[#445f59] max-w-[748px]">
           {isNewUser
@@ -1153,7 +1832,7 @@ export default function MemoirPage() {
       <div ref={sentinelRef} className="h-0" aria-hidden />
 
       {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
-      <div className={`sticky top-0 z-20 bg-white transition-shadow duration-200${isStuck ? ' shadow-[0px_4px_12px_rgba(0,0,0,0.06)]' : ''}`}>
+      <div className="sticky top-0 z-20 bg-white">
         <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[22px] pb-[24px]">
           <div className="flex items-center justify-between gap-4">
 
@@ -1166,9 +1845,9 @@ export default function MemoirPage() {
                     type="button"
                     onClick={() => setActiveTab(key)}
                     className={[
-                      "cursor-pointer px-[16px] py-[10px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[13px] md:text-[16px] tracking-[1.6px] uppercase transition-all duration-200",
+                      "cursor-pointer px-[16px] py-[10px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[13px] md:text-[16px] tracking-[1.6px] uppercase transition-colors duration-200",
                       activeTab === key
-                        ? 'bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] text-[color:var(--green\/900,#12473a)]'
+                        ? 'bg-white text-[color:var(--green\/900,#12473a)]'
                         : 'text-[#61706f] hover:text-[color:var(--green\/900,#12473a)]',
                     ].join(' ')}
                   >
@@ -1182,7 +1861,7 @@ export default function MemoirPage() {
             <div className="hidden sm:flex gap-[16px] items-center flex-shrink-0">
               <button
                 type="button"
-                className={`bg-white cursor-pointer flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] hover:opacity-70 transition-opacity${isNewUser ? ' opacity-50' : ''}`}
+                className="bg-white cursor-pointer flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] hover:opacity-70 transition-opacity"
                 onClick={() => setShowReorderModal(true)}
               >
                 <div className="overflow-clip relative size-[24px] flex-shrink-0">
@@ -1193,22 +1872,19 @@ export default function MemoirPage() {
                   </div>
                 </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[color:var(--teal\/800,#068089)] tracking-[1.6px] uppercase whitespace-nowrap">
-                  reorder chapters
+                  reorder
                 </span>
               </button>
               <button
                 type="button"
-                className="bg-[#068089] border-2 border-[#068089] cursor-pointer flex gap-[10px] h-[40px] items-center justify-center pl-[8px] pr-[16px] rounded-[24px] hover:opacity-90 transition-opacity"
+                className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity"
               >
-                <div className="overflow-clip relative size-[24px] flex-shrink-0">
-                  <div className="absolute inset-[8.33%]">
-                    <div className="absolute inset-[-3.75%]">
-                      <img alt="" className="block max-w-none size-full" src={imgNewStoryIcon} />
-                    </div>
-                  </div>
-                </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">
-                  start a new story
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
+                  <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">
+                  new story
                 </span>
               </button>
             </div>
@@ -1217,35 +1893,34 @@ export default function MemoirPage() {
         </div>
       </div>
 
-      {/* Stories list / empty state */}
-      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0">
-        {isNewUser ? (
-          <div className="flex flex-col items-center justify-center py-[24px] px-[16px]">
-            <div className="flex flex-col gap-[24px] items-center text-center max-w-[600px] py-[40px]">
-              <div className="flex flex-col gap-[12px]">
-                <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.2px]">
-                  No stories yet.
-                </p>
-                <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[18px] text-[#445f59]">
-                  Curious to see what's coming?<br />
-                  Explore your upcoming questions, or create your own.
-                </p>
+      {/* Tab content */}
+      {activeTab === 'week-by-week' ? (
+        <WeekByWeekPanel isNewUser={isNewUser} />
+      ) : activeTab === 'stories' ? (
+        <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0">
+          {isNewUser ? (
+            <div className="flex flex-col items-center justify-center py-[24px] px-[16px]">
+              <div className="flex flex-col gap-[24px] items-center text-center max-w-[600px] py-[40px]">
+                <div className="flex flex-col gap-[12px]">
+                  <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.2px]">No stories yet.</p>
+                  <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[18px] text-[#445f59]">
+                    Curious to see what's coming?<br />Explore your upcoming questions, or create your own.
+                  </p>
+                </div>
+                <button type="button" onClick={() => setActiveTab('week-by-week')} className="bg-white border-2 border-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-80 transition-opacity">
+                  <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">explore upcoming questions</span>
+                </button>
               </div>
-              <button type="button" className="bg-white border-2 border-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-80 transition-opacity">
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">
-                  explore upcoming questions
-                </span>
-              </button>
             </div>
-          </div>
-        ) : (
-          <div className="flex flex-col w-full">
-            {stories.map((story) => (
-              <StoryRow key={story.id} story={story} />
-            ))}
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="flex flex-col w-full">
+              {stories.map((story) => (
+                <StoryRow key={story.id} story={story} />
+              ))}
+            </div>
+          )}
+        </div>
+      ) : null}
       </>}
 
       {showReorderModal && (
