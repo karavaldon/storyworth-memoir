@@ -1301,6 +1301,7 @@ function OptionCMidSub() {
             </div>
           </div>
 
+
           {/* Horizontal week scrubber — only visible when tab bar is sticky */}
           <div className={`transition-all duration-300 ${tabBarStuck ? 'opacity-100 max-h-[200px] overflow-visible' : 'opacity-0 max-h-0 pointer-events-none overflow-hidden'}`}>
             <div className="relative">
@@ -2348,7 +2349,7 @@ export default function MemoirPage() {
       <div ref={sentinelRef} className="h-0" aria-hidden />
 
       {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
-      <div className={`sticky top-0 z-20 bg-white transition-shadow duration-200${tabBarStuck ? ' shadow-[0_2px_12px_rgba(0,0,0,0.08)]' : ''}`}>
+      <div className="sticky top-0 z-20 bg-white">
         <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[22px] pb-[24px]">
           <div className="flex items-center justify-between gap-4">
 
