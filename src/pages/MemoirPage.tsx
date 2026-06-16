@@ -90,14 +90,14 @@ function DevToolsMenu({ onClose, scenario, onSelect }: { onClose: () => void; sc
       </div>
       <div className="grid grid-cols-2">
         <div className="border-r border-[#333]">
-          <div className="px-[12px] py-[5px] border-b border-[#222]">
-            <span className="font-mono text-[9px] text-[#555] uppercase tracking-[1px]">Option A</span>
+          <div className="px-[12px] py-[8px] border-b border-[#2a2a2a]">
+            <span className="font-mono text-[11px] text-[#888] uppercase tracking-[1.5px] font-semibold">Option A</span>
           </div>
           {aScenarios.map(s => <ScenarioBtn key={s.id} s={s} />)}
         </div>
         <div>
-          <div className="px-[12px] py-[5px] border-b border-[#222]">
-            <span className="font-mono text-[9px] text-[#555] uppercase tracking-[1px]">Option C</span>
+          <div className="px-[12px] py-[8px] border-b border-[#2a2a2a]">
+            <span className="font-mono text-[11px] text-[#888] uppercase tracking-[1.5px] font-semibold">Option C</span>
           </div>
           {cScenarios.map(s => <ScenarioBtn key={s.id} s={s} />)}
         </div>
