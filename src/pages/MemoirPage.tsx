@@ -881,9 +881,6 @@ const WEEKS_PER_PAGE = 10
 function OptionCNew() {
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
-  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
-  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
-  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
 
@@ -892,40 +889,12 @@ function OptionCNew() {
   const pageWeeksRef = useRef(pageWeeks)
   pageWeeksRef.current = pageWeeks
   useEffect(() => {
-    function handleScroll() {
-      const viewportMid = window.scrollY + window.innerHeight / 2
-      let closestWeek = pageWeeksRef.current[0]?.weekNum ?? 1
-      let closestDist = Infinity
-      weekRowRefs.current.forEach((ref, idx) => {
-        if (!ref) return
-        const rect = ref.getBoundingClientRect()
-        const rowMid = window.scrollY + rect.top + rect.height / 2
-        const dist = Math.abs(rowMid - viewportMid)
-        if (dist < closestDist) { closestDist = dist; closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek }
-      })
-      setActiveTimelineWeek(closestWeek)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => { setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1) }, [currentPage])
-
-  useEffect(() => {
     if (pendingScrollWeek === null) return
     const idx = pageWeeks.findIndex(w => w.weekNum === pendingScrollWeek)
     if (idx >= 0) weekRowRefs.current[idx]?.scrollIntoView({ block: 'center', behavior: 'smooth' })
     setPendingScrollWeek(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
-
-  useEffect(() => {
-    const sentinel = tabBarSentinelRef.current
-    if (!sentinel) return
-    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
-    obs.observe(sentinel)
-    return () => obs.disconnect()
-  }, [])
 
   return (
     <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
@@ -1131,7 +1100,6 @@ function OptionCMidSub() {
 
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
-  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
   const [hoverWeek, setHoverWeek] = useState<number | null>(null)
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
@@ -1159,7 +1127,6 @@ function OptionCMidSub() {
           closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek
         }
       })
-      setActiveTimelineWeek(closestWeek)
       if (focusThisWeekRef.current) {
         focusThisWeekRef.current = false
         setFocusThisWeek(false)
@@ -1168,10 +1135,6 @@ function OptionCMidSub() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  useEffect(() => {
-    setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1)
-  }, [currentPage])
 
   useEffect(() => {
     if (pendingScrollWeek === null) return
@@ -2072,15 +2035,11 @@ function OptionAEnd() {
 
 function WeekByWeekPanel({
   isNewUser,
-  hoverWeek, setHoverWeek,
-  activeTimelineWeek, setActiveTimelineWeek,
+  setActiveTimelineWeek,
   currentPage, setCurrentPage,
   pendingScrollWeek, setPendingScrollWeek,
 }: {
   isNewUser: boolean
-  hoverWeek: number | null
-  setHoverWeek: (w: number | null) => void
-  activeTimelineWeek: number
   setActiveTimelineWeek: (w: number) => void
   currentPage: number
   setCurrentPage: (p: number | ((prev: number) => number)) => void
@@ -2096,7 +2055,6 @@ function WeekByWeekPanel({
   const pageWeeks = optionCWeeks.slice((currentPage - 1) * WEEKS_PER_PAGE, currentPage * WEEKS_PER_PAGE)
   const pageWeeksRef = useRef(pageWeeks)
   pageWeeksRef.current = pageWeeks
-  const filledWeekNums = optionCWeeks.filter(w => w.story).map(w => w.weekNum)
 
   useEffect(() => {
     function handleScroll() {
@@ -2289,7 +2247,7 @@ export default function MemoirPage() {
   const [showReorderModal, setShowReorderModal] = useState(false)
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [hoverWeek, setHoverWeek] = useState<number | null>(null)
-  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
+  const [, setActiveTimelineWeek] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
@@ -2486,8 +2444,7 @@ export default function MemoirPage() {
       {activeTab === 'week-by-week' ? (
         <WeekByWeekPanel
           isNewUser={isNewUser}
-          hoverWeek={hoverWeek} setHoverWeek={setHoverWeek}
-          activeTimelineWeek={activeTimelineWeek} setActiveTimelineWeek={setActiveTimelineWeek}
+          setActiveTimelineWeek={setActiveTimelineWeek}
           currentPage={currentPage} setCurrentPage={setCurrentPage}
           pendingScrollWeek={pendingScrollWeek} setPendingScrollWeek={setPendingScrollWeek}
         />
