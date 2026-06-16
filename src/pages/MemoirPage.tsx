@@ -1218,13 +1218,21 @@ function OptionCMidSub() {
             <button
               type="button"
               onClick={() => {
-                const el = thisWeekRef.current
-                if (el) {
-                  const rect = el.getBoundingClientRect()
-                  window.scrollTo({ top: window.scrollY + rect.top - window.innerHeight / 2 + el.offsetHeight / 2, behavior: 'smooth' })
-                }
+                const thisWeekIdx = optionCWeeks.findIndex(w => w.isThisWeek)
+                const thisWeekNum = optionCWeeks[thisWeekIdx]?.weekNum ?? 13
+                const targetPage = Math.ceil((thisWeekIdx + 1) / WEEKS_PER_PAGE)
                 focusThisWeekRef.current = true
                 setFocusThisWeek(true)
+                if (currentPage !== targetPage) {
+                  setCurrentPage(targetPage)
+                  setPendingScrollWeek(thisWeekNum)
+                } else {
+                  const el = thisWeekRef.current
+                  if (el) {
+                    const rect = el.getBoundingClientRect()
+                    window.scrollTo({ top: window.scrollY + rect.top - window.innerHeight / 2 + el.offsetHeight / 2, behavior: 'smooth' })
+                  }
+                }
               }}
               className="bg-[#288068] border-2 border-[#288068] hover:opacity-90 rounded-[8px] px-[24px] py-[16px] flex gap-[16px] items-center justify-center drop-shadow-[0px_4px_10px_rgba(6,128,137,0.06)] cursor-pointer transition-opacity"
             >
@@ -1232,11 +1240,9 @@ function OptionCMidSub() {
                 Hi, Brian! Raymond asked a question this week —{' '}
                 <span className="font-['GT_America:Medium']">See what they asked</span>
               </p>
-              {currentPage === Math.ceil((optionCWeeks.findIndex(w => w.isThisWeek) + 1) / WEEKS_PER_PAGE) && (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-none">
-                  <path d="M6 9L12 15L18 9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-none">
+                <path d="M6 9L12 15L18 9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
           </div>
         )}
