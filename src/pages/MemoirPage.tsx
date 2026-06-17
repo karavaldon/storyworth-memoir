@@ -880,7 +880,31 @@ const WEEKS_PER_PAGE = 10
 
 const MILESTONE_GRADIENT = 'linear-gradient(-88.38deg, rgb(85, 160, 140) 32.357%, rgb(59, 121, 148) 111.6%)'
 
-function MilestoneTimeline({ variant }: { variant: 'new' | 'mid' | 'end' }) {
+function MilestoneTimeline({ variant, fillOverride, animate }: {
+  variant: 'new' | 'mid' | 'end' | 'explore'
+  fillOverride?: number[]
+  animate?: boolean
+}) {
+  if (variant === 'explore') {
+    const fill = fillOverride?.[0] ?? 0.263
+    return (
+      <div className="flex gap-[16px] items-center pt-[16px] pb-[4px] w-full">
+        <div className="relative flex-none h-[20px] w-[146px] rounded-full overflow-hidden">
+          <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
+          {fill > 0 && (
+            <div className="absolute top-0 left-0 h-full rounded-full overflow-hidden"
+              style={{ width: `${fill * 100}%`, transition: animate ? 'width 0.6s ease-out' : 'none' }}>
+              <div className="absolute top-0 left-0 h-full w-full" style={{ backgroundImage: MILESTONE_GRADIENT }} />
+            </div>
+          )}
+        </div>
+        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]">
+          ⛰️ Your first milestone:{' '}
+          <span className="font-['GT_America:Medium']">Explore weekly questions</span>
+        </p>
+      </div>
+    )
+  }
   const fills = variant === 'end' ? [1, 1, 1, 1, 1]
     : variant === 'mid' ? [1, 1, 0.3, 0, 0]
     : [0.1447, 0, 0, 0, 0]
@@ -892,7 +916,7 @@ function MilestoneTimeline({ variant }: { variant: 'new' | 'mid' | 'end' }) {
             <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
             {fill > 0 && (
               <div className="absolute top-0 left-0 h-full rounded-full overflow-hidden"
-                style={{ width: `${fill * 100}%` }}>
+                style={{ width: `${fill * 100}%`, transition: 'none' }}>
                 <div className="absolute top-0 left-0 h-full"
                   style={{
                     width: `${100 / fill}%`,
@@ -2137,6 +2161,39 @@ function WeekByWeekPanel({
   )
 }
 
+function Confetti({ active }: { active: boolean }) {
+  if (!active) return null
+  const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4d96ff', '#ff6b9d', '#c77dff', '#ff9f43', '#48dbfb']
+  const particles = Array.from({ length: 60 }, (_, i) => ({
+    id: i,
+    color: colors[i % colors.length],
+    size: 5 + (i * 3) % 9,
+    left: (i * 11 + 5) % 100,
+    delay: (i * 0.033) % 0.8,
+    duration: 1.0 + (i * 0.04) % 1.2,
+    isCircle: i % 3 !== 0,
+  }))
+  return (
+    <>
+      <style>{`@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}85%{opacity:.9}100%{transform:translateY(95vh) rotate(540deg);opacity:0}}`}</style>
+      <div className="fixed inset-0 pointer-events-none z-[999] overflow-hidden">
+        {particles.map(p => (
+          <div key={p.id} style={{
+            position: 'absolute',
+            left: `${p.left}%`,
+            top: 0,
+            width: p.size,
+            height: p.size,
+            backgroundColor: p.color,
+            borderRadius: p.isCircle ? '50%' : '2px',
+            animation: `confetti-fall ${p.duration}s ${p.delay}s ease-in forwards`,
+          }} />
+        ))}
+      </div>
+    </>
+  )
+}
+
 // ─── Main Page ──────────────────────────────────────────────────────────────
 
 export default function MemoirPage() {
@@ -2147,10 +2204,17 @@ export default function MemoirPage() {
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
   const [tabBarStuck, setTabBarStuck] = useState(false)
+  const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
+
+  function handleReveal() {
+    setRevealState('revealing')
+    setTimeout(() => setRevealState('revealed'), 2000)
+  }
 
   useEffect(() => {
     setCurrentPage(1)
     setPendingScrollWeek(null)
+    setRevealState('hidden')
   }, [scenario])
 
   useEffect(() => {
@@ -2299,7 +2363,11 @@ export default function MemoirPage() {
           </div>
 
           <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
-            <MilestoneTimeline variant={isNewUser ? 'new' : 'mid'} />
+            <MilestoneTimeline
+              variant={scenario === 'a-new' && revealState !== 'revealed' ? 'explore' : isNewUser ? 'new' : 'mid'}
+              fillOverride={scenario === 'a-new' && revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
+              animate={scenario === 'a-new' && revealState === 'revealing'}
+            />
           </div>
         </div>
       </div>
@@ -2307,11 +2375,36 @@ export default function MemoirPage() {
       <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
-        <WeekByWeekPanel
-          isNewUser={isNewUser}
-          currentPage={currentPage} setCurrentPage={setCurrentPage}
-          pendingScrollWeek={pendingScrollWeek} setPendingScrollWeek={setPendingScrollWeek}
-        />
+        scenario === 'a-new' && revealState !== 'revealed' ? (
+          <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] py-[46px] px-[24px]">
+            <div className="relative flex-none" style={{ width: 149, height: 135 }}>
+              <img alt="" className="absolute inset-0 w-full h-full object-contain" src="https://www.figma.com/api/mcp/asset/ef731091-88f9-4975-941a-a109f1166c95" />
+            </div>
+            <div className="flex flex-col gap-[12px] items-center text-center max-w-[520px]">
+              <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[#042a21] tracking-[-0.2px]">
+                Curious to see your upcoming questions?
+              </p>
+              <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[16px] text-[#61706f]">
+                Raymond has asked 8 questions. We'll send one each week starting on Monday, June 24th.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleReveal}
+              className="bg-[#068089] h-[40px] rounded-[24px] px-[32px] cursor-pointer hover:opacity-80 transition-opacity flex items-center"
+            >
+              <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">
+                Reveal my questions
+              </span>
+            </button>
+          </div>
+        ) : (
+          <WeekByWeekPanel
+            isNewUser={isNewUser}
+            currentPage={currentPage} setCurrentPage={setCurrentPage}
+            pendingScrollWeek={pendingScrollWeek} setPendingScrollWeek={setPendingScrollWeek}
+          />
+        )
       ) : activeTab === 'stories' ? (
         <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0">
           {isNewUser ? (
@@ -2338,6 +2431,8 @@ export default function MemoirPage() {
         </div>
       ) : null}
       </>}
+
+      <Confetti active={revealState === 'revealing'} />
 
       {showReorderModal && (
         <div
