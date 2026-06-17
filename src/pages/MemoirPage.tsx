@@ -52,8 +52,9 @@ function GiftIcon() {
 
 const devScenarios: { label: string; id: string; implemented: boolean; hidden?: boolean }[] = [
   { label: 'Option A — New user',   id: 'a-new',    implemented: true  },
-  { label: 'Option A.1 — New user', id: 'a1-new',   implemented: true  },
-  { label: 'Option A — Mid sub',   id: 'a-month4', implemented: true  },
+  { label: 'Option A.1 — New user',  id: 'a1-new',     implemented: true  },
+  { label: 'Option A.1 — Mid sub',  id: 'a1-month4',  implemented: true  },
+  { label: 'Option A — Mid sub',    id: 'a-month4',   implemented: true  },
   { label: 'Option A — End',       id: 'a-end',    implemented: true  },
   { label: 'Option B — New user',  id: 'b-new',    implemented: true,  hidden: true },
   { label: 'Option B — Mid sub',   id: 'b-month4', implemented: true,  hidden: true },
@@ -895,10 +896,12 @@ const WEEKS_PER_PAGE = 10
 
 const MILESTONE_GRADIENT = 'linear-gradient(-88.38deg, rgb(85, 160, 140) 32.357%, rgb(59, 121, 148) 111.6%)'
 
-function MilestoneTimeline({ variant, fillOverride, animate }: {
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
+  milestoneText?: string
+  weekLabel?: string
 }) {
   if (variant === 'explore') {
     const fill = fillOverride?.[0] ?? 0.263
@@ -952,8 +955,8 @@ function MilestoneTimeline({ variant, fillOverride, animate }: {
           </>
         ) : variant === 'mid' ? (
           <>
-            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]">⛰️ Upcoming milestone: <span className="font-['GT_America:Medium']">20 stories written.</span></span>
-            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#777] whitespace-nowrap">Week 13</span>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]">⛰️ Upcoming milestone: <span className="font-['GT_America:Medium']">{milestoneText ?? '20 stories written.'}</span></span>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#777] whitespace-nowrap">{weekLabel ?? 'Week 13'}</span>
           </>
         ) : (
           <>
@@ -2212,6 +2215,7 @@ export default function MemoirPage() {
   const isOptionC = scenario.startsWith('c-')
   const isAEnd = scenario === 'a-end'
   const isA1New = scenario === 'a1-new'
+  const isA1Month4 = scenario === 'a1-month4'
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
 
@@ -2254,15 +2258,34 @@ export default function MemoirPage() {
             </div>
           </section>
         </>
-      ) : isA1New ? (
+      ) : isA1New || isA1Month4 ? (
         <>
-          {/* Option A.1: book card left + welcome card right, side by side in hero */}
+          {/* Option A.1: book card left + right card side by side in hero */}
           <section className="bg-[#f8f4f1]">
             <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
               <div className="flex gap-[40px] items-center">
                 <BookCard />
                 <div className="flex-1 min-w-0">
-                  <WelcomeCard variant="a1" />
+                  {isA1New ? (
+                    <WelcomeCard variant="a1" />
+                  ) : (
+                    <div className="flex flex-col gap-[22px]">
+                      <div className="flex flex-col gap-[14px]">
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a]">
+                          For you this week • Asked by Alex
+                        </p>
+                        <p className="font-['GT_Super_Display:Regular'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] max-w-[477px]">
+                          {weekQuestions[0]}
+                        </p>
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">
+                          Take 10 minutes to add a story for Alex to read.
+                        </p>
+                      </div>
+                      <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity self-start">
+                        <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -2283,8 +2306,13 @@ export default function MemoirPage() {
       ))}
 
       {!isOptionC && !isAEnd && <>{/* Progress message */}
-      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[68px] pb-[2px] flex flex-col gap-[16px]">
-        {isA1New ? (
+      {isA1Month4 && (
+        <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[32px]">
+          <MilestoneTimeline variant="mid" milestoneText="10/20 stories written" weekLabel="It's week 13" />
+        </div>
+      )}
+      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isA1Month4 ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
+        {isA1New || isA1Month4 ? (
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">
               <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
@@ -2400,9 +2428,11 @@ export default function MemoirPage() {
 
           <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
             <MilestoneTimeline
-              variant={isANewReveal && revealState !== 'revealed' ? 'explore' : isNewUser ? 'new' : 'mid'}
+              variant={isANewReveal && revealState !== 'revealed' ? 'explore' : (isANewReveal || isNewUser) ? 'new' : 'mid'}
               fillOverride={isANewReveal && revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
               animate={isANewReveal && revealState === 'revealing'}
+              milestoneText={isA1Month4 ? '10/20 stories written' : undefined}
+              weekLabel={isA1Month4 ? "It's week 13" : undefined}
             />
           </div>
         </div>

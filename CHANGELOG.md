@@ -1,3 +1,7 @@
+## v1.0.4 — 2026-06-17T17:55:36
+- Add Option A.1 mid sub scenario (week 13, 10/20 stories)
+- Fix post-reveal milestone variant for A.1 new user
+
 ## v1.0.3 — 2026-06-17T17:38:42
 - Add Option A.1 new user scenario
 
