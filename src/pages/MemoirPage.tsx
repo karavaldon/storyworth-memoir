@@ -922,6 +922,7 @@ function MilestoneTimeline({ variant }: { variant: 'new' | 'mid' | 'end' }) {
 function OptionCNew() {
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
+  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
 
@@ -936,6 +937,14 @@ function OptionCNew() {
     setPendingScrollWeek(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
+
+  useEffect(() => {
+    const sentinel = tabBarSentinelRef.current
+    if (!sentinel) return
+    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
+    obs.observe(sentinel)
+    return () => obs.disconnect()
+  }, [])
 
   return (
     <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
@@ -1042,7 +1051,7 @@ function OptionCNew() {
               </button>
             </div>
           </div>
-          <MilestoneTimeline variant="new" />
+          {tabBarStuck && <MilestoneTimeline variant="new" />}
         </div>
 
         {/* Week rows */}
@@ -1147,6 +1156,7 @@ function OptionCMidSub() {
 
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
+  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const [focusThisWeek, setFocusThisWeek] = useState(false)
@@ -1190,6 +1200,14 @@ function OptionCMidSub() {
     setPendingScrollWeek(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
+
+  useEffect(() => {
+    const sentinel = tabBarSentinelRef.current
+    if (!sentinel) return
+    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
+    obs.observe(sentinel)
+    return () => obs.disconnect()
+  }, [])
 
   return (
     // Outer: tan bg fills full left side via background bleed
@@ -1343,7 +1361,7 @@ function OptionCMidSub() {
           </div>
 
 
-          <MilestoneTimeline variant="mid" />
+          {tabBarStuck && <MilestoneTimeline variant="mid" />}
         </div>
 
         {pageWeeks.map((week, i) => {
@@ -1509,6 +1527,7 @@ const optionCEndWeeks = optionCWeeks.map((w, i) => {
 function OptionCEnd() {
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
+  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
 
@@ -1524,6 +1543,14 @@ function OptionCEnd() {
     setPendingScrollWeek(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
+
+  useEffect(() => {
+    const sentinel = tabBarSentinelRef.current
+    if (!sentinel) return
+    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
+    obs.observe(sentinel)
+    return () => obs.disconnect()
+  }, [])
 
   return (
     <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
@@ -1626,7 +1653,7 @@ function OptionCEnd() {
             </div>
           </div>
 
-          <MilestoneTimeline variant="end" />
+          {tabBarStuck && <MilestoneTimeline variant="end" />}
         </div>
 
         {/* Week rows */}
@@ -1712,6 +1739,7 @@ function OptionCEnd() {
 function OptionAEnd() {
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
+  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
 
@@ -1727,6 +1755,14 @@ function OptionAEnd() {
     setPendingScrollWeek(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
+
+  useEffect(() => {
+    const sentinel = tabBarSentinelRef.current
+    if (!sentinel) return
+    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
+    obs.observe(sentinel)
+    return () => obs.disconnect()
+  }, [])
 
   return (
     <div className="bg-white min-h-screen">
@@ -1841,7 +1877,7 @@ function OptionAEnd() {
             </div>
           </div>
 
-          <MilestoneTimeline variant="end" />
+          {tabBarStuck && <MilestoneTimeline variant="end" />}
         </div>
       </div>
 
@@ -2089,11 +2125,21 @@ export default function MemoirPage() {
   const [showReorderModal, setShowReorderModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
+  const sentinelRef = useRef<HTMLDivElement>(null)
+  const [tabBarStuck, setTabBarStuck] = useState(false)
 
   useEffect(() => {
     setCurrentPage(1)
     setPendingScrollWeek(null)
   }, [scenario])
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current
+    if (!sentinel) return
+    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
+    obs.observe(sentinel)
+    return () => obs.disconnect()
+  }, [])
 
   const isOptionB = scenario.startsWith('b-')
   const isOptionC = scenario.startsWith('c-')
@@ -2165,6 +2211,7 @@ export default function MemoirPage() {
         )}
       </div>
 
+      <div ref={sentinelRef} className="h-0" aria-hidden />
       {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
       <div className="sticky top-0 z-20 bg-white">
         <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[22px] pb-[24px]">
@@ -2231,7 +2278,7 @@ export default function MemoirPage() {
 
           </div>
 
-          <MilestoneTimeline variant={isNewUser ? 'new' : 'mid'} />
+          {tabBarStuck && <MilestoneTimeline variant={isNewUser ? 'new' : 'mid'} />}
         </div>
       </div>
 
