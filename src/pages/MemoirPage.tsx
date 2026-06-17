@@ -878,6 +878,47 @@ const optionCWeeks: {
 
 const WEEKS_PER_PAGE = 10
 
+const MILESTONE_GRADIENT = 'linear-gradient(-88.38deg, rgb(85, 160, 140) 32.357%, rgb(59, 121, 148) 111.6%)'
+
+function MilestoneTimeline({ variant }: { variant: 'new' | 'mid' | 'end' }) {
+  const fills = variant === 'end' ? [1, 1, 1, 1, 1]
+    : variant === 'mid' ? [1, 1, 0.3, 0, 0]
+    : [0.1447, 0, 0, 0, 0]
+  return (
+    <div className="flex flex-col gap-[10px] pt-[16px] pb-[4px]">
+      <div className="flex gap-[10px] w-full">
+        {fills.map((fill, i) => (
+          <div key={i} className="relative flex-1 h-[20px] rounded-full overflow-hidden">
+            <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
+            {fill > 0 && (
+              <div className="absolute top-0 left-0 h-full rounded-full"
+                style={{ width: `${fill * 100}%`, backgroundImage: MILESTONE_GRADIENT }} />
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center justify-between gap-[16px]">
+        {variant === 'end' ? (
+          <>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]">🎉 Congratulations! You've written <span className="font-['GT_America:Medium']">44 stories</span> in your memoir!</span>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#777] whitespace-nowrap">Week 52</span>
+          </>
+        ) : variant === 'mid' ? (
+          <>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]">⛰️ Upcoming milestone: <span className="font-['GT_America:Medium']">20 stories written.</span></span>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#777] whitespace-nowrap">Week 13</span>
+          </>
+        ) : (
+          <>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]">⛰️ Upcoming milestone: <span className="font-['GT_America:Medium']">Write your first story.</span></span>
+            <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#777] whitespace-nowrap">Week 1</span>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function OptionCNew() {
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
@@ -986,6 +1027,12 @@ function OptionCNew() {
                 </div>
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">reorder</span>
               </button>
+              <button type="button" aria-label="Search" className="border-2 border-[#068089] size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <circle cx="10.5" cy="10.5" r="6.5" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
               <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
@@ -995,7 +1042,7 @@ function OptionCNew() {
               </button>
             </div>
           </div>
-
+          <MilestoneTimeline variant="new" />
         </div>
 
         {/* Week rows */}
@@ -1100,8 +1147,6 @@ function OptionCMidSub() {
 
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
-  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
-  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const [focusThisWeek, setFocusThisWeek] = useState(false)
@@ -1145,16 +1190,6 @@ function OptionCMidSub() {
     setPendingScrollWeek(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
-
-  useEffect(() => {
-    const sentinel = tabBarSentinelRef.current
-    if (!sentinel) return
-    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
-    obs.observe(sentinel)
-    return () => obs.disconnect()
-  }, [])
-
-  const filledWeekNums = optionCWeeks.filter(w => w.story).map(w => w.weekNum)
 
   return (
     // Outer: tan bg fills full left side via background bleed
@@ -1289,6 +1324,12 @@ function OptionCMidSub() {
                   reorder
                 </span>
               </button>
+              <button type="button" aria-label="Search" className="border-2 border-[#068089] size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <circle cx="10.5" cy="10.5" r="6.5" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
               <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
@@ -1302,61 +1343,7 @@ function OptionCMidSub() {
           </div>
 
 
-          {/* Horizontal week scrubber — only visible when tab bar is sticky */}
-          <div className={`transition-all duration-300 ${tabBarStuck ? 'opacity-100 max-h-[200px] overflow-visible' : 'opacity-0 max-h-0 pointer-events-none overflow-hidden'}`}>
-            <div className="relative">
-              {hoverWeek !== null && (
-                <div
-                  className="absolute top-[calc(100%+4px)] pointer-events-none whitespace-nowrap z-10 flex flex-col items-center"
-                  style={{ left: `${((hoverWeek - 0.5) / 52) * 100}%`, transform: 'translateX(-50%)' }}
-                >
-                  <svg width="18" height="9" viewBox="0 0 18 9" fill="none" aria-hidden className="flex-none relative z-10">
-                    <path d="M9 0L18 9H0L9 0Z" fill="white"/>
-                  </svg>
-                  <div className="bg-white rounded-[8px] px-[10px] py-[4px] -mt-[1px] drop-shadow-[0px_4px_8px_rgba(0,0,0,0.12)]">
-                    <span className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#042a21]">Week {hoverWeek}</span>
-                  </div>
-                </div>
-              )}
-              <div
-                className="relative h-[12px] w-full cursor-pointer"
-                onMouseMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect()
-                  setHoverWeek(Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52)))))
-                }}
-                onMouseLeave={() => setHoverWeek(null)}
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect()
-                  const week = Math.max(1, Math.min(52, Math.ceil((e.clientX - rect.left) / (rect.width / 52))))
-                  const targetPage = Math.ceil(week / WEEKS_PER_PAGE)
-                  setCurrentPage(targetPage)
-                  setPendingScrollWeek(week)
-                }}
-              >
-                {/* Bar track — overflow-hidden clips the fill to rounded ends */}
-                <div className="absolute inset-0 bg-[#f7f7f7] rounded-full border border-[#eaeaea] overflow-hidden">
-                  {filledWeekNums.length > 0 && (
-                    <div
-                      className="absolute top-0 left-0 h-full bg-[#cde3dd]"
-                      style={{ width: `${(Math.max(...filledWeekNums) / 52) * 100}%` }}
-                    />
-                  )}
-                  {hoverWeek !== null && (
-                    <div className={`absolute top-0 h-full border-2 border-[#288068] pointer-events-none${hoverWeek === 1 ? ' rounded-l-full' : ''}${hoverWeek === 52 ? ' rounded-r-full' : ''}`}
-                      style={{ left: `${((hoverWeek - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between mt-[8px]">
-              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#445f59]">
-                You've written 10 stories—keep going!
-              </span>
-              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] whitespace-nowrap">
-                week 13 of 52
-              </span>
-            </div>
-          </div>
+          <MilestoneTimeline variant="mid" />
         </div>
 
         {pageWeeks.map((week, i) => {
@@ -1522,9 +1509,6 @@ const optionCEndWeeks = optionCWeeks.map((w, i) => {
 function OptionCEnd() {
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
-  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
-  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
-  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
 
@@ -1533,28 +1517,6 @@ function OptionCEnd() {
   const pageWeeksRef = useRef(pageWeeks)
   pageWeeksRef.current = pageWeeks
 
-  const filledWeekNums = optionCEndWeeks.filter(w => w.story).map(w => w.weekNum)
-
-  useEffect(() => {
-    function handleScroll() {
-      const viewportMid = window.scrollY + window.innerHeight / 2
-      let closestWeek = pageWeeksRef.current[0]?.weekNum ?? 1
-      let closestDist = Infinity
-      weekRowRefs.current.forEach((ref, idx) => {
-        if (!ref) return
-        const rect = ref.getBoundingClientRect()
-        const rowMid = window.scrollY + rect.top + rect.height / 2
-        const dist = Math.abs(rowMid - viewportMid)
-        if (dist < closestDist) { closestDist = dist; closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek }
-      })
-      setActiveTimelineWeek(closestWeek)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => { setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1) }, [currentPage])
-
   useEffect(() => {
     if (pendingScrollWeek === null) return
     const idxInPage = pageWeeks.findIndex(w => w.weekNum === pendingScrollWeek)
@@ -1562,14 +1524,6 @@ function OptionCEnd() {
     setPendingScrollWeek(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
-
-  useEffect(() => {
-    const sentinel = tabBarSentinelRef.current
-    if (!sentinel) return
-    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
-    obs.observe(sentinel)
-    return () => obs.disconnect()
-  }, [])
 
   return (
     <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
@@ -1657,6 +1611,12 @@ function OptionCEnd() {
                 </div>
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">reorder</span>
               </button>
+              <button type="button" aria-label="Search" className="border-2 border-[#068089] size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <circle cx="10.5" cy="10.5" r="6.5" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
               <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/><path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
@@ -1666,42 +1626,7 @@ function OptionCEnd() {
             </div>
           </div>
 
-          {/* Scrubber — appears when sticky */}
-          <div className={`transition-all duration-300 ${tabBarStuck ? 'opacity-100 max-h-[200px] overflow-visible' : 'opacity-0 max-h-0 pointer-events-none overflow-hidden'}`}>
-            <div className="relative">
-              {hoverWeek !== null && (
-                <div className="absolute top-[calc(100%+4px)] pointer-events-none whitespace-nowrap z-10 flex flex-col items-center" style={{ left: `${((hoverWeek - 0.5) / 52) * 100}%`, transform: 'translateX(-50%)' }}>
-                  <svg width="18" height="9" viewBox="0 0 18 9" fill="none" aria-hidden className="flex-none relative z-10"><path d="M9 0L18 9H0L9 0Z" fill="white"/></svg>
-                  <div className="bg-white rounded-[8px] px-[10px] py-[4px] -mt-[1px] drop-shadow-[0px_4px_8px_rgba(0,0,0,0.12)]">
-                    <span className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#042a21]">Week {hoverWeek}</span>
-                  </div>
-                </div>
-              )}
-              <div
-                className="relative h-[12px] w-full cursor-pointer"
-                onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); setHoverWeek(Math.max(1, Math.min(52, Math.ceil((e.clientX - r.left) / (r.width / 52))))) }}
-                onMouseLeave={() => setHoverWeek(null)}
-                onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); const w = Math.max(1, Math.min(52, Math.ceil((e.clientX - r.left) / (r.width / 52)))); setCurrentPage(Math.ceil(w / WEEKS_PER_PAGE)); setPendingScrollWeek(w) }}
-              >
-                <div className="absolute inset-0 bg-[#f7f7f7] rounded-full border border-[#eaeaea] overflow-hidden">
-                  {filledWeekNums.map(w => (
-                    <div key={w} className="absolute top-0 h-full bg-[#cde3dd]" style={{ left: `${((w - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
-                  ))}
-                  {hoverWeek !== null && (
-                    <div className={`absolute top-0 h-full border-2 border-[#288068] pointer-events-none${hoverWeek === 1 ? ' rounded-l-full' : ''}${hoverWeek === 52 ? ' rounded-r-full' : ''}`}
-                      style={{ left: `${((hoverWeek - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between mt-[8px]">
-              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#445f59]">
-                You've written 44 stories! Ready to{' '}
-                <button type="button" className="text-[#068089] underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">print your book</button>?
-              </span>
-              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] whitespace-nowrap">week {activeTimelineWeek} of 52</span>
-            </div>
-          </div>
+          <MilestoneTimeline variant="end" />
         </div>
 
         {/* Week rows */}
@@ -1787,9 +1712,6 @@ function OptionCEnd() {
 function OptionAEnd() {
   const weekRowRefs = useRef<(HTMLDivElement | null)[]>([])
   const tabBarSentinelRef = useRef<HTMLDivElement>(null)
-  const [activeTimelineWeek, setActiveTimelineWeek] = useState(1)
-  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
-  const [tabBarStuck, setTabBarStuck] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
 
@@ -1797,27 +1719,6 @@ function OptionAEnd() {
   const pageWeeks = optionCEndWeeks.slice((currentPage - 1) * WEEKS_PER_PAGE, currentPage * WEEKS_PER_PAGE)
   const pageWeeksRef = useRef(pageWeeks)
   pageWeeksRef.current = pageWeeks
-  const filledWeekNums = optionCEndWeeks.filter(w => w.story).map(w => w.weekNum)
-
-  useEffect(() => {
-    function handleScroll() {
-      const viewportMid = window.scrollY + window.innerHeight / 2
-      let closestWeek = pageWeeksRef.current[0]?.weekNum ?? 1
-      let closestDist = Infinity
-      weekRowRefs.current.forEach((ref, idx) => {
-        if (!ref) return
-        const rect = ref.getBoundingClientRect()
-        const rowMid = window.scrollY + rect.top + rect.height / 2
-        const dist = Math.abs(rowMid - viewportMid)
-        if (dist < closestDist) { closestDist = dist; closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek }
-      })
-      setActiveTimelineWeek(closestWeek)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => { setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1) }, [currentPage])
 
   useEffect(() => {
     if (pendingScrollWeek === null) return
@@ -1826,14 +1727,6 @@ function OptionAEnd() {
     setPendingScrollWeek(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingScrollWeek])
-
-  useEffect(() => {
-    const sentinel = tabBarSentinelRef.current
-    if (!sentinel) return
-    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
-    obs.observe(sentinel)
-    return () => obs.disconnect()
-  }, [])
 
   return (
     <div className="bg-white min-h-screen">
@@ -1932,6 +1825,12 @@ function OptionAEnd() {
                 </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[color:var(--teal\/800,#068089)] tracking-[1.6px] uppercase whitespace-nowrap">reorder</span>
               </button>
+              <button type="button" aria-label="Search" className="border-2 border-[#068089] size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <circle cx="10.5" cy="10.5" r="6.5" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
               <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
@@ -1942,44 +1841,7 @@ function OptionAEnd() {
             </div>
           </div>
 
-          {/* Scrubber — appears when sticky */}
-          <div className={`transition-all duration-300 ${tabBarStuck ? 'opacity-100 max-h-[200px] overflow-visible mt-[12px]' : 'opacity-0 max-h-0 pointer-events-none overflow-hidden'}`}>
-            <div className="relative">
-              {hoverWeek !== null && (
-                <div className="absolute top-[calc(100%+4px)] pointer-events-none whitespace-nowrap z-10 flex flex-col items-center"
-                  style={{ left: `${((hoverWeek - 0.5) / 52) * 100}%`, transform: 'translateX(-50%)' }}>
-                  <svg width="18" height="9" viewBox="0 0 18 9" fill="none" aria-hidden className="flex-none relative z-10">
-                    <path d="M9 0L18 9H0L9 0Z" fill="white"/>
-                  </svg>
-                  <div className="bg-white rounded-[8px] px-[10px] py-[4px] -mt-[1px] drop-shadow-[0px_4px_8px_rgba(0,0,0,0.12)]">
-                    <span className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#042a21]">Week {hoverWeek}</span>
-                  </div>
-                </div>
-              )}
-              <div className="relative h-[18px] w-full cursor-pointer"
-                onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); setHoverWeek(Math.max(1, Math.min(52, Math.ceil((e.clientX - r.left) / (r.width / 52))))) }}
-                onMouseLeave={() => setHoverWeek(null)}
-                onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); const w = Math.max(1, Math.min(52, Math.ceil((e.clientX - r.left) / (r.width / 52)))); setCurrentPage(Math.ceil(w / WEEKS_PER_PAGE)); setPendingScrollWeek(w) }}
-              >
-                <div className="absolute inset-0 bg-[#f7f7f7] rounded-full border border-[#eaeaea] overflow-hidden">
-                  {filledWeekNums.map(w => (
-                    <div key={w} className="absolute top-0 h-full bg-[#cde3dd]" style={{ left: `${((w - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
-                  ))}
-                  {hoverWeek !== null && (
-                    <div className={`absolute top-0 h-full border-2 border-[#288068] pointer-events-none${hoverWeek === 1 ? ' rounded-l-full' : ''}${hoverWeek === 52 ? ' rounded-r-full' : ''}`}
-                      style={{ left: `${((hoverWeek - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between mt-[8px]">
-              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#445f59]">
-                You've written 44 stories! Ready to{' '}
-                <button type="button" className="text-[#068089] underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">print your book</button>?
-              </span>
-              <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] whitespace-nowrap">week {activeTimelineWeek} of 52</span>
-            </div>
-          </div>
+          <MilestoneTimeline variant="end" />
         </div>
       </div>
 
@@ -2037,12 +1899,10 @@ function OptionAEnd() {
 
 function WeekByWeekPanel({
   isNewUser,
-  setActiveTimelineWeek,
   currentPage, setCurrentPage,
   pendingScrollWeek, setPendingScrollWeek,
 }: {
   isNewUser: boolean
-  setActiveTimelineWeek: (w: number) => void
   currentPage: number
   setCurrentPage: (p: number | ((prev: number) => number)) => void
   pendingScrollWeek: number | null
@@ -2057,26 +1917,6 @@ function WeekByWeekPanel({
   const pageWeeks = optionCWeeks.slice((currentPage - 1) * WEEKS_PER_PAGE, currentPage * WEEKS_PER_PAGE)
   const pageWeeksRef = useRef(pageWeeks)
   pageWeeksRef.current = pageWeeks
-
-  useEffect(() => {
-    function handleScroll() {
-      const viewportMid = window.scrollY + window.innerHeight / 2
-      let closestWeek = pageWeeksRef.current[0]?.weekNum ?? 1
-      let closestDist = Infinity
-      weekRowRefs.current.forEach((ref, idx) => {
-        if (!ref) return
-        const rect = ref.getBoundingClientRect()
-        const rowMid = window.scrollY + rect.top + rect.height / 2
-        const dist = Math.abs(rowMid - viewportMid)
-        if (dist < closestDist) { closestDist = dist; closestWeek = pageWeeksRef.current[idx]?.weekNum ?? closestWeek }
-      })
-      setActiveTimelineWeek(closestWeek)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => { setActiveTimelineWeek((currentPage - 1) * WEEKS_PER_PAGE + 1) }, [currentPage])
 
   useEffect(() => {
     if (pendingScrollWeek === null) return
@@ -2247,25 +2087,10 @@ export default function MemoirPage() {
   const [scenario, setScenario] = useState('a-new')
   const [activeTab, setActiveTab] = useState<Tab>('week-by-week')
   const [showReorderModal, setShowReorderModal] = useState(false)
-  const [tabBarStuck, setTabBarStuck] = useState(false)
-  const [hoverWeek, setHoverWeek] = useState<number | null>(null)
-  const [, setActiveTimelineWeek] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
-  const sentinelRef = useRef<HTMLDivElement>(null)
-  const filledWeekNums = optionCWeeks.filter(w => w.story).map(w => w.weekNum)
 
   useEffect(() => {
-    const sentinel = sentinelRef.current
-    if (!sentinel) return
-    const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
-    obs.observe(sentinel)
-    return () => obs.disconnect()
-  }, [])
-
-  useEffect(() => {
-    setHoverWeek(null)
-    setActiveTimelineWeek(1)
     setCurrentPage(1)
     setPendingScrollWeek(null)
   }, [scenario])
@@ -2340,9 +2165,6 @@ export default function MemoirPage() {
         )}
       </div>
 
-      {/* Sentinel — IntersectionObserver watches this to detect when bar becomes sticky */}
-      <div ref={sentinelRef} className="h-0" aria-hidden />
-
       {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
       <div className="sticky top-0 z-20 bg-white">
         <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[22px] pb-[24px]">
@@ -2387,6 +2209,12 @@ export default function MemoirPage() {
                   reorder
                 </span>
               </button>
+              <button type="button" aria-label="Search" className="border-2 border-[#068089] size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                  <circle cx="10.5" cy="10.5" r="6.5" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
               <button
                 type="button"
                 className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity"
@@ -2403,42 +2231,7 @@ export default function MemoirPage() {
 
           </div>
 
-          {/* Scrubber — mid-sub only, appears when sticky */}
-          {!isNewUser && (
-            <div className={`transition-all duration-300 overflow-hidden ${tabBarStuck ? 'opacity-100 max-h-[120px] pt-[24px] pb-[4px]' : 'opacity-0 max-h-0 pointer-events-none'}`}>
-              <div className="relative">
-                {hoverWeek !== null && (
-                  <div className="absolute top-[calc(100%+4px)] pointer-events-none whitespace-nowrap z-10 flex flex-col items-center"
-                    style={{ left: `${((hoverWeek - 0.5) / 52) * 100}%`, transform: 'translateX(-50%)' }}>
-                    <svg width="18" height="9" viewBox="0 0 18 9" fill="none" aria-hidden className="flex-none relative z-10">
-                      <path d="M9 0L18 9H0L9 0Z" fill="white"/>
-                    </svg>
-                    <div className="bg-white rounded-[8px] px-[10px] py-[4px] -mt-[1px] drop-shadow-[0px_4px_8px_rgba(0,0,0,0.12)]">
-                      <span className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#042a21]">Week {hoverWeek}</span>
-                    </div>
-                  </div>
-                )}
-                <div className="relative h-[18px] w-full cursor-pointer"
-                  onMouseMove={e => { const r = e.currentTarget.getBoundingClientRect(); setHoverWeek(Math.max(1, Math.min(52, Math.ceil((e.clientX - r.left) / (r.width / 52))))) }}
-                  onMouseLeave={() => setHoverWeek(null)}
-                  onClick={e => { const r = e.currentTarget.getBoundingClientRect(); const w = Math.max(1, Math.min(52, Math.ceil((e.clientX - r.left) / (r.width / 52)))); setCurrentPage(Math.ceil(w / WEEKS_PER_PAGE)); setPendingScrollWeek(w) }}>
-                  <div className="absolute inset-0 bg-[#f7f7f7] rounded-full border border-[#eaeaea] overflow-hidden">
-                    {filledWeekNums.length > 0 && (
-                      <div className="absolute top-0 left-0 h-full bg-[#cde3dd]" style={{ width: `${(Math.max(...filledWeekNums) / 52) * 100}%` }} />
-                    )}
-                    {hoverWeek !== null && (
-                      <div className={`absolute top-0 h-full border-2 border-[#288068] pointer-events-none${hoverWeek === 1 ? ' rounded-l-full' : ''}${hoverWeek === 52 ? ' rounded-r-full' : ''}`}
-                        style={{ left: `${((hoverWeek - 1) / 52) * 100}%`, width: `${(1 / 52) * 100}%` }} />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between mt-[8px]">
-                <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#445f59]">🏆 You've written 10 stories—keep going!</span>
-                <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] whitespace-nowrap">Week 13 of 52</span>
-              </div>
-            </div>
-          )}
+          <MilestoneTimeline variant={isNewUser ? 'new' : 'mid'} />
         </div>
       </div>
 
@@ -2446,7 +2239,6 @@ export default function MemoirPage() {
       {activeTab === 'week-by-week' ? (
         <WeekByWeekPanel
           isNewUser={isNewUser}
-          setActiveTimelineWeek={setActiveTimelineWeek}
           currentPage={currentPage} setCurrentPage={setCurrentPage}
           pendingScrollWeek={pendingScrollWeek} setPendingScrollWeek={setPendingScrollWeek}
         />
