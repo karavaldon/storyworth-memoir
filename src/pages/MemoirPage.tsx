@@ -891,8 +891,16 @@ function MilestoneTimeline({ variant }: { variant: 'new' | 'mid' | 'end' }) {
           <div key={i} className="relative flex-1 h-[20px] rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
             {fill > 0 && (
-              <div className="absolute top-0 left-0 h-full rounded-full"
-                style={{ width: `${fill * 100}%`, backgroundImage: MILESTONE_GRADIENT }} />
+              <div className="absolute top-0 left-0 h-full rounded-full overflow-hidden"
+                style={{ width: `${fill * 100}%` }}>
+                <div className="absolute top-0 left-0 h-full"
+                  style={{
+                    width: `${100 / fill}%`,
+                    backgroundImage: MILESTONE_GRADIENT,
+                    backgroundSize: '500% 100%',
+                    backgroundPosition: `${i * 25}%`
+                  }} />
+              </div>
             )}
           </div>
         ))}
@@ -1051,9 +1059,12 @@ function OptionCNew() {
               </button>
             </div>
           </div>
-          {tabBarStuck && <MilestoneTimeline variant="new" />}
+          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
+            <MilestoneTimeline variant="new" />
+          </div>
         </div>
 
+        <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
         {/* Week rows */}
         {pageWeeks.flatMap((week, i) => {
           const row = (
@@ -1361,9 +1372,12 @@ function OptionCMidSub() {
           </div>
 
 
-          {tabBarStuck && <MilestoneTimeline variant="mid" />}
+          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
+            <MilestoneTimeline variant="mid" />
+          </div>
         </div>
 
+        <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
         {pageWeeks.map((week, i) => {
           if (week.isThisWeek) {
             return (
@@ -1653,9 +1667,12 @@ function OptionCEnd() {
             </div>
           </div>
 
-          {tabBarStuck && <MilestoneTimeline variant="end" />}
+          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
+            <MilestoneTimeline variant="end" />
+          </div>
         </div>
 
+        <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
         {/* Week rows */}
         {pageWeeks.map((week, i) => {
           if (week.isUpcoming) {
@@ -1877,10 +1894,13 @@ function OptionAEnd() {
             </div>
           </div>
 
-          {tabBarStuck && <MilestoneTimeline variant="end" />}
+          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
+            <MilestoneTimeline variant="end" />
+          </div>
         </div>
       </div>
 
+      <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
       {/* ── Story list ── */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px]">
         {pageWeeks.map((week, i) => (
@@ -2278,10 +2298,13 @@ export default function MemoirPage() {
 
           </div>
 
-          {tabBarStuck && <MilestoneTimeline variant={isNewUser ? 'new' : 'mid'} />}
+          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
+            <MilestoneTimeline variant={isNewUser ? 'new' : 'mid'} />
+          </div>
         </div>
       </div>
 
+      <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
         <WeekByWeekPanel
