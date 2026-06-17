@@ -1902,7 +1902,7 @@ function OptionAEnd() {
 
       <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
       {/* ── Story list ── */}
-      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px]">
+      <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] min-h-[calc(100vh+1px)]">
         {pageWeeks.map((week, i) => (
           <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}>
             {week.story ? (
@@ -1992,7 +1992,7 @@ function WeekByWeekPanel({
   }
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh+1px)]">
       <div ref={panelTopRef} className="h-0" aria-hidden />
 
       {/* Week rows */}
