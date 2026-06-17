@@ -2161,38 +2161,6 @@ function WeekByWeekPanel({
   )
 }
 
-function Confetti({ active }: { active: boolean }) {
-  if (!active) return null
-  const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4d96ff', '#ff6b9d', '#c77dff', '#ff9f43', '#48dbfb']
-  const particles = Array.from({ length: 60 }, (_, i) => ({
-    id: i,
-    color: colors[i % colors.length],
-    size: 5 + (i * 3) % 9,
-    left: (i * 11 + 5) % 100,
-    delay: (i * 0.033) % 0.8,
-    duration: 1.0 + (i * 0.04) % 1.2,
-    isCircle: i % 3 !== 0,
-  }))
-  return (
-    <>
-      <style>{`@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}85%{opacity:.9}100%{transform:translateY(95vh) rotate(540deg);opacity:0}}`}</style>
-      <div className="fixed inset-0 pointer-events-none z-[999] overflow-hidden">
-        {particles.map(p => (
-          <div key={p.id} style={{
-            position: 'absolute',
-            left: `${p.left}%`,
-            top: 0,
-            width: p.size,
-            height: p.size,
-            backgroundColor: p.color,
-            borderRadius: p.isCircle ? '50%' : '2px',
-            animation: `confetti-fall ${p.duration}s ${p.delay}s ease-in forwards`,
-          }} />
-        ))}
-      </div>
-    </>
-  )
-}
 
 // ─── Main Page ──────────────────────────────────────────────────────────────
 
@@ -2431,8 +2399,6 @@ export default function MemoirPage() {
         </div>
       ) : null}
       </>}
-
-      <Confetti active={revealState === 'revealing'} />
 
       {showReorderModal && (
         <div

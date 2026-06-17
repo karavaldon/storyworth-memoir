@@ -1,3 +1,6 @@
+## v1.0.2 — 2026-06-17T17:27:22
+- Remove confetti from reveal interaction
+
 ## v1.0.1 — 2026-06-17T17:24:59
 - Option A new user: pre-reveal empty state with Curious card and Explore milestone
 - On Reveal click: progress bar fills, confetti plays, then shows week list
