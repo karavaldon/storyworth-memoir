@@ -51,7 +51,8 @@ function GiftIcon() {
 // ─── Dev tools ───────────────────────────────────────────────────────────────
 
 const devScenarios: { label: string; id: string; implemented: boolean; hidden?: boolean }[] = [
-  { label: 'Option A — New user',  id: 'a-new',    implemented: true  },
+  { label: 'Option A — New user',   id: 'a-new',    implemented: true  },
+  { label: 'Option A.1 — New user', id: 'a1-new',   implemented: true  },
   { label: 'Option A — Mid sub',   id: 'a-month4', implemented: true  },
   { label: 'Option A — End',       id: 'a-end',    implemented: true  },
   { label: 'Option B — New user',  id: 'b-new',    implemented: true,  hidden: true },
@@ -63,12 +64,12 @@ const devScenarios: { label: string; id: string; implemented: boolean; hidden?: 
 ]
 
 function DevToolsMenu({ onClose, scenario, onSelect }: { onClose: () => void; scenario: string; onSelect: (id: string) => void }) {
-  const aScenarios = devScenarios.filter(s => s.id.startsWith('a-'))
+  const aScenarios = devScenarios.filter(s => s.id.startsWith('a'))
   const cScenarios = devScenarios.filter(s => s.id.startsWith('c-'))
 
   function ScenarioBtn({ s }: { s: typeof devScenarios[0] }) {
     const isCurrent = s.id === scenario
-    const label = s.label.replace(/^Option [AC] — /, '')
+    const label = s.label.replace(/^Option \S+ — /, '')
     return (
       <button
         key={s.id}
@@ -426,21 +427,35 @@ function ThisWeekSection() {
   )
 }
 
-function WelcomeCard() {
+function WelcomeCard({ variant = 'a' }: { variant?: 'a' | 'a1' }) {
   return (
     <div className="bg-[#d7e9e4] border-2 border-[#a4c1b9] rounded-[8px] px-[24px] py-[16px] flex gap-[22px] items-center justify-center drop-shadow-[0px_4px_10px_rgba(6,128,137,0.06)] w-full">
       <img alt="" className="flex-shrink-0 w-[87px] h-[82px] object-cover pointer-events-none" src={imgWavingHandA} />
       <div className="flex flex-col gap-[10px] items-center text-center">
-        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a] m-0">
-          Hi, Brian! Welcome to Storyworth —{' '}
-          <span className="font-['GT_America:Medium']">Explore your upcoming questions below, week-by-week.</span>
-        </p>
-        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">
-          You can always{' '}
-          <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">change your questions</button>
-          {' '}or{' '}
-          <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">reorder them</button>.
-        </p>
+        {variant === 'a1' ? (
+          <>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a] m-0">
+              Hi, Brian! Welcome to Storyworth —{' '}
+              <span className="font-['GT_America:Medium']">an easy way to write and record your life story over the next year.</span>
+            </p>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">
+              Each week we'll send a question. Explore them below!
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a] m-0">
+              Hi, Brian! Welcome to Storyworth —{' '}
+              <span className="font-['GT_America:Medium']">Explore your upcoming questions below, week-by-week.</span>
+            </p>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">
+              You can always{' '}
+              <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">change your questions</button>
+              {' '}or{' '}
+              <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">reorder them</button>.
+            </p>
+          </>
+        )}
       </div>
     </div>
   )
@@ -2196,7 +2211,9 @@ export default function MemoirPage() {
   const isOptionB = scenario.startsWith('b-')
   const isOptionC = scenario.startsWith('c-')
   const isAEnd = scenario === 'a-end'
+  const isA1New = scenario === 'a1-new'
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
+  const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
 
   const tabs: { key: Tab; label: string }[] = [
     { key: 'week-by-week', label: 'Week by week' },
@@ -2237,6 +2254,20 @@ export default function MemoirPage() {
             </div>
           </section>
         </>
+      ) : isA1New ? (
+        <>
+          {/* Option A.1: book card left + welcome card right, side by side in hero */}
+          <section className="bg-[#f8f4f1]">
+            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
+              <div className="flex gap-[40px] items-center">
+                <BookCard />
+                <div className="flex-1 min-w-0">
+                  <WelcomeCard variant="a1" />
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
       ) : (
         <>
           {/* Option A variants: book/title in tan hero, card half-overlapping below */}
@@ -2253,13 +2284,50 @@ export default function MemoirPage() {
 
       {!isOptionC && !isAEnd && <>{/* Progress message */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[68px] pb-[2px] flex flex-col gap-[16px]">
-        <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
-          My memoir
-        </h2>
-        {isNewUser && (
-          <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[18px] text-[#445f59] max-w-[748px]">
-            You can write, record and reply by email—your stories will appear here as you go.
-          </p>
+        {isA1New ? (
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col gap-[12px]">
+              <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
+                My Life Stories
+              </h2>
+              <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[20px] text-[#12473a] m-0">
+                Your stories waiting to be written ·{' '}
+                <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
+                  read by Raymond
+                </button>
+              </p>
+            </div>
+            <div className="hidden sm:flex gap-[24px] items-center flex-shrink-0 pt-[4px]">
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
+                  <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
+              </button>
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
+                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="#068089" strokeWidth="1.5"/>
+                  <path d="M9 3v18M3 8h6M3 12h6M3 16h6" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
+                <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
+                  <path d="M1 1.5L7 7.5L13 1.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
+              My memoir
+            </h2>
+            {isNewUser && (
+              <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[18px] text-[#445f59] max-w-[748px]">
+                You can write, record and reply by email—your stories will appear here as you go.
+              </p>
+            )}
+          </>
         )}
       </div>
 
@@ -2332,9 +2400,9 @@ export default function MemoirPage() {
 
           <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
             <MilestoneTimeline
-              variant={scenario === 'a-new' && revealState !== 'revealed' ? 'explore' : isNewUser ? 'new' : 'mid'}
-              fillOverride={scenario === 'a-new' && revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
-              animate={scenario === 'a-new' && revealState === 'revealing'}
+              variant={isANewReveal && revealState !== 'revealed' ? 'explore' : isNewUser ? 'new' : 'mid'}
+              fillOverride={isANewReveal && revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
+              animate={isANewReveal && revealState === 'revealing'}
             />
           </div>
         </div>
@@ -2343,7 +2411,7 @@ export default function MemoirPage() {
       <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
-        scenario === 'a-new' && revealState !== 'revealed' ? (
+        isANewReveal && revealState !== 'revealed' ? (
           <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] py-[46px] px-[24px]">
             <div className="relative flex-none" style={{ width: 149, height: 135 }}>
               <img alt="" className="absolute inset-0 w-full h-full object-contain" src="https://www.figma.com/api/mcp/asset/ef731091-88f9-4975-941a-a109f1166c95" />

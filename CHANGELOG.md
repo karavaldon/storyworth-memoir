@@ -1,3 +1,6 @@
+## v1.0.3 — 2026-06-17T17:38:42
+- Add Option A.1 new user scenario
+
 ## v1.0.2 — 2026-06-17T17:27:22
 - Remove confetti from reveal interaction
 
