@@ -61,8 +61,8 @@ const devScenarios: { label: string; id: string; implemented: boolean; hidden?: 
 ]
 
 function DevToolsMenu({ onClose, scenario, onSelect }: { onClose: () => void; scenario: string; onSelect: (id: string) => void }) {
-  const aScenarios = devScenarios.filter(s => s.id.startsWith('a'))
-  const cScenarios = devScenarios.filter(s => s.id.startsWith('c-'))
+  const aScenarios = devScenarios.filter(s => s.id.startsWith('a') && !s.hidden)
+  const cScenarios = devScenarios.filter(s => s.id.startsWith('c-') && !s.hidden)
 
   function ScenarioBtn({ s }: { s: typeof devScenarios[0] }) {
     const isCurrent = s.id === scenario
@@ -86,19 +86,21 @@ function DevToolsMenu({ onClose, scenario, onSelect }: { onClose: () => void; sc
       <div className="px-[12px] py-[8px] border-b border-[#333]">
         <span className="font-mono text-[10px] text-[#666] uppercase tracking-[1.5px]">Dev tools</span>
       </div>
-      <div className="grid grid-cols-2">
-        <div className="border-r border-[#333]">
+      <div className={`grid ${cScenarios.length > 0 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        <div className={cScenarios.length > 0 ? 'border-r border-[#333]' : ''}>
           <div className="px-[12px] py-[8px] border-b border-[#2a2a2a]">
             <span className="font-mono text-[11px] text-[#888] uppercase tracking-[1.5px] font-semibold">Option A</span>
           </div>
           {aScenarios.map(s => <ScenarioBtn key={s.id} s={s} />)}
         </div>
-        <div>
-          <div className="px-[12px] py-[8px] border-b border-[#2a2a2a]">
-            <span className="font-mono text-[11px] text-[#888] uppercase tracking-[1.5px] font-semibold">Option C</span>
+        {cScenarios.length > 0 && (
+          <div>
+            <div className="px-[12px] py-[8px] border-b border-[#2a2a2a]">
+              <span className="font-mono text-[11px] text-[#888] uppercase tracking-[1.5px] font-semibold">Option C</span>
+            </div>
+            {cScenarios.map(s => <ScenarioBtn key={s.id} s={s} />)}
           </div>
-          {cScenarios.map(s => <ScenarioBtn key={s.id} s={s} />)}
-        </div>
+        )}
       </div>
     </div>
   )
@@ -2238,34 +2240,74 @@ export default function MemoirPage() {
             </div>
           </section>
         </>
-      ) : isA1New || isA1Month4 ? (
+      ) : isA1New ? (
         <>
-          {/* Option A.1: book card left + right card side by side in hero */}
+          {/* Option A.1 new user: gift text + heading + video CTA left, book illustration right */}
+          <section className="bg-[#f8f4f1]">
+            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
+              <div className="flex gap-[60px] items-center justify-between">
+                <div className="flex flex-col gap-[20px] max-w-[540px]">
+                  <div className="flex gap-[8px] items-center">
+                    <div className="size-[22px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                      <span className="font-['GT_America:Medium'] text-[11px] text-white tracking-[0.5px]">R</span>
+                    </div>
+                    <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#12473a] m-0">Raymond gifted you a Storyworth Memoir</p>
+                  </div>
+                  <h1 className="font-['GT_Super_Display:Regular'] text-[48px] leading-[1.1] tracking-[-0.48px] text-[#042a21] m-0">
+                    Hi, Brian!
+                  </h1>
+                  <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#12473a] m-0">
+                    Welcome to Storyworth—an easy way to capture your life story over the next year, and print it in a book.
+                  </p>
+                  <div className="flex gap-[16px] items-center">
+                    <div className="w-[110px] h-[82px] rounded-[8px] bg-[#ddd8d2] flex-shrink-0 relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="size-[30px] rounded-full bg-white/80 flex items-center justify-center">
+                          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden><path d="M1 1l8 5-8 5V1z" fill="#068089"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-[8px]">
+                      <button type="button" className="bg-[#068089] h-[40px] rounded-[24px] px-[24px] cursor-pointer hover:opacity-90 transition-opacity flex items-center self-start">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase whitespace-nowrap">Watch how it works</span>
+                      </button>
+                      <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">1 minute video</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="hidden sm:block flex-shrink-0">
+                  <div className="h-[240px] w-[200px] relative">
+                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : isA1Month4 ? (
+        <>
+          {/* Option A.1 mid sub: book card left + this week right */}
           <section className="bg-[#f8f4f1]">
             <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
               <div className="flex gap-[40px] items-center">
                 <BookCard />
                 <div className="flex-1 min-w-0">
-                  {isA1New ? (
-                    <WelcomeCard variant="a1" />
-                  ) : (
-                    <div className="flex flex-col gap-[22px]">
-                      <div className="flex flex-col gap-[14px]">
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a]">
-                          For you this week • Asked by Alex
-                        </p>
-                        <p className="font-['GT_Super_Display:Regular'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] max-w-[477px]">
-                          {weekQuestions[0]}
-                        </p>
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">
-                          Take 10 minutes to add a story for Alex to read.
-                        </p>
-                      </div>
-                      <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity self-start">
-                        <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
-                      </button>
+                  <div className="flex flex-col gap-[22px]">
+                    <div className="flex flex-col gap-[14px]">
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a]">
+                        For you this week • Asked by Alex
+                      </p>
+                      <p className="font-['GT_Super_Display:Regular'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] max-w-[477px]">
+                        {weekQuestions[0]}
+                      </p>
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">
+                        Take 10 minutes to add a story for Alex to read.
+                      </p>
                     </div>
-                  )}
+                    <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity self-start">
+                      <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2303,9 +2345,19 @@ export default function MemoirPage() {
         {isA1New || isA1Month4 ? (
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">
-              <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
-                My Life Stories
-              </h2>
+              <div className="flex items-center gap-[12px]">
+                <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
+                  My Life Stories
+                </h2>
+                {isA1New && (
+                  <button type="button" aria-label="Edit memoir title" className="size-[32px] rounded-full border border-[#068089] flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+                      <path d="M12 20h9" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                )}
+              </div>
               <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[20px] text-[#12473a] m-0">
                 Your stories waiting to be written ·{' '}
                 <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">

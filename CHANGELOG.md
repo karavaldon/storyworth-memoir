@@ -1,3 +1,6 @@
+## v1.0.8 — 2026-06-18T20:16:00
+- A.1 new user: rebuild hero to match Figma 55:2658; add pencil icon to heading
+
 ## v1.0.7 — 2026-06-18T19:02:25
 - Dev menu: show only A.1 new user and A.1 mid sub
 
