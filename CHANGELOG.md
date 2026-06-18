@@ -1,3 +1,6 @@
+## v1.0.7 — 2026-06-18T19:02:25
+- Dev menu: show only A.1 new user and A.1 mid sub
+
 ## v1.0.6 — 2026-06-18T15:24:24
 - Wire up local SVG assets for icons and logo
 

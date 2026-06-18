@@ -47,17 +47,17 @@ function GiftIcon() {
 // ─── Dev tools ───────────────────────────────────────────────────────────────
 
 const devScenarios: { label: string; id: string; implemented: boolean; hidden?: boolean }[] = [
-  { label: 'Option A — New user',   id: 'a-new',    implemented: true  },
-  { label: 'Option A.1 — New user',  id: 'a1-new',     implemented: true  },
-  { label: 'Option A.1 — Mid sub',  id: 'a1-month4',  implemented: true  },
-  { label: 'Option A — Mid sub',    id: 'a-month4',   implemented: true  },
-  { label: 'Option A — End',       id: 'a-end',    implemented: true  },
-  { label: 'Option B — New user',  id: 'b-new',    implemented: true,  hidden: true },
-  { label: 'Option B — Mid sub',   id: 'b-month4', implemented: true,  hidden: true },
-  { label: 'Option B — Month 10',  id: 'b-month10',implemented: false, hidden: true },
-  { label: 'Option C — New user',   id: 'c-new',    implemented: true  },
-  { label: 'Option C — Mid sub',   id: 'c-month4', implemented: true  },
-  { label: 'Option C — End',       id: 'c-end',    implemented: true  },
+  { label: 'Option A.1 — New user', id: 'a1-new',    implemented: true  },
+  { label: 'Option A.1 — Mid sub',  id: 'a1-month4', implemented: true  },
+  { label: 'Option A — New user',   id: 'a-new',     implemented: true,  hidden: true },
+  { label: 'Option A — Mid sub',    id: 'a-month4',  implemented: true,  hidden: true },
+  { label: 'Option A — End',        id: 'a-end',     implemented: true,  hidden: true },
+  { label: 'Option B — New user',   id: 'b-new',     implemented: true,  hidden: true },
+  { label: 'Option B — Mid sub',    id: 'b-month4',  implemented: true,  hidden: true },
+  { label: 'Option B — Month 10',   id: 'b-month10', implemented: false, hidden: true },
+  { label: 'Option C — New user',   id: 'c-new',     implemented: true,  hidden: true },
+  { label: 'Option C — Mid sub',    id: 'c-month4',  implemented: true,  hidden: true },
+  { label: 'Option C — End',        id: 'c-end',     implemented: true,  hidden: true },
 ]
 
 function DevToolsMenu({ onClose, scenario, onSelect }: { onClose: () => void; scenario: string; onSelect: (id: string) => void }) {
