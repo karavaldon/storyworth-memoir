@@ -2189,7 +2189,11 @@ export default function MemoirPage() {
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
 
-  const tabs: { key: Tab; label: string }[] = [
+  const tabs: { key: Tab; label: string }[] = isA1New ? [
+    { key: 'week-by-week', label: 'All questions' },
+    { key: 'stories', label: 'Your stories' },
+    { key: 'drafts', label: 'Drafts' },
+  ] : [
     { key: 'week-by-week', label: 'Week by week' },
     { key: 'stories', label: 'Stories' },
     { key: 'drafts', label: 'Drafts' },
@@ -2233,38 +2237,44 @@ export default function MemoirPage() {
           {/* Option A.1 new user: gift text + heading + video CTA left, book illustration right */}
           <section className="bg-[#f8f4f1]">
             <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
-              <div className="flex gap-[60px] items-center justify-between">
-                <div className="flex flex-col gap-[20px] max-w-[540px]">
-                  <div className="flex gap-[8px] items-center">
-                    <div className="size-[22px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
-                      <span className="font-['GT_America:Medium'] text-[11px] text-white tracking-[0.5px]">R</span>
+              <div className="flex gap-[40px] items-center justify-center">
+                <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
+                  <div className="flex flex-col gap-[12px] items-start">
+                    <div className="flex gap-[6px] items-center">
+                      <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]">R</span>
+                      </div>
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Raymond gifted you a Storyworth Memoir</p>
                     </div>
-                    <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#12473a] m-0">Raymond gifted you a Storyworth Memoir</p>
+                    <p className="font-['GT_Super_Display:Regular'] text-[26px] leading-[36px] tracking-[-0.26px] text-[#042a21] m-0">
+                      Hi, Brian!
+                    </p>
+                    <p className="font-['GT_Super_Text:Book'] text-[16px] leading-normal tracking-[-0.16px] text-[#12473a] m-0">
+                      Welcome to Storyworth—an easy way to capture your life story over the next year, and print it in a book.
+                    </p>
                   </div>
-                  <h1 className="font-['GT_Super_Display:Regular'] text-[48px] leading-[1.1] tracking-[-0.48px] text-[#042a21] m-0">
-                    Hi, Brian!
-                  </h1>
-                  <p className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#12473a] m-0">
-                    Welcome to Storyworth—an easy way to capture your life story over the next year, and print it in a book.
-                  </p>
                   <div className="flex gap-[16px] items-center">
-                    <div className="w-[110px] h-[82px] rounded-[8px] bg-[#ddd8d2] flex-shrink-0 relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="size-[30px] rounded-full bg-white/80 flex items-center justify-center">
-                          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden><path d="M1 1l8 5-8 5V1z" fill="#068089"/></svg>
+                    <div className="bg-[#e7d7c8] p-[10px] rounded-[6px] flex-shrink-0 relative">
+                      <div className="h-[58px] w-[100px] rounded-[2px] bg-[#c9b9a9] relative overflow-hidden">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="size-[30px] rounded-full bg-white/80 flex items-center justify-center">
+                            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden><path d="M1 1l8 5-8 5V1z" fill="#068089"/></svg>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-[8px]">
-                      <button type="button" className="bg-[#068089] h-[40px] rounded-[24px] px-[24px] cursor-pointer hover:opacity-90 transition-opacity flex items-center self-start">
-                        <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase whitespace-nowrap">Watch how it works</span>
+                    <div className="flex flex-col items-center">
+                      <button type="button" className="bg-[#07777e] h-[40px] rounded-[24px] px-[32px] cursor-pointer hover:opacity-90 transition-opacity flex items-center">
+                        <span className="font-['GT_America:Medium'] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Watch how it works</span>
                       </button>
-                      <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">1 minute video</span>
+                    </div>
+                    <div className="flex h-[21px] items-center flex-shrink-0">
+                      <span className="font-['GT_America:Regular'] text-[14px] text-[#757575] whitespace-nowrap">1 minute video</span>
                     </div>
                   </div>
                 </div>
                 <div className="hidden sm:block flex-shrink-0">
-                  <div className="h-[240px] w-[200px] relative">
+                  <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
                 </div>
@@ -2329,7 +2339,7 @@ export default function MemoirPage() {
           )}
         </div>
       )}
-      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${(isA1New || isA1Month4) ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
+      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isA1New ? 'pt-[68px]' : isA1Month4 ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
         {isA1New || isA1Month4 ? (
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">
@@ -2338,8 +2348,8 @@ export default function MemoirPage() {
                   My Life Stories
                 </h2>
                 {isA1New && (
-                  <button type="button" aria-label="Edit memoir title" className="size-[32px] rounded-full border border-[#068089] flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
                       <path d="M12 20h9" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
@@ -2402,9 +2412,9 @@ export default function MemoirPage() {
                     type="button"
                     onClick={() => setActiveTab(key)}
                     className={[
-                      "cursor-pointer px-[16px] py-[10px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[13px] md:text-[16px] tracking-[1.6px] uppercase transition-colors duration-200",
+                      "cursor-pointer px-[16px] py-[10px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase transition-colors duration-200",
                       activeTab === key
-                        ? 'bg-white text-[color:var(--green\/900,#12473a)]'
+                        ? 'bg-white text-[color:var(--green\/900,#12473a)] drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)]'
                         : 'text-[#61706f] hover:text-[color:var(--green\/900,#12473a)]',
                     ].join(' ')}
                   >
@@ -2415,10 +2425,10 @@ export default function MemoirPage() {
             </div>
 
             {/* Action buttons */}
-            <div className="hidden sm:flex gap-[16px] items-center flex-shrink-0">
+            <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
               <button
                 type="button"
-                className="bg-white cursor-pointer flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] hover:opacity-70 transition-opacity"
+                className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity"
                 onClick={() => setShowReorderModal(true)}
               >
                 <div className="overflow-clip relative size-[24px] flex-shrink-0">
@@ -2432,13 +2442,14 @@ export default function MemoirPage() {
                   reorder
                 </span>
               </button>
-              <button type="button" aria-label="Search" className="border-2 border-[#068089] size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity flex-shrink-0">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                   <circle cx="10.5" cy="10.5" r="6.5" stroke="#068089" strokeWidth="1.5"/>
                   <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[color:var(--teal\/800,#068089)] tracking-[1.6px] uppercase whitespace-nowrap">search</span>
               </button>
-              <button
+              {!isA1New && <button
                 type="button"
                 className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity"
               >
@@ -2449,7 +2460,7 @@ export default function MemoirPage() {
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">
                   new story
                 </span>
-              </button>
+              </button>}
             </div>
 
           </div>

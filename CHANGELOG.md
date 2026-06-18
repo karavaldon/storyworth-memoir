@@ -1,3 +1,6 @@
+## v1.0.11 — 2026-06-18T21:05:15
+- A.1 new user: fix sticky bar action buttons to match Figma (reorder/search as text+icon, no new story in bar)
+
 ## v1.0.10 — 2026-06-18T20:55:42
 - Wire up memoir-book.png for book illustrations
 
