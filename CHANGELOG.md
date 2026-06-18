@@ -1,3 +1,6 @@
+## v1.0.13 — 2026-06-18T21:17:31
+- A.1 new user: wire up local icons for add-circle, open-book, chevron; restore video thumbnail container with play overlay
+
 ## v1.0.12 — 2026-06-18T21:09:30
 - Wire up video thumbnail and search icon from local assets
 

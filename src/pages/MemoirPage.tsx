@@ -11,6 +11,7 @@ import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
 import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
+import imgAddCircle from '../../assets/icons/add-circle.svg'
 import imgSearchIcon from '../../assets/icons/search.svg'
 import imgVideoThumbnail from '../../assets/icons/video.svg'
 const imgPhoneBannerArrow = imgArrowRight
@@ -2256,8 +2257,13 @@ export default function MemoirPage() {
                     </p>
                   </div>
                   <div className="flex gap-[16px] items-center">
-                    <div className="flex-shrink-0">
-                      <img alt="How it works video thumbnail" className="block h-[78px] w-[120px] rounded-[6px] object-cover" src={imgVideoThumbnail} />
+                    <div className="bg-[#e7d7c8] p-[10px] rounded-[6px] flex-shrink-0 relative">
+                      <div className="border border-[#d6bda6] h-[58px] w-[100px] rounded-[2px] relative overflow-hidden">
+                        <img alt="How it works video thumbnail" className="absolute inset-0 max-w-none size-full object-cover rounded-[2px]" src={imgVideoThumbnail} />
+                      </div>
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[30px]">
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
+                      </div>
                     </div>
                     <div className="flex flex-col items-center">
                       <button type="button" className="bg-[#07777e] h-[40px] rounded-[24px] px-[32px] cursor-pointer hover:opacity-90 transition-opacity flex items-center">
@@ -2361,21 +2367,25 @@ export default function MemoirPage() {
             </div>
             <div className="hidden sm:flex gap-[24px] items-center flex-shrink-0 pt-[4px]">
               <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
-                  <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
-                  <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
+                <div className="overflow-clip relative size-[24px] flex-shrink-0">
+                  <div className="absolute inset-[8.33%]">
+                    <img alt="" className="block max-w-none size-full" src={imgAddCircle} />
+                  </div>
+                </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
-                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="#068089" strokeWidth="1.5"/>
-                  <path d="M9 3v18M3 8h6M3 12h6M3 16h6" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <div className="relative size-[24px] flex-shrink-0">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} />
+                </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
-                <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
-                  <path d="M1 1.5L7 7.5L13 1.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <div className="flex-none rotate-180 flex-shrink-0">
+                  <div className="h-[9px] w-[14px] relative">
+                    <div className="absolute bottom-1/4 left-[6.7%] right-[6.7%] top-0">
+                      <img alt="" className="block max-w-none size-full" src={imgPolygon1} />
+                    </div>
+                  </div>
+                </div>
               </button>
             </div>
           </div>
