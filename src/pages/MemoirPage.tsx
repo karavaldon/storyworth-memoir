@@ -2306,12 +2306,20 @@ export default function MemoirPage() {
       ))}
 
       {!isOptionC && !isAEnd && <>{/* Progress message */}
-      {isA1Month4 && (
+      {(isA1New || isA1Month4) && (
         <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[32px]">
-          <MilestoneTimeline variant="mid" milestoneText="10/20 stories written" weekLabel="It's week 13" />
+          {isA1New ? (
+            <MilestoneTimeline
+              variant={revealState === 'revealed' ? 'new' : 'explore'}
+              fillOverride={revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
+              animate={revealState === 'revealing'}
+            />
+          ) : (
+            <MilestoneTimeline variant="mid" milestoneText="10/20 stories written" weekLabel="It's week 13" />
+          )}
         </div>
       )}
-      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isA1Month4 ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
+      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${(isA1New || isA1Month4) ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
         {isA1New || isA1Month4 ? (
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">

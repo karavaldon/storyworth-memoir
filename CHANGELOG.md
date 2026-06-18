@@ -1,3 +1,6 @@
+## v1.0.5 — 2026-06-18T14:10:21
+- A.1 new user: always-visible explore milestone between hero and heading
+
 ## v1.0.4 — 2026-06-17T17:55:36
 - Add Option A.1 mid sub scenario (week 13, 10/20 stories)
 - Fix post-reveal milestone variant for A.1 new user
