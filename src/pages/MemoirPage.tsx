@@ -21,8 +21,8 @@ const imgPhoto2 = "https://www.figma.com/api/mcp/asset/5c281eb9-409b-4314-b508-b
 const imgPhoto3 = "https://www.figma.com/api/mcp/asset/60fe0288-8fbd-455e-9116-318ab6ca1ca2";
 const imgPhoto4 = "https://www.figma.com/api/mcp/asset/3aa2ff32-cc23-46f6-9144-470537a0c127";
 const imgPhoto5 = "https://www.figma.com/api/mcp/asset/c7081c74-1d13-40ec-b82b-c0a443280742";
-const imgBookIlloA = "https://www.figma.com/api/mcp/asset/837238c7-da8e-4b08-952a-059501a12a7e";
-const imgBookIlloB = "https://www.figma.com/api/mcp/asset/c3c80253-c57d-4258-b5f7-04f0d1a50708";
+import imgBookIlloA from '../../assets/icons/memoir-book.png'
+const imgBookIlloB = imgBookIlloA
 const imgPencilIcon = "https://www.figma.com/api/mcp/asset/b7092174-1c39-4c5d-8a04-457f16cdcf55";
 const imgPhoto6 = "https://www.figma.com/api/mcp/asset/b4d5ff05-4330-4455-8b33-929b1064931c";
 const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f0ae31452d32";

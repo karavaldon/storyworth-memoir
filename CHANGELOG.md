@@ -1,3 +1,6 @@
+## v1.0.10 — 2026-06-18T20:55:42
+- Wire up memoir-book.png for book illustrations
+
 ## v1.0.9 — 2026-06-18T20:54:08
 - Remove milestone timeline from all sticky tab bars
 
