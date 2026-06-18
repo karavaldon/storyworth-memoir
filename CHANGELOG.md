@@ -1,3 +1,6 @@
+## v1.0.6 — 2026-06-18T15:24:24
+- Wire up local SVG assets for icons and logo
+
 ## v1.0.5 — 2026-06-18T14:10:21
 - A.1 new user: always-visible explore milestone between hero and heading
 

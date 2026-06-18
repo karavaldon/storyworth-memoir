@@ -1,6 +1,19 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 
-// Figma asset URLs — valid for 7 days. Replace with permanent assets in /public/assets/.
+// Local assets
+import logoHorizontal from '../../assets/logo/storyworth-logo-horizontal.svg'
+import imgPolygon1 from '../../assets/icons/chevron.svg'
+import imgFrame from '../../assets/icons/Button/Frame.svg'
+import imgReorderIcon from '../../assets/icons/reorder.svg'
+import imgEditCoverIcon from '../../assets/icons/book.svg'
+import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
+import imgHeart from '../../assets/icons/heart.svg'
+import imgChat from '../../assets/icons/comment.svg'
+import imgArrowLeft from '../../assets/icons/left-arrow.svg'
+import imgArrowRight from '../../assets/icons/right-arrow.svg'
+const imgPhoneBannerArrow = imgArrowRight
+
+// Figma asset URLs — need permanent replacements (photos, illustrations, gift icon, pencil, waving hand)
 const imgIcon1 = "https://www.figma.com/api/mcp/asset/336ec853-d321-4a58-aa97-7d758fb88627";
 const imgPhoto1 = "https://www.figma.com/api/mcp/asset/5f979193-4b47-472c-8d48-c8edeb0f8ea8";
 const img3 = "https://www.figma.com/api/mcp/asset/6be8cd1e-69a3-4b27-95eb-52e7e61bb4e4";
@@ -8,30 +21,13 @@ const imgPhoto2 = "https://www.figma.com/api/mcp/asset/5c281eb9-409b-4314-b508-b
 const imgPhoto3 = "https://www.figma.com/api/mcp/asset/60fe0288-8fbd-455e-9116-318ab6ca1ca2";
 const imgPhoto4 = "https://www.figma.com/api/mcp/asset/3aa2ff32-cc23-46f6-9144-470537a0c127";
 const imgPhoto5 = "https://www.figma.com/api/mcp/asset/c7081c74-1d13-40ec-b82b-c0a443280742";
-const imgStoryworthWordmark = "https://www.figma.com/api/mcp/asset/7c2d33e4-a6a1-422b-a757-1322a7846553";
-const imgStoryworthMark = "https://www.figma.com/api/mcp/asset/7210ece4-e04d-401e-9379-bb77ffb56695";
-const imgEllipse25 = "https://www.figma.com/api/mcp/asset/8e5582e8-ce5b-43ee-aea8-edde718ad727";
-const imgEllipse26 = "https://www.figma.com/api/mcp/asset/f4dcf0b6-d30b-43dd-ad6c-2f9938365cb8";
-const imgPolygon1 = "https://www.figma.com/api/mcp/asset/9a25b6eb-6639-444c-b9ae-433d1a61df59";
-const imgFrame = "https://www.figma.com/api/mcp/asset/3a5676f8-d428-4da3-a661-ab7e968d51be";
-// Stories bar action button icons (node 1:646)
-const imgReorderIcon = "https://www.figma.com/api/mcp/asset/5f04b2a7-7492-4d90-a5d1-75251892d4fb";
-// Book card hover-state button icons (node 1:798)
-const imgEditCoverIcon = "https://www.figma.com/api/mcp/asset/787def91-0b2d-43ee-9040-568b41159dd1";
-const imgPreviewBookIcon = "https://www.figma.com/api/mcp/asset/214f0276-0857-44b8-8082-1b891eb13c00";
-
-const imgHeart = "https://www.figma.com/api/mcp/asset/7546f9e9-6e41-44f2-92aa-ece8b45cee3a";
-const imgChat = "https://www.figma.com/api/mcp/asset/1c19f4f9-a182-4ad0-b4ff-4e21f44a4a75";
 const imgBookIlloA = "https://www.figma.com/api/mcp/asset/837238c7-da8e-4b08-952a-059501a12a7e";
 const imgBookIlloB = "https://www.figma.com/api/mcp/asset/c3c80253-c57d-4258-b5f7-04f0d1a50708";
 const imgPencilIcon = "https://www.figma.com/api/mcp/asset/b7092174-1c39-4c5d-8a04-457f16cdcf55";
-const imgArrowLeft = "https://www.figma.com/api/mcp/asset/78352b67-73d4-4798-add2-458ae76b1ec3";
-const imgArrowRight = "https://www.figma.com/api/mcp/asset/043abce7-f102-4967-bb4e-8a05b7721b05";
 const imgPhoto6 = "https://www.figma.com/api/mcp/asset/b4d5ff05-4330-4455-8b33-929b1064931c";
 const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f0ae31452d32";
 const imgPhoto8 = "https://www.figma.com/api/mcp/asset/10ae6512-65f9-45fe-86eb-5962e1181b9a";
 const imgWavingHandA = "https://www.figma.com/api/mcp/asset/60e78d47-c6b4-4807-a91f-663aa168a5f1";
-const imgPhoneBannerArrow = "https://www.figma.com/api/mcp/asset/2557390a-6cea-4552-a8cc-42abfa2b4c0f";
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
@@ -136,12 +132,7 @@ function Navbar({ scenario, onScenarioChange }: { scenario: string; onScenarioCh
               className="h-[34px] md:h-[41px] relative w-[160px] md:w-[189px] block cursor-pointer opacity-100 hover:opacity-80 transition-opacity"
               title="Dev tools"
             >
-              <div className="absolute inset-[31.63%_0_32.49%_18.99%]">
-                <img alt="Storyworth" className="absolute block inset-0 max-w-none size-full" src={imgStoryworthWordmark} />
-              </div>
-              <div className="absolute inset-[0_86.05%_0_0]">
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgStoryworthMark} />
-              </div>
+              <img alt="Storyworth" className="absolute inset-0 w-full h-full object-contain object-left" src={logoHorizontal} />
             </button>
             {devOpen && <DevToolsMenu onClose={() => setDevOpen(false)} scenario={scenario} onSelect={onScenarioChange} />}
           </div>
@@ -163,19 +154,8 @@ function Navbar({ scenario, onScenarioChange }: { scenario: string; onScenarioCh
 
           {/* Avatar + name */}
           <button type="button" className="flex gap-2 items-center">
-            <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative size-11">
-              <div
-                className="col-1 row-1 relative size-11"
-                style={{ maskImage: `url("${imgEllipse25}")`, WebkitMaskImage: `url("${imgEllipse25}")`, maskSize: '44px 44px', maskRepeat: 'no-repeat' }}
-              >
-                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse26} />
-              </div>
-              <p
-                className="col-1 row-1 font-['GT_America:Medium'] ml-[11px] mt-[10px] relative text-[16px] text-[color:var(--green\/900,#12473a)] tracking-[1.6px] uppercase whitespace-nowrap z-10"
-                style={{ maskImage: `url("${imgEllipse25}")`, WebkitMaskImage: `url("${imgEllipse25}")`, maskSize: '44px 44px', maskPosition: '-11px -10px', maskRepeat: 'no-repeat' }}
-              >
-                BL
-              </p>
+            <div className="flex-shrink-0 size-11 rounded-full bg-[#2d6a55] flex items-center justify-center">
+              <span className="font-['GT_America:Medium'] text-[13px] leading-none text-white tracking-[1.4px] uppercase">BL</span>
             </div>
             <span className="hidden md:inline font-['GT_America:Medium'] text-[#15372f] text-[16px] tracking-[1.6px] uppercase whitespace-nowrap">
               brian l.
