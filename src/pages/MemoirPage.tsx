@@ -11,6 +11,8 @@ import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
 import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
+import imgSearchIcon from '../../assets/icons/search.svg'
+import imgVideoThumbnail from '../../assets/icons/video.svg'
 const imgPhoneBannerArrow = imgArrowRight
 
 // Figma asset URLs — need permanent replacements (photos, illustrations, gift icon, pencil, waving hand)
@@ -2254,14 +2256,8 @@ export default function MemoirPage() {
                     </p>
                   </div>
                   <div className="flex gap-[16px] items-center">
-                    <div className="bg-[#e7d7c8] p-[10px] rounded-[6px] flex-shrink-0 relative">
-                      <div className="h-[58px] w-[100px] rounded-[2px] bg-[#c9b9a9] relative overflow-hidden">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="size-[30px] rounded-full bg-white/80 flex items-center justify-center">
-                            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden><path d="M1 1l8 5-8 5V1z" fill="#068089"/></svg>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="flex-shrink-0">
+                      <img alt="How it works video thumbnail" className="block h-[78px] w-[120px] rounded-[6px] object-cover" src={imgVideoThumbnail} />
                     </div>
                     <div className="flex flex-col items-center">
                       <button type="button" className="bg-[#07777e] h-[40px] rounded-[24px] px-[32px] cursor-pointer hover:opacity-90 transition-opacity flex items-center">
@@ -2443,10 +2439,9 @@ export default function MemoirPage() {
                 </span>
               </button>
               <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity flex-shrink-0">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                  <circle cx="10.5" cy="10.5" r="6.5" stroke="#068089" strokeWidth="1.5"/>
-                  <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
+                <div className="relative size-[24px] flex-shrink-0">
+                  <img alt="" className="block max-w-none size-full" src={imgSearchIcon} />
+                </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[color:var(--teal\/800,#068089)] tracking-[1.6px] uppercase whitespace-nowrap">search</span>
               </button>
               {!isA1New && <button
