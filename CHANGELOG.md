@@ -1,3 +1,6 @@
+## v1.0.9 — 2026-06-18T20:54:08
+- Remove milestone timeline from all sticky tab bars
+
 ## v1.0.8 — 2026-06-18T20:16:00
 - A.1 new user: rebuild hero to match Figma 55:2658; add pencil icon to heading
 

@@ -1083,12 +1083,9 @@ function OptionCNew() {
               </button>
             </div>
           </div>
-          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
-            <MilestoneTimeline variant="new" />
-          </div>
         </div>
 
-        <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
+        <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
         {/* Week rows */}
         {pageWeeks.flatMap((week, i) => {
           const row = (
@@ -1396,12 +1393,9 @@ function OptionCMidSub() {
           </div>
 
 
-          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
-            <MilestoneTimeline variant="mid" />
-          </div>
         </div>
 
-        <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
+        <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
         {pageWeeks.map((week, i) => {
           if (week.isThisWeek) {
             return (
@@ -1691,12 +1685,9 @@ function OptionCEnd() {
             </div>
           </div>
 
-          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
-            <MilestoneTimeline variant="end" />
-          </div>
         </div>
 
-        <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
+        <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
         {/* Week rows */}
         {pageWeeks.map((week, i) => {
           if (week.isUpcoming) {
@@ -1918,13 +1909,10 @@ function OptionAEnd() {
             </div>
           </div>
 
-          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
-            <MilestoneTimeline variant="end" />
-          </div>
         </div>
       </div>
 
-      <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
+      <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
       {/* ── Story list ── */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] min-h-[calc(100vh+1px)]">
         {pageWeeks.map((week, i) => (
@@ -2466,19 +2454,10 @@ export default function MemoirPage() {
 
           </div>
 
-          <div style={{ overflow: 'hidden', maxHeight: tabBarStuck ? '100px' : '0', transition: 'max-height 0.25s ease-out' }}>
-            <MilestoneTimeline
-              variant={isANewReveal && revealState !== 'revealed' ? 'explore' : (isANewReveal || isNewUser) ? 'new' : 'mid'}
-              fillOverride={isANewReveal && revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
-              animate={isANewReveal && revealState === 'revealing'}
-              milestoneText={isA1Month4 ? '10/20 stories written' : undefined}
-              weekLabel={isA1Month4 ? "It's week 13" : undefined}
-            />
-          </div>
         </div>
       </div>
 
-      <div style={{ height: tabBarStuck ? 70 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
+      <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
         isANewReveal && revealState !== 'revealed' ? (
