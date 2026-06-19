@@ -2333,7 +2333,7 @@ export default function MemoirPage() {
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">
               <div className="flex items-center gap-[12px]">
-                <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
+                <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0 cursor-pointer hover:text-[#068089] transition-colors duration-200">
                   My Life Stories
                 </h2>
                 {isA1New && (

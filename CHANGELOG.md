@@ -1,3 +1,6 @@
+## v1.0.31 — 2026-06-19T00:55:07
+- My Life Stories: teal hover color and pointer cursor
+
 ## v1.0.30 — 2026-06-19T00:54:38
 - Clouds illustration: 40% smaller (149px → 89px)
 
