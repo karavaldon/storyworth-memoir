@@ -1,3 +1,6 @@
+## v1.0.26 — 2026-06-19T00:44:02
+- Pencil button: remove drop shadow; New Story: remove border, fill #d9e5e6
+
 ## v1.0.25 — 2026-06-19T00:42:54
 - Wire up clouds illustration for pre-reveal card
 

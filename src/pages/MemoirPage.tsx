@@ -2337,7 +2337,7 @@ export default function MemoirPage() {
                   My Life Stories
                 </h2>
                 {isA1New && (
-                  <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]">
+                  <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer">
                     <img alt="" className="size-[20px]" src={imgPencilIcon} />
                   </button>
                 )}
@@ -2350,7 +2350,7 @@ export default function MemoirPage() {
               </p>
             </div>
             <div className="hidden sm:flex gap-[24px] items-center flex-shrink-0 pt-[4px]">
-              <button type="button" className="bg-[#cfe7e9] border-2 border-[#07777e] flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-[#d9e5e6] flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
                 </div>
