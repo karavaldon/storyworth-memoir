@@ -1,3 +1,6 @@
+## v1.0.33 — 2026-06-19T00:59:34
+- My Memoir: menu.svg icon, teal chevron
+
 ## v1.0.32 — 2026-06-19T00:58:04
 - Title row: hover label 'edit book title'; My Memoir back to teal
 

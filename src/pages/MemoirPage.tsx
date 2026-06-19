@@ -5,6 +5,7 @@ import logoHorizontal from '../../assets/logo/storyworth-logo-horizontal.svg'
 import imgPolygon1 from '../../assets/icons/chevron.svg'
 import imgReorderIcon from '../../assets/icons/reorder.svg'
 import imgEditCoverIcon from '../../assets/icons/book.svg'
+import imgMenuIcon from '../../assets/icons/menu.svg'
 import imgNewStoryIcon from '../../assets/icons/new-story.svg'
 import imgPencilIcon from '../../assets/icons/pencil.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
@@ -2363,7 +2364,7 @@ export default function MemoirPage() {
               </button>
               <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[6px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="relative size-[24px] flex-shrink-0">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} />
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMenuIcon} />
                 </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
                 <div className="flex-none flex-shrink-0">
