@@ -2255,13 +2255,8 @@ export default function MemoirPage() {
                     </p>
                   </div>
                   <div className="flex gap-[16px] items-center">
-                    <div className="bg-[#e7d7c8] p-[10px] rounded-[6px] flex-shrink-0 relative">
-                      <div className="border border-[#d6bda6] h-[58px] w-[100px] rounded-[2px] relative">
-                        <img alt="How it works video thumbnail" className="absolute inset-0 max-w-none size-full object-cover pointer-events-none rounded-[2px]" src={imgVideoThumbnail} />
-                      </div>
-                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[30px] rounded-full bg-white/80 flex items-center justify-center">
-                        <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden><path d="M1 1l8 5-8 5V1z" fill="#068089"/></svg>
-                      </div>
+                    <div className="flex-shrink-0">
+                      <img alt="How it works video" className="block h-[78px] w-[120px] rounded-[6px]" src={imgVideoThumbnail} />
                     </div>
                     <div className="flex flex-col items-center">
                       <button type="button" className="bg-[#07777e] h-[40px] rounded-[24px] px-[32px] cursor-pointer hover:opacity-90 transition-opacity flex items-center">

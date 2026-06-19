@@ -1,3 +1,6 @@
+## v1.0.17 — 2026-06-19T00:33:36
+- Video thumbnail: use video.svg directly, play button is built in
+
 ## v1.0.16 — 2026-06-19T00:33:04
 - Set a1-new as default scenario on load
 
