@@ -1,3 +1,6 @@
+## v1.0.28 — 2026-06-19T00:49:31
+- Timeline section: 32px above and below, remove internal padding from explore variant
+
 ## v1.0.27 — 2026-06-19T00:45:03
 - Fix chevron direction: remove rotate-180 from all instances
 

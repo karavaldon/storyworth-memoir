@@ -891,7 +891,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   if (variant === 'explore') {
     const fill = fillOverride?.[0] ?? 0.263
     return (
-      <div className="flex gap-[16px] items-center pt-[16px] pb-[4px] w-full">
+      <div className="flex gap-[16px] items-center w-full">
         <div className="relative flex-none h-[20px] w-[146px] rounded-full overflow-hidden">
           <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
           {fill > 0 && (
@@ -2314,7 +2314,7 @@ export default function MemoirPage() {
       {(isA1New || isA1Month4) && (
         isA1New ? (
           <div className="w-full bg-[#fcfaf8]">
-            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[16px]">
+            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[32px]">
               <MilestoneTimeline
                 variant={revealState === 'revealed' ? 'new' : 'explore'}
                 fillOverride={revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
