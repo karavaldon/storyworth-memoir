@@ -3,7 +3,6 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 // Local assets
 import logoHorizontal from '../../assets/logo/storyworth-logo-horizontal.svg'
 import imgPolygon1 from '../../assets/icons/chevron.svg'
-import imgFrame from '../../assets/icons/Button/Frame.svg'
 import imgReorderIcon from '../../assets/icons/reorder.svg'
 import imgEditCoverIcon from '../../assets/icons/book.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
@@ -12,7 +11,7 @@ import imgChat from '../../assets/icons/comment.svg'
 import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
 import imgSearchIcon from '../../assets/icons/search.svg'
-import imgVideoThumbnail from '../../assets/icons/video.svg'
+import imgVideoThumbnail from '../../assets/video.svg'
 const imgPhoneBannerArrow = imgArrowRight
 
 // Figma asset URLs — need permanent replacements (photos, illustrations, gift icon, pencil, waving hand)
@@ -23,7 +22,7 @@ const imgPhoto2 = "https://www.figma.com/api/mcp/asset/5c281eb9-409b-4314-b508-b
 const imgPhoto3 = "https://www.figma.com/api/mcp/asset/60fe0288-8fbd-455e-9116-318ab6ca1ca2";
 const imgPhoto4 = "https://www.figma.com/api/mcp/asset/3aa2ff32-cc23-46f6-9144-470537a0c127";
 const imgPhoto5 = "https://www.figma.com/api/mcp/asset/c7081c74-1d13-40ec-b82b-c0a443280742";
-import imgBookIlloA from '../../assets/icons/memoir-book.png'
+import imgBookIlloA from '../../assets/memoir-book.png'
 const imgBookIlloB = imgBookIlloA
 const imgPencilIcon = "https://www.figma.com/api/mcp/asset/b7092174-1c39-4c5d-8a04-457f16cdcf55";
 const imgPhoto6 = "https://www.figma.com/api/mcp/asset/b4d5ff05-4330-4455-8b33-929b1064931c";
@@ -714,7 +713,7 @@ function HeroMenuButton({ paddingX = '16px' }: { paddingX?: string }) {
       >
         <div className="flex gap-[8px] items-center">
           <div className="relative size-[24px] flex-shrink-0">
-            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} />
           </div>
           <span className="font-['GT_America:Medium'] text-[#07777e] text-[16px] tracking-[1.6px] uppercase whitespace-nowrap">
             My memoir
@@ -2260,8 +2259,8 @@ export default function MemoirPage() {
                       <div className="border border-[#d6bda6] h-[58px] w-[100px] rounded-[2px] relative">
                         <img alt="How it works video thumbnail" className="absolute inset-0 max-w-none size-full object-cover pointer-events-none rounded-[2px]" src={imgVideoThumbnail} />
                       </div>
-                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[30px]">
-                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[30px] rounded-full bg-white/80 flex items-center justify-center">
+                        <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden><path d="M1 1l8 5-8 5V1z" fill="#068089"/></svg>
                       </div>
                     </div>
                     <div className="flex flex-col items-center">

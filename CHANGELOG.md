@@ -1,3 +1,6 @@
+## v1.0.15 — 2026-06-19T00:32:22
+- Fix broken asset paths after memoir-book.png and video.svg were moved
+
 ## v1.0.14 — 2026-06-19T00:29:50
 - A.1 new user: styling pass matching Figma 55:2658
 
