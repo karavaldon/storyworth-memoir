@@ -11,7 +11,6 @@ import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
 import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
-import imgAddCircle from '../../assets/icons/add-circle.svg'
 import imgSearchIcon from '../../assets/icons/search.svg'
 import imgVideoThumbnail from '../../assets/icons/video.svg'
 const imgPhoneBannerArrow = imgArrowRight
@@ -2239,7 +2238,7 @@ export default function MemoirPage() {
         <>
           {/* Option A.1 new user: gift text + heading + video CTA left, book illustration right */}
           <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
+            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[32px]">
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
                   <div className="flex flex-col gap-[12px] items-start">
@@ -2258,8 +2257,8 @@ export default function MemoirPage() {
                   </div>
                   <div className="flex gap-[16px] items-center">
                     <div className="bg-[#e7d7c8] p-[10px] rounded-[6px] flex-shrink-0 relative">
-                      <div className="border border-[#d6bda6] h-[58px] w-[100px] rounded-[2px] relative overflow-hidden">
-                        <img alt="How it works video thumbnail" className="absolute inset-0 max-w-none size-full object-cover rounded-[2px]" src={imgVideoThumbnail} />
+                      <div className="border border-[#d6bda6] h-[58px] w-[100px] rounded-[2px] relative">
+                        <img alt="How it works video thumbnail" className="absolute inset-0 max-w-none size-full object-cover pointer-events-none rounded-[2px]" src={imgVideoThumbnail} />
                       </div>
                       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[30px]">
                         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgFrame} />
@@ -2329,19 +2328,23 @@ export default function MemoirPage() {
 
       {!isOptionC && !isAEnd && <>{/* Progress message */}
       {(isA1New || isA1Month4) && (
-        <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[32px]">
-          {isA1New ? (
-            <MilestoneTimeline
-              variant={revealState === 'revealed' ? 'new' : 'explore'}
-              fillOverride={revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
-              animate={revealState === 'revealing'}
-            />
-          ) : (
+        isA1New ? (
+          <div className="w-full bg-[#fcfaf8]">
+            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[16px]">
+              <MilestoneTimeline
+                variant={revealState === 'revealed' ? 'new' : 'explore'}
+                fillOverride={revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
+                animate={revealState === 'revealing'}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[32px]">
             <MilestoneTimeline variant="mid" milestoneText="10/20 stories written" weekLabel="It's week 13" />
-          )}
-        </div>
+          </div>
+        )
       )}
-      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isA1New ? 'pt-[68px]' : isA1Month4 ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
+      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isA1New ? 'pt-[58px]' : isA1Month4 ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
         {isA1New || isA1Month4 ? (
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">
@@ -2358,23 +2361,21 @@ export default function MemoirPage() {
                   </button>
                 )}
               </div>
-              <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[20px] text-[#12473a] m-0">
-                Your stories waiting to be written ·{' '}
-                <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
+              <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[0px] text-[#12473a] m-0">
+                <span className="text-[20px]">Y</span><span className="text-[16px]">our stories waiting to be written · </span>
+                <button type="button" className="text-[16px] underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
                   read by Raymond
                 </button>
               </p>
             </div>
             <div className="hidden sm:flex gap-[24px] items-center flex-shrink-0 pt-[4px]">
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
-                <div className="overflow-clip relative size-[24px] flex-shrink-0">
-                  <div className="absolute inset-[8.33%]">
-                    <img alt="" className="block max-w-none size-full" src={imgAddCircle} />
-                  </div>
+              <button type="button" className="bg-[#cfe7e9] border-2 border-[#07777e] flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+                <div className="relative size-[24px] flex-shrink-0">
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEditCoverIcon} />
                 </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#07777e] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[6px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} />
                 </div>
@@ -2444,7 +2445,7 @@ export default function MemoirPage() {
                     </div>
                   </div>
                 </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[color:var(--teal\/800,#068089)] tracking-[1.6px] uppercase whitespace-nowrap">
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">
                   reorder
                 </span>
               </button>
@@ -2452,7 +2453,7 @@ export default function MemoirPage() {
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="block max-w-none size-full" src={imgSearchIcon} />
                 </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[color:var(--teal\/800,#068089)] tracking-[1.6px] uppercase whitespace-nowrap">search</span>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">search</span>
               </button>
               {!isA1New && <button
                 type="button"

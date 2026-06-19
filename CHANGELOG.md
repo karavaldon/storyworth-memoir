@@ -1,3 +1,6 @@
+## v1.0.14 — 2026-06-19T00:29:50
+- A.1 new user: styling pass matching Figma 55:2658
+
 ## v1.0.13 — 2026-06-18T21:17:31
 - A.1 new user: wire up local icons for add-circle, open-book, chevron; restore video thumbnail container with play overlay
 
