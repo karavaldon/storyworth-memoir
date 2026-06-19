@@ -1061,13 +1061,7 @@ function OptionCNew() {
             </div>
             <div className="flex gap-[12px] items-center">
               <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
-                <div className="overflow-clip relative size-[24px] flex-shrink-0">
-                  <div className="absolute inset-[12.5%]">
-                    <div className="absolute inset-[-4.17%]">
-                      <img alt="" className="block max-w-none size-full" src={imgReorderIcon} />
-                    </div>
-                  </div>
-                </div>
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">reorder</span>
               </button>
               <button type="button" aria-label="Search" className="border-2 border-[#068089] size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:opacity-70 transition-opacity flex-shrink-0">
@@ -1365,13 +1359,7 @@ function OptionCMidSub() {
             </div>
             <div className="flex gap-[12px] items-center">
               <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
-                <div className="overflow-clip relative size-[24px] flex-shrink-0">
-                  <div className="absolute inset-[12.5%]">
-                    <div className="absolute inset-[-4.17%]">
-                      <img alt="" className="block max-w-none size-full" src={imgReorderIcon} />
-                    </div>
-                  </div>
-                </div>
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">
                   reorder
                 </span>
@@ -2349,9 +2337,7 @@ export default function MemoirPage() {
                 </h2>
                 {isA1New && (
                   <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]">
-                    <div className="absolute inset-1/4">
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPencilIcon} />
-                    </div>
+                    <img alt="" className="size-[20px]" src={imgPencilIcon} />
                   </button>
                 )}
               </div>
@@ -2432,13 +2418,7 @@ export default function MemoirPage() {
                 className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity"
                 onClick={() => setShowReorderModal(true)}
               >
-                <div className="overflow-clip relative size-[24px] flex-shrink-0">
-                  <div className="absolute inset-[12.5%]">
-                    <div className="absolute inset-[-4.17%]">
-                      <img alt="" className="block max-w-none size-full" src={imgReorderIcon} />
-                    </div>
-                  </div>
-                </div>
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">
                   reorder
                 </span>

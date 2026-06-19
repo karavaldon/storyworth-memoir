@@ -1,3 +1,6 @@
+## v1.0.20 — 2026-06-19T00:36:53
+- Fix pencil icon size; simplify reorder/search icon rendering
+
 ## v1.0.19 — 2026-06-19T00:35:20
 - Edit button: use pencil.svg icon
 
