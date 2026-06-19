@@ -1,3 +1,6 @@
+## v1.0.32 — 2026-06-19T00:58:04
+- Title row: hover label 'edit book title'; My Memoir back to teal
+
 ## v1.0.31 — 2026-06-19T00:55:07
 - My Life Stories: teal hover color and pointer cursor
 

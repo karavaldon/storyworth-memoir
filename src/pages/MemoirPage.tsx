@@ -2332,14 +2332,19 @@ export default function MemoirPage() {
         {isA1New || isA1Month4 ? (
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">
-              <div className="flex items-center gap-[12px]">
-                <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0 cursor-pointer hover:text-[#068089] transition-colors duration-200">
+              <div className="group flex items-center gap-[12px]">
+                <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0 cursor-pointer group-hover:text-[#068089] transition-colors duration-200">
                   My Life Stories
                 </h2>
                 {isA1New && (
-                  <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer">
-                    <img alt="" className="size-[20px]" src={imgPencilIcon} />
-                  </button>
+                  <>
+                    <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer">
+                      <img alt="" className="size-[20px]" src={imgPencilIcon} />
+                    </button>
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 font-['GT_America:Medium'] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">
+                      edit book title
+                    </span>
+                  </>
                 )}
               </div>
               <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[0px] text-[#12473a] m-0">
@@ -2356,11 +2361,11 @@ export default function MemoirPage() {
                 </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#07777e] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
               </button>
-              <button type="button" className="border-2 border-[#61706f] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[6px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[6px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} />
                 </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
                 <div className="flex-none flex-shrink-0">
                   <div className="h-[9px] w-[14px] relative">
                     <div className="absolute bottom-1/4 left-[6.7%] right-[6.7%] top-0">
