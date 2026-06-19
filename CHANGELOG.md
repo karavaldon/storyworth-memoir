@@ -1,3 +1,6 @@
+## v1.0.22 — 2026-06-19T00:38:38
+- Reorder and search icons: match label color #61706f
+
 ## v1.0.21 — 2026-06-19T00:37:29
 - Remove top padding above Curious to see section
 
