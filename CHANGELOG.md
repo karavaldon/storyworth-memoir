@@ -1,3 +1,6 @@
+## v1.0.25 — 2026-06-19T00:42:54
+- Wire up clouds illustration for pre-reveal card
+
 ## v1.0.24 — 2026-06-19T00:40:17
 - Pre-reveal card: restore subtitle, confirm 24px gap above content
 

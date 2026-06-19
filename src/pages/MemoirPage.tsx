@@ -13,6 +13,7 @@ import imgChat from '../../assets/icons/comment.svg'
 import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
 import imgSearchIcon from '../../assets/icons/search.svg'
+import imgClouds from '../../assets/coulds.svg'
 import imgVideoThumbnail from '../../assets/video.svg'
 const imgPhoneBannerArrow = imgArrowRight
 
@@ -2453,9 +2454,7 @@ export default function MemoirPage() {
       {activeTab === 'week-by-week' ? (
         isANewReveal && revealState !== 'revealed' ? (
           <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] pb-[46px] px-[24px]">
-            <div className="relative flex-none" style={{ width: 149, height: 135 }}>
-              <img alt="" className="absolute inset-0 w-full h-full object-contain" src="https://www.figma.com/api/mcp/asset/ef731091-88f9-4975-941a-a109f1166c95" />
-            </div>
+            <img alt="" className="flex-none w-[149px]" src={imgClouds} />
             <div className="flex flex-col gap-[6px] items-center text-center max-w-[520px]">
               <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[#042a21] tracking-[-0.2px]">
                 Raymond has asked 8 questions. See what they are!
