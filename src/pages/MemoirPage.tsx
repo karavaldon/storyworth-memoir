@@ -2456,9 +2456,12 @@ export default function MemoirPage() {
             <div className="relative flex-none" style={{ width: 149, height: 135 }}>
               <img alt="" className="absolute inset-0 w-full h-full object-contain" src="https://www.figma.com/api/mcp/asset/ef731091-88f9-4975-941a-a109f1166c95" />
             </div>
-            <div className="flex flex-col gap-[12px] items-center text-center max-w-[520px]">
+            <div className="flex flex-col gap-[6px] items-center text-center max-w-[520px]">
               <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[#042a21] tracking-[-0.2px]">
                 Raymond has asked 8 questions. See what they are!
+              </p>
+              <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[16px] text-[#61706f]">
+                We'll send one each week starting on Monday, June 24th.
               </p>
             </div>
             <button

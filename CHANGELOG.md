@@ -1,3 +1,6 @@
+## v1.0.24 — 2026-06-19T00:40:17
+- Pre-reveal card: restore subtitle, confirm 24px gap above content
+
 ## v1.0.23 — 2026-06-19T00:39:18
 - Update pre-reveal card copy
 
