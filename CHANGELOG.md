@@ -1,3 +1,6 @@
+## v1.0.18 — 2026-06-19T00:34:23
+- New Story button: use new-story.svg icon
+
 ## v1.0.17 — 2026-06-19T00:33:36
 - Video thumbnail: use video.svg directly, play button is built in
 

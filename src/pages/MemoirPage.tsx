@@ -5,6 +5,7 @@ import logoHorizontal from '../../assets/logo/storyworth-logo-horizontal.svg'
 import imgPolygon1 from '../../assets/icons/chevron.svg'
 import imgReorderIcon from '../../assets/icons/reorder.svg'
 import imgEditCoverIcon from '../../assets/icons/book.svg'
+import imgNewStoryIcon from '../../assets/icons/new-story.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
 import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
@@ -2365,7 +2366,7 @@ export default function MemoirPage() {
             <div className="hidden sm:flex gap-[24px] items-center flex-shrink-0 pt-[4px]">
               <button type="button" className="bg-[#cfe7e9] border-2 border-[#07777e] flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="relative size-[24px] flex-shrink-0">
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEditCoverIcon} />
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
                 </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#07777e] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
               </button>
