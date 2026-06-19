@@ -1,3 +1,6 @@
+## v1.0.30 — 2026-06-19T00:54:38
+- Clouds illustration: 40% smaller (149px → 89px)
+
 ## v1.0.29 — 2026-06-19T00:53:43
 - My Memoir button: match reorder gray #61706f on border, text, icon, chevron
 

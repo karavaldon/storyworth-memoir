@@ -2454,7 +2454,7 @@ export default function MemoirPage() {
       {activeTab === 'week-by-week' ? (
         isANewReveal && revealState !== 'revealed' ? (
           <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] pb-[46px] px-[24px]">
-            <img alt="" className="flex-none w-[149px]" src={imgClouds} />
+            <img alt="" className="flex-none w-[89px]" src={imgClouds} />
             <div className="flex flex-col gap-[6px] items-center text-center max-w-[520px]">
               <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[#042a21] tracking-[-0.2px]">
                 Raymond has asked 8 questions. See what they are!
