@@ -6,6 +6,7 @@ import imgPolygon1 from '../../assets/icons/chevron.svg'
 import imgReorderIcon from '../../assets/icons/reorder.svg'
 import imgEditCoverIcon from '../../assets/icons/book.svg'
 import imgNewStoryIcon from '../../assets/icons/new-story.svg'
+import imgPencilIcon from '../../assets/icons/pencil.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
 import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
@@ -25,7 +26,6 @@ const imgPhoto4 = "https://www.figma.com/api/mcp/asset/3aa2ff32-cc23-46f6-9144-4
 const imgPhoto5 = "https://www.figma.com/api/mcp/asset/c7081c74-1d13-40ec-b82b-c0a443280742";
 import imgBookIlloA from '../../assets/memoir-book.png'
 const imgBookIlloB = imgBookIlloA
-const imgPencilIcon = "https://www.figma.com/api/mcp/asset/b7092174-1c39-4c5d-8a04-457f16cdcf55";
 const imgPhoto6 = "https://www.figma.com/api/mcp/asset/b4d5ff05-4330-4455-8b33-929b1064931c";
 const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f0ae31452d32";
 const imgPhoto8 = "https://www.figma.com/api/mcp/asset/10ae6512-65f9-45fe-86eb-5962e1181b9a";
@@ -2349,10 +2349,9 @@ export default function MemoirPage() {
                 </h2>
                 {isA1New && (
                   <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)]">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
-                      <path d="M12 20h9" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#068089" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                    <div className="absolute inset-1/4">
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPencilIcon} />
+                    </div>
                   </button>
                 )}
               </div>

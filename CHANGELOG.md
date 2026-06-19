@@ -1,3 +1,6 @@
+## v1.0.19 — 2026-06-19T00:35:20
+- Edit button: use pencil.svg icon
+
 ## v1.0.18 — 2026-06-19T00:34:23
 - New Story button: use new-story.svg icon
 
