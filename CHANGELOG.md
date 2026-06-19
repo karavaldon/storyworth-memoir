@@ -1,3 +1,6 @@
+## v1.0.34 — 2026-06-19T01:07:36
+- Reorder and search icons: stroke-width 1.5 → 2
+
 ## v1.0.33 — 2026-06-19T00:59:34
 - My Memoir: menu.svg icon, teal chevron
 
