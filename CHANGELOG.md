@@ -1,3 +1,6 @@
+## v1.0.21 — 2026-06-19T00:37:29
+- Remove top padding above Curious to see section
+
 ## v1.0.20 — 2026-06-19T00:36:53
 - Fix pencil icon size; simplify reorder/search icon rendering
 

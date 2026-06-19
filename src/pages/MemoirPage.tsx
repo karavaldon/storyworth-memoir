@@ -2452,7 +2452,7 @@ export default function MemoirPage() {
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
         isANewReveal && revealState !== 'revealed' ? (
-          <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] py-[46px] px-[24px]">
+          <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] pb-[46px] px-[24px]">
             <div className="relative flex-none" style={{ width: 149, height: 135 }}>
               <img alt="" className="absolute inset-0 w-full h-full object-contain" src="https://www.figma.com/api/mcp/asset/ef731091-88f9-4975-941a-a109f1166c95" />
             </div>
