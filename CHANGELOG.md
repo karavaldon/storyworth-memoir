@@ -1,3 +1,6 @@
+## v1.0.16 — 2026-06-19T00:33:04
+- Set a1-new as default scenario on load
+
 ## v1.0.15 — 2026-06-19T00:32:22
 - Fix broken asset paths after memoir-book.png and video.svg were moved
 

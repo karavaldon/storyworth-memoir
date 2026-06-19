@@ -2154,7 +2154,7 @@ function WeekByWeekPanel({
 // ─── Main Page ──────────────────────────────────────────────────────────────
 
 export default function MemoirPage() {
-  const [scenario, setScenario] = useState('a-new')
+  const [scenario, setScenario] = useState('a1-new')
   const [activeTab, setActiveTab] = useState<Tab>('week-by-week')
   const [showReorderModal, setShowReorderModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
