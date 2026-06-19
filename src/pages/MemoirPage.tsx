@@ -6,6 +6,7 @@ import imgPolygon1 from '../../assets/icons/chevron.svg'
 import imgReorderIcon from '../../assets/icons/reorder.svg'
 import imgEditCoverIcon from '../../assets/icons/book.svg'
 import imgMenuIcon from '../../assets/icons/menu.svg'
+import imgChevronDown from '../../assets/icons/chevron-down.svg'
 import imgNewStoryIcon from '../../assets/icons/new-story.svg'
 import imgPencilIcon from '../../assets/icons/pencil.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
@@ -15,11 +16,15 @@ import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
 import imgSearchIcon from '../../assets/icons/search.svg'
 import imgClouds from '../../assets/coulds.svg'
-import imgVideoThumbnail from '../../assets/video.svg'
+import imgMilestoneBadge from '../../assets/icons/milestone-badge.svg'
+import imgMilestoneBadge2 from '../../assets/icons/milestone-badge-2.svg'
+import imgMilestoneCircleUnearned from '../../assets/icons/milestone-circle-unearned.png'
+import imgScrollArrow from '../../assets/arrow.svg'
+import imgManageQuestionsIcon from '../../assets/icons/manage-questions.svg'
+import imgReadersIcon from '../../assets/icons/readers.svg'
 const imgPhoneBannerArrow = imgArrowRight
 
 // Figma asset URLs — need permanent replacements (photos, illustrations, gift icon, pencil, waving hand)
-const imgIcon1 = "https://www.figma.com/api/mcp/asset/336ec853-d321-4a58-aa97-7d758fb88627";
 const imgPhoto1 = "https://www.figma.com/api/mcp/asset/5f979193-4b47-472c-8d48-c8edeb0f8ea8";
 const img3 = "https://www.figma.com/api/mcp/asset/6be8cd1e-69a3-4b27-95eb-52e7e61bb4e4";
 const imgPhoto2 = "https://www.figma.com/api/mcp/asset/5c281eb9-409b-4314-b508-b165a1b4956c";
@@ -36,23 +41,13 @@ const imgWavingHandA = "https://www.figma.com/api/mcp/asset/60e78d47-c6b4-4807-a
 // ─── Sub-components ────────────────────────────────────────────────────────
 
 
-function GiftIcon() {
-  return (
-    <div className="overflow-clip relative size-8">
-      <div className="absolute inset-[12.5%]">
-        <div className="absolute inset-[-4.17%]">
-          <img alt="" className="block max-w-none size-full" src={imgIcon1} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── Dev tools ───────────────────────────────────────────────────────────────
 
 const devScenarios: { label: string; id: string; implemented: boolean; hidden?: boolean }[] = [
-  { label: 'Option A.1 — New user', id: 'a1-new',    implemented: true  },
-  { label: 'Option A.1 — Mid sub',  id: 'a1-month4', implemented: true  },
+  { label: 'Option A.1 — New user',              id: 'a1-new',                     implemented: true  },
+  { label: 'Option A.1 — First question',        id: 'a1-first-question',          implemented: true  },
+  { label: 'Option A.1 — First q. answered',     id: 'a1-first-question-answered', implemented: true  },
+  { label: 'Option A.1 — Mid sub',         id: 'a1-month4',         implemented: true, hidden: true },
   { label: 'Option A — New user',   id: 'a-new',     implemented: true,  hidden: true },
   { label: 'Option A — Mid sub',    id: 'a-month4',  implemented: true,  hidden: true },
   { label: 'Option A — End',        id: 'a-end',     implemented: true,  hidden: true },
@@ -154,14 +149,10 @@ function Navbar({ scenario, onScenarioChange }: { scenario: string; onScenarioCh
 
         {/* Right controls */}
         <div className="flex items-center gap-5 md:gap-10">
-          <button type="button" className="cursor-pointer hidden sm:block hover:opacity-70 transition-opacity" aria-label="Gift">
-            <GiftIcon />
-          </button>
-
           {/* Avatar + name */}
           <button type="button" className="flex gap-2 items-center">
-            <div className="flex-shrink-0 size-11 rounded-full bg-[#2d6a55] flex items-center justify-center">
-              <span className="font-['GT_America:Medium'] text-[13px] leading-none text-white tracking-[1.4px] uppercase">BL</span>
+            <div className="flex-shrink-0 size-11 rounded-full bg-[#c5d8d2] flex items-center justify-center">
+              <span className="font-['GT_America:Medium'] text-[13px] leading-none text-[#12473a] tracking-[1.4px] uppercase">BL</span>
             </div>
             <span className="hidden md:inline font-['GT_America:Medium'] text-[#15372f] text-[16px] tracking-[1.6px] uppercase whitespace-nowrap">
               brian l.
@@ -881,31 +872,251 @@ const optionCWeeks: {
 const WEEKS_PER_PAGE = 10
 
 const MILESTONE_GRADIENT = 'linear-gradient(-88.38deg, rgb(85, 160, 140) 32.357%, rgb(59, 121, 148) 111.6%)'
+const PURPLE_GRADIENT = 'linear-gradient(89.88deg, rgb(109, 55, 134) 34.53%, rgb(190, 129, 219) 145.06%)'
+const RED_MAGENTA_GRADIENT = 'linear-gradient(89.88deg, rgb(149, 21, 23) 34.53%, rgb(217, 24, 175) 145.06%)'
 
-function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel }: {
+
+type MilestoneItem = { label: string; earned?: boolean; link?: string; earnedLink?: string; subtext?: string; badgeSrc?: string }
+
+const MILESTONE_LIST: MilestoneItem[] = [
+  { label: 'Explore questions', earned: true, link: 'Keep exploring →' },
+  { label: 'Add your first story', link: 'Tell a story →', earnedLink: 'Keep telling stories →', badgeSrc: imgMilestoneBadge2 },
+  { label: 'Record over the phone', subtext: 'Open any new story to record' },
+  { label: 'Add a photo', subtext: 'Open any story to upload photos' },
+  { label: 'Add 5 stories', subtext: '1 of 5 written' },
+  { label: 'Add 10 stories', subtext: '1 of 10 written' },
+  { label: 'Add 20 stories', subtext: '1 of 20 written' },
+  { label: 'Design your cover', link: 'Open cover editor →' },
+  { label: 'Preview your book', link: 'Open book preview →' },
+  { label: 'Print your book', link: 'Print →' },
+]
+
+function MilestoneModalRow({ label, earned, link, earnedLink, subtext, badgeSrc }: MilestoneItem) {
+  const [hovered, setHovered] = useState(false)
+  const activeBadgeSrc = earned ? (badgeSrc ?? imgMilestoneBadge) : imgMilestoneCircleUnearned
+  const activeLink = earned && earnedLink ? earnedLink : link
+
+  return (
+    <div
+      className={`flex gap-[12px] items-center p-[8px] rounded-[4px] w-full shrink-0 ${activeLink ? 'cursor-pointer' : 'cursor-default'}`}
+      style={{ background: hovered ? '#f5f5f5' : 'transparent' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="relative shrink-0 size-[38px]">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={activeBadgeSrc} />
+        <span className="absolute text-[12px] leading-none"
+          style={{ top: '10px', left: '50%', transform: 'translateX(-50%)', opacity: earned ? 1 : 0.5 }}>⛰️</span>
+      </div>
+
+      {/* Fixed-height text container — row height never changes */}
+      <div className="relative overflow-hidden min-w-0 flex-1" style={{ height: '38px' }}>
+        {/* Label row — centered at rest (top:10px), slides up on hover (top:0) */}
+        <div
+          className="absolute left-0 right-0 flex items-center gap-[8px] transition-[top] duration-[180ms] ease-out"
+          style={{ top: hovered ? '0px' : '10px' }}
+        >
+          <p className={`font-['GT_America:${earned ? 'Medium' : 'Regular'}'] text-[14px] leading-[18px] text-[#042a21] whitespace-nowrap`}>
+            {label}
+          </p>
+          {earned && (
+            <div className="bg-[#d3f7ed] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0">
+              <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#158768]">Earned</p>
+            </div>
+          )}
+        </div>
+
+        {/* Subtitle / link — always at top:20px, fades in on hover */}
+        {(activeLink || subtext) && (
+          <p
+            className={`absolute left-0 right-0 font-['GT_America:Regular'] text-[14px] leading-[18px] transition-opacity duration-[180ms] ${activeLink ? 'text-[#07777e] underline [text-decoration-skip-ink:none] [text-underline-position:from-font]' : 'text-[#4c4c4c]'}`}
+            style={{ top: '20px', opacity: hovered ? 1 : 0 }}
+          >
+            {activeLink ?? subtext}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+const MENU_ITEMS = [
+  { icon: imgEditCoverIcon,       label: 'Edit book cover'   },
+  { icon: imgPreviewBookIcon,     label: 'Preview book'      },
+  { icon: imgManageQuestionsIcon, label: 'Manage questions'  },
+  { icon: imgReadersIcon,         label: 'Manage readers'    },
+]
+
+function MenuModal({ onClose }: { onClose: () => void }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function handleMouseDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose()
+    }
+    document.addEventListener('mousedown', handleMouseDown)
+    return () => document.removeEventListener('mousedown', handleMouseDown)
+  }, [onClose])
+
+  return (
+    <div ref={ref}
+      className="absolute right-0 z-50 bg-white border border-[#d1d1d1] rounded-[8px] p-[16px] flex flex-col"
+      style={{ top: 'calc(100% + 8px)', width: '312px', boxShadow: '0 4px 12px rgba(0,0,0,0.12)' }}>
+      {MENU_ITEMS.map(({ icon, label }, i) => (
+        <div key={label}>
+          {i > 0 && <div className="h-px bg-[#d1d1d1]" />}
+          <button
+            type="button"
+            className="flex gap-[10px] items-center px-[6px] py-[16px] w-full rounded-[6px] cursor-pointer text-left transition-colors hover:bg-[#f5f5f5]"
+          >
+            <img alt="" className="size-[24px] flex-shrink-0" src={icon} />
+            <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#07777e] tracking-[1.6px] uppercase whitespace-nowrap">
+              {label}
+            </span>
+          </button>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function MenuButton() {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        className="bg-[#f3f3f3] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center pl-[22px] pr-[18px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors"
+        onClick={() => setOpen(v => !v)}
+      >
+        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap">menu</span>
+        <img alt="" className="size-[18px] flex-shrink-0" src={imgChevronDown} />
+      </button>
+      {open && <MenuModal onClose={() => setOpen(false)} />}
+    </div>
+  )
+}
+
+function MilestonesModal({ onClose, earnedCount = 1 }: { onClose: () => void; earnedCount?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function handleMouseDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose()
+    }
+    document.addEventListener('mousedown', handleMouseDown)
+    return () => document.removeEventListener('mousedown', handleMouseDown)
+  }, [onClose])
+
+  return (
+    <div ref={ref}
+      className="absolute right-0 z-50 bg-white rounded-[12px] p-[24px] flex flex-col gap-[6px]"
+      style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
+      {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} />)}
+    </div>
+  )
+}
+
+function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
+  const [w, setW] = useState(0)
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setW(0.263))
+    return () => cancelAnimationFrame(id)
+  }, [])
+  return (
+    <div className="absolute top-0 left-0 h-full rounded-full overflow-hidden"
+      style={{ width: `${w * 100}%`, transition: 'width 0.5s ease-out' }}>
+      <div className="absolute top-0 left-0 h-full w-full" style={{ backgroundImage: gradient }} />
+    </div>
+  )
+}
+
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, nextMilestoneText, showBarFill = true, showBar = true }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
   milestoneText?: string
   weekLabel?: string
+  showTimeline2?: boolean
+  milestoneCount?: number
+  showBarFill?: boolean
+  showBar?: boolean
+  nextMilestoneText?: string
 }) {
+  const [showMilestonesModal, setShowMilestonesModal] = useState(false)
   if (variant === 'explore') {
-    const fill = fillOverride?.[0] ?? 0.263
+    const tealFill = fillOverride?.[0] ?? 0.263
+    const barGradient = (milestoneCount ?? 1) >= 2 ? RED_MAGENTA_GRADIENT : PURPLE_GRADIENT
     return (
-      <div className="flex gap-[16px] items-center w-full">
-        <div className="relative flex-none h-[20px] w-[146px] rounded-full overflow-hidden">
-          <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
-          {fill > 0 && (
-            <div className="absolute top-0 left-0 h-full rounded-full overflow-hidden"
-              style={{ width: `${fill * 100}%`, transition: animate ? 'width 0.6s ease-out' : 'none' }}>
-              <div className="absolute top-0 left-0 h-full w-full" style={{ backgroundImage: MILESTONE_GRADIENT }} />
+      <div className="relative z-[10] flex gap-[16px] items-center w-full">
+        {showBar && <div className="relative flex-none w-[146px]">
+          <div className="relative h-[20px] w-full rounded-full overflow-hidden">
+            <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
+            {/* Teal fill — disappears instantly when timeline2 mounts */}
+            {!showTimeline2 && tealFill > 0 && (
+              <div className="absolute top-0 left-0 h-full rounded-full overflow-hidden"
+                style={{ width: `${tealFill * 100}%`, transition: animate ? 'width 0.6s ease-out' : 'none' }}>
+                <div className="absolute top-0 left-0 h-full w-full" style={{ backgroundImage: MILESTONE_GRADIENT }} />
+              </div>
+            )}
+            {showTimeline2 && showBarFill && <PurpleBarFill key={barGradient} gradient={barGradient} />}
+          </div>
+        </div>}
+        <div className="flex flex-1 items-center justify-between gap-4">
+          <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
+            style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
+            {showTimeline2 ? (
+              <span>⛰️ Your next milestone:{' '}
+                <button type="button" className="font-['GT_America:Medium'] underline [text-decoration-skip-ink:none] cursor-pointer hover:text-[#068089] transition-colors group">
+                  {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover:opacity-100 transition-opacity"> →</span>
+                </button>
+              </span>
+            ) : (
+              <>⛰️ Your first milestone: <span className="font-['GT_America:Medium']">Scroll to explore your memoir questions</span></>
+            )}
+          </p>
+          {showTimeline2 && (
+            <div className="flex gap-[8px] items-center flex-shrink-0"
+              style={{ animation: 'milestone-in 0.4s ease-out both' }}>
+              <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } }`}</style>
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
+                You've earned
+              </p>
+              {(milestoneCount ?? 1) >= 2 ? (
+                <div className="relative flex-shrink-0" style={{ width: '34px', height: '24px' }}>
+                  <div className="absolute left-0 top-0 size-[24px]"
+                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
+                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                  </div>
+                  <div className="absolute left-[10px] top-0 size-[24px]"
+                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.65s both' }}>
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
+                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="relative size-[24px] flex-shrink-0"
+                  style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
+                  <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                    style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                </div>
+              )}
+              <div className="relative">
+                <button type="button"
+                  className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap underline [text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer hover:text-[#07777e] transition-colors"
+                  onMouseDown={e => e.stopPropagation()}
+                  onClick={() => setShowMilestonesModal(v => !v)}>
+                  {milestoneCount ?? 1} of 10 milestones
+                </button>
+                {showMilestonesModal && (
+                  <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} />
+                )}
+              </div>
             </div>
           )}
         </div>
-        <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]">
-          ⛰️ Your first milestone:{' '}
-          <span className="font-['GT_America:Medium']">Explore weekly questions</span>
-        </p>
       </div>
     )
   }
@@ -1050,19 +1261,19 @@ function OptionCNew() {
           <div className="flex items-center justify-between">
             <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
               <div className="flex items-center">
-                <div className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px] cursor-pointer">
+                <div className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[8px] rounded-[22px] cursor-pointer">
                   <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">week by week</span>
                 </div>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">stories</span>
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">stories</span>
                 </button>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">drafts</span>
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">drafts</span>
                 </button>
               </div>
             </div>
             <div className="flex gap-[12px] items-center">
-              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">reorder</span>
               </button>
@@ -1072,12 +1283,12 @@ function OptionCNew() {
                   <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#068089] transition-colors">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
                   <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">new story</span>
+                <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] tracking-[1.4px] uppercase text-[#068089] whitespace-nowrap">new story</span>
               </button>
             </div>
           </div>
@@ -1104,7 +1315,7 @@ function OptionCNew() {
                   {week.question}
                 </p>
               </div>
-              <button type="button" className="invisible group-hover:visible flex-none border-2 border-[#07777e] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+              <button type="button" className="invisible group-hover:visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                 <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
               </button>
             </div>
@@ -1341,26 +1552,26 @@ function OptionCMidSub() {
                 <button
                   type="button"
                   onClick={() => { setCurrentPage(1); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
-                  className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px] cursor-pointer"
+                  className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[8px] rounded-[22px] cursor-pointer"
                 >
                   <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">
                     week by week
                   </span>
                 </button>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">
                     stories (4)
                   </span>
                 </button>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">
                     drafts (2)
                   </span>
                 </button>
               </div>
             </div>
             <div className="flex gap-[12px] items-center">
-              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">
                   reorder
@@ -1372,7 +1583,7 @@ function OptionCMidSub() {
                   <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#068089] transition-colors">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
                   <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
@@ -1439,7 +1650,7 @@ function OptionCMidSub() {
                 </div>
                 <button
                   type="button"
-                  className="invisible group-hover:visible flex flex-none border-2 border-[#07777e] h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity"
+                  className="invisible group-hover:visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity"
                 >
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
                     answer
@@ -1644,19 +1855,19 @@ function OptionCEnd() {
           <div className="flex items-center justify-between">
             <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
               <div className="flex items-center">
-                <button type="button" onClick={() => { setCurrentPage(1); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }} className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px] cursor-pointer">
+                <button type="button" onClick={() => { setCurrentPage(1); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }} className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[8px] rounded-[22px] cursor-pointer">
                   <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">week by week</span>
                 </button>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">stories (44)</span>
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">stories (44)</span>
                 </button>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">drafts (2)</span>
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">drafts (2)</span>
                 </button>
               </div>
             </div>
             <div className="flex gap-[12px] items-center">
-              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="overflow-clip relative size-[24px] flex-shrink-0">
                   <div className="absolute inset-[12.5%]"><div className="absolute inset-[-4.17%]"><img alt="" className="block max-w-none size-full" src={imgReorderIcon} /></div></div>
                 </div>
@@ -1668,11 +1879,11 @@ function OptionCEnd() {
                   <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#068089] transition-colors">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/><path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">new story</span>
+                <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] tracking-[1.4px] uppercase text-[#068089] whitespace-nowrap">new story</span>
               </button>
             </div>
           </div>
@@ -1689,7 +1900,7 @@ function OptionCEnd() {
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
                   <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
                 </div>
-                <button type="button" className="invisible group-hover:visible flex flex-none border-2 border-[#07777e] h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+                <button type="button" className="invisible group-hover:visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
                 </button>
               </div>
@@ -1867,14 +2078,14 @@ function OptionAEnd() {
           <div className="flex items-center justify-between gap-4">
             <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px] overflow-x-auto flex-shrink-0">
               <div className="flex items-center min-w-max">
-                <div className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[10px] rounded-[22px] cursor-pointer">
+                <div className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[8px] rounded-[22px] cursor-pointer">
                   <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">week by week</span>
                 </div>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">stories (44)</span>
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">stories (44)</span>
                 </button>
-                <button type="button" className="px-[16px] py-[10px] cursor-pointer hover:opacity-70 transition-opacity">
-                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">drafts (2)</span>
+                <button type="button" className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap hover:underline">drafts (2)</span>
                 </button>
               </div>
             </div>
@@ -1891,7 +2102,7 @@ function OptionAEnd() {
                   <path d="M15.5 15.5L20.5 20.5" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#068089] transition-colors">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
                   <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
@@ -2042,7 +2253,7 @@ function WeekByWeekPanel({
                   </p>
                   <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">{week.question}</p>
                 </div>
-                <button type="button" className="invisible group-hover:visible flex-none border-2 border-[#07777e] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+                <button type="button" className="invisible group-hover:visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
                 </button>
               </div>
@@ -2151,19 +2362,57 @@ export default function MemoirPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
+
+  const question8Ref = useRef<HTMLDivElement>(null)
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
+  const [timelineAnimating, setTimelineAnimating] = useState(false)
+  const [showTimeline2, setShowTimeline2] = useState(false)
 
   function handleReveal() {
     setRevealState('revealing')
-    setTimeout(() => setRevealState('revealed'), 2000)
+    // questions move up: card collapses over ~550ms, questions fade in over ~950ms
+    setTimeout(() => setTimelineAnimating(true), 900)
+    // bar fills in 600ms → timeline2 bounces in
+    setTimeout(() => setShowTimeline2(true), 900 + 600)
+    setTimeout(() => setRevealState('revealed'), 900 + 800)
   }
 
   useEffect(() => {
     setCurrentPage(1)
     setPendingScrollWeek(null)
     setRevealState('hidden')
+    setTimelineAnimating(false)
+    setShowTimeline2(false)
+    if (scenario === 'a1-new' || scenario === 'a1-first-question' || scenario === 'a1-first-question-answered') {
+      history.scrollRestoration = 'manual'
+      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }))
+    } else {
+      history.scrollRestoration = 'auto'
+    }
+    if (scenario === 'a1-first-question' || scenario === 'a1-first-question-answered') {
+      setRevealState('revealed')
+      setShowTimeline2(true)
+    }
   }, [scenario])
+
+  // a1-new: trigger milestone animation when question 4 enters the viewport
+  useEffect(() => {
+    if (scenario !== 'a1-new' || revealState !== 'hidden') return
+    const el = question8Ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setRevealState('revealing')
+        setTimeout(() => setTimelineAnimating(true), 0)
+        setTimeout(() => setShowTimeline2(true), 600)
+        setTimeout(() => setRevealState('revealed'), 800)
+        obs.disconnect()
+      }
+    }, { threshold: 0 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [scenario, revealState])
 
   useEffect(() => {
     const sentinel = sentinelRef.current
@@ -2171,17 +2420,22 @@ export default function MemoirPage() {
     const obs = new IntersectionObserver(([e]) => setTabBarStuck(!e.isIntersecting), { threshold: 0 })
     obs.observe(sentinel)
     return () => obs.disconnect()
-  }, [])
+  }, [scenario])
+
+
 
   const isOptionB = scenario.startsWith('b-')
   const isOptionC = scenario.startsWith('c-')
   const isAEnd = scenario === 'a-end'
   const isA1New = scenario === 'a1-new'
+  const isA1FirstQuestion = scenario === 'a1-first-question'
+  const isA1FirstQuestionAnswered = scenario === 'a1-first-question-answered'
+  const isA1FirstQ = isA1FirstQuestion || isA1FirstQuestionAnswered
   const isA1Month4 = scenario === 'a1-month4'
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
 
-  const tabs: { key: Tab; label: string }[] = isA1New ? [
+  const tabs: { key: Tab; label: string }[] = (isA1New || isA1FirstQ || isNewUser) ? [
     { key: 'week-by-week', label: 'All questions' },
     { key: 'stories', label: 'Your stories' },
     { key: 'drafts', label: 'Drafts' },
@@ -2226,43 +2480,91 @@ export default function MemoirPage() {
         </>
       ) : isA1New ? (
         <>
-          {/* Option A.1 new user: gift text + heading + video CTA left, book illustration right */}
+          {/* Option A.1 new user: gift text + heading left, book preview right */}
           <section className="bg-[#f8f4f1]">
             <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[32px]">
               <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
-                  <div className="flex flex-col gap-[12px] items-start">
-                    <div className="flex gap-[6px] items-center">
-                      <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
-                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]">R</span>
-                      </div>
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Raymond gifted you a Storyworth Memoir</p>
-                    </div>
-                    <p className="font-['GT_Super_Display:Regular'] text-[26px] leading-[36px] tracking-[-0.26px] text-[#042a21] m-0">
-                      Hi, Brian!
-                    </p>
-                    <p className="font-['GT_Super_Text:Book'] text-[16px] leading-normal tracking-[-0.16px] text-[#12473a] m-0">
-                      Welcome to Storyworth—an easy way to capture your life story over the next year, and print it in a book.
-                    </p>
-                  </div>
-                  <div className="flex gap-[16px] items-center">
-                    <div className="flex-shrink-0">
-                      <img alt="How it works video" className="block h-[78px] w-[120px] rounded-[6px]" src={imgVideoThumbnail} />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <button type="button" className="bg-[#07777e] h-[40px] rounded-[24px] px-[32px] cursor-pointer hover:opacity-90 transition-opacity flex items-center">
-                        <span className="font-['GT_America:Medium'] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Watch how it works</span>
-                      </button>
-                    </div>
-                    <div className="flex h-[21px] items-center flex-shrink-0">
-                      <span className="font-['GT_America:Regular'] text-[14px] text-[#757575] whitespace-nowrap">1 minute video</span>
-                    </div>
-                  </div>
+                <div className="flex flex-[1_0_0] flex-col gap-[12px] items-start min-w-px">
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">
+                    Raymond gifted you a Storyworth Memoir
+                  </p>
+                  <p className="font-['GT_Super_Display:Medium'] text-[30px] leading-[38px] tracking-[-0.30px] text-[#042a21] m-0">
+                    Hi, Brian! Let's capture some memories together.
+                  </p>
+                  <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] tracking-[-0.16px] text-[#445f59] m-0 max-w-[307px]">
+                    Tell your life story over the next year,<br />and print it in a hardcover book.
+                  </p>
                 </div>
-                <div className="hidden sm:block flex-shrink-0">
+                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Your memoir preview</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : isA1FirstQuestionAnswered ? (
+        <>
+          {/* Option A.1 first question answered: nice work + book preview right */}
+          <section className="bg-[#f8f4f1]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+              <div className="flex gap-[40px] items-center justify-center">
+                <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Nice work!</p>
+                  <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
+                    You added a story this week!
+                  </p>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
+                    We've sent your story to Raymond to read. You can always{' '}
+                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">edit</button>
+                    {' '}and{' '}
+                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">add photos</button>.
+                  </p>
+                </div>
+                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
+                  <div className="h-[195px] w-[253px] relative">
+                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
+                  </div>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Your memoir preview</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : isA1FirstQuestion ? (
+        <>
+          {/* Option A.1 first question: weekly question left, book preview right */}
+          <section className="bg-[#f8f4f1]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+              <div className="flex gap-[40px] items-center justify-center">
+                <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
+                  <div className="flex flex-col gap-[16px]">
+                    <div className="flex items-center gap-[6px] flex-wrap">
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">For you this week</p>
+                      <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                      </div>
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Asked by Raymond</p>
+                    </div>
+                    <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
+                      {weekQuestions[0]}
+                    </p>
+                  </div>
+                  <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
+                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
+                  </button>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">
+                    Take 10 minutes to write or record a story, or{' '}
+                    <button type="button" className="underline hover:opacity-70 transition-opacity cursor-pointer">shuffle this question</button>.
+                  </p>
+                </div>
+                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
+                  <div className="h-[195px] w-[253px] relative">
+                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
+                  </div>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -2301,25 +2603,42 @@ export default function MemoirPage() {
         <>
           {/* Option A variants: book/title in tan hero, card half-overlapping below */}
           <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[138px]">
+            <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] ${isA1New ? 'pb-8 sm:pb-[32px]' : 'pb-8 sm:pb-[138px]'}`}>
               <HeroContent scenarioId={scenario} />
             </div>
           </section>
-          <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isNewUser ? 'sm:-mt-[62px]' : 'sm:-mt-[78px]'} pb-[20px]`}>
+          {!isA1New && <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isNewUser ? 'sm:-mt-[62px]' : 'sm:-mt-[78px]'} pb-[20px]`}>
             {isNewUser ? <WelcomeCard /> : <ThisWeekSection />}
-          </div>
+          </div>}
         </>
       ))}
 
       {!isOptionC && !isAEnd && <>{/* Progress message */}
-      {(isA1New || isA1Month4) && (
+      {(isA1New || isA1FirstQ || isA1Month4) && (
         isA1New ? (
-          <div className="w-full bg-[#fcfaf8]">
-            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[32px]">
+          <div className="w-full bg-white sticky top-0 z-30">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
               <MilestoneTimeline
-                variant={revealState === 'revealed' ? 'new' : 'explore'}
-                fillOverride={revealState === 'revealing' ? [1, 0, 0, 0, 0] : undefined}
-                animate={revealState === 'revealing'}
+                variant="explore"
+                fillOverride={timelineAnimating && !showTimeline2 ? [1, 0, 0, 0, 0] : undefined}
+                animate={timelineAnimating}
+                showTimeline2={showTimeline2}
+                showBar={!showTimeline2}
+                showBarFill={false}
+              />
+            </div>
+          </div>
+        ) : isA1FirstQ ? (
+          <div className="w-full bg-white sticky top-0 z-30">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+              <MilestoneTimeline
+                variant="explore"
+                showTimeline2={true}
+                animate={false}
+                showBar={false}
+                showBarFill={false}
+                milestoneCount={isA1FirstQuestionAnswered ? 2 : 1}
+                nextMilestoneText={isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
               />
             </div>
           </div>
@@ -2329,40 +2648,55 @@ export default function MemoirPage() {
           </div>
         )
       )}
-      <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isA1New ? 'pt-[58px]' : isA1Month4 ? 'pt-[24px]' : 'pt-[68px]'} pb-[2px] flex flex-col gap-[16px]`}>
-        {isA1New || isA1Month4 ? (
+      {isA1New && (
+        <div
+          className="overflow-hidden pointer-events-none"
+          style={{
+            maxHeight: revealState === 'hidden' ? '116px' : '0px',
+            opacity: revealState === 'hidden' ? 1 : 0,
+            transition: 'max-height 0.4s ease-out, opacity 0.3s ease-out',
+          }}
+        >
+          <div className="flex justify-center pt-[16px]">
+            <img
+              alt=""
+              src={imgScrollArrow}
+              style={{ width: '34px', height: '84px', animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
+            />
+          </div>
+        </div>
+      )}
+      <div className={`max-w-[1189px] mx-auto ${(isA1FirstQ || isNewUser || isA1New) ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} ${isA1Month4 ? 'pt-[24px]' : isA1New ? 'pt-[42px]' : (isA1FirstQ || isNewUser) ? 'pt-[66px]' : 'pt-[68px]'} ${(isA1FirstQ || isNewUser || isA1New) ? 'pb-[14px]' : 'pb-[2px]'} flex flex-col gap-[16px]`}>
+        {(isA1FirstQ || isNewUser || isA1New) ? (
+          <div className="flex flex-col gap-[12px]">
+            <div className="flex items-center gap-[24px]">
+              <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
+                My Life Stories
+              </h2>
+              <MenuButton />
+            </div>
+          </div>
+        ) : isA1Month4 ? (
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col gap-[12px]">
-              <div className="group flex items-center gap-[12px]">
-                <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0 cursor-pointer group-hover:text-[#068089] transition-colors duration-200">
-                  My Life Stories
-                </h2>
-                {isA1New && (
-                  <>
-                    <button type="button" aria-label="Edit memoir title" className="size-[40px] rounded-[24px] border-2 border-[#068089] bg-white flex items-center justify-center flex-shrink-0 hover:opacity-70 transition-opacity cursor-pointer">
-                      <img alt="" className="size-[20px]" src={imgPencilIcon} />
-                    </button>
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 font-['GT_America:Medium'] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">
-                      edit book title
-                    </span>
-                  </>
-                )}
-              </div>
-              <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[0px] text-[#12473a] m-0">
-                <span className="text-[20px]">Y</span><span className="text-[16px]">our stories waiting to be written · </span>
-                <button type="button" className="text-[16px] underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
+              <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
+                My Life Stories
+              </h2>
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a] m-0">
+                Your stories are waiting to be written ·{' '}
+                <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">
                   read by Raymond
                 </button>
               </p>
             </div>
             <div className="hidden sm:flex gap-[24px] items-center flex-shrink-0 pt-[4px]">
-              <button type="button" className="bg-[#d9e5e6] flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-[#D6ECF5] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#0E719A] transition-colors">
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
                 </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#07777e] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#0E719A] tracking-[1.4px] uppercase whitespace-nowrap">new story</span>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[6px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMenuIcon} />
                 </div>
@@ -2391,60 +2725,92 @@ export default function MemoirPage() {
         )}
       </div>
 
-      <div ref={sentinelRef} className="h-0" aria-hidden />
+      <><div ref={sentinelRef} className="h-0" aria-hidden />
       {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
-      <div className="sticky top-0 z-20 bg-white">
-        <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[22px] pb-[24px]">
+      <div className={`sticky ${(isA1FirstQ || isA1New) ? 'top-[84px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
+        style={{ boxShadow: tabBarStuck ? '0 4px 24px rgba(0,0,0,0.10)' : 'none' }}>
+        <div className={`max-w-[1189px] mx-auto ${(isA1FirstQ || isNewUser || isA1New) ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} pt-[22px] pb-[24px]`}>
           <div className="flex items-center justify-between gap-4">
 
-            {/* Pill tab switcher */}
-            <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px] overflow-x-auto flex-shrink-0">
-              <div className="flex items-center min-w-max">
-                {tabs.map(({ key, label }) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setActiveTab(key)}
-                    className={[
-                      "cursor-pointer px-[16px] py-[10px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase transition-colors duration-200",
-                      activeTab === key
-                        ? 'bg-white text-[color:var(--green\/900,#12473a)] drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)]'
-                        : 'text-[#61706f] hover:text-[color:var(--green\/900,#12473a)]',
-                    ].join(' ')}
-                  >
-                    {label}
-                  </button>
-                ))}
+            {/* Left group: pill tabs + (for isA1FirstQ) reorder + search */}
+            <div className="flex items-center gap-[24px]">
+              <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px] overflow-x-auto flex-shrink-0">
+                <div className="flex items-center min-w-max">
+                  {tabs.map(({ key, label }) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setActiveTab(key)}
+                      className={[
+                        "cursor-pointer px-[16px] py-[8px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase transition-colors duration-200",
+                        activeTab === key
+                          ? 'bg-white text-[color:var(--green\/900,#12473a)] drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)]'
+                          : 'text-[#61706f] hover:text-[color:var(--green\/900,#12473a)]',
+                        key !== 'week-by-week' && activeTab !== key ? 'hover:underline' : '',
+                      ].join(' ')}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Reorder + Search: left of tabs for isA1FirstQ, right side otherwise (rendered below) */}
+              {isA1FirstQ && (
+                <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
+                  <button
+                    type="button"
+                    className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors"
+                    onClick={() => setShowReorderModal(true)}
+                  >
+                    <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
+                    <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] tracking-[1.4px] uppercase whitespace-nowrap">reorder</span>
+                  </button>
+                  <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors flex-shrink-0">
+                    <div className="relative size-[24px] flex-shrink-0">
+                      <img alt="" className="block max-w-none size-full" src={imgSearchIcon} />
+                    </div>
+                    <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] tracking-[1.4px] uppercase whitespace-nowrap">search</span>
+                  </button>
+                </div>
+              )}
             </div>
 
-            {/* Action buttons */}
+            {/* Right group: reorder + search (non-firstQ) + new story */}
             <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
-              <button
+              {!isA1FirstQ && !isNewUser && !isA1New && <>
+                <button
+                  type="button"
+                  className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity"
+                  onClick={() => setShowReorderModal(true)}
+                >
+                  <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
+                  <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">reorder</span>
+                </button>
+                <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors flex-shrink-0">
+                  <div className="relative size-[24px] flex-shrink-0">
+                    <img alt="" className="block max-w-none size-full" src={imgSearchIcon} />
+                  </div>
+                  <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">search</span>
+                </button>
+              </>}
+              {(isA1FirstQ || isNewUser || isA1New) && (
+                <button type="button" className="bg-[#D6ECF5] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#0E719A] transition-colors">
+                  <div className="relative size-[24px] flex-shrink-0">
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
+                  </div>
+                  <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#0E719A] tracking-[1.4px] uppercase whitespace-nowrap">new story</span>
+                </button>
+              )}
+              {!isA1New && !isA1FirstQ && !isNewUser && !isA1New && <button
                 type="button"
-                className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity"
-                onClick={() => setShowReorderModal(true)}
-              >
-                <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">
-                  reorder
-                </span>
-              </button>
-              <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity flex-shrink-0">
-                <div className="relative size-[24px] flex-shrink-0">
-                  <img alt="" className="block max-w-none size-full" src={imgSearchIcon} />
-                </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">search</span>
-              </button>
-              {!isA1New && <button
-                type="button"
-                className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[10px] pr-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity"
+                className="border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#068089] transition-colors"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
                   <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
                   <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#068089] tracking-[1.4px] uppercase whitespace-nowrap">
                   new story
                 </span>
               </button>}
@@ -2455,15 +2821,181 @@ export default function MemoirPage() {
         </div>
       </div>
 
-      <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden />
+      <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden /></>
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
-        isANewReveal && revealState !== 'revealed' ? (
+        isA1FirstQuestionAnswered ? (
+          <div
+            className="relative max-w-[1189px] mx-auto"
+            style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
+          >
+            {[
+              { q: weekQuestions[0], asker: 'Raymond' },
+              { q: 'What legacy do you want to leave behind?', asker: 'Raymond' },
+              { q: 'Who has been your biggest fan?', asker: 'Raymond' },
+              { q: 'Did you have any jobs growing up?', asker: 'Storyworth' },
+              { q: 'What was your favorite childhood vacation?', asker: 'Raymond' },
+              { q: 'How did you decide on your career path?', asker: 'Storyworth' },
+              { q: 'What world event had the biggest impact on your life?', asker: 'Raymond' },
+              { q: 'How did you meet your closest friends?', asker: 'Storyworth' },
+              { q: 'What are your proudest achievements?', asker: 'Raymond' },
+              { q: 'What do you hope your family remembers about you?', asker: 'Storyworth' },
+            ].map(({ q, asker }, i) => (
+              <div
+                key={i}
+                className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#f7f7f7]`}
+              >
+                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <div className="flex gap-[8px] items-center flex-wrap">
+                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                      {i === 0 ? 'Question 1 answered' : i === 1 ? 'Question 2 will send next week' : `Question ${i + 1}`}
+                    </p>
+                    {i !== 0 && (
+                      <div className="flex gap-[6px] items-center flex-shrink-0">
+                        {asker === 'Raymond' && (
+                          <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                            <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                          </div>
+                        )}
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                          {asker === 'Raymond' ? 'Asked by Raymond' : 'Asked by Storyworth for Raymond'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
+                    {q}
+                  </p>
+                  {i === 0 && (
+                    <>
+                      <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">
+                        "I remember the summer days spent at my grandmother's house, where we would bake cookies and play in the garden, surrounded by laughter..."
+                      </p>
+                      <div className="flex gap-[6px] items-center">
+                        <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                          <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                        </div>
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                          Shared with Raymond
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+                {i > 0 && (
+                  <button
+                    type="button"
+                    className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                  >
+                    <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : isA1FirstQuestion ? (
+          <div
+            className="relative max-w-[1189px] mx-auto"
+            style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
+          >
+            {[
+              { q: weekQuestions[0], asker: 'Raymond' },
+              { q: 'What legacy do you want to leave behind?', asker: 'Raymond' },
+              { q: 'Who has been your biggest fan?', asker: 'Raymond' },
+              { q: 'Did you have any jobs growing up?', asker: 'Storyworth' },
+              { q: 'What was your favorite childhood vacation?', asker: 'Raymond' },
+              { q: 'How did you decide on your career path?', asker: 'Storyworth' },
+              { q: 'What world event had the biggest impact on your life?', asker: 'Raymond' },
+              { q: 'How did you meet your closest friends?', asker: 'Storyworth' },
+              { q: 'What are your proudest achievements?', asker: 'Raymond' },
+              { q: 'What do you hope your family remembers about you?', asker: 'Storyworth' },
+            ].map(({ q, asker }, i) => (
+              <div
+                key={i}
+                className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${i === 0 ? 'border-l-[3px] border-l-[#eec256] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#f7f7f7]`}
+              >
+                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <div className="flex gap-[8px] items-center flex-wrap">
+                    {i === 0 && (
+                      <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
+                        This week
+                      </span>
+                    )}
+                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                      {i === 1 ? 'Question 2 will send next week' : `Question ${i + 1}`}
+                    </p>
+                    <div className="flex gap-[6px] items-center flex-shrink-0">
+                      {asker === 'Raymond' && (
+                        <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                          <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                        </div>
+                      )}
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                        {asker === 'Raymond' ? 'Asked by Raymond' : 'Asked by Storyworth for Raymond'}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
+                    {q}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                >
+                  <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : isA1New ? (
+          <div>
+            {/* Questions 1–10 */}
+            <div
+              className="relative max-w-[1189px] mx-auto"
+              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '42px' }}
+            >
+              <div>
+                {optionCWeeks.slice(0, 10).map((week, i) => (
+                  <div
+                    key={week.weekNum}
+                    ref={i === 7 ? question8Ref : undefined}
+                    className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#f7f7f7]`}
+                  >
+                    <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                      <div className="flex gap-[12px] items-center flex-wrap">
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                          {i === 0 ? 'Question 1 sends on Monday, June 3rd' : `Question ${week.weekNum}`}
+                        </p>
+                        <div className="flex gap-[6px] items-center flex-shrink-0">
+                          <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                            <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                          </div>
+                          <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Asked by Raymond</p>
+                        </div>
+                      </div>
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
+                        {week.question}
+                      </p>
+                    </div>
+                    {/* Always rendered so row width stays stable; hidden until milestone earned */}
+                    <button
+                      type="button"
+                      className={`flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity ${revealState === 'revealed' ? 'invisible group-hover:visible' : 'opacity-0 pointer-events-none'}`}
+                    >
+                      <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : isANewReveal && revealState !== 'revealed' ? (
           <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] pb-[46px] px-[24px]">
             <img alt="" className="flex-none w-[89px]" src={imgClouds} />
             <div className="flex flex-col gap-[6px] items-center text-center max-w-[520px]">
               <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[#042a21] tracking-[-0.2px]">
-                Raymond has asked 8 questions. See what they are!
+                Raymond has asked 10 questions. See what they are!
               </p>
               <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[16px] text-[#61706f]">
                 We'll send one each week starting on Monday, June 24th.
@@ -2488,7 +3020,32 @@ export default function MemoirPage() {
         )
       ) : activeTab === 'stories' ? (
         <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0">
-          {isNewUser ? (
+          {isA1FirstQuestionAnswered ? (
+            <div
+              className="relative max-w-[1189px] mx-auto px-[24px]"
+              style={{ paddingBottom: '80px', marginTop: '8px' }}
+            >
+              <div className="border-l-[3px] border-[#1ba07c] py-[24px] px-[24px] flex flex-col gap-[12px] cursor-pointer hover:bg-[#f7f7f7]">
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0">
+                  Question 1 answered
+                </p>
+                <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
+                  {weekQuestions[0]}
+                </p>
+                <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">
+                  "I remember the summer days spent at my grandmother's house, where we would bake cookies and play in the garden, surrounded by laughter..."
+                </p>
+                <div className="flex gap-[6px] items-center">
+                  <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                    <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                  </div>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                    Shared with Raymond
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : isA1FirstQuestion ? null : isNewUser ? (
             <div className="flex flex-col items-center justify-center py-[24px] px-[16px]">
               <div className="flex flex-col gap-[24px] items-center text-center max-w-[600px] py-[40px]">
                 <div className="flex flex-col gap-[12px]">

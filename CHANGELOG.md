@@ -1,3 +1,357 @@
+## v1.0.152 — 2026-06-19T20:48:55
+- a1-new: reduce heading top padding by 24px (66→42) below floating arrow
+
+## v1.0.151 — 2026-06-19T20:47:31
+- a1-new hero subtitle: add line break after 'next year,'
+
+## v1.0.150 — 2026-06-19T20:43:40
+- remove unused milestoneBarStuck/milestoneSentinelRef after shadow removal
+
+## v1.0.149 — 2026-06-19T20:43:04
+- a1-new: match milestone bar z-30/px-24px and heading/tab bar spacing to a1-firstQ
+
+## v1.0.148 — 2026-06-19T20:28:50
+- a1-new: use px-4 sm:px-6 lg:px-10 for heading and tab bar to match milestone bar
+
+## v1.0.147 — 2026-06-19T20:27:11
+- a1-new: remove sticky shadow from milestone bar
+
+## v1.0.146 — 2026-06-19T20:26:18
+- a1-new: move scroll arrow between milestone bar and My Life Stories heading
+
+## v1.0.145 — 2026-06-19T20:25:09
+- a1-new hero: uniform #042a21 heading at 30px, subtitle 16px
+
+## v1.0.144 — 2026-06-19T20:24:32
+- a1-new: add My Life Stories heading + MenuButton + tab bar with new story button
+
+## v1.0.143 — 2026-06-19T20:19:35
+- new user: My Life Stories heading + MenuButton + All questions tabs + new story button
+
+## v1.0.142 — 2026-06-19T20:15:41
+- stories/drafts tabs: underline on hover only
+
+## v1.0.141 — 2026-06-19T20:09:18
+- first-question: amber left border + amber This Week tag per Figma 67-7582
+
+## v1.0.140 — 2026-06-19T20:07:38
+- fix: use border-l color only so bottom divider stays gray
+
+## v1.0.139 — 2026-06-19T20:06:32
+- first-q-answered week-by-week: green left border on q1, 'Question 1 answered' label, remove This Week tag
+
+## v1.0.138 — 2026-06-19T20:02:40
+- first-q-answered card: green left border, 'Question 1 answered' label, remove This Week tag, Shared with Raymond
+
+## v1.0.137 — 2026-06-19T20:00:21
+- reorder/search: gray pill on hover; stories/drafts tabs: underline
+
+## v1.0.136 — 2026-06-19T19:57:50
+- new story button: fill #D6ECF5, label+icon #0E719A
+
+## v1.0.135 — 2026-06-19T19:56:49
+- tab pills: reduce height to 36px (py-8 from py-10)
+
+## v1.0.134 — 2026-06-19T19:53:49
+- menu/new story: no default border, teal/gray stroke on hover
+
+## v1.0.133 — 2026-06-19T19:52:13
+- new story buttons: 24px left/right padding
+
+## v1.0.132 — 2026-06-19T19:49:18
+- new story buttons: remove border/stroke
+
+## v1.0.131 — 2026-06-19T19:48:20
+- menu button: gray fill/border, no menu icon, chevron-down 18px, gray label
+
+## v1.0.130 — 2026-06-19T19:43:36
+- first-question hero: remove max-w on question text so it doesn't wrap
+
+## v1.0.129 — 2026-06-19T19:42:41
+- menu and new story button labels 14px tracking-1.4px
+
+## v1.0.128 — 2026-06-19T19:41:09
+- a1-new: hide progress bar track after milestone earned
+
+## v1.0.127 — 2026-06-19T19:40:37
+- first-question/answered: hide progress bar track entirely
+
+## v1.0.126 — 2026-06-19T19:39:35
+- first-question/answered: +12px bottom padding under My Life Stories
+
+## v1.0.125 — 2026-06-19T19:38:22
+- first-question/answered: remove subtitle under My Life Stories
+
+## v1.0.124 — 2026-06-19T19:36:39
+- all new story buttons px-16; all Answer buttons borderless
+
+## v1.0.123 — 2026-06-19T19:33:38
+- a1-new: hide purple bar fill after milestone earned; milestone bar drop shadow on scroll
+
+## v1.0.122 — 2026-06-19T19:31:34
+- first-question/answered: menu inline with title, no pencil, reorder+search left of tabs at 14px, new story in tab bar right
+
+## v1.0.121 — 2026-06-19T19:28:25
+- first-question + answered: hide bar fill, show empty track only
+
+## v1.0.120 — 2026-06-19T19:27:25
+- a1-new: remove 16px bottom padding under scroll arrow
+
+## v1.0.119 — 2026-06-19T19:26:50
+- milestone bar: parent background white instead of tan; revert track color to original
+
+## v1.0.118 — 2026-06-19T19:24:35
+- milestone bars: track background white instead of light tan
+
+## v1.0.117 — 2026-06-19T19:23:46
+- sticky tab bar: softer shadow blur 4px offset 24px blur
+
+## v1.0.116 — 2026-06-19T18:36:39
+- sticky tab bar shadow: fix observer setup by depending on scenario so sentinel is found after scenario switch
+
+## v1.0.115 — 2026-06-19T18:30:02
+- sticky tab bar: soft drop shadow appears when stuck
+
+## v1.0.114 — 2026-06-19T18:28:41
+- milestone modal: purple badge for row 2, wider 340px, earned milestone 2 shows Keep telling stories
+
+## v1.0.113 — 2026-06-19T18:26:36
+- first-question-answered: bar animates in on load via key-based remount
+
+## v1.0.112 — 2026-06-19T18:25:39
+- first-question bar purple, first-question-answered bar red-to-magenta
+
+## v1.0.111 — 2026-06-19T18:24:44
+- first-question-answered: badge-2 purple, both badges hop on load, story preview GT Super Text Book 16px max-w-600
+
+## v1.0.110 — 2026-06-19T18:22:43
+- first-question-answered: bar gradient red-to-magenta per Figma, second badge uses new colored SVG, both badges show mountain emoji, modal marks 2nd milestone earned
+
+## v1.0.109 — 2026-06-19T18:17:16
+- first-question-answered: milestone 2, new hero, answered Q1 with story preview, stories tab shows Q1 row
+
+## v1.0.108 — 2026-06-19T18:03:29
+- first-question: subtitle GT America 16px; hero + milestone bar px-24 to align with heading and questions
+
+## v1.0.107 — 2026-06-19T17:57:32
+- menu modal: remove default gray fill from edit book cover item
+
+## v1.0.106 — 2026-06-19T17:56:30
+- first-question: stories tab blank; Add your first story clickable with underline + hover arrow
+
+## v1.0.105 — 2026-06-19T17:55:24
+- first-question: add menu modal with 4 items, manage-questions + readers icons
+
+## v1.0.104 — 2026-06-19T17:51:54
+- first-question: align heading and tab bar to px-24 matching question rows
+
+## v1.0.103 — 2026-06-19T17:49:54
+- first-question: new story button E1EEF4 fill with 2px teal stroke
+
+## v1.0.102 — 2026-06-19T17:49:10
+- first-question: This week tag regular weight, radius-6, padding 8/8/4/5
+
+## v1.0.101 — 2026-06-19T17:48:22
+- first-question: This week tag 16px
+
+## v1.0.100 — 2026-06-19T17:47:53
+- first-question: increase gap below milestone bar to 66px
+
+## v1.0.99 — 2026-06-19T17:47:22
+- first-question: correct 42px gap below milestone bar
+
+## v1.0.98 — 2026-06-19T17:46:26
+- first-question: fix sticky milestone bar (z-30), tab bar offset to top-84px, remove duplicate new story from tab bar, 42px gap below milestone bar, This week tag sentence case, menu button pill shape
+
+## v1.0.97 — 2026-06-19T17:39:31
+- add Option A.1 — First question page
+
+## v1.0.96 — 2026-06-19T17:27:36
+- dev menu: hide mid-sub option
+
+## v1.0.95 — 2026-06-19T17:25:16
+- milestone bar to questions: 42px fixed gap; arrow collapses smoothly on reveal
+
+## v1.0.94 — 2026-06-19T17:23:32
+- nav avatar: lighter bg #c5d8d2, dark green text #12473a
+
+## v1.0.93 — 2026-06-19T17:22:31
+- milestone modal: first badge label 'Explore questions'
+
+## v1.0.92 — 2026-06-19T17:20:31
+- fix question flicker: arrow fades with opacity, Answer button always in DOM, consistent minHeight/padding
+
+## v1.0.91 — 2026-06-19T17:18:24
+- milestone 2: +32px margin-top between sticky bar and questions
+
+## v1.0.90 — 2026-06-19T17:16:55
+- milestone 0: restore emoji + 'Your first milestone:' prefix
+
+## v1.0.89 — 2026-06-19T17:16:20
+- milestone 0: 'Scroll to explore your memoir questions'; questions show all 10 at full opacity, no clip or fade
+
+## v1.0.88 — 2026-06-19T17:15:17
+- scroll arrow: use assets/arrow.svg (straight down arrow)
+
+## v1.0.87 — 2026-06-19T17:14:23
+- answer button: add → arrow
+
+## v1.0.86 — 2026-06-19T17:13:57
+- a1-new: sticky milestone bar, arrow centered below bar scrolls with content, milestone earned at Q8 via IntersectionObserver
+
+## v1.0.85 — 2026-06-19T17:07:27
+- a1-new: match Figma hero (gradient heading, Your memoir preview label), bouncing scroll arrow, IntersectionObserver on Q4 triggers reveal
+
+## v1.0.84 — 2026-06-19T17:00:52
+- a1-new: compact hero (no WelcomeCard, pb-32), mt-58 gap above questions, ghost clip visible on load, scroll trigger at 120px
+
+## v1.0.83 — 2026-06-19T16:52:02
+- a1-new: ghost state gradient inside clip container, fade from 57% to white at 95% matching Figma
+
+## v1.0.82 — 2026-06-19T16:49:05
+- a1-new: clip questions at 446px with gradient fade in hidden state; fades out and expands on scroll
+
+## v1.0.81 — 2026-06-19T16:46:50
+- a1-new: scroll to top on load to prevent premature milestone animation on reload
+
+## v1.0.80 — 2026-06-19T16:40:29
+- a1-new: remove reveal banner; milestone animation triggers on scroll (40px threshold)
+
+## v1.0.79 — 2026-06-19T16:35:11
+- a1-new hero subtitle: ...and print it in a hardcover book
+
+## v1.0.78 — 2026-06-19T16:34:46
+- a1-new hero subtitle: Tell your life story over the next year...
+
+## v1.0.77 — 2026-06-19T16:34:18
+- a1-new hero heading: Hi, Brian. Let's capture some memories.
+
+## v1.0.76 — 2026-06-19T16:33:20
+- milestone 1 label: Explore your memoir questions
+
+## v1.0.75 — 2026-06-19T16:32:36
+- a1-new hero: update subtitle copy
+
+## v1.0.74 — 2026-06-19T16:31:38
+- a1-new hero: Hi, Brian. Welcome to Storyworth
+
+## v1.0.73 — 2026-06-19T16:30:32
+- a1-new hero: merge welcome into heading, capitalize An in body copy
+
+## v1.0.72 — 2026-06-19T16:28:26
+- remove GiftIcon component and unused imgIcon1 asset
+
+## v1.0.71 — 2026-06-19T16:27:39
+- remove gift icon from top navigation
+
+## v1.0.70 — 2026-06-19T16:16:36
+- questions row R avatar: match header style (bg-2d6a55, text-10px, tracking-0.5px), initial 1px right
+
+## v1.0.69 — 2026-06-19T16:14:58
+- questions list: px-24 on row items, remove container padding so hover bg fills edge-to-edge
+
+## v1.0.68 — 2026-06-19T16:13:35
+- milestone modal: emoji top 10px
+
+## v1.0.67 — 2026-06-19T16:12:41
+- milestone modal: emoji top 7px, row p-8, badge size-38
+
+## v1.0.66 — 2026-06-19T16:11:10
+- reveal card: new horizontal layout with blue bg/border, illustration, updated copy; question list px-24
+
+## v1.0.65 — 2026-06-19T16:07:08
+- milestone modal: revert earned badge to emoji; fix emoji vertical centering (top:5px instead of transform)
+
+## v1.0.64 — 2026-06-19T16:01:47
+- milestone modal: Earned tag 12px font, px-5 py-2 padding
+
+## v1.0.63 — 2026-06-19T16:00:27
+- milestone modal: earned badge uses questions.svg icon; unearned badge emoji centered via transform
+
+## v1.0.62 — 2026-06-19T15:54:16
+- milestone modal: earned row uses same hover animation as other link rows (collapsed at rest, slides up on hover)
+
+## v1.0.61 — 2026-06-19T15:50:07
+- milestone modal: fix z-index so modal renders above question cards
+
+## v1.0.60 — 2026-06-19T15:37:37
+- milestone modal rows: whole row clickable for link items, label centered with badge at rest, slides up on hover to reveal subtitle without height change
+
+## v1.0.59 — 2026-06-19T15:29:08
+- milestone modal: absolute positioned next to button, scrolls with page, click-outside to close
+
+## v1.0.58 — 2026-06-19T15:25:15
+- milestone modal rows: fixed height, second line fades in with opacity instead of inserting
+
+## v1.0.57 — 2026-06-19T15:22:58
+- milestone modal: fix earned emoji, 14px text, fixed 288px width, cursor-default on non-links
+
+## v1.0.56 — 2026-06-19T12:52:43
+- milestone modal: render via portal to document.body so it stays fixed on scroll
+
+## v1.0.55 — 2026-06-19T12:49:24
+- badge: simple bounce, no spin
+
+## v1.0.54 — 2026-06-19T12:47:37
+- timeline reveal: both milestone texts slide up together, then badge coin flip
+
+## v1.0.53 — 2026-06-19T02:23:53
+- a1-new: hide My Life Stories heading, tab bar, and action buttons
+
+## v1.0.52 — 2026-06-19T02:19:55
+- badge animation: horizontal coin-flip spin (rotateY + perspective) instead of flat rotate
+
+## v1.0.51 — 2026-06-19T02:19:07
+- milestones modal: pixel-perfect Figma badge layout, dashed unearned circle, popover below trigger
+
+## v1.0.50 — 2026-06-19T02:13:09
+- badge hops and spins after bounce; Your next milestone text follows after hop completes
+
+## v1.0.49 — 2026-06-19T02:10:57
+- milestones modal: click 1 of 10 milestones to open 10-row list with earned/hover states and links
+
+## v1.0.48 — 2026-06-19T02:04:29
+- sequence 'Your next milestone' text: fades in after 'You've earned' bounce completes (0.5s delay)
+
+## v1.0.47 — 2026-06-19T01:59:24
+- remove confetti; You've earned bounces in with spring animation after bar fills
+
+## v1.0.46 — 2026-06-19T01:57:33
+- sequence reveal: questions move up first (900ms), then timeline bar fills, then confetti, then timeline2
+
+## v1.0.45 — 2026-06-19T01:55:35
+- reveal button: flat color; confetti back with subtle muted pastel particles
+
+## v1.0.44 — 2026-06-19T01:50:54
+- replace confetti with clap.png bounce animation
+
+## v1.0.43 — 2026-06-19T01:47:30
+- milestone badge: use Figma gradient circle SVG asset, emoji positioned at top 3.91px centered
+
+## v1.0.42 — 2026-06-19T01:42:24
+- remove watch video button; fix bar transition: purple grows from left instead of shrinking backward
+
+## v1.0.41 — 2026-06-19T01:40:11
+- confetti: move to right side (before You've earned), rectangular particles with radial burst
+
+## v1.0.40 — 2026-06-19T01:37:41
+- pre-reveal card: remove fill; reveal button: animated teal shimmer gradient
+
+## v1.0.39 — 2026-06-19T01:36:34
+- timeline: fix variant always explore for a1-new so timeline2 persists; update milestone text
+
+## v1.0.38 — 2026-06-19T01:35:14
+- pre-reveal: clip questions to 446px height so nothing shows below question 3
+
+## v1.0.37 — 2026-06-19T01:33:55
+- a1-new pre-reveal: Figma card bg-f2f7f9, new copy, 3 questions at opacity-30 with white gradient fade
+
+## v1.0.36 — 2026-06-19T01:23:43
+- timeline2: match Figma — separate earned/badge/milestones with gap-8, teal circle badge with emoji
+
+## v1.0.35 — 2026-06-19T01:21:51
+- Reveal interaction: collapse pre-reveal card, fade in questions 1-10, fast bar fill, confetti poof, timeline2 purple state
+
 ## v1.0.34 — 2026-06-19T01:07:36
 - Reorder and search icons: stroke-width 1.5 → 2
 
