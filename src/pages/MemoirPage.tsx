@@ -2356,11 +2356,11 @@ export default function MemoirPage() {
                 </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#07777e] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
               </button>
-              <button type="button" className="border-2 border-[#068089] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[6px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="border-2 border-[#61706f] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[18px] rounded-[6px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} />
                 </div>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
+                <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
                 <div className="flex-none flex-shrink-0">
                   <div className="h-[9px] w-[14px] relative">
                     <div className="absolute bottom-1/4 left-[6.7%] right-[6.7%] top-0">

@@ -1,3 +1,6 @@
+## v1.0.29 — 2026-06-19T00:53:43
+- My Memoir button: match reorder gray #61706f on border, text, icon, chevron
+
 ## v1.0.28 — 2026-06-19T00:49:31
 - Timeline section: 32px above and below, remove internal padding from explore variant
 
