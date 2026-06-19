@@ -1,3 +1,6 @@
+## v1.0.23 — 2026-06-19T00:39:18
+- Update pre-reveal card copy
+
 ## v1.0.22 — 2026-06-19T00:38:38
 - Reorder and search icons: match label color #61706f
 
