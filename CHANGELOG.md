@@ -1,3 +1,6 @@
+## v1.0.27 — 2026-06-19T00:45:03
+- Fix chevron direction: remove rotate-180 from all instances
+
 ## v1.0.26 — 2026-06-19T00:44:02
 - Pencil button: remove drop shadow; New Story: remove border, fill #d9e5e6
 

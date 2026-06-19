@@ -165,7 +165,7 @@ function Navbar({ scenario, onScenarioChange }: { scenario: string; onScenarioCh
             <span className="hidden md:inline font-['GT_America:Medium'] text-[#15372f] text-[16px] tracking-[1.6px] uppercase whitespace-nowrap">
               brian l.
             </span>
-            <div className="hidden md:block rotate-180 h-[9px] w-[14px] relative">
+            <div className="hidden md:block h-[9px] w-[14px] relative">
               <div className="absolute bottom-1/4 left-[6.7%] right-[6.7%] top-0">
                 <img alt="" className="block max-w-none size-full" src={imgPolygon1} />
               </div>
@@ -344,7 +344,7 @@ function ShuffleHint({
         className={`cursor-pointer transition-opacity ${shufflePos < total ? 'opacity-100 hover:opacity-60' : 'opacity-30 cursor-default'}`}
         aria-label="Next question"
       >
-        <div className="flex-none rotate-180">
+        <div className="flex-none">
           <div className="relative size-[24px]">
             <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowRight} />
           </div>
@@ -721,7 +721,7 @@ function HeroMenuButton({ paddingX = '16px' }: { paddingX?: string }) {
             My memoir
           </span>
         </div>
-        <div className="rotate-180 h-[9px] w-[14px] relative flex-shrink-0">
+        <div className="h-[9px] w-[14px] relative flex-shrink-0">
           <div className="absolute bottom-1/4 left-[6.7%] right-[6.7%] top-0">
             <img alt="" className="block max-w-none size-full" src={imgPolygon1} />
           </div>
@@ -2361,7 +2361,7 @@ export default function MemoirPage() {
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} />
                 </div>
                 <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#068089] tracking-[1.6px] uppercase whitespace-nowrap">my memoir</span>
-                <div className="flex-none rotate-180 flex-shrink-0">
+                <div className="flex-none flex-shrink-0">
                   <div className="h-[9px] w-[14px] relative">
                     <div className="absolute bottom-1/4 left-[6.7%] right-[6.7%] top-0">
                       <img alt="" className="block max-w-none size-full" src={imgPolygon1} />
