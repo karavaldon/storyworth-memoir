@@ -2593,17 +2593,33 @@ export default function MemoirPage() {
         </>
       ) : isA1FiveAnswered ? (
         <>
-          {/* Option A.1 five answered: great work + book preview right */}
+          {/* Option A.1 five answered: this week's question (Q9) + book preview right */}
           <section className="bg-[#f8f4f1]">
             <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Great work, Brian!</p>
-                  <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                    You've added 5 stories to your memoir.
-                  </p>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
-                    We've sent them all to Raymond to read. Keep it up!
+                <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
+                  <div className="flex flex-col gap-[16px]">
+                    <div className="flex items-center gap-[6px] flex-wrap">
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">For you this week</p>
+                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">·</span>
+                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] flex items-center gap-[4px]">
+                        Asked by
+                        <span className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0 ml-[2px]">
+                          <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                        </span>
+                        Raymond
+                      </span>
+                    </div>
+                    <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
+                      What are your proudest achievements?
+                    </p>
+                  </div>
+                  <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
+                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
+                  </button>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">
+                    Take 10 minutes to write or record a story, or{' '}
+                    <button type="button" className="underline hover:opacity-70 transition-opacity cursor-pointer">shuffle this question</button>.
                   </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
@@ -2947,7 +2963,7 @@ export default function MemoirPage() {
       {activeTab === 'week-by-week' ? (
         isA1FiveAnswered ? (() => {
           type RowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
-          const rows: { q: string; status: 'answered' | 'asked' | 'future'; preview?: string; variant?: RowVariant }[] = [
+          const rows: { q: string; status: 'answered' | 'asked' | 'future' | 'this-week'; preview?: string; variant?: RowVariant }[] = [
             { q: weekQuestions[0],                                            status: 'answered', variant: 'engagement', preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
             { q: 'What legacy do you want to leave behind?',                  status: 'answered', variant: 'photos',     preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
             { q: 'Who has been your biggest fan?',                            status: 'asked' },
@@ -2956,7 +2972,7 @@ export default function MemoirPage() {
             { q: 'How did you decide on your career path?',                   status: 'answered', variant: 'all',        preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
             { q: 'What world event had the biggest impact on your life?',     status: 'asked' },
             { q: 'How did you meet your closest friends?',                    status: 'answered', variant: 'plain',      preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
-            { q: 'What are your proudest achievements?',                      status: 'future' },
+            { q: 'What are your proudest achievements?',                      status: 'this-week' },
             { q: 'What do you hope your family remembers about you?',         status: 'future' },
           ]
           const RecordingBadge = () => (
@@ -2994,13 +3010,18 @@ export default function MemoirPage() {
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => (
-                <div key={i} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : status === 'this-week' ? 'border-l-[3px] border-l-[#d97706] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer ${status === 'this-week' ? 'hover:bg-[#fffbeb]' : 'hover:bg-[#fafafa]'}`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                        {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                      <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'this-week' ? 'text-[#92400e]' : 'text-[#61706f]'}`}>
+                        {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : status === 'this-week' ? 'For you this week' : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                       </p>
+                      {status === 'this-week' && (
+                        <div className="bg-[#fef3c7] px-[8px] py-[2px] rounded-[6px] flex-shrink-0">
+                          <span className="font-['GT_America:Medium'] text-[13px] leading-[20px] text-[#92400e] whitespace-nowrap">This week</span>
+                        </div>
+                      )}
                       {status === 'answered' && (variant === 'recording' || variant === 'all') && <RecordingBadge />}
                     </div>
                     {/* Question text */}
