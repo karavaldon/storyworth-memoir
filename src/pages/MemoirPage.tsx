@@ -1035,6 +1035,8 @@ function MenuButton() {
 
 function MilestonesModal({ onClose, earnedCount = 1 }: { onClose: () => void; earnedCount?: number }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined)
+
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) onClose()
@@ -1043,10 +1045,17 @@ function MilestonesModal({ onClose, earnedCount = 1 }: { onClose: () => void; ea
     return () => document.removeEventListener('mousedown', handleMouseDown)
   }, [onClose])
 
+  useLayoutEffect(() => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const overflow = rect.bottom - (window.innerHeight - 16)
+    if (overflow > 0) setMaxHeight(rect.height - overflow)
+  }, [])
+
   return (
     <div ref={ref}
       className="absolute right-0 z-50 bg-white rounded-[12px] p-[24px] flex flex-col gap-[6px]"
-      style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
+      style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)', ...(maxHeight !== undefined ? { maxHeight, overflowY: 'auto' } : {}) }}>
       {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} />)}
     </div>
   )

@@ -1,3 +1,6 @@
+## v1.0.202 — 2026-06-22T17:45:41
+- Milestone modal: scrollable when clipped at viewport bottom
+
 ## v1.0.201 — 2026-06-22T17:43:01
 - Milestone progress bar: lighter teal color
 
