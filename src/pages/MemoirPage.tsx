@@ -3626,10 +3626,10 @@ export default function MemoirPage() {
                 { q: 'How did your faith or values shape your life?',                 num: 42, preview: '"Faith was the backbone of our household. Sunday dinners, church on Christmas Eve, the rosary in every car..."' },
                 { q: "What's the kindest thing anyone has ever done for you?",        num: 43, preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
                 { q: "Tell me about a time you made a difference in someone's life.", num: 44, preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
-              ] as { q: string; num: number; preview: string }[]).map(({ q, num, preview }, i, arr) => (
+              ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
                 <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {num} answered</p>
+                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                     <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
                     <div className="flex gap-[6px] items-center">
@@ -3653,10 +3653,10 @@ export default function MemoirPage() {
                 { q: 'Did you have any jobs growing up?',                      num: 4, preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
                 { q: 'How did you decide on your career path?',                num: 6, preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
                 { q: 'How did you meet your closest friends?',                 num: 8, preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
-              ] as { q: string; num: number; preview: string }[]).map(({ q, num, preview }, i, arr) => (
+              ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
                 <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {num} answered</p>
+                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                     <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
                     <div className="flex gap-[6px] items-center">
@@ -3680,7 +3680,7 @@ export default function MemoirPage() {
               <div className="border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                    Question 1 answered
+                    Chapter 1
                   </p>
                   <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
                     {weekQuestions[0]}

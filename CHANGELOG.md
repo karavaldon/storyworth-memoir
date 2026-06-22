@@ -1,3 +1,6 @@
+## v1.0.228 — 2026-06-22T19:17:22
+- Your stories tab: label stories as Chapter 1, Chapter 2, etc.
+
 ## v1.0.227 — 2026-06-22T19:06:13
 - Unengaged: show edit/replace/trash buttons on hover for asked questions
 
