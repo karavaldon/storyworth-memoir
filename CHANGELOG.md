@@ -1,3 +1,6 @@
+## v1.0.206 — 2026-06-22T17:53:24
+- Five-answered: Q2/Q4 show shared-with-Raymond UI
+
 ## v1.0.205 — 2026-06-22T17:52:38
 - Five-answered: Q9 this-week hero + amber row styling
 

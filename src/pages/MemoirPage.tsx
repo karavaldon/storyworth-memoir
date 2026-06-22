@@ -3047,7 +3047,7 @@ export default function MemoirPage() {
                     )}
                     {/* Footer */}
                     {status === 'answered' && (variant === 'engagement' || variant === 'all') && <EngagementRow />}
-                    {status === 'answered' && variant === 'plain' && <SharedRow />}
+                    {status === 'answered' && (variant === 'plain' || variant === 'photos' || variant === 'recording') && <SharedRow />}
                     {status === 'asked' && <QuestionButtonBank />}
                   </div>
                   {status === 'answered' ? (
