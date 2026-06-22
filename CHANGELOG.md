@@ -1,3 +1,6 @@
+## v1.0.225 — 2026-06-22T18:56:21
+- Your stories tab shows written story count
+
 ## v1.0.224 — 2026-06-22T18:54:37
 - Unengaged: earn first milestone when scrolling to Q5
 

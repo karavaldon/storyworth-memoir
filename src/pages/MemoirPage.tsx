@@ -2562,13 +2562,15 @@ export default function MemoirPage() {
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
 
+  const storiesWrittenCount = isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : isA1FirstQuestionAnswered ? 1 : (isA1New || isA1FirstQuestion || isA1Unengaged || isNewUser) ? 0 : stories.length
+
   const tabs: { key: Tab; label: string }[] = (isA1New || isA1FirstQ || isA1Unengaged || isNewUser) ? [
     { key: 'week-by-week', label: 'All questions' },
-    { key: 'stories', label: 'Your stories' },
+    { key: 'stories', label: `Your stories (${storiesWrittenCount})` },
     { key: 'drafts', label: 'Drafts' },
   ] : [
     { key: 'week-by-week', label: 'Week by week' },
-    { key: 'stories', label: 'Stories' },
+    { key: 'stories', label: `Stories (${storiesWrittenCount})` },
     { key: 'drafts', label: 'Drafts' },
   ]
 
