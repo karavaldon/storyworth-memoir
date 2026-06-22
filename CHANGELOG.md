@@ -1,3 +1,6 @@
+## v1.0.189 — 2026-06-22T17:25:53
+- You've reached pill: gray stroke on hover + chevron reveal
+
 ## v1.0.188 — 2026-06-22T17:24:30
 - Milestone hover fill extends full width of sticky bar
 
