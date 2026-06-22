@@ -2718,7 +2718,7 @@ export default function MemoirPage() {
           </div>
         ) : isA1FirstQ ? (
           <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[16px]">
               <MilestoneTimeline
                 variant="explore"
                 showTimeline2={true}
@@ -2815,7 +2815,7 @@ export default function MemoirPage() {
 
       <><div ref={sentinelRef} className="h-0" aria-hidden />
       {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
-      <div className={`sticky ${(isA1FirstQ || isA1New) ? 'top-[88px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
+      <div className={`sticky ${isA1FirstQ ? 'top-[72px]' : isA1New ? 'top-[88px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
         style={{ boxShadow: tabBarStuck ? '0 4px 24px rgba(0,0,0,0.10)' : 'none' }}>
         <div className={`max-w-[1189px] mx-auto ${(isA1FirstQ || isNewUser || isA1New) ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} pt-[22px] pb-[24px]`}>
           <div className="flex items-center justify-between gap-4">
