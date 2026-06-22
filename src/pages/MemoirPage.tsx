@@ -2738,7 +2738,7 @@ export default function MemoirPage() {
             {/* Scroll progress bar — bottom edge, full width, 0→100% as user scrolls q1→q8 */}
             <div className={`absolute bottom-0 left-0 w-full h-[3px] transition-opacity duration-500 ${showTimeline2 ? 'opacity-0' : 'opacity-100'}`}>
               <div className="absolute left-0 top-0 h-full bg-[#068089]"
-                style={{ width: `${revealState !== 'hidden' ? 100 : scrollProgress * 100}%`, transition: 'width 80ms linear' }} />
+                style={{ width: `${revealState !== 'hidden' ? 100 : scrollProgress * 100}%`, transition: 'width 80ms linear', backgroundColor: '#7dd4d8' }} />
             </div>
           </div>
         ) : isA1FirstQ ? (
