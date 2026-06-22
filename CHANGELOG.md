@@ -1,3 +1,6 @@
+## v1.0.194 — 2026-06-22T17:31:39
+- Milestone bar: consistent height across all pages
+
 ## v1.0.193 — 2026-06-22T17:28:55
 - All milestone bar containers: consistent 24px top/bottom padding
 

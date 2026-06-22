@@ -1114,7 +1114,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
           {showTimeline2 && (
             <div className="relative flex-shrink-0" style={{ animation: 'milestone-in 0.4s ease-out both' }}>
               <button type="button"
-                className="flex gap-[8px] items-center h-[40px] px-[14px] rounded-[20px] border-2 border-transparent hover:border-[#61706f] hover:bg-white transition-colors cursor-pointer group/milestone"
+                className="flex gap-[8px] items-center py-[10px] -my-[10px] px-[14px] rounded-[20px] border-2 border-transparent hover:border-[#61706f] hover:bg-white transition-colors cursor-pointer group/milestone"
                 onMouseDown={e => e.stopPropagation()}
                 onClick={e => { e.stopPropagation(); setShowMilestonesModal(v => !v) }}>
                 <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
