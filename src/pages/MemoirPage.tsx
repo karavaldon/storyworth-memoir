@@ -3669,7 +3669,7 @@ export default function MemoirPage() {
                 </button>
               </div>
             </div>
-          ) : (isA1FirstQuestion || isA1New) ? (
+          ) : (isA1FirstQuestion || isA1New || isA1Unengaged) ? (
             <div className="flex flex-col items-center justify-center text-center py-[64px] px-[24px]">
               <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
                 Your stories are waiting to be written.

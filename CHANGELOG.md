@@ -1,3 +1,6 @@
+## v1.0.222 — 2026-06-22T18:49:50
+- Unengaged: Your Stories tab shows empty state
+
 ## v1.0.221 — 2026-06-22T18:43:08
 - Add Near end scenario: 15 stories, 52 weeks, W50 this-week
 
