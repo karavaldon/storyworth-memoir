@@ -1,3 +1,6 @@
+## v1.0.199 — 2026-06-22T17:39:54
+- New user: scroll progress bar on milestone bar
+
 ## v1.0.198 — 2026-06-22T17:37:35
 - New user milestone bar click scrolls to question 1
 

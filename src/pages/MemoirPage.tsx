@@ -2428,6 +2428,7 @@ export default function MemoirPage() {
   const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
   const [timelineAnimating, setTimelineAnimating] = useState(false)
   const [showTimeline2, setShowTimeline2] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   function handleReveal() {
     setRevealState('revealing')
@@ -2473,6 +2474,25 @@ export default function MemoirPage() {
     obs.observe(el)
     return () => obs.disconnect()
   }, [scenario, revealState])
+
+  // a1-new: track scroll progress from question 1 to question 8 for milestone progress bar
+  useEffect(() => {
+    if (scenario !== 'a1-new' || showTimeline2) return
+    const MILESTONE_BAR_H = 88
+    function handleScroll() {
+      const q1 = question1Ref.current
+      const q8 = question8Ref.current
+      if (!q1 || !q8) return
+      const q1Top = q1.getBoundingClientRect().top
+      const q8Top = q8.getBoundingClientRect().top
+      const span = q8Top - q1Top
+      if (span <= 0) { setScrollProgress(1); return }
+      setScrollProgress(Math.max(0, Math.min(1, (MILESTONE_BAR_H - q1Top) / span)))
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [scenario, showTimeline2])
 
   useEffect(() => {
     const sentinel = sentinelRef.current
@@ -2716,6 +2736,12 @@ export default function MemoirPage() {
                 showBar={false}
                 showBarFill={false}
               />
+            </div>
+            {/* Scroll progress bar — bottom edge, full width, 0→100% as user scrolls q1→q8 */}
+            <div className={`absolute bottom-0 left-0 w-full h-[3px] transition-opacity duration-500 ${showTimeline2 ? 'opacity-0' : 'opacity-100'}`}
+              style={{ backgroundColor: '#eaeaea' }}>
+              <div className="absolute left-0 top-0 h-full bg-[#068089]"
+                style={{ width: `${revealState !== 'hidden' ? 100 : scrollProgress * 100}%`, transition: 'width 80ms linear' }} />
             </div>
           </div>
         ) : isA1FirstQ ? (
