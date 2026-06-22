@@ -3608,8 +3608,45 @@ export default function MemoirPage() {
           />
         )
       ) : activeTab === 'stories' ? (
-        <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
-          {isA1FiveAnswered ? (
+        <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
+          {isA1NearEnd ? (
+            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+              {([
+                { q: 'What legacy do you want to leave behind?',                       num: 2,  preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
+                { q: 'Who has been your biggest fan?',                                 num: 3,  preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
+                { q: 'What was your favorite childhood vacation?',                     num: 5,  preview: '"Every summer we drove down to the Jersey Shore. I can still smell the salt air and feel the warm sand..."' },
+                { q: 'What do you hope your family remembers about you?',              num: 10, preview: '"I hope they remember that I always had time for them, no matter how busy work got..."' },
+                { q: 'Where did you grow up, and what was it like?',                   num: 11, preview: '"I grew up in a small town in Ohio, where everybody knew your name and your business..."' },
+                { q: "What's the best advice you ever received?",                      num: 12, preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."' },
+                { q: 'Tell me about your first car.',                                  num: 22, preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."' },
+                { q: 'What was your biggest professional accomplishment?',             num: 25, preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
+                { q: 'Describe your first home as an adult.',                          num: 30, preview: '"A tiny studio apartment in Chicago with a leaky faucet and the best view of the El train..."' },
+                { q: 'What do you wish you had known at age 20?',                     num: 31, preview: '"That it\'s okay not to have all the answers. Everybody else is figuring it out too..."' },
+                { q: 'Tell me about the neighborhood you grew up in.',                 num: 40, preview: '"Our street was the kind where kids played outside until the streetlights came on. Everyone\'s door was always open..."' },
+                { q: 'What was your biggest adventure?',                              num: 41, preview: '"Three weeks in Southeast Asia with nothing but a backpack and a Lonely Planet guide. Terrified and exhilarated..."' },
+                { q: 'How did your faith or values shape your life?',                 num: 42, preview: '"Faith was the backbone of our household. Sunday dinners, church on Christmas Eve, the rosary in every car..."' },
+                { q: "What's the kindest thing anyone has ever done for you?",        num: 43, preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
+                { q: "Tell me about a time you made a difference in someone's life.", num: 44, preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
+              ] as { q: string; num: number; preview: string }[]).map(({ q, num, preview }, i, arr) => (
+                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {num} answered</p>
+                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                    <div className="flex gap-[6px] items-center">
+                      <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                      </div>
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
+                    </div>
+                  </div>
+                  <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                    <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : isA1FiveAnswered ? (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {([
                 { q: weekQuestions[0],                                          num: 1, preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
