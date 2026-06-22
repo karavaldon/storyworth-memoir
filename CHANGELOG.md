@@ -1,3 +1,45 @@
+## v1.0.221 — 2026-06-22T18:43:08
+- Add Near end scenario: 15 stories, 52 weeks, W50 this-week
+
+## v1.0.220 — 2026-06-22T18:27:15
+- Fix: milestone bar now renders on unengaged scenario
+
+## v1.0.219 — 2026-06-22T18:26:46
+- Unengaged: shares My Life Stories heading, scroll arrow, Reorder/Search/New Story tab bar components with new user
+
+## v1.0.218 — 2026-06-22T18:24:58
+- Unengaged: full new-user milestone experience (scroll progress, Q8 trigger, animation)
+
+## v1.0.217 — 2026-06-22T18:21:51
+- Add unengaged storyteller (2 mo.) scenario: Q1-7 asked, Q8 this-week, explore milestone banner
+
+## v1.0.216 — 2026-06-22T18:15:31
+- Milestone modal: emoji 30% larger (12px -> 16px)
+
+## v1.0.215 — 2026-06-22T18:14:39
+- Milestone modal: story-count rows show current count (e.g. 5 of 10 written)
+
+## v1.0.214 — 2026-06-22T18:12:23
+- Five-answered: show all 5 earned milestone badges in bar cluster
+
+## v1.0.213 — 2026-06-22T18:11:38
+- Milestone modal: earned story-count milestones show X of X written on hover
+
+## v1.0.212 — 2026-06-22T18:10:18
+- Add sky blue badge for Add a photo milestone
+
+## v1.0.211 — 2026-06-22T18:09:14
+- Remove avatars from all Asked by Raymond instances
+
+## v1.0.210 — 2026-06-22T18:07:47
+- Five-answered: 4 gold/pink/purple/teal badges in milestone bar, Add 5 stories at index 4 with gold badge
+
+## v1.0.209 — 2026-06-22T18:04:24
+- Five-answered: this-week row matches first-question list-row style
+
+## v1.0.208 — 2026-06-22T18:02:29
+- Five-answered: third milestone badge is now gold for Add 5 stories achievement
+
 ## v1.0.207 — 2026-06-22T17:55:58
 - Five-answered: Q9 this-week card matches first-question styling
 
