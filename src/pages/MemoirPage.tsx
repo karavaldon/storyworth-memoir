@@ -2569,7 +2569,7 @@ export default function MemoirPage() {
         <>
           {/* Option A.1 five answered: great work + book preview right */}
           <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Great work, Brian!</p>
@@ -2594,7 +2594,7 @@ export default function MemoirPage() {
         <>
           {/* Option A.1 first question answered: nice work + book preview right */}
           <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Nice work, Brian!</p>
@@ -2622,7 +2622,7 @@ export default function MemoirPage() {
         <>
           {/* Option A.1 first question: weekly question left, book preview right */}
           <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
                   <div className="flex flex-col gap-[16px]">
@@ -2706,7 +2706,7 @@ export default function MemoirPage() {
       {(isA1New || isA1FirstQ || isA1Month4) && (
         isA1New ? (
           <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <MilestoneTimeline
                 variant="explore"
                 animate={timelineAnimating}
@@ -2718,7 +2718,7 @@ export default function MemoirPage() {
           </div>
         ) : isA1FirstQ ? (
           <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <MilestoneTimeline
                 variant="explore"
                 showTimeline2={true}

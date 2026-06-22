@@ -1,3 +1,6 @@
+## v1.0.192 — 2026-06-22T17:27:48
+- Milestone bar: reduce vertical padding from 32px to 24px
+
 ## v1.0.191 — 2026-06-22T17:27:11
 - Milestone count pill: increase horizontal padding to 14px
 
