@@ -2731,7 +2731,7 @@ export default function MemoirPage() {
             </div>
           </div>
         ) : (
-          <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-[32px]">
+          <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[24px]">
             <MilestoneTimeline variant="mid" milestoneText="10/20 stories written" weekLabel="It's week 13" />
           </div>
         )

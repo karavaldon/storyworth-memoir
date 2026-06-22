@@ -1,3 +1,6 @@
+## v1.0.193 — 2026-06-22T17:28:55
+- All milestone bar containers: consistent 24px top/bottom padding
+
 ## v1.0.192 — 2026-06-22T17:27:48
 - Milestone bar: reduce vertical padding from 32px to 24px
 
