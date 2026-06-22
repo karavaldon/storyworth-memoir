@@ -1,3 +1,6 @@
+## v1.0.195 — 2026-06-22T17:33:10
+- You've reached button: h-[40px] to match new story button height
+
 ## v1.0.194 — 2026-06-22T17:31:39
 - Milestone bar: consistent height across all pages
 
