@@ -1,3 +1,6 @@
+## v1.0.190 — 2026-06-22T17:26:40
+- Milestone count pill: white fill on hover
+
 ## v1.0.189 — 2026-06-22T17:25:53
 - You've reached pill: gray stroke on hover + chevron reveal
 
