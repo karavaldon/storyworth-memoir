@@ -14,12 +14,18 @@ import imgTrashIcon from '../../assets/icons/trash.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
 import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
+import imgMic from '../../assets/icons/mic.svg'
+import imgStoryPhoto1 from '../../assets/photos/photo1.jpg'
+import imgStoryPhoto2 from '../../assets/photos/photo2.jpg'
+import imgStoryPhoto3 from '../../assets/photos/photo3.jpg'
+import imgStoryPhoto4 from '../../assets/photos/photo4.jpg'
 import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
 import imgSearchIcon from '../../assets/icons/search.svg'
 import imgClouds from '../../assets/coulds.svg'
 import imgMilestoneBadge from '../../assets/icons/milestone-badge.svg'
 import imgMilestoneBadge2 from '../../assets/icons/milestone-badge-2.svg'
+import imgMilestoneBadge3 from '../../assets/icons/milestone-badge-3.svg'
 import imgMilestoneCircleUnearned from '../../assets/icons/milestone-circle-unearned.png'
 import imgScrollArrow from '../../assets/arrow.svg'
 import imgManageQuestionsIcon from '../../assets/icons/manage-questions.svg'
@@ -49,6 +55,7 @@ const devScenarios: { label: string; id: string; implemented: boolean; hidden?: 
   { label: 'Option A.1 — New user',              id: 'a1-new',                     implemented: true  },
   { label: 'Option A.1 — First question',        id: 'a1-first-question',          implemented: true  },
   { label: 'Option A.1 — First q. answered',     id: 'a1-first-question-answered', implemented: true  },
+  { label: 'Option A.1 — 5 answered',            id: 'a1-five-answered',           implemented: true  },
   { label: 'Option A.1 — Mid sub',         id: 'a1-month4',         implemented: true, hidden: true },
   { label: 'Option A — New user',   id: 'a-new',     implemented: true,  hidden: true },
   { label: 'Option A — Mid sub',    id: 'a-month4',  implemented: true,  hidden: true },
@@ -883,7 +890,7 @@ type MilestoneItem = { label: string; earned?: boolean; link?: string; earnedLin
 const MILESTONE_LIST: MilestoneItem[] = [
   { label: 'Explore questions', earned: true, link: 'Keep exploring →' },
   { label: 'Add your first story', link: 'Tell a story →', earnedLink: 'Keep telling stories →', badgeSrc: imgMilestoneBadge2 },
-  { label: 'Record over the phone', subtext: 'Open any new story to record' },
+  { label: 'Record over the phone', subtext: 'Open any new story to record', badgeSrc: imgMilestoneBadge3 },
   { label: 'Add a photo', subtext: 'Open any story to upload photos' },
   { label: 'Add 5 stories', subtext: '1 of 5 written' },
   { label: 'Add 10 stories', subtext: '1 of 10 written' },
@@ -1110,7 +1117,28 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
               <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
                 You've reached
               </p>
-              {(milestoneCount ?? 1) >= 2 ? (
+              {(milestoneCount ?? 1) >= 3 ? (
+                <div className="relative flex-shrink-0" style={{ width: '44px', height: '24px' }}>
+                  <div className="absolute left-0 top-0 size-[24px]"
+                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
+                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                  </div>
+                  <div className="absolute left-[10px] top-0 size-[24px]"
+                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.55s both' }}>
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
+                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                  </div>
+                  <div className="absolute left-[20px] top-0 size-[24px]"
+                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.7s both' }}>
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge3} />
+                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                  </div>
+                </div>
+              ) : (milestoneCount ?? 1) >= 2 ? (
                 <div className="relative flex-shrink-0" style={{ width: '34px', height: '24px' }}>
                   <div className="absolute left-0 top-0 size-[24px]"
                     style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
@@ -2461,7 +2489,8 @@ export default function MemoirPage() {
   const isA1New = scenario === 'a1-new'
   const isA1FirstQuestion = scenario === 'a1-first-question'
   const isA1FirstQuestionAnswered = scenario === 'a1-first-question-answered'
-  const isA1FirstQ = isA1FirstQuestion || isA1FirstQuestionAnswered
+  const isA1FiveAnswered = scenario === 'a1-five-answered'
+  const isA1FirstQ = isA1FirstQuestion || isA1FirstQuestionAnswered || isA1FiveAnswered
   const isA1Month4 = scenario === 'a1-month4'
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
@@ -2516,7 +2545,7 @@ export default function MemoirPage() {
             <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[32px]">
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[12px] items-start min-w-px">
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 mb-[8px]">
                     Hi, Brian! Raymond gifted you a Storyworth Memoir
                   </p>
                   <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
@@ -2524,6 +2553,31 @@ export default function MemoirPage() {
                   </p>
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
                     Tell your life story over the next year, and print it in a hardcover book.
+                  </p>
+                </div>
+                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
+                  <div className="h-[195px] w-[253px] relative">
+                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
+                  </div>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : isA1FiveAnswered ? (
+        <>
+          {/* Option A.1 five answered: great work + book preview right */}
+          <section className="bg-[#f8f4f1]">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
+              <div className="flex gap-[40px] items-center justify-center">
+                <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Great work, Brian!</p>
+                  <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
+                    You've added 5 stories to your memoir.
+                  </p>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
+                    We've sent them all to Raymond to read. Keep it up!
                   </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
@@ -2671,8 +2725,8 @@ export default function MemoirPage() {
                 animate={false}
                 showBar={false}
                 showBarFill={false}
-                milestoneCount={isA1FirstQuestionAnswered ? 2 : 1}
-                nextMilestoneText={isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
+                milestoneCount={isA1FiveAnswered ? 3 : isA1FirstQuestionAnswered ? 2 : 1}
+                nextMilestoneText={isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
               />
             </div>
           </div>
@@ -2789,8 +2843,8 @@ export default function MemoirPage() {
                 </div>
               </div>
 
-              {/* Reorder + Search: left of tabs for isA1FirstQ, right side otherwise (rendered below) */}
-              {isA1FirstQ && (
+              {/* Reorder + Search: left of tabs for isA1FirstQ/isA1New, right side otherwise (rendered below) */}
+              {(isA1FirstQ || isA1New) && (
                 <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
                   <button
                     type="button"
@@ -2858,7 +2912,105 @@ export default function MemoirPage() {
       <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden /></>
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
-        isA1FirstQuestionAnswered ? (
+        isA1FiveAnswered ? (() => {
+          type RowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
+          const rows: { q: string; status: 'answered' | 'asked' | 'future'; preview?: string; variant?: RowVariant }[] = [
+            { q: weekQuestions[0],                                            status: 'answered', variant: 'engagement', preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
+            { q: 'What legacy do you want to leave behind?',                  status: 'answered', variant: 'photos',     preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
+            { q: 'Who has been your biggest fan?',                            status: 'asked' },
+            { q: 'Did you have any jobs growing up?',                         status: 'answered', variant: 'recording',  preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
+            { q: 'What was your favorite childhood vacation?',                status: 'asked' },
+            { q: 'How did you decide on your career path?',                   status: 'answered', variant: 'all',        preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
+            { q: 'What world event had the biggest impact on your life?',     status: 'asked' },
+            { q: 'How did you meet your closest friends?',                    status: 'answered', variant: 'plain',      preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
+            { q: 'What are your proudest achievements?',                      status: 'future' },
+            { q: 'What do you hope your family remembers about you?',         status: 'future' },
+          ]
+          const RecordingBadge = () => (
+            <div className="bg-[#ffe7e0] flex gap-[6px] items-center px-[6px] py-[2px] rounded-[5px] flex-shrink-0">
+              <img alt="" className="size-[20px] flex-shrink-0" src={imgMic} />
+              <p className="font-['GT_America:Regular'] leading-[28px] text-[#e14316] text-[16px] whitespace-nowrap m-0">Recording</p>
+            </div>
+          )
+          const EngagementRow = () => (
+            <div className="flex gap-[24px] items-center flex-wrap">
+              <div className="flex gap-[8px] items-center">
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} />
+                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
+              </div>
+              <div className="flex gap-[8px] items-center">
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} />
+                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
+              </div>
+              <div className="flex gap-[6px] items-center">
+                <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                  <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                </div>
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
+              </div>
+            </div>
+          )
+          const SharedRow = () => (
+            <div className="flex gap-[6px] items-center">
+              <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+              </div>
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
+            </div>
+          )
+          return (
+            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+              {rows.map(({ q, status, preview, variant }, i) => (
+                <div key={i} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                    {/* Label row */}
+                    <div className="flex gap-[12px] items-center">
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                        {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                      </p>
+                      {status === 'answered' && (variant === 'recording' || variant === 'all') && <RecordingBadge />}
+                    </div>
+                    {/* Question text */}
+                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    {/* Preview */}
+                    {status === 'answered' && preview && (
+                      <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                    )}
+                    {/* Photos */}
+                    {status === 'answered' && variant === 'photos' && (
+                      <div className="flex items-start">
+                        {[imgStoryPhoto1, imgStoryPhoto2, imgStoryPhoto3].map((src, pi) => (
+                          <div key={pi} className={`border-2 border-white h-[77px] w-[60px] relative shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] flex-shrink-0 overflow-hidden${pi < 2 ? ' mr-[-8px]' : ''}`}>
+                            <img alt="" className="absolute max-w-none object-cover size-full" src={src} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {status === 'answered' && variant === 'all' && (
+                      <div className="border-2 border-white h-[77px] w-[60px] relative shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] flex-shrink-0 overflow-hidden">
+                        <img alt="" className="absolute max-w-none object-cover size-full" src={imgStoryPhoto4} />
+                      </div>
+                    )}
+                    {/* Footer */}
+                    {status === 'answered' && (variant === 'engagement' || variant === 'all') && <EngagementRow />}
+                    {status === 'answered' && variant === 'plain' && <SharedRow />}
+                    {status === 'asked' && <QuestionButtonBank />}
+                  </div>
+                  {status === 'answered' ? (
+                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
+                    </button>
+                  ) : status === 'asked' ? (
+                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    </button>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          )
+        })()
+        : isA1FirstQuestionAnswered ? (
           <div
             className="relative max-w-[1189px] mx-auto"
             style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
@@ -2919,7 +3071,14 @@ export default function MemoirPage() {
                   )}
                   {i > 0 && <QuestionButtonBank />}
                 </div>
-                {i > 0 && (
+                {i === 0 ? (
+                  <button
+                    type="button"
+                    className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                  >
+                    <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
+                  </button>
+                ) : (
                   <button
                     type="button"
                     className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
@@ -3056,8 +3215,35 @@ export default function MemoirPage() {
           />
         )
       ) : activeTab === 'stories' ? (
-        <div className={isA1FirstQuestionAnswered ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
-          {isA1FirstQuestionAnswered ? (
+        <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
+          {isA1FiveAnswered ? (
+            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+              {([
+                { q: weekQuestions[0],                                          num: 1, preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
+                { q: 'What legacy do you want to leave behind?',               num: 2, preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
+                { q: 'Did you have any jobs growing up?',                      num: 4, preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
+                { q: 'How did you decide on your career path?',                num: 6, preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
+                { q: 'How did you meet your closest friends?',                 num: 8, preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
+              ] as { q: string; num: number; preview: string }[]).map(({ q, num, preview }, i, arr) => (
+                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {num} answered</p>
+                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                    <div className="flex gap-[6px] items-center">
+                      <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                      </div>
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
+                    </div>
+                  </div>
+                  <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                    <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : isA1FirstQuestionAnswered ? (
             <div
               className="relative max-w-[1189px] mx-auto"
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
@@ -3082,9 +3268,27 @@ export default function MemoirPage() {
                     </p>
                   </div>
                 </div>
+                <button
+                  type="button"
+                  className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                >
+                  <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
+                </button>
               </div>
             </div>
-          ) : (isA1FirstQuestion || isA1New) ? null : isNewUser ? (
+          ) : (isA1FirstQuestion || isA1New) ? (
+            <div className="flex flex-col items-center justify-center text-center py-[64px] px-[24px]">
+              <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
+                Your stories are waiting to be written.
+              </p>
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mb-[24px]">
+                Your stories will collect here.
+              </p>
+              <button type="button" className="bg-[#ededed] border-2 border-transparent flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
+                <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap">Start a new story</span>
+              </button>
+            </div>
+          ) : isNewUser ? (
             <div className="flex flex-col items-center justify-center py-[24px] px-[16px]">
               <div className="flex flex-col gap-[24px] items-center text-center max-w-[600px] py-[40px]">
                 <div className="flex flex-col gap-[12px]">
@@ -3105,6 +3309,18 @@ export default function MemoirPage() {
               ))}
             </div>
           )}
+        </div>
+      ) : activeTab === 'drafts' && (isA1FirstQuestion || isA1New || isA1FirstQuestionAnswered || isA1FiveAnswered) ? (
+        <div className="flex flex-col items-center justify-center text-center py-[64px] px-[24px]">
+          <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
+            Your stories are waiting to be written.
+          </p>
+          <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mb-[24px]">
+            Your drafts will collect here.
+          </p>
+          <button type="button" className="bg-[#ededed] border-2 border-transparent flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap">Start a new story</span>
+          </button>
         </div>
       ) : null}
       </>}

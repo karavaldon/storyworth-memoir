@@ -1,3 +1,33 @@
+## v1.0.185 — 2026-06-22T17:11:11
+- Add extra spacing between label and heading in a1-new hero
+
+## v1.0.184 — 2026-06-22T17:06:21
+- a1-new tab bar: add reorder and search buttons
+
+## v1.0.183 — 2026-06-22T17:05:03
+- Milestone badge 3: pink/red for Record over phone, 3-badge cluster in timeline and modal
+
+## v1.0.182 — 2026-06-22T17:01:46
+- 5-answered: 4 content variants (engagement, photos, recording, all) from Figma
+
+## v1.0.181 — 2026-06-22T16:56:11
+- Asked questions: light gray left border #d4d4d4
+
+## v1.0.180 — 2026-06-22T16:47:21
+- New scenario: a1-five-answered with 5 answered, 3 asked, 2 future questions
+
+## v1.0.179 — 2026-06-22T16:40:23
+- Open story button: add arrow
+
+## v1.0.178 — 2026-06-22T16:39:21
+- Answered question rows: hover shows Open story button (no fill, teal label)
+
+## v1.0.177 — 2026-06-22T16:37:09
+- Drafts empty state for a1-new, a1-firstQuestion, a1-firstQuestionAnswered
+
+## v1.0.176 — 2026-06-22T16:35:45
+- Your stories empty state for a1-new and a1-firstQuestion
+
 ## v1.0.175 — 2026-06-22T16:32:20
 - a1-new subtitle: remove max-width so text stays on one line
 
