@@ -1,3 +1,6 @@
+## v1.0.229 — 2026-06-22T19:20:51
+- Unengaged: QuestionButtonBank renders below question text, Answer button on right
+
 ## v1.0.228 — 2026-06-22T19:17:22
 - Your stories tab: label stories as Chapter 1, Chapter 2, etc.
 

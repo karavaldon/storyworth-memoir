@@ -3131,8 +3131,13 @@ export default function MemoirPage() {
                       )}
                     </div>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    {status === 'asked' && <QuestionButtonBank />}
                   </div>
-                  {status === 'asked' && <QuestionButtonBank />}
+                  {status === 'asked' && (
+                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    </button>
+                  )}
                 </div>
               )
             })}
