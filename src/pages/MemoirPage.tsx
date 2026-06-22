@@ -1083,10 +1083,8 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
     const tealFill = fillOverride?.[0] ?? 0.263
     const barGradient = (milestoneCount ?? 1) >= 2 ? RED_MAGENTA_GRADIENT : PURPLE_GRADIENT
     return (
-      <div className="relative z-[10] flex gap-[16px] items-center w-full cursor-pointer group">
+      <div className="relative z-[10] flex gap-[16px] items-center w-full cursor-pointer">
         <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } }`}</style>
-        {/* Teal hover fill for whole bar — behind content */}
-        <div className="absolute -inset-x-[16px] -inset-y-[12px] rounded-[8px] bg-[#E9FAFC] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
         {showBar && <div className="relative flex-none w-[146px]">
           <div className="relative h-[20px] w-full rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
@@ -2706,7 +2704,7 @@ export default function MemoirPage() {
       {!isOptionC && !isAEnd && <>{/* Progress message */}
       {(isA1New || isA1FirstQ || isA1Month4) && (
         isA1New ? (
-          <div className="w-full bg-white sticky top-0 z-30">
+          <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors">
             <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
               <MilestoneTimeline
                 variant="explore"
@@ -2718,7 +2716,7 @@ export default function MemoirPage() {
             </div>
           </div>
         ) : isA1FirstQ ? (
-          <div className="w-full bg-white sticky top-0 z-30">
+          <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors">
             <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
               <MilestoneTimeline
                 variant="explore"

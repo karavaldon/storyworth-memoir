@@ -1,3 +1,6 @@
+## v1.0.188 — 2026-06-22T17:24:30
+- Milestone hover fill extends full width of sticky bar
+
 ## v1.0.187 — 2026-06-22T17:21:55
 - Milestone bar hover turns next-milestone CTA teal and reveals arrow
 
