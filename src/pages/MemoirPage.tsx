@@ -2422,6 +2422,7 @@ export default function MemoirPage() {
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
 
+  const question1Ref = useRef<HTMLDivElement>(null)
   const question8Ref = useRef<HTMLDivElement>(null)
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
@@ -2705,7 +2706,8 @@ export default function MemoirPage() {
       {!isOptionC && !isAEnd && <>{/* Progress message */}
       {(isA1New || isA1FirstQ || isA1Month4) && (
         isA1New ? (
-          <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors">
+          <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors"
+            onClick={() => question1Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <MilestoneTimeline
                 variant="explore"
@@ -3160,7 +3162,7 @@ export default function MemoirPage() {
                 {optionCWeeks.slice(0, 10).map((week, i) => (
                   <div
                     key={week.weekNum}
-                    ref={i === 7 ? question8Ref : undefined}
+                    ref={i === 0 ? question1Ref : i === 7 ? question8Ref : undefined}
                     className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
                   >
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">

@@ -1,3 +1,6 @@
+## v1.0.198 — 2026-06-22T17:37:35
+- New user milestone bar click scrolls to question 1
+
 ## v1.0.197 — 2026-06-22T17:36:31
 - firstQ milestone bar: 16px top/bottom padding; tab bar top adjusted
 
