@@ -2468,6 +2468,7 @@ export default function MemoirPage() {
   const sentinelRef = useRef<HTMLDivElement>(null)
 
   const question1Ref = useRef<HTMLDivElement>(null)
+  const question5Ref = useRef<HTMLDivElement>(null)
   const question8Ref = useRef<HTMLDivElement>(null)
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
@@ -2502,10 +2503,10 @@ export default function MemoirPage() {
     }
   }, [scenario])
 
-  // a1-new / a1-unengaged: trigger milestone animation when question 8 enters the viewport
+  // a1-new / a1-unengaged: trigger milestone animation when target question enters the viewport
   useEffect(() => {
     if ((scenario !== 'a1-new' && scenario !== 'a1-unengaged') || revealState !== 'hidden') return
-    const el = question8Ref.current
+    const el = scenario === 'a1-unengaged' ? question5Ref.current : question8Ref.current
     if (!el) return
     const obs = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
@@ -2520,14 +2521,14 @@ export default function MemoirPage() {
     return () => obs.disconnect()
   }, [scenario, revealState])
 
-  // a1-new / a1-unengaged: track scroll progress from page top to question 8 for milestone progress bar
+  // a1-new / a1-unengaged: track scroll progress from page top to target question for milestone progress bar
   useEffect(() => {
     if ((scenario !== 'a1-new' && scenario !== 'a1-unengaged') || showTimeline2) return
     const MILESTONE_BAR_H = 88
     function handleScroll() {
-      const q8 = question8Ref.current
-      if (!q8) return
-      const q8Doc = q8.getBoundingClientRect().top + window.scrollY
+      const qTarget = scenario === 'a1-unengaged' ? question5Ref.current : question8Ref.current
+      if (!qTarget) return
+      const q8Doc = qTarget.getBoundingClientRect().top + window.scrollY
       const total = q8Doc - MILESTONE_BAR_H
       if (total <= 0) { setScrollProgress(1); return }
       setScrollProgress(Math.max(0, Math.min(1, window.scrollY / total)))
@@ -3090,7 +3091,7 @@ export default function MemoirPage() {
               { q: 'What do you hope your family remembers about you?',      asker: 'Storyworth', status: 'future'    },
             ] as { q: string; asker: string; status: 'asked' | 'this-week' | 'future' }[]).map(({ q, asker, status }, i) => {
               if (status === 'this-week') return (
-                <div key={i} ref={i === 7 ? question8Ref : undefined} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#eec256] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#eec256] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3112,7 +3113,7 @@ export default function MemoirPage() {
                 </div>
               )
               return (
-                <div key={i} ref={i === 0 ? question1Ref : undefined} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
