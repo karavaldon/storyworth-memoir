@@ -3009,19 +3009,39 @@ export default function MemoirPage() {
           )
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
-              {rows.map(({ q, status, preview, variant }, i) => (
-                <div key={i} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : status === 'this-week' ? 'border-l-[3px] border-l-[#d97706] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer ${status === 'this-week' ? 'hover:bg-[#fffbeb]' : 'hover:bg-[#fafafa]'}`}>
+              {rows.map(({ q, status, preview, variant }, i) => {
+                if (status === 'this-week') return (
+                  <div key={i} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}py-[72px] px-[24px] flex flex-col gap-[24px] items-center`}>
+                    <div className="bg-white border border-[#288068] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] px-[24px] py-[36px] flex items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#f0f7f4] hover:-translate-y-1 transition-all">
+                      <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                        <div className="flex gap-[12px] items-center">
+                          <div className="bg-[#d8e8e3] px-[12px] py-[2px] rounded-[6px] flex-shrink-0">
+                            <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#117459] whitespace-nowrap">Week {i + 1}</span>
+                          </div>
+                          <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#61706f] whitespace-nowrap">This week Raymond asked:</span>
+                        </div>
+                        <p className="font-['GT_Super_Display:Medium'] text-[24px] leading-[34px] tracking-[-0.24px] text-[#042a21] m-0 max-w-[600px]">{q}</p>
+                      </div>
+                      <button type="button" className="flex-none bg-[#288068] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+                        <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
+                      </button>
+                    </div>
+                    <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0 text-center">
+                      Not feeling it?{' '}
+                      <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">Pick a new one</button>
+                      {' '}or{' '}
+                      <button type="button" className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">shuffle this question</button>
+                    </p>
+                  </div>
+                )
+                return (
+                <div key={i} className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
-                      <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'this-week' ? 'text-[#92400e]' : 'text-[#61706f]'}`}>
-                        {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : status === 'this-week' ? 'For you this week' : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                        {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                       </p>
-                      {status === 'this-week' && (
-                        <div className="bg-[#fef3c7] px-[8px] py-[2px] rounded-[6px] flex-shrink-0">
-                          <span className="font-['GT_America:Medium'] text-[13px] leading-[20px] text-[#92400e] whitespace-nowrap">This week</span>
-                        </div>
-                      )}
                       {status === 'answered' && (variant === 'recording' || variant === 'all') && <RecordingBadge />}
                     </div>
                     {/* Question text */}
@@ -3060,7 +3080,7 @@ export default function MemoirPage() {
                     </button>
                   ) : null}
                 </div>
-              ))}
+              )})}
             </div>
           )
         })()

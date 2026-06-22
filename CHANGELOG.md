@@ -1,3 +1,6 @@
+## v1.0.207 — 2026-06-22T17:55:58
+- Five-answered: Q9 this-week card matches first-question styling
+
 ## v1.0.206 — 2026-06-22T17:53:24
 - Five-answered: Q2/Q4 show shared-with-Raymond UI
 
