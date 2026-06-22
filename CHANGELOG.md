@@ -1,3 +1,6 @@
+## v1.0.200 — 2026-06-22T17:41:33
+- Progress bar: start from page top, no gray track
+
 ## v1.0.199 — 2026-06-22T17:39:54
 - New user: scroll progress bar on milestone bar
 
