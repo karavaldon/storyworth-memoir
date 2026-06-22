@@ -1,3 +1,6 @@
+## v1.0.191 — 2026-06-22T17:27:11
+- Milestone count pill: increase horizontal padding to 14px
+
 ## v1.0.190 — 2026-06-22T17:26:40
 - Milestone count pill: white fill on hover
 
