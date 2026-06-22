@@ -1083,7 +1083,10 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
     const tealFill = fillOverride?.[0] ?? 0.263
     const barGradient = (milestoneCount ?? 1) >= 2 ? RED_MAGENTA_GRADIENT : PURPLE_GRADIENT
     return (
-      <div className="relative z-[10] flex gap-[16px] items-center w-full">
+      <div className="relative z-[10] flex gap-[16px] items-center w-full cursor-pointer group">
+        <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } }`}</style>
+        {/* Teal hover fill for whole bar — behind content */}
+        <div className="absolute -inset-x-[16px] -inset-y-[12px] rounded-[8px] bg-[#E9FAFC] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
         {showBar && <div className="relative flex-none w-[146px]">
           <div className="relative h-[20px] w-full rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
@@ -1097,13 +1100,13 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             {showTimeline2 && showBarFill && <PurpleBarFill key={barGradient} gradient={barGradient} />}
           </div>
         </div>}
-        <div className={`flex flex-1 items-center gap-4 ${!showBar && !showTimeline2 ? 'justify-center' : 'justify-between'}`}>
+        <div className={`relative flex flex-1 items-center gap-4 ${!showBar && !showTimeline2 ? 'justify-center' : 'justify-between'}`}>
           <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
             {showTimeline2 ? (
               <span>⛰️ Your next milestone:{' '}
-                <button type="button" className="font-['GT_America:Medium'] underline [text-decoration-skip-ink:none] cursor-pointer hover:text-[#068089] transition-colors group">
-                  {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover:opacity-100 transition-opacity"> →</span>
+                <button type="button" className="font-['GT_America:Medium'] underline [text-decoration-skip-ink:none] cursor-pointer hover:text-[#068089] transition-colors group/next">
+                  {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 transition-opacity"> →</span>
                 </button>
               </span>
             ) : (
@@ -1111,67 +1114,65 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             )}
           </p>
           {showTimeline2 && (
-            <div className="flex gap-[8px] items-center flex-shrink-0"
-              style={{ animation: 'milestone-in 0.4s ease-out both' }}>
-              <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } }`}</style>
-              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                You've reached
-              </p>
-              {(milestoneCount ?? 1) >= 3 ? (
-                <div className="relative flex-shrink-0" style={{ width: '44px', height: '24px' }}>
-                  <div className="absolute left-0 top-0 size-[24px]"
+            <div className="relative flex-shrink-0" style={{ animation: 'milestone-in 0.4s ease-out both' }}>
+              <button type="button"
+                className="flex gap-[8px] items-center h-[40px] px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors cursor-pointer"
+                onMouseDown={e => e.stopPropagation()}
+                onClick={e => { e.stopPropagation(); setShowMilestonesModal(v => !v) }}>
+                <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
+                  You've reached
+                </span>
+                {(milestoneCount ?? 1) >= 3 ? (
+                  <div className="relative flex-shrink-0" style={{ width: '44px', height: '24px' }}>
+                    <div className="absolute left-0 top-0 size-[24px]"
+                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
+                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                    </div>
+                    <div className="absolute left-[10px] top-0 size-[24px]"
+                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.55s both' }}>
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
+                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                    </div>
+                    <div className="absolute left-[20px] top-0 size-[24px]"
+                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.7s both' }}>
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge3} />
+                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                    </div>
+                  </div>
+                ) : (milestoneCount ?? 1) >= 2 ? (
+                  <div className="relative flex-shrink-0" style={{ width: '34px', height: '24px' }}>
+                    <div className="absolute left-0 top-0 size-[24px]"
+                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
+                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                    </div>
+                    <div className="absolute left-[10px] top-0 size-[24px]"
+                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.65s both' }}>
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
+                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative size-[24px] flex-shrink-0"
                     style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
                     <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
                     <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                       style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                   </div>
-                  <div className="absolute left-[10px] top-0 size-[24px]"
-                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.55s both' }}>
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
-                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                  </div>
-                  <div className="absolute left-[20px] top-0 size-[24px]"
-                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.7s both' }}>
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge3} />
-                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                  </div>
-                </div>
-              ) : (milestoneCount ?? 1) >= 2 ? (
-                <div className="relative flex-shrink-0" style={{ width: '34px', height: '24px' }}>
-                  <div className="absolute left-0 top-0 size-[24px]"
-                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
-                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                  </div>
-                  <div className="absolute left-[10px] top-0 size-[24px]"
-                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.65s both' }}>
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
-                    <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                      style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="relative size-[24px] flex-shrink-0"
-                  style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
-                  <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
-                  <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                    style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                </div>
-              )}
-              <div className="relative">
-                <button type="button"
-                  className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap underline [text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer hover:text-[#07777e] transition-colors"
-                  onMouseDown={e => e.stopPropagation()}
-                  onClick={() => setShowMilestonesModal(v => !v)}>
-                  {milestoneCount ?? 1} of 10 milestones
-                </button>
-                {showMilestonesModal && (
-                  <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} />
                 )}
-              </div>
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
+                  {milestoneCount ?? 1} of 10 milestones
+                </span>
+              </button>
+              {showMilestonesModal && (
+                <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} />
+              )}
             </div>
           )}
         </div>

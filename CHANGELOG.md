@@ -1,3 +1,6 @@
+## v1.0.186 — 2026-06-22T17:16:57
+- Milestone bar: E9FAFC fill on hover; milestone count cluster as gray pill button
+
 ## v1.0.185 — 2026-06-22T17:11:11
 - Add extra spacing between label and heading in a1-new hero
 
