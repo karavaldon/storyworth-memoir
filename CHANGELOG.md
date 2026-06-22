@@ -1,3 +1,6 @@
+## v1.0.226 — 2026-06-22T18:57:50
+- Hide story count in tab label when zero
+
 ## v1.0.225 — 2026-06-22T18:56:21
 - Your stories tab shows written story count
 
