@@ -1075,7 +1075,7 @@ function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
   )
 }
 
-function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, nextMilestoneText, showBarFill = true, showBar = true }: {
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
@@ -1086,6 +1086,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   showBarFill?: boolean
   showBar?: boolean
   nextMilestoneText?: string
+  nextMilestoneHoverText?: string
 }) {
   const [showMilestonesModal, setShowMilestonesModal] = useState(false)
   if (variant === 'explore') {
@@ -1113,7 +1114,12 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             {showTimeline2 ? (
               <span>⛰️ Your next milestone:{' '}
                 <button type="button" className="font-['GT_America:Medium'] underline [text-decoration-skip-ink:none] cursor-pointer hover:text-[#068089] group-hover:text-[#068089] transition-colors group/next">
-                  {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 group-hover:opacity-100 transition-opacity"> →</span>
+                  <span className={nextMilestoneHoverText ? 'group-hover:hidden' : ''}>
+                    {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 group-hover:opacity-100 transition-opacity"> →</span>
+                  </span>
+                  {nextMilestoneHoverText && (
+                    <span className="hidden group-hover:inline">{nextMilestoneHoverText} →</span>
+                  )}
                 </button>
               </span>
             ) : (
@@ -2761,6 +2767,7 @@ export default function MemoirPage() {
                 showBarFill={false}
                 milestoneCount={isA1FiveAnswered ? 3 : isA1FirstQuestionAnswered ? 2 : 1}
                 nextMilestoneText={isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
+                nextMilestoneHoverText={isA1FiveAnswered ? 'Add another story to reach 6/10 stories' : undefined}
               />
             </div>
           </div>

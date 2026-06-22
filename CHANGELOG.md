@@ -1,3 +1,6 @@
+## v1.0.203 — 2026-06-22T17:47:42
+- Milestone bar: hover label for Add 10 stories CTA
+
 ## v1.0.202 — 2026-06-22T17:45:41
 - Milestone modal: scrollable when clipped at viewport bottom
 
