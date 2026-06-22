@@ -1083,7 +1083,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
     const tealFill = fillOverride?.[0] ?? 0.263
     const barGradient = (milestoneCount ?? 1) >= 2 ? RED_MAGENTA_GRADIENT : PURPLE_GRADIENT
     return (
-      <div className="relative z-[10] flex gap-[16px] items-center w-full cursor-pointer">
+      <div className="relative z-[10] flex gap-[16px] items-center w-full cursor-pointer min-h-[40px]">
         <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } }`}</style>
         {showBar && <div className="relative flex-none w-[146px]">
           <div className="relative h-[20px] w-full rounded-full overflow-hidden">
@@ -2815,7 +2815,7 @@ export default function MemoirPage() {
 
       <><div ref={sentinelRef} className="h-0" aria-hidden />
       {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
-      <div className={`sticky ${(isA1FirstQ || isA1New) ? 'top-[84px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
+      <div className={`sticky ${(isA1FirstQ || isA1New) ? 'top-[88px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
         style={{ boxShadow: tabBarStuck ? '0 4px 24px rgba(0,0,0,0.10)' : 'none' }}>
         <div className={`max-w-[1189px] mx-auto ${(isA1FirstQ || isNewUser || isA1New) ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} pt-[22px] pb-[24px]`}>
           <div className="flex items-center justify-between gap-4">
