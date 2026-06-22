@@ -1105,8 +1105,8 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
             {showTimeline2 ? (
               <span>⛰️ Your next milestone:{' '}
-                <button type="button" className="font-['GT_America:Medium'] underline [text-decoration-skip-ink:none] cursor-pointer hover:text-[#068089] transition-colors group/next">
-                  {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 transition-opacity"> →</span>
+                <button type="button" className="font-['GT_America:Medium'] underline [text-decoration-skip-ink:none] cursor-pointer hover:text-[#068089] group-hover:text-[#068089] transition-colors group/next">
+                  {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 group-hover:opacity-100 transition-opacity"> →</span>
                 </button>
               </span>
             ) : (
