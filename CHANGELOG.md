@@ -1,3 +1,72 @@
+## v1.0.175 — 2026-06-22T16:32:20
+- a1-new subtitle: remove max-width so text stays on one line
+
+## v1.0.174 — 2026-06-22T16:31:16
+- a1-new subtitle: remove line break
+
+## v1.0.173 — 2026-06-22T16:30:38
+- a1-new: Hi Brian leads the gifted line
+
+## v1.0.172 — 2026-06-22T16:30:17
+- a1-new: merge Hi Brian into Raymond gifted line
+
+## v1.0.171 — 2026-06-22T16:29:20
+- a1-new heading: line break after Hi Brian
+
+## v1.0.170 — 2026-06-22T16:28:26
+- Your memoir preview: shift right 12px
+
+## v1.0.169 — 2026-06-22T16:27:54
+- R avatars: fill changed to #D8A577
+
+## v1.0.168 — 2026-06-22T16:27:37
+- a1-new hero: match headline styling to other pages; subtitle switched to GT America
+
+## v1.0.167 — 2026-06-22T16:26:22
+- Add ml-[2px] before R avatars in Asked by pattern
+
+## v1.0.166 — 2026-06-22T16:25:09
+- firstQuestionAnswered: 'Nice work, Brian!' and remove ! from story added headline
+
+## v1.0.165 — 2026-06-22T16:24:31
+- Asked by: dot spacer before, R avatar inline before Raymond
+
+## v1.0.164 — 2026-06-22T16:20:08
+- Center milestone text on new user when bar is hidden
+
+## v1.0.163 — 2026-06-22T16:19:18
+- Remove progress bar from a1-new milestone
+
+## v1.0.162 — 2026-06-22T16:17:49
+- Your stories tab on first-q-answered: match All questions grid layout, remove extra padding
+
+## v1.0.161 — 2026-06-22T16:14:03
+- Fix Answer → buttons on a1-firstQuestion and a1-new: teal fill, white label, always visible on hover
+
+## v1.0.160 — 2026-06-22T16:12:47
+- Question send dates replace 'Asked by Raymond' for future questions; asker shown only on this week and next week
+
+## v1.0.159 — 2026-06-22T16:10:07
+- Answer → buttons: teal fill #068089, white labels
+
+## v1.0.158 — 2026-06-22T16:06:05
+- a1-new: show question button bank regardless of revealState
+
+## v1.0.157 — 2026-06-22T16:04:39
+- question button bank: 2px teal border on hover instead of opacity
+
+## v1.0.156 — 2026-06-22T16:03:10
+- milestones: change 'earned' to 'reached'
+
+## v1.0.155 — 2026-06-22T16:01:50
+- question button bank: smooth max-height + opacity transition on hover
+
+## v1.0.154 — 2026-06-22T15:59:47
+- unanswered questions: fafafa hover bg + edit/replace/trash button bank on hover
+
+## v1.0.153 — 2026-06-22T15:53:27
+- a1-new: Your stories tab shows blank
+
 ## v1.0.152 — 2026-06-19T20:48:55
 - a1-new: reduce heading top padding by 24px (66→42) below floating arrow
 

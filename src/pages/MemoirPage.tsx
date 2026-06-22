@@ -9,6 +9,8 @@ import imgMenuIcon from '../../assets/icons/menu.svg'
 import imgChevronDown from '../../assets/icons/chevron-down.svg'
 import imgNewStoryIcon from '../../assets/icons/new-story.svg'
 import imgPencilIcon from '../../assets/icons/pencil.svg'
+import imgReplaceIcon from '../../assets/icons/replace.svg'
+import imgTrashIcon from '../../assets/icons/trash.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
 import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
@@ -921,7 +923,7 @@ function MilestoneModalRow({ label, earned, link, earnedLink, subtext, badgeSrc 
           </p>
           {earned && (
             <div className="bg-[#d3f7ed] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0">
-              <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#158768]">Earned</p>
+              <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#158768]">Reached</p>
             </div>
           )}
         </div>
@@ -975,6 +977,34 @@ function MenuModal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
       ))}
+    </div>
+  )
+}
+
+function getQuestionSendDate(questionIndex: number): string {
+  const base = new Date(2026, 5, 3) // June 3, 2026 — Q1 send date
+  const d = new Date(base)
+  d.setDate(base.getDate() + questionIndex * 7)
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const day = d.getDate()
+  const suffix = day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th'
+  return `Monday, ${months[d.getMonth()]} ${day}${suffix}`
+}
+
+function QuestionButtonBank() {
+  return (
+    <div className="flex gap-[12px] items-center overflow-hidden max-h-0 opacity-0 group-hover:max-h-[60px] group-hover:opacity-100 transition-all duration-200">
+      <button type="button" className="bg-[#ededed] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:border-[#07777e] transition-colors flex-shrink-0">
+        <img alt="" className="size-[22px] flex-shrink-0" src={imgPencilIcon} />
+        <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Edit</span>
+      </button>
+      <button type="button" className="bg-[#ededed] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:border-[#07777e] transition-colors flex-shrink-0">
+        <img alt="" className="size-[24px] flex-shrink-0" src={imgReplaceIcon} />
+        <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Replace</span>
+      </button>
+      <button type="button" className="bg-[#ededed] border-2 border-transparent size-[40px] flex items-center justify-center rounded-full cursor-pointer hover:border-[#07777e] transition-colors flex-shrink-0">
+        <img alt="" className="size-[22px]" src={imgTrashIcon} />
+      </button>
     </div>
   )
 }
@@ -1060,7 +1090,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             {showTimeline2 && showBarFill && <PurpleBarFill key={barGradient} gradient={barGradient} />}
           </div>
         </div>}
-        <div className="flex flex-1 items-center justify-between gap-4">
+        <div className={`flex flex-1 items-center gap-4 ${!showBar && !showTimeline2 ? 'justify-center' : 'justify-between'}`}>
           <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
             {showTimeline2 ? (
@@ -1078,7 +1108,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
               style={{ animation: 'milestone-in 0.4s ease-out both' }}>
               <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } }`}</style>
               <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                You've earned
+                You've reached
               </p>
               {(milestoneCount ?? 1) >= 2 ? (
                 <div className="relative flex-shrink-0" style={{ width: '34px', height: '24px' }}>
@@ -1301,7 +1331,7 @@ function OptionCNew() {
             <div
               key={week.weekNum}
               ref={el => { weekRowRefs.current[i] = el }}
-              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer hover:bg-[#f7f7f7]`}
+              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
             >
               <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
@@ -1314,6 +1344,7 @@ function OptionCNew() {
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">
                   {week.question}
                 </p>
+                <QuestionButtonBank />
               </div>
               <button type="button" className="invisible group-hover:visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                 <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
@@ -2486,20 +2517,20 @@ export default function MemoirPage() {
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[12px] items-start min-w-px">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">
-                    Raymond gifted you a Storyworth Memoir
+                    Hi, Brian! Raymond gifted you a Storyworth Memoir
                   </p>
-                  <p className="font-['GT_Super_Display:Medium'] text-[30px] leading-[38px] tracking-[-0.30px] text-[#042a21] m-0">
-                    Hi, Brian! Let's capture some memories together.
+                  <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
+                    Let's capture some memories together.
                   </p>
-                  <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] tracking-[-0.16px] text-[#445f59] m-0 max-w-[307px]">
-                    Tell your life story over the next year,<br />and print it in a hardcover book.
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
+                    Tell your life story over the next year, and print it in a hardcover book.
                   </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Your memoir preview</p>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -2512,9 +2543,9 @@ export default function MemoirPage() {
             <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Nice work!</p>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Nice work, Brian!</p>
                   <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                    You added a story this week!
+                    You added a story this week.
                   </p>
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
                     We've sent your story to Raymond to read. You can always{' '}
@@ -2527,7 +2558,7 @@ export default function MemoirPage() {
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Your memoir preview</p>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -2543,10 +2574,14 @@ export default function MemoirPage() {
                   <div className="flex flex-col gap-[16px]">
                     <div className="flex items-center gap-[6px] flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">For you this week</p>
-                      <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
-                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
-                      </div>
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Asked by Raymond</p>
+                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">·</span>
+                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] flex items-center gap-[4px]">
+                        Asked by
+                        <span className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0 ml-[2px]">
+                          <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                        </span>
+                        Raymond
+                      </span>
                     </div>
                     <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
                       {weekQuestions[0]}
@@ -2564,7 +2599,7 @@ export default function MemoirPage() {
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Your memoir preview</p>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -2620,10 +2655,9 @@ export default function MemoirPage() {
             <div className="max-w-[1189px] mx-auto px-[24px] py-[32px]">
               <MilestoneTimeline
                 variant="explore"
-                fillOverride={timelineAnimating && !showTimeline2 ? [1, 0, 0, 0, 0] : undefined}
                 animate={timelineAnimating}
                 showTimeline2={showTimeline2}
-                showBar={!showTimeline2}
+                showBar={false}
                 showBarFill={false}
               />
             </div>
@@ -2843,23 +2877,25 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => (
               <div
                 key={i}
-                className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#f7f7f7]`}
+                className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
                     <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                      {i === 0 ? 'Question 1 answered' : i === 1 ? 'Question 2 will send next week' : `Question ${i + 1}`}
+                      {i === 0 ? 'Question 1 answered' : i === 1 ? 'Question 2 will send next week' : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                     </p>
-                    {i !== 0 && (
+                    {i === 1 && (
                       <div className="flex gap-[6px] items-center flex-shrink-0">
-                        {asker === 'Raymond' && (
-                          <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
-                            <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
-                          </div>
-                        )}
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                          {asker === 'Raymond' ? 'Asked by Raymond' : 'Asked by Storyworth for Raymond'}
-                        </p>
+                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f]">·</span>
+                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] flex items-center gap-[4px] whitespace-nowrap">
+                          Asked by
+                          {asker === 'Raymond' && (
+                            <span className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                              <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                            </span>
+                          )}
+                          {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -2872,7 +2908,7 @@ export default function MemoirPage() {
                         "I remember the summer days spent at my grandmother's house, where we would bake cookies and play in the garden, surrounded by laughter..."
                       </p>
                       <div className="flex gap-[6px] items-center">
-                        <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
+                        <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
                           <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
                         </div>
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
@@ -2881,13 +2917,14 @@ export default function MemoirPage() {
                       </div>
                     </>
                   )}
+                  {i > 0 && <QuestionButtonBank />}
                 </div>
                 {i > 0 && (
                   <button
                     type="button"
-                    className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                    className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
                   >
-                    <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                   </button>
                 )}
               </div>
@@ -2912,7 +2949,7 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => (
               <div
                 key={i}
-                className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${i === 0 ? 'border-l-[3px] border-l-[#eec256] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#f7f7f7]`}
+                className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}${i === 0 ? 'border-l-[3px] border-l-[#eec256] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -2922,28 +2959,33 @@ export default function MemoirPage() {
                       </span>
                     )}
                     <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                      {i === 1 ? 'Question 2 will send next week' : `Question ${i + 1}`}
+                      {i === 1 ? 'Question 2 will send next week' : i >= 2 ? `Question ${i + 1} sends on ${getQuestionSendDate(i)}` : `Question ${i + 1}`}
                     </p>
-                    <div className="flex gap-[6px] items-center flex-shrink-0">
-                      {asker === 'Raymond' && (
-                        <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
-                          <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
-                        </div>
-                      )}
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                        {asker === 'Raymond' ? 'Asked by Raymond' : 'Asked by Storyworth for Raymond'}
-                      </p>
-                    </div>
+                    {i <= 1 && (
+                      <div className="flex gap-[6px] items-center flex-shrink-0">
+                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f]">·</span>
+                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] flex items-center gap-[4px] whitespace-nowrap">
+                          Asked by
+                          {asker === 'Raymond' && (
+                            <span className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                              <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                            </span>
+                          )}
+                          {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
                     {q}
                   </p>
+                  <QuestionButtonBank />
                 </div>
                 <button
                   type="button"
-                  className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                  className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
                 >
-                  <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                  <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                 </button>
               </div>
             ))}
@@ -2960,30 +3002,25 @@ export default function MemoirPage() {
                   <div
                     key={week.weekNum}
                     ref={i === 7 ? question8Ref : undefined}
-                    className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#f7f7f7]`}
+                    className={`${i < 9 ? 'border-b border-[#ebebeb] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
                   >
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center flex-wrap">
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                          {i === 0 ? 'Question 1 sends on Monday, June 3rd' : `Question ${week.weekNum}`}
+                          {`Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                         </p>
-                        <div className="flex gap-[6px] items-center flex-shrink-0">
-                          <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
-                            <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
-                          </div>
-                          <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Asked by Raymond</p>
-                        </div>
                       </div>
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
                         {week.question}
                       </p>
+                      <QuestionButtonBank />
                     </div>
                     {/* Always rendered so row width stays stable; hidden until milestone earned */}
                     <button
                       type="button"
-                      className={`flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity ${revealState === 'revealed' ? 'invisible group-hover:visible' : 'opacity-0 pointer-events-none'}`}
+                      className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
                     >
-                      <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   </div>
                 ))}
@@ -3019,33 +3056,35 @@ export default function MemoirPage() {
           />
         )
       ) : activeTab === 'stories' ? (
-        <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0">
+        <div className={isA1FirstQuestionAnswered ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
           {isA1FirstQuestionAnswered ? (
             <div
-              className="relative max-w-[1189px] mx-auto px-[24px]"
-              style={{ paddingBottom: '80px', marginTop: '8px' }}
+              className="relative max-w-[1189px] mx-auto"
+              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
             >
-              <div className="border-l-[3px] border-[#1ba07c] py-[24px] px-[24px] flex flex-col gap-[12px] cursor-pointer hover:bg-[#f7f7f7]">
-                <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0">
-                  Question 1 answered
-                </p>
-                <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
-                  {weekQuestions[0]}
-                </p>
-                <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">
-                  "I remember the summer days spent at my grandmother's house, where we would bake cookies and play in the garden, surrounded by laughter..."
-                </p>
-                <div className="flex gap-[6px] items-center">
-                  <div className="size-[18px] rounded-full bg-[#2d6a55] flex items-center justify-center flex-shrink-0">
-                    <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
-                  </div>
+              <div className="border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]">
+                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                    Shared with Raymond
+                    Question 1 answered
                   </p>
+                  <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
+                    {weekQuestions[0]}
+                  </p>
+                  <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">
+                    "I remember the summer days spent at my grandmother's house, where we would bake cookies and play in the garden, surrounded by laughter..."
+                  </p>
+                  <div className="flex gap-[6px] items-center">
+                    <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                      <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                    </div>
+                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                      Shared with Raymond
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          ) : isA1FirstQuestion ? null : isNewUser ? (
+          ) : (isA1FirstQuestion || isA1New) ? null : isNewUser ? (
             <div className="flex flex-col items-center justify-center py-[24px] px-[16px]">
               <div className="flex flex-col gap-[24px] items-center text-center max-w-[600px] py-[40px]">
                 <div className="flex flex-col gap-[12px]">
