@@ -1,3 +1,6 @@
+## v1.0.204 — 2026-06-22T17:48:30
+- Milestone modal: always max-height 100vh-100px with overflow scroll
+
 ## v1.0.203 — 2026-06-22T17:47:42
 - Milestone bar: hover label for Add 10 stories CTA
 
