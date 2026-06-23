@@ -1,3 +1,6 @@
+## v1.0.267 — 2026-06-23T19:54:09
+- Reorder modal: warning button labels 14px; 12px gap above warning
+
 ## v1.0.266 — 2026-06-23T19:52:24
 - Reorder modal: Chapter, Unanswered, This week labels set to 14px
 

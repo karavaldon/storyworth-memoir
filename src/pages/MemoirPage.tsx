@@ -1125,13 +1125,13 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                       <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
                     )}
                     {isDisplacedFuture && pendingItems && (
-                      <div className="mt-[12px] flex flex-col gap-[12px]">
+                      <div className="mt-[8px] flex flex-col gap-[12px]">
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#ab8017] m-0">
                           This will move this question out of the queue and it won't send via email. Are you sure you want to reorder it?
                         </p>
                         <div className="flex gap-[12px]">
                           <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#61706f] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer transition-colors">
-                            <span className="font-['GT_America:Medium'] text-[16px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
+                            <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
                           </button>
                           <button type="button" onClick={() => {
                             const lastNonFuture = pendingItems.reduce((last, it, idx) => it.status !== 'future' ? idx : last, -1)
@@ -1142,7 +1142,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                             setItems(updated)
                             setPendingItems(null)
                           }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-                            <span className="font-['GT_America:Medium'] text-[16px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
+                            <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
                           </button>
                         </div>
                       </div>
