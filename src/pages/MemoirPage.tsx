@@ -1127,7 +1127,9 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
             <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
-            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
+            <div className={`overflow-hidden transition-all duration-150 ${dragIdx !== null ? 'max-h-0 opacity-0' : 'max-h-[80px] opacity-100'}`}>
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
+            </div>
           </div>
           <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
@@ -1135,7 +1137,8 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         </div>
 
         {/* Toolbar */}
-        <div className="flex-shrink-0 flex items-center justify-between px-[24px] py-[10px] border-t border-[#ebebeb]">
+        <div className={`flex-shrink-0 overflow-hidden transition-all duration-150 ${dragIdx !== null ? 'max-h-0 opacity-0' : 'max-h-[60px] opacity-100'}`}>
+        <div className="flex items-center justify-between px-[24px] py-[10px] border-t border-[#ebebeb]">
           <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
             {(['all', 'stories'] as const).map(f => (
               filter === f
@@ -1152,6 +1155,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             className="px-[14px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
             <span className={`font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap ${selectMode ? 'text-[#068089]' : 'text-[#61706f]'}`}>Select</span>
           </button>
+        </div>
         </div>
 
         {/* List */}

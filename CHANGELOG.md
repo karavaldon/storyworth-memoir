@@ -1,3 +1,6 @@
+## v1.0.284 — 2026-06-23T20:29:31
+- Reorder modal: hide subtitle and toolbar while dragging for more list space
+
 ## v1.0.283 — 2026-06-23T20:28:18
 - Reorder modal: auto-scroll list when dragging near top or bottom edge
 
