@@ -1,3 +1,6 @@
+## v1.0.232 — 2026-06-23T18:08:24
+- Move 'Share as a podcast' milestone to after 'Add a photo'
+
 ## v1.0.231 — 2026-06-23T18:05:57
 - Add 'Ready to add more questions?' footer at the end of the All Questions list for all A1 scenarios
 

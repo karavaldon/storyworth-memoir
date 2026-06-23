@@ -896,11 +896,11 @@ const MILESTONE_LIST: MilestoneItem[] = [
   { label: 'Add your first story', link: 'Tell a story →', earnedLink: 'Keep telling stories →', badgeSrc: imgMilestoneBadge2 },
   { label: 'Record over the phone', subtext: 'Open any new story to record', badgeSrc: imgMilestoneBadge3 },
   { label: 'Add a photo', subtext: 'Open any story to upload photos', badgeSrc: imgMilestoneBadge5 },
+  { label: 'Share as a podcast', link: 'Publish your podcast →' },
   { label: 'Add 5 stories', subtext: '1 of 5 written', earnedSubtext: '5 of 5 written', countTarget: 5, badgeSrc: imgMilestoneBadge4 },
   { label: 'Add 10 stories', subtext: '1 of 10 written', earnedSubtext: '10 of 10 written', countTarget: 10 },
   { label: 'Add 20 stories', subtext: '1 of 20 written', earnedSubtext: '20 of 20 written', countTarget: 20 },
   { label: 'Design your cover', link: 'Open cover editor →' },
-  { label: 'Share as a podcast', link: 'Publish your podcast →' },
   { label: 'Preview your book', link: 'Open book preview →' },
   { label: 'Print your book', link: 'Print →' },
 ]
