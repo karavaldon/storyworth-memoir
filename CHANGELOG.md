@@ -1,3 +1,6 @@
+## v1.0.230 — 2026-06-23T18:01:08
+- Add Share as a podcast milestone before Preview your book
+
 ## v1.0.229 — 2026-06-22T19:20:51
 - Unengaged: QuestionButtonBank renders below question text, Answer button on right
 

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect, useMemo } from 'react'
 
 // Local assets
 import logoHorizontal from '../../assets/logo/storyworth-logo-horizontal.svg'
@@ -900,6 +900,7 @@ const MILESTONE_LIST: MilestoneItem[] = [
   { label: 'Add 10 stories', subtext: '1 of 10 written', earnedSubtext: '10 of 10 written', countTarget: 10 },
   { label: 'Add 20 stories', subtext: '1 of 20 written', earnedSubtext: '20 of 20 written', countTarget: 20 },
   { label: 'Design your cover', link: 'Open cover editor →' },
+  { label: 'Share as a podcast', link: 'Publish your podcast →' },
   { label: 'Preview your book', link: 'Open book preview →' },
   { label: 'Print your book', link: 'Print →' },
 ]
@@ -1000,6 +1001,142 @@ function getQuestionSendDate(questionIndex: number): string {
   const day = d.getDate()
   const suffix = day === 1 || day === 21 || day === 31 ? 'st' : day === 2 || day === 22 ? 'nd' : day === 3 || day === 23 ? 'rd' : 'th'
   return `Monday, ${months[d.getMonth()]} ${day}${suffix}`
+}
+
+type ReorderItem = { id: number; q: string; status: 'answered' | 'asked' | 'this-week' | 'future' }
+
+function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialItems: ReorderItem[] }) {
+  const [items, setItems] = useState(initialItems)
+  const [dragIdx, setDragIdx] = useState<number | null>(null)
+  const [dropTargetIdx, setDropTargetIdx] = useState<number | null>(null)
+  const [pendingItems, setPendingItems] = useState<ReorderItem[] | null>(null)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleMouseDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose()
+    }
+    document.addEventListener('mousedown', handleMouseDown)
+    return () => document.removeEventListener('mousedown', handleMouseDown)
+  }, [onClose])
+
+  function getReordered(from: number, to: number) {
+    const next = [...items]
+    const [moved] = next.splice(from, 1)
+    next.splice(to, 0, moved)
+    return next
+  }
+
+  function handleDrop(e: React.DragEvent, targetIdx: number) {
+    e.preventDefault()
+    if (dragIdx === null || dragIdx === targetIdx) { setDragIdx(null); setDropTargetIdx(null); return }
+    const next = getReordered(dragIdx, targetIdx)
+    const movedId = items[dragIdx].id
+    const newPos = next.findIndex(it => it.id === movedId)
+    const newThisWeekPos = next.findIndex(it => it.status === 'this-week')
+    if (newThisWeekPos >= 0 && newPos < newThisWeekPos && items[dragIdx].status !== 'this-week') {
+      setPendingItems(next)
+    } else {
+      setItems(next)
+    }
+    setDragIdx(null)
+    setDropTargetIdx(null)
+  }
+
+  const displayItems = pendingItems ?? items
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div ref={ref} className="bg-white rounded-[16px] shadow-[0px_16px_48px_rgba(0,0,0,0.18)] max-w-[640px] w-full mx-4 flex flex-col" style={{ maxHeight: 'calc(100vh - 80px)' }}>
+        {/* Header */}
+        <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
+          <div>
+            <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder questions</h2>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px]">Drag to change the order questions appear in your memoir.</p>
+          </div>
+          <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
+          </button>
+        </div>
+
+        {/* List */}
+        <div className="overflow-y-auto flex-1 border-t border-[#ebebeb]">
+          {displayItems.map((item, i) => {
+            const isDragging = dragIdx === i
+            const isDropTarget = dropTargetIdx === i && dragIdx !== null && dragIdx !== i
+            return (
+              <div
+                key={item.id}
+                draggable={!pendingItems}
+                onDragStart={() => { setDragIdx(i) }}
+                onDragOver={e => { e.preventDefault(); setDropTargetIdx(i) }}
+                onDrop={e => handleDrop(e, i)}
+                onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
+                className={`flex items-center gap-[16px] px-[24px] py-[20px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDropTarget ? 'bg-[#edfafb]' : 'bg-white'}`}
+                style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
+              >
+                {/* Drag handle */}
+                {!pendingItems && (
+                  <div
+                    className="flex-shrink-0 flex items-center justify-center w-[24px]"
+                    style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+                  >
+                    <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
+                      <circle cx="3" cy="4" r="2" fill="#b0bdb9"/>
+                      <circle cx="9" cy="4" r="2" fill="#b0bdb9"/>
+                      <circle cx="3" cy="10" r="2" fill="#b0bdb9"/>
+                      <circle cx="9" cy="10" r="2" fill="#b0bdb9"/>
+                      <circle cx="3" cy="16" r="2" fill="#b0bdb9"/>
+                      <circle cx="9" cy="16" r="2" fill="#b0bdb9"/>
+                    </svg>
+                  </div>
+                )}
+                {/* Content */}
+                <div className="flex flex-col gap-[4px] flex-1 min-w-0">
+                  {item.status === 'this-week' && (
+                    <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[13px] leading-[18px] rounded-[6px] px-[8px] py-[3px] mb-[2px] whitespace-nowrap">This week</span>
+                  )}
+                  {item.status === 'answered' && (
+                    <p className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#1ba07c] m-0">Answered</p>
+                  )}
+                  {item.status === 'asked' && (
+                    <p className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] m-0">In queue</p>
+                  )}
+                  {item.status === 'future' && (
+                    <p className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#b0bdb9] m-0">Not yet sent</p>
+                  )}
+                  <p className="font-['GT_Super_Display:Medium'] text-[16px] leading-[24px] text-[#042a21] m-0">{item.q}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Warning or footer */}
+        {pendingItems ? (
+          <div className="flex-shrink-0 border-t-2 border-[#eec256] bg-[#fffdf0] px-[32px] py-[24px] rounded-b-[16px] flex flex-col gap-[16px]">
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#7a5f00] m-0">
+              This will move this question out of the weekly queue and it won't send via email. Are you sure you want to reorder it?
+            </p>
+            <div className="flex gap-[12px]">
+              <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#d4d4d4] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
+                <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
+              </button>
+              <button type="button" onClick={() => { setItems(pendingItems); setPendingItems(null) }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+                <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex-shrink-0 border-t border-[#ebebeb] px-[40px] py-[24px] flex justify-end">
+            <button type="button" onClick={onClose} className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+              <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Done</span>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
 function QuestionButtonBank() {
@@ -1210,7 +1347,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                   </div>
                 )}
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                  {milestoneCount ?? 1} of 10 milestones
+                  {milestoneCount ?? 1} of {MILESTONE_LIST.length} milestones
                 </span>
                 <img alt="" className="size-[18px] flex-shrink-0 opacity-0 group-hover/milestone:opacity-100 transition-opacity" src={imgChevronDown} />
               </button>
@@ -2564,6 +2701,112 @@ export default function MemoirPage() {
 
   const storiesWrittenCount = isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : isA1FirstQuestionAnswered ? 1 : (isA1New || isA1FirstQuestion || isA1Unengaged || isNewUser) ? 0 : stories.length
 
+  const reorderInitialItems = useMemo((): ReorderItem[] => {
+    if (isA1NearEnd) return [
+      { id:  0, q: weekQuestions[0],                                                         status: 'asked'     },
+      { id:  1, q: 'What legacy do you want to leave behind?',                               status: 'answered'  },
+      { id:  2, q: 'Who has been your biggest fan?',                                         status: 'answered'  },
+      { id:  3, q: 'Did you have any jobs growing up?',                                      status: 'asked'     },
+      { id:  4, q: 'What was your favorite childhood vacation?',                             status: 'answered'  },
+      { id:  5, q: 'How did you decide on your career path?',                                status: 'asked'     },
+      { id:  6, q: 'What world event had the biggest impact on your life?',                  status: 'asked'     },
+      { id:  7, q: 'How did you meet your closest friends?',                                 status: 'asked'     },
+      { id:  8, q: 'What are your proudest achievements?',                                   status: 'asked'     },
+      { id:  9, q: 'What do you hope your family remembers about you?',                      status: 'answered'  },
+      { id: 10, q: 'Where did you grow up, and what was it like?',                          status: 'answered'  },
+      { id: 11, q: "What's the best advice you ever received?",                             status: 'answered'  },
+      { id: 12, q: 'How did you meet your spouse or partner?',                               status: 'asked'     },
+      { id: 13, q: 'What was your first job like?',                                          status: 'asked'     },
+      { id: 14, q: 'Describe a perfect day from your childhood.',                            status: 'asked'     },
+      { id: 15, q: "What's a tradition your family had growing up?",                        status: 'asked'     },
+      { id: 16, q: 'Who was your childhood hero?',                                           status: 'asked'     },
+      { id: 17, q: "What's the hardest decision you've ever made?",                         status: 'asked'     },
+      { id: 18, q: "What's your favorite family recipe?",                                   status: 'asked'     },
+      { id: 19, q: 'Where did you go on your first trip abroad?',                            status: 'asked'     },
+      { id: 20, q: 'What did your parents teach you about money?',                           status: 'asked'     },
+      { id: 21, q: 'Tell me about your first car.',                                          status: 'answered'  },
+      { id: 22, q: 'What school subject did you love most?',                                 status: 'asked'     },
+      { id: 23, q: 'What sports or activities did you play as a kid?',                       status: 'asked'     },
+      { id: 24, q: 'What was your biggest professional accomplishment?',                     status: 'answered'  },
+      { id: 25, q: "What's something you learned from a failure?",                          status: 'asked'     },
+      { id: 26, q: 'Tell me about a mentor who shaped your life.',                           status: 'asked'     },
+      { id: 27, q: "What's something you miss from your childhood?",                        status: 'asked'     },
+      { id: 28, q: 'What was your favorite movie or book growing up?',                       status: 'asked'     },
+      { id: 29, q: 'Describe your first home as an adult.',                                  status: 'answered'  },
+      { id: 30, q: 'What do you wish you had known at age 20?',                             status: 'answered'  },
+      { id: 31, q: 'How has your relationship with your siblings changed over time?',        status: 'asked'     },
+      { id: 32, q: "What's the bravest thing you've ever done?",                            status: 'asked'     },
+      { id: 33, q: "What's a place that holds special meaning for you?",                    status: 'asked'     },
+      { id: 34, q: 'What did your grandparents mean to you?',                                status: 'asked'     },
+      { id: 35, q: 'Tell me about raising your children.',                                   status: 'asked'     },
+      { id: 36, q: "What are the most important life lessons you've learned?",              status: 'asked'     },
+      { id: 37, q: 'How did you handle a major setback in life?',                            status: 'asked'     },
+      { id: 38, q: "What's something you're still proud of today?",                         status: 'asked'     },
+      { id: 39, q: 'Tell me about the neighborhood you grew up in.',                         status: 'answered'  },
+      { id: 40, q: 'What was your biggest adventure?',                                       status: 'answered'  },
+      { id: 41, q: 'How did your faith or values shape your life?',                         status: 'answered'  },
+      { id: 42, q: "What's the kindest thing anyone has ever done for you?",                status: 'answered'  },
+      { id: 43, q: "Tell me about a time you made a difference in someone's life.",         status: 'answered'  },
+      { id: 44, q: 'What were your dreams when you were young?',                             status: 'asked'     },
+      { id: 45, q: 'How do you define success?',                                             status: 'asked'     },
+      { id: 46, q: "What's the most important thing you want your grandchildren to know?",  status: 'asked'     },
+      { id: 47, q: 'What were the biggest changes you witnessed in your lifetime?',          status: 'asked'     },
+      { id: 48, q: 'What has brought you the most joy in life?',                             status: 'asked'     },
+      { id: 49, q: 'What do you want people to remember about you?',                         status: 'this-week' },
+      { id: 50, q: "What's your advice for living a good life?",                            status: 'future'    },
+      { id: 51, q: 'If you could go back, what would you do differently?',                   status: 'future'    },
+    ]
+    if (isA1FiveAnswered) return [
+      { id: 0, q: weekQuestions[0],                                          status: 'answered'  },
+      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'answered'  },
+      { id: 2, q: 'Who has been your biggest fan?',                         status: 'asked'     },
+      { id: 3, q: 'Did you have any jobs growing up?',                      status: 'answered'  },
+      { id: 4, q: 'What was your favorite childhood vacation?',             status: 'asked'     },
+      { id: 5, q: 'How did you decide on your career path?',                status: 'answered'  },
+      { id: 6, q: 'What world event had the biggest impact on your life?',  status: 'asked'     },
+      { id: 7, q: 'How did you meet your closest friends?',                 status: 'answered'  },
+      { id: 8, q: 'What are your proudest achievements?',                   status: 'this-week' },
+    ]
+    if (isA1Unengaged) return [
+      { id: 0, q: weekQuestions[0],                                         status: 'asked'     },
+      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'asked'     },
+      { id: 2, q: 'Who has been your biggest fan?',                         status: 'asked'     },
+      { id: 3, q: 'Did you have any jobs growing up?',                      status: 'asked'     },
+      { id: 4, q: 'What was your favorite childhood vacation?',             status: 'asked'     },
+      { id: 5, q: 'How did you decide on your career path?',                status: 'asked'     },
+      { id: 6, q: 'What world event had the biggest impact on your life?',  status: 'asked'     },
+      { id: 7, q: 'How did you meet your closest friends?',                 status: 'this-week' },
+      { id: 8, q: 'What are your proudest achievements?',                   status: 'future'    },
+      { id: 9, q: 'What do you hope your family remembers about you?',      status: 'future'    },
+    ]
+    if (isA1FirstQuestionAnswered) return [
+      { id: 0, q: weekQuestions[0],                                          status: 'answered' },
+      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'asked'    },
+      { id: 2, q: 'Who has been your biggest fan?',                         status: 'future'   },
+      { id: 3, q: 'Did you have any jobs growing up?',                      status: 'future'   },
+      { id: 4, q: 'What was your favorite childhood vacation?',             status: 'future'   },
+      { id: 5, q: 'How did you decide on your career path?',                status: 'future'   },
+      { id: 6, q: 'What world event had the biggest impact on your life?',  status: 'future'   },
+      { id: 7, q: 'How did you meet your closest friends?',                 status: 'future'   },
+      { id: 8, q: 'What are your proudest achievements?',                   status: 'future'   },
+      { id: 9, q: 'What do you hope your family remembers about you?',      status: 'future'   },
+    ]
+    if (isA1FirstQuestion) return [
+      { id: 0, q: weekQuestions[0],                                          status: 'this-week' },
+      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'asked'     },
+      { id: 2, q: 'Who has been your biggest fan?',                         status: 'future'    },
+      { id: 3, q: 'Did you have any jobs growing up?',                      status: 'future'    },
+      { id: 4, q: 'What was your favorite childhood vacation?',             status: 'future'    },
+      { id: 5, q: 'How did you decide on your career path?',                status: 'future'    },
+      { id: 6, q: 'What world event had the biggest impact on your life?',  status: 'future'    },
+      { id: 7, q: 'How did you meet your closest friends?',                 status: 'future'    },
+      { id: 8, q: 'What are your proudest achievements?',                   status: 'future'    },
+      { id: 9, q: 'What do you hope your family remembers about you?',      status: 'future'    },
+    ]
+    // isA1New
+    return optionCWeeks.slice(0, 10).map((w, i) => ({ id: i, q: w.question, status: 'future' as const }))
+  }, [scenario]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const tabs: { key: Tab; label: string }[] = (isA1New || isA1FirstQ || isA1Unengaged || isNewUser) ? [
     { key: 'week-by-week', label: 'All questions' },
     { key: 'stories', label: storiesWrittenCount > 0 ? `Your stories (${storiesWrittenCount})` : 'Your stories' },
@@ -3760,43 +4003,7 @@ export default function MemoirPage() {
       </>}
 
       {showReorderModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
-          onClick={() => setShowReorderModal(false)}
-        >
-          <div
-            className="bg-white rounded-[16px] shadow-[0px_16px_48px_rgba(0,0,0,0.18)] max-w-[560px] w-full mx-4 p-[40px] flex flex-col gap-[24px]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[color:var(--green\/1000,#042a21)] m-0">
-              Reorder Chapters
-            </h2>
-            <div className="font-['GT_Super_Text:Book'] text-[18px] leading-[28px] text-[#445f59] flex flex-col gap-[16px]">
-              <p className="m-0">Hi! This UI isn't done yet but a few notes —</p>
-              <ol className="m-0 pl-[20px] flex flex-col gap-[12px]">
-                <li>
-                  I'd advocate we move dragging and dropping here for 2 reasons:
-                  <ol className="mt-[8px] pl-[20px] flex flex-col gap-[8px]" style={{ listStyleType: 'lower-alpha' }}>
-                    <li>The "portfolio" we display on the memoir page should be stable, static and secure. I'd move any option other than "open" away from that page.</li>
-                    <li>We also want to create a space to move stories to another volume. This is that space.</li>
-                  </ol>
-                </li>
-                <li>As a bonus, nest other edit options like deleting a story here.</li>
-              </ol>
-            </div>
-            <div className="flex justify-end">
-              <button
-                type="button"
-                className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[24px] rounded-[24px] hover:opacity-90 transition-opacity"
-                onClick={() => setShowReorderModal(false)}
-              >
-                <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">
-                  Got it
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <ReorderModal onClose={() => setShowReorderModal(false)} initialItems={reorderInitialItems} />
       )}
     </div>
   )
