@@ -1,3 +1,6 @@
+## v1.0.278 — 2026-06-23T20:20:26
+- Reorder modal: update displaced question warning copy
+
 ## v1.0.277 — 2026-06-23T20:19:58
 - Reorder modal: hover-to-reveal chapter number field on right in Stories view
 

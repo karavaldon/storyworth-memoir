@@ -1175,7 +1175,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     {isDisplacedFuture && pendingItems && (
                       <div className="mt-[4px] flex flex-col gap-[12px]">
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#ab8017] m-0">
-                          This will move this question out of the queue and it won't send via email. Are you sure you want to reorder it?
+                          This change will move this question out of the upcoming queue and it won't send via email or text. Are you sure you want to reorder it?
                         </p>
                         <div className="flex gap-[12px]">
                           <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#61706f] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer transition-colors">
