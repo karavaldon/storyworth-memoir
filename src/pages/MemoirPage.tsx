@@ -3401,7 +3401,7 @@ export default function MemoirPage() {
             { q: 'What do you hope your family remembers about you?',         status: 'future' },
           ]
           const AudioBadge = () => (
-            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] flex-shrink-0">
+            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
               <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
               <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
             </div>
@@ -3566,7 +3566,7 @@ export default function MemoirPage() {
           ]
 
           const AudioBadge = () => (
-            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] flex-shrink-0">
+            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
               <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
               <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
             </div>

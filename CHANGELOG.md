@@ -1,3 +1,6 @@
+## v1.0.240 — 2026-06-23T18:31:24
+- Audio badge hugs content width
+
 ## v1.0.239 — 2026-06-23T18:30:17
 - Replace Recording tag with Audio badge using voice.svg, moved below question title
 
