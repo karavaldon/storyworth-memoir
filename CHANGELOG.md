@@ -1,3 +1,6 @@
+## v1.0.242 — 2026-06-23T18:35:55
+- Reduce top padding above footer from 60px to 20px
+
 ## v1.0.241 — 2026-06-23T18:35:06
 - Revert Answer button to invisible-until-row-hover
 

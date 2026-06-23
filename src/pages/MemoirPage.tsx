@@ -3856,7 +3856,7 @@ export default function MemoirPage() {
           />
         )}
         {(isA1New || isA1FirstQ || isA1Unengaged) && (
-          <div className="flex flex-col items-center text-center pt-[60px] pb-[64px] px-[24px]">
+          <div className="flex flex-col items-center text-center pt-[20px] pb-[64px] px-[24px]">
             <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
               Ready to add more questions?
             </p>
