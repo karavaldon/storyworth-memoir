@@ -1,3 +1,6 @@
+## v1.0.285 — 2026-06-23T20:32:01
+- Reorder modal: block answered/asked items from being dragged into upcoming section
+
 ## v1.0.284 — 2026-06-23T20:29:31
 - Reorder modal: hide subtitle and toolbar while dragging for more list space
 

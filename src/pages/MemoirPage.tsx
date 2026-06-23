@@ -1062,10 +1062,12 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
     const EDGE = 80
     const MAX_SPEED = 12
     const y = e.clientY - rect.top
+    const draggedStatus = dragIdx !== null ? displayItems[dragIdx]?.status : null
+    const canScrollDown = draggedStatus !== 'answered' && draggedStatus !== 'asked'
     if (y < EDGE) {
       scrollSpeed.current = -MAX_SPEED * (1 - y / EDGE)
       startAutoScroll()
-    } else if (y > rect.height - EDGE) {
+    } else if (canScrollDown && y > rect.height - EDGE) {
       scrollSpeed.current = MAX_SPEED * (1 - (rect.height - y) / EDGE)
       startAutoScroll()
     } else {
@@ -1095,6 +1097,11 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   function handleDrop(e: React.DragEvent, targetIdx: number) {
     e.preventDefault()
     if (dragIdx === null || dragIdx === targetIdx) { setDragIdx(null); setDropTargetIdx(null); return }
+    const draggedStatus = displayItems[dragIdx]?.status
+    const targetStatus = displayItems[targetIdx]?.status
+    if ((draggedStatus === 'answered' || draggedStatus === 'asked') && (targetStatus === 'future' || targetStatus === 'this-week')) {
+      setDragIdx(null); setDropTargetIdx(null); return
+    }
     const next = getReordered(dragIdx, targetIdx)
     const movedId = items[dragIdx].id
     const newPos = next.findIndex(it => it.id === movedId)
@@ -1189,7 +1196,13 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 ref={el => { itemRefs.current[item.id] = el }}
                 draggable={!pendingItems && !selectMode && filter === 'all'}
                 onDragStart={() => { setDragIdx(i) }}
-                onDragOver={e => { e.preventDefault(); if (i !== dragIdx) setDropTargetIdx(i) }}
+                onDragOver={e => {
+                  e.preventDefault()
+                  if (i === dragIdx) return
+                  const draggedStatus = dragIdx !== null ? displayItems[dragIdx]?.status : null
+                  if ((draggedStatus === 'answered' || draggedStatus === 'asked') && (item.status === 'future' || item.status === 'this-week')) return
+                  setDropTargetIdx(i)
+                }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null); stopAutoScroll() }}
                 className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors duration-700 ${isDragging ? 'opacity-40' : ''} ${justMovedId === item.id ? 'bg-[rgba(6,128,137,0.08)]' : isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
