@@ -1058,7 +1058,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
             <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
-            <p className="font-['GT_America:Regular'] text-[15px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[540px]">Changing the order of answered questions will change the order in your printed book. We won't print any unanswered questions. You can also change the order of upcoming questions.</p>
+            <p className="font-['GT_America:Regular'] text-[15px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[540px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
           </div>
           <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
