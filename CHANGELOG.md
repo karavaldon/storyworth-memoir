@@ -1,3 +1,6 @@
+## v1.0.237 — 2026-06-23T18:24:27
+- Answer stroke button uses 2px border
+
 ## v1.0.236 — 2026-06-23T18:21:32
 - Unanswered past questions show stroke Answer button always visible, fills on hover
 

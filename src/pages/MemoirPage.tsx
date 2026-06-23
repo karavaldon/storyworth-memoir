@@ -3378,7 +3378,7 @@ export default function MemoirPage() {
                     {status === 'asked' && <QuestionButtonBank />}
                   </div>
                   {status === 'asked' && (
-                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer border border-[#068089] text-[#068089] hover:bg-[#068089] hover:text-white transition-colors">
+                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer border-2 border-[#068089] text-[#068089] hover:bg-[#068089] hover:text-white transition-colors">
                       <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   )}
@@ -3499,7 +3499,7 @@ export default function MemoirPage() {
                       <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
                     </button>
                   ) : status === 'asked' ? (
-                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer border border-[#068089] text-[#068089] hover:bg-[#068089] hover:text-white transition-colors">
+                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer border-2 border-[#068089] text-[#068089] hover:bg-[#068089] hover:text-white transition-colors">
                       <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   ) : null}
