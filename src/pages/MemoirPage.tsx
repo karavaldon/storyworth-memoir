@@ -1144,7 +1144,7 @@ function QuestionButtonBank() {
     <div className="flex gap-[12px] items-center overflow-hidden max-h-0 opacity-0 group-hover:max-h-[60px] group-hover:opacity-100 transition-all duration-200">
       <button type="button" className="bg-[#ededed] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:border-[#07777e] transition-colors flex-shrink-0">
         <img alt="" className="size-[22px] flex-shrink-0" src={imgPencilIcon} />
-        <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Edit</span>
+        <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Edit question</span>
       </button>
       <button type="button" className="bg-[#ededed] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:border-[#07777e] transition-colors flex-shrink-0">
         <img alt="" className="size-[24px] flex-shrink-0" src={imgReplaceIcon} />
