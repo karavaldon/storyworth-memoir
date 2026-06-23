@@ -1,3 +1,6 @@
+## v1.0.268 — 2026-06-23T19:56:03
+- Reorder modal: displaced question text amber; 8px gap above warning
+
 ## v1.0.267 — 2026-06-23T19:54:09
 - Reorder modal: warning button labels 14px; 12px gap above warning
 
