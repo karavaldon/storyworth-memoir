@@ -1541,7 +1541,7 @@ function OptionCNew() {
             <div
               key={week.weekNum}
               ref={el => { weekRowRefs.current[i] = el }}
-              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
+              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
             >
               <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
@@ -1880,7 +1880,7 @@ function OptionCMidSub() {
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
@@ -1904,7 +1904,7 @@ function OptionCMidSub() {
           const story = week.story!
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] px-[24px] flex items-start justify-between gap-[24px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-start justify-between gap-[24px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
@@ -2136,7 +2136,7 @@ function OptionCEnd() {
         {pageWeeks.map((week, i) => {
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
                   <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
@@ -2149,7 +2149,7 @@ function OptionCEnd() {
           }
           const story = week.story!
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[24px] px-[24px] flex items-start justify-between gap-[24px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-start justify-between gap-[24px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
@@ -3337,7 +3337,7 @@ export default function MemoirPage() {
               { q: 'What do you hope your family remembers about you?',      asker: 'Storyworth', status: 'future'    },
             ] as { q: string; asker: string; status: 'asked' | 'this-week' | 'future' }[]).map(({ q, asker, status }, i) => {
               if (status === 'this-week') return (
-                <div key={i} className={`border-b border-[#ebebeb]border-l-[3px] border-l-[#eec256] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb]border-l-[3px] border-l-[#eec256] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3359,7 +3359,7 @@ export default function MemoirPage() {
                 </div>
               )
               return (
-                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb]${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb]${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
@@ -3436,7 +3436,7 @@ export default function MemoirPage() {
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb]border-l-[3px] border-l-[#eec256] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb]border-l-[3px] border-l-[#eec256] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3459,7 +3459,7 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                <div key={i} className={`border-b border-[#ebebeb]${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb]${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
@@ -3602,7 +3602,7 @@ export default function MemoirPage() {
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb]border-l-[3px] border-l-[#eec256] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb]border-l-[3px] border-l-[#eec256] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3623,7 +3623,7 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                  <div key={i} className={`border-b border-[#ebebeb]${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb]${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center">
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
@@ -3682,7 +3682,7 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => (
               <div
                 key={i}
-                className={`border-b border-[#ebebeb]${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb]${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -3755,7 +3755,7 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => (
               <div
                 key={i}
-                className={`border-b border-[#ebebeb]${i === 0 ? 'border-l-[3px] border-l-[#eec256] ' : ''}py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb]${i === 0 ? 'border-l-[3px] border-l-[#eec256] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -3802,7 +3802,7 @@ export default function MemoirPage() {
                   <div
                     key={week.weekNum}
                     ref={i === 0 ? question1Ref : i === 7 ? question8Ref : undefined}
-                    className={`border-b border-[#ebebeb]py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                    className={`border-b border-[#ebebeb]py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
                   >
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center flex-wrap">
@@ -3890,7 +3890,7 @@ export default function MemoirPage() {
                 { q: "What's the kindest thing anyone has ever done for you?",        num: 43, preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
                 { q: "Tell me about a time you made a difference in someone's life.", num: 44, preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
               ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
-                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
@@ -3917,7 +3917,7 @@ export default function MemoirPage() {
                 { q: 'How did you decide on your career path?',                num: 6, preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
                 { q: 'How did you meet your closest friends?',                 num: 8, preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
               ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
-                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
@@ -3940,7 +3940,7 @@ export default function MemoirPage() {
               className="relative max-w-[1189px] mx-auto"
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
             >
-              <div className="border-l-[3px] border-l-[#1ba07c] py-[24px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]">
+              <div className="border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                     Chapter 1

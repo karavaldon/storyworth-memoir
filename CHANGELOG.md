@@ -1,3 +1,6 @@
+## v1.0.234 — 2026-06-23T18:11:30
+- Increase question row vertical padding from 24px to 32px for airier list
+
 ## v1.0.233 — 2026-06-23T18:10:14
 - Last question row always has bottom divider; 60px top padding before footer
 
