@@ -1078,7 +1078,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             return (
               <div key={item.id}>
                 {isFirstFuture && (
-                  <div className="flex items-center gap-[12px] px-[24px] py-[16px]">
+                  <div className="flex items-center gap-[12px] px-[24px] py-[24px]">
                     <div className="flex-1 h-[1px] bg-[#d4d4d4]" />
                     <p className="font-['GT_America:Medium'] text-[11px] leading-[16px] text-[#8a9a97] uppercase tracking-[1.6px] m-0 whitespace-nowrap">Upcoming questions</p>
                     <div className="flex-1 h-[1px] bg-[#d4d4d4]" />
@@ -1118,7 +1118,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     {item.status === 'this-week' && (
                       <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[12px] leading-[18px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
                     )}
-                    <p className="font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0">{item.q}</p>
+                    <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0${item.status === 'asked' ? ' opacity-75' : ''}`}>{item.q}</p>
                     {item.status === 'answered' && item.preview && (
                       <p className="font-['GT_Super_Text:Book'] text-[14px] leading-[22px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
                     )}
