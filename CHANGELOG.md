@@ -1,3 +1,6 @@
+## v1.0.286 — 2026-06-23T20:35:40
+- Reorder modal toolbar: reduce button py to 4px, restore container bottom padding
+
 ## v1.0.285 — 2026-06-23T20:32:01
 - Reorder modal: block answered/asked items from being dragged into upcoming section
 

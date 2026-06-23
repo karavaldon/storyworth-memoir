@@ -1144,22 +1144,22 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         </div>
 
         {/* Toolbar */}
-        <div className={`flex-shrink-0 overflow-hidden transition-all duration-150 ${dragIdx !== null ? 'max-h-0 opacity-0' : 'max-h-[60px] opacity-100'}`}>
-        <div className="flex items-center justify-between px-[24px] py-[10px] border-t border-[#ebebeb]">
+        <div className={`flex-shrink-0 overflow-hidden transition-all duration-150 ${dragIdx !== null ? 'max-h-0 opacity-0' : 'max-h-[68px] opacity-100'}`}>
+        <div className="flex items-center justify-between px-[24px] pt-[10px] pb-[14px] border-t border-[#ebebeb]">
           <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
             {(['all', 'stories'] as const).map(f => (
               filter === f
-                ? <div key={f} className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[8px] rounded-[22px] cursor-pointer" onClick={() => setFilter(f)}>
+                ? <div key={f} className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[4px] rounded-[22px] cursor-pointer" onClick={() => setFilter(f)}>
                     <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">{f === 'all' ? 'All' : 'Stories'}</span>
                   </div>
-                : <button key={f} type="button" onClick={() => setFilter(f)} className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                : <button key={f} type="button" onClick={() => setFilter(f)} className="px-[16px] py-[4px] cursor-pointer hover:opacity-70 transition-opacity">
                     <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">{f === 'all' ? 'All' : 'Stories'}</span>
                   </button>
             ))}
           </div>
           <button type="button"
             onClick={() => { setSelectMode(v => !v); setSelectedIds(new Set()) }}
-            className="px-[14px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+            className="px-[14px] py-[4px] cursor-pointer hover:opacity-70 transition-opacity">
             <span className={`font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap ${selectMode ? 'text-[#068089]' : 'text-[#61706f]'}`}>Select</span>
           </button>
         </div>
