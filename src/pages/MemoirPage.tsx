@@ -1132,10 +1132,10 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 onDragOver={e => { e.preventDefault(); if (i !== dragIdx) setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
-                className={`px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
+                className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
-                <div className={`flex items-center gap-[16px] ${leftBorder} pl-[16px]`}>
+                <div className={`flex items-center gap-[16px] flex-1 min-w-0 ${leftBorder} pl-[16px]`}>
                   {/* Select checkbox */}
                   {selectMode && (
                     <button type="button"
@@ -1160,30 +1160,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   {/* Content */}
                   <div className="flex flex-col gap-[4px] flex-1 min-w-0">
                     {item.status === 'answered' && (
-                      editingId === item.id ? (
-                        <div className="flex items-center gap-[4px]">
-                          <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c]">Chapter</span>
-                          <input
-                            type="number" min={1} max={Object.keys(chapterNumbers).length}
-                            value={editingValue}
-                            onChange={e => setEditingValue(e.target.value)}
-                            onKeyDown={e => {
-                              if (e.key === 'Enter') { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }
-                              if (e.key === 'Escape') setEditingId(null)
-                            }}
-                            onBlur={() => { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }}
-                            className="w-[36px] font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] border-b border-[#1ba07c] bg-transparent outline-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                            autoFocus
-                          />
-                        </div>
-                      ) : (
-                        <p
-                          className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] m-0 cursor-text hover:underline select-none"
-                          onClick={() => { if (!selectMode) { setEditingId(item.id); setEditingValue(String(chapterNumbers[item.id])) } }}
-                        >
-                          Chapter {chapterNumbers[item.id]}
-                        </p>
-                      )
+                      <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
                     )}
                     {item.status === 'asked' && (
                       <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Unanswered</p>
@@ -1220,6 +1197,31 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     )}
                   </div>
                 </div>
+                {filter === 'stories' && item.status === 'answered' && !selectMode && (
+                  <div className="flex-shrink-0 pl-[8px]">
+                    {editingId === item.id ? (
+                      <input
+                        type="number" min={1} max={Object.keys(chapterNumbers).length}
+                        value={editingValue}
+                        onChange={e => setEditingValue(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }
+                          if (e.key === 'Escape') setEditingId(null)
+                        }}
+                        onBlur={() => { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }}
+                        className="w-[44px] font-['GT_America:Regular'] text-[16px] text-[#1ba07c] border-b-2 border-[#1ba07c] bg-transparent outline-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        autoFocus
+                      />
+                    ) : (
+                      <div
+                        onClick={() => { setEditingId(item.id); setEditingValue(String(chapterNumbers[item.id])) }}
+                        className="w-[44px] h-[32px] flex items-center justify-center rounded-[6px] cursor-text opacity-0 group-hover:opacity-100 hover:bg-[#f0faf7] transition-all"
+                      >
+                        <span className="font-['GT_America:Regular'] text-[16px] text-[#1ba07c]">{chapterNumbers[item.id]}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
               </Fragment>
             )

@@ -1,3 +1,6 @@
+## v1.0.277 — 2026-06-23T20:19:58
+- Reorder modal: hover-to-reveal chapter number field on right in Stories view
+
 ## v1.0.276 — 2026-06-23T20:14:55
 - Reorder modal: click chapter label to type a chapter number and move story
 
