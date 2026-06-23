@@ -1,3 +1,6 @@
+## v1.0.257 — 2026-06-23T19:36:11
+- Update reorder warning copy: remove 'weekly' from 'weekly queue'
+
 ## v1.0.256 — 2026-06-23T19:34:26
 - Drop target shows teal line only, no background fill
 

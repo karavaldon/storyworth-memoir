@@ -1134,7 +1134,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         {pendingItems ? (
           <div className="flex-shrink-0 border-t-2 border-[#eec256] bg-[#fffdf0] px-[32px] py-[24px] rounded-b-[16px] flex flex-col gap-[16px]">
             <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#7a5f00] m-0">
-              This will move this question out of the weekly queue and it won't send via email. Are you sure you want to reorder it?
+              This will move this question out of the queue and it won't send via email. Are you sure you want to reorder it?
             </p>
             <div className="flex gap-[12px]">
               <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#d4d4d4] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
