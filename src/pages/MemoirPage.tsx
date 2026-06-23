@@ -3365,14 +3365,6 @@ export default function MemoirPage() {
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                         {status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                       </p>
-                      {status === 'asked' && (
-                        <div className="flex gap-[6px] items-center flex-shrink-0">
-                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f]">·</span>
-                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">
-                            Asked by {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}
-                          </span>
-                        </div>
-                      )}
                     </div>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                     {status === 'asked' && <QuestionButtonBank />}

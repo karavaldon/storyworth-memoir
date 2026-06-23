@@ -1,3 +1,6 @@
+## v1.0.243 — 2026-06-23T18:39:53
+- Remove Asked by label from unengaged asked questions
+
 ## v1.0.242 — 2026-06-23T18:35:55
 - Reduce top padding above footer from 60px to 20px
 
