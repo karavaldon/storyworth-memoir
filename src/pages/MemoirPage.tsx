@@ -1015,7 +1015,9 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editingValue, setEditingValue] = useState('')
+  const [justMovedId, setJustMovedId] = useState<number | null>(null)
   const ref = useRef<HTMLDivElement>(null)
+  const itemRefs = useRef<Record<number, HTMLDivElement | null>>({})
 
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
@@ -1040,7 +1042,16 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
     if (targetItem.id === itemId) return
     const toIdx = items.findIndex(it => it.id === targetItem.id)
     setItems(getReordered(fromIdx, toIdx))
+    setJustMovedId(itemId)
   }
+
+  useEffect(() => {
+    if (justMovedId === null) return
+    const el = itemRefs.current[justMovedId]
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    const t = setTimeout(() => setJustMovedId(null), 1200)
+    return () => clearTimeout(t)
+  }, [justMovedId])
 
   function handleDrop(e: React.DragEvent, targetIdx: number) {
     e.preventDefault()
@@ -1127,12 +1138,13 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   </div>
                 )}
               <div
+                ref={el => { itemRefs.current[item.id] = el }}
                 draggable={!pendingItems && !selectMode && filter === 'all'}
                 onDragStart={() => { setDragIdx(i) }}
                 onDragOver={e => { e.preventDefault(); if (i !== dragIdx) setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
-                className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
+                className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors duration-700 ${isDragging ? 'opacity-40' : ''} ${justMovedId === item.id ? 'bg-[rgba(6,128,137,0.08)]' : isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
                 <div className={`flex items-center gap-[16px] flex-1 min-w-0 ${leftBorder} pl-[16px]`}>
