@@ -1,3 +1,6 @@
+## v1.0.255 — 2026-06-23T19:32:15
+- Increase reorder modal row padding from 20px to 26px
+
 ## v1.0.254 — 2026-06-23T19:31:48
 - More padding on upcoming divider; unanswered question text at 75% opacity
 

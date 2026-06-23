@@ -1090,7 +1090,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 onDragOver={e => { e.preventDefault(); setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
-                className={`px-[24px] py-[20px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDropTarget ? 'bg-[#edfafb]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
+                className={`px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDropTarget ? 'bg-[#edfafb]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
                 <div className={`flex items-center gap-[16px] ${leftBorder} pl-[16px]`}>
