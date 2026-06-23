@@ -2809,7 +2809,7 @@ export default function MemoirPage() {
 
   const tabs: { key: Tab; label: string }[] = (isA1New || isA1FirstQ || isA1Unengaged || isNewUser) ? [
     { key: 'week-by-week', label: 'All questions' },
-    { key: 'stories', label: storiesWrittenCount > 0 ? `Your stories (${storiesWrittenCount})` : 'Your stories' },
+    { key: 'stories', label: storiesWrittenCount > 0 ? `Stories (${storiesWrittenCount})` : 'Stories' },
     { key: 'drafts', label: 'Drafts' },
   ] : [
     { key: 'week-by-week', label: 'Week by week' },

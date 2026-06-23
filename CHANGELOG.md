@@ -1,3 +1,6 @@
+## v1.0.245 — 2026-06-23T19:15:17
+- Change Your stories tab label to Stories
+
 ## v1.0.244 — 2026-06-23T19:14:02
 - Change Edit to Edit question in QuestionButtonBank
 
