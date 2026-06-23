@@ -1,3 +1,6 @@
+## v1.0.264 — 2026-06-23T19:48:56
+- Reorder modal: fix sticky upcoming label; remove flanking lines
+
 ## v1.0.263 — 2026-06-23T19:47:07
 - Reorder modal: minimum 12px text size
 
