@@ -1003,7 +1003,7 @@ function getQuestionSendDate(questionIndex: number): string {
   return `Monday, ${months[d.getMonth()]} ${day}${suffix}`
 }
 
-type ReorderItem = { id: number; q: string; status: 'answered' | 'asked' | 'this-week' | 'future' }
+type ReorderItem = { id: number; q: string; status: 'answered' | 'asked' | 'this-week' | 'future'; preview?: string }
 
 function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialItems: ReorderItem[] }) {
   const [items, setItems] = useState(initialItems)
@@ -1047,7 +1047,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div ref={ref} className="bg-white rounded-[16px] shadow-[0px_16px_48px_rgba(0,0,0,0.18)] max-w-[640px] w-full mx-4 flex flex-col" style={{ maxHeight: 'calc(100vh - 80px)' }}>
+      <div ref={ref} className="bg-white rounded-[16px] shadow-[0px_16px_48px_rgba(0,0,0,0.18)] max-w-[760px] w-full mx-4 flex flex-col" style={{ maxHeight: 'calc(100vh - 80px)' }}>
         {/* Header */}
         <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
@@ -1072,7 +1072,9 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 onDragOver={e => { e.preventDefault(); setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
-                className={`flex items-center gap-[16px] px-[24px] py-[20px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDropTarget ? 'bg-[#edfafb]' : 'bg-white'}`}
+                className={`flex items-center gap-[16px] px-[24px] py-[20px] border-b border-[#ebebeb] transition-colors
+                  ${item.status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c]' : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]' : item.status === 'this-week' ? 'border-l-[3px] border-l-[#eec256]' : ''}
+                  ${isDragging ? 'opacity-40' : ''} ${isDropTarget ? 'bg-[#edfafb]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
                 {/* Drag handle */}
@@ -1092,20 +1094,11 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   </div>
                 )}
                 {/* Content */}
-                <div className="flex flex-col gap-[4px] flex-1 min-w-0">
-                  {item.status === 'this-week' && (
-                    <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[13px] leading-[18px] rounded-[6px] px-[8px] py-[3px] mb-[2px] whitespace-nowrap">This week</span>
+                <div className="flex flex-col gap-[6px] flex-1 min-w-0">
+                  <p className="font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0">{item.q}</p>
+                  {item.status === 'answered' && item.preview && (
+                    <p className="font-['GT_Super_Text:Book'] text-[14px] leading-[22px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
                   )}
-                  {item.status === 'answered' && (
-                    <p className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#1ba07c] m-0">Answered</p>
-                  )}
-                  {item.status === 'asked' && (
-                    <p className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#61706f] m-0">In queue</p>
-                  )}
-                  {item.status === 'future' && (
-                    <p className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#b0bdb9] m-0">Not yet sent</p>
-                  )}
-                  <p className="font-['GT_Super_Display:Medium'] text-[16px] leading-[24px] text-[#042a21] m-0">{item.q}</p>
                 </div>
               </div>
             )
@@ -2704,17 +2697,17 @@ export default function MemoirPage() {
   const reorderInitialItems = useMemo((): ReorderItem[] => {
     if (isA1NearEnd) return [
       { id:  0, q: weekQuestions[0],                                                         status: 'asked'     },
-      { id:  1, q: 'What legacy do you want to leave behind?',                               status: 'answered'  },
-      { id:  2, q: 'Who has been your biggest fan?',                                         status: 'answered'  },
+      { id:  1, q: 'What legacy do you want to leave behind?',                               status: 'answered',  preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
+      { id:  2, q: 'Who has been your biggest fan?',                                         status: 'answered',  preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
       { id:  3, q: 'Did you have any jobs growing up?',                                      status: 'asked'     },
-      { id:  4, q: 'What was your favorite childhood vacation?',                             status: 'answered'  },
+      { id:  4, q: 'What was your favorite childhood vacation?',                             status: 'answered',  preview: '"Every summer we drove down to the Jersey Shore. I can still smell the salt air and feel the warm sand..."' },
       { id:  5, q: 'How did you decide on your career path?',                                status: 'asked'     },
       { id:  6, q: 'What world event had the biggest impact on your life?',                  status: 'asked'     },
       { id:  7, q: 'How did you meet your closest friends?',                                 status: 'asked'     },
       { id:  8, q: 'What are your proudest achievements?',                                   status: 'asked'     },
-      { id:  9, q: 'What do you hope your family remembers about you?',                      status: 'answered'  },
-      { id: 10, q: 'Where did you grow up, and what was it like?',                          status: 'answered'  },
-      { id: 11, q: "What's the best advice you ever received?",                             status: 'answered'  },
+      { id:  9, q: 'What do you hope your family remembers about you?',                      status: 'answered',  preview: '"I hope they remember that I always had time for them, no matter how busy work got..."' },
+      { id: 10, q: 'Where did you grow up, and what was it like?',                          status: 'answered',  preview: '"I grew up in a small town in Ohio, where everybody knew your name and your business..."' },
+      { id: 11, q: "What's the best advice you ever received?",                             status: 'answered',  preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."' },
       { id: 12, q: 'How did you meet your spouse or partner?',                               status: 'asked'     },
       { id: 13, q: 'What was your first job like?',                                          status: 'asked'     },
       { id: 14, q: 'Describe a perfect day from your childhood.',                            status: 'asked'     },
@@ -2724,16 +2717,16 @@ export default function MemoirPage() {
       { id: 18, q: "What's your favorite family recipe?",                                   status: 'asked'     },
       { id: 19, q: 'Where did you go on your first trip abroad?',                            status: 'asked'     },
       { id: 20, q: 'What did your parents teach you about money?',                           status: 'asked'     },
-      { id: 21, q: 'Tell me about your first car.',                                          status: 'answered'  },
+      { id: 21, q: 'Tell me about your first car.',                                          status: 'answered',  preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."' },
       { id: 22, q: 'What school subject did you love most?',                                 status: 'asked'     },
       { id: 23, q: 'What sports or activities did you play as a kid?',                       status: 'asked'     },
-      { id: 24, q: 'What was your biggest professional accomplishment?',                     status: 'answered'  },
+      { id: 24, q: 'What was your biggest professional accomplishment?',                     status: 'answered',  preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
       { id: 25, q: "What's something you learned from a failure?",                          status: 'asked'     },
       { id: 26, q: 'Tell me about a mentor who shaped your life.',                           status: 'asked'     },
       { id: 27, q: "What's something you miss from your childhood?",                        status: 'asked'     },
       { id: 28, q: 'What was your favorite movie or book growing up?',                       status: 'asked'     },
-      { id: 29, q: 'Describe your first home as an adult.',                                  status: 'answered'  },
-      { id: 30, q: 'What do you wish you had known at age 20?',                             status: 'answered'  },
+      { id: 29, q: 'Describe your first home as an adult.',                                  status: 'answered',  preview: '"A tiny studio apartment in Chicago with a leaky faucet and the best view of the El train..."' },
+      { id: 30, q: 'What do you wish you had known at age 20?',                             status: 'answered',  preview: '"That it\'s okay not to have all the answers. Everybody else is figuring it out too..."' },
       { id: 31, q: 'How has your relationship with your siblings changed over time?',        status: 'asked'     },
       { id: 32, q: "What's the bravest thing you've ever done?",                            status: 'asked'     },
       { id: 33, q: "What's a place that holds special meaning for you?",                    status: 'asked'     },
@@ -2742,11 +2735,11 @@ export default function MemoirPage() {
       { id: 36, q: "What are the most important life lessons you've learned?",              status: 'asked'     },
       { id: 37, q: 'How did you handle a major setback in life?',                            status: 'asked'     },
       { id: 38, q: "What's something you're still proud of today?",                         status: 'asked'     },
-      { id: 39, q: 'Tell me about the neighborhood you grew up in.',                         status: 'answered'  },
-      { id: 40, q: 'What was your biggest adventure?',                                       status: 'answered'  },
-      { id: 41, q: 'How did your faith or values shape your life?',                         status: 'answered'  },
-      { id: 42, q: "What's the kindest thing anyone has ever done for you?",                status: 'answered'  },
-      { id: 43, q: "Tell me about a time you made a difference in someone's life.",         status: 'answered'  },
+      { id: 39, q: 'Tell me about the neighborhood you grew up in.',                         status: 'answered',  preview: '"Our street was the kind where kids played outside until the streetlights came on. Everyone\'s door was always open..."' },
+      { id: 40, q: 'What was your biggest adventure?',                                       status: 'answered',  preview: '"Three weeks in Southeast Asia with nothing but a backpack and a Lonely Planet guide. Terrified and exhilarated..."' },
+      { id: 41, q: 'How did your faith or values shape your life?',                         status: 'answered',  preview: '"Faith was the backbone of our household. Sunday dinners, church on Christmas Eve, the rosary in every car..."' },
+      { id: 42, q: "What's the kindest thing anyone has ever done for you?",                status: 'answered',  preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
+      { id: 43, q: "Tell me about a time you made a difference in someone's life.",         status: 'answered',  preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
       { id: 44, q: 'What were your dreams when you were young?',                             status: 'asked'     },
       { id: 45, q: 'How do you define success?',                                             status: 'asked'     },
       { id: 46, q: "What's the most important thing you want your grandchildren to know?",  status: 'asked'     },
@@ -2757,14 +2750,14 @@ export default function MemoirPage() {
       { id: 51, q: 'If you could go back, what would you do differently?',                   status: 'future'    },
     ]
     if (isA1FiveAnswered) return [
-      { id: 0, q: weekQuestions[0],                                          status: 'answered'  },
-      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'answered'  },
+      { id: 0, q: weekQuestions[0],                                          status: 'answered',  preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
+      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'answered',  preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
       { id: 2, q: 'Who has been your biggest fan?',                         status: 'asked'     },
-      { id: 3, q: 'Did you have any jobs growing up?',                      status: 'answered'  },
+      { id: 3, q: 'Did you have any jobs growing up?',                      status: 'answered',  preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
       { id: 4, q: 'What was your favorite childhood vacation?',             status: 'asked'     },
-      { id: 5, q: 'How did you decide on your career path?',                status: 'answered'  },
+      { id: 5, q: 'How did you decide on your career path?',                status: 'answered',  preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
       { id: 6, q: 'What world event had the biggest impact on your life?',  status: 'asked'     },
-      { id: 7, q: 'How did you meet your closest friends?',                 status: 'answered'  },
+      { id: 7, q: 'How did you meet your closest friends?',                 status: 'answered',  preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
       { id: 8, q: 'What are your proudest achievements?',                   status: 'this-week' },
     ]
     if (isA1Unengaged) return [
@@ -2780,7 +2773,7 @@ export default function MemoirPage() {
       { id: 9, q: 'What do you hope your family remembers about you?',      status: 'future'    },
     ]
     if (isA1FirstQuestionAnswered) return [
-      { id: 0, q: weekQuestions[0],                                          status: 'answered' },
+      { id: 0, q: weekQuestions[0],                                          status: 'answered', preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
       { id: 1, q: 'What legacy do you want to leave behind?',               status: 'asked'    },
       { id: 2, q: 'Who has been your biggest fan?',                         status: 'future'   },
       { id: 3, q: 'Did you have any jobs growing up?',                      status: 'future'   },

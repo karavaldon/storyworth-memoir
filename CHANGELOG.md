@@ -1,3 +1,6 @@
+## v1.0.246 — 2026-06-23T19:19:57
+- Reorder modal: 760px wide, left border by status, question + preview, no status labels
+
 ## v1.0.245 — 2026-06-23T19:15:17
 - Change Your stories tab label to Stories
 
