@@ -1,3 +1,6 @@
+## v1.0.263 — 2026-06-23T19:47:07
+- Reorder modal: minimum 12px text size
+
 ## v1.0.262 — 2026-06-23T19:46:20
 - Reorder modal: sticky upcoming questions divider on scroll
 
