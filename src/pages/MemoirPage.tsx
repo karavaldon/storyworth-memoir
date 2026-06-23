@@ -1067,14 +1067,18 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
 
         {/* List */}
         <div className="overflow-y-auto flex-1 border-t border-[#ebebeb]">
-          {displayItems.map((item, i) => {
+          {(() => {
+            const lastNonFutureIdx = displayItems.reduce((last, it, idx) => it.status !== 'future' ? idx : last, -1)
+            const dividerIdx = lastNonFutureIdx + 1
+            return displayItems.map((item, i) => {
             const isDragging = dragIdx === i
             const isDropTarget = dropTargetIdx === i && dragIdx !== null && dragIdx !== i
             const leftBorder = item.status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c]'
               : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]'
               : item.status === 'this-week' ? 'border-l-[3px] border-l-[#eec256]'
               : 'border-l-[3px] border-l-transparent'
-            const isFirstFuture = item.status === 'future' && (i === 0 || displayItems[i - 1].status !== 'future')
+            const isFirstFuture = item.status === 'future' && i === dividerIdx
+            const isDisplacedFuture = item.status === 'future' && i < dividerIdx
             return (
               <div key={item.id}>
                 {isFirstFuture && (
@@ -1090,7 +1094,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 onDragOver={e => { e.preventDefault(); setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
-                className={`px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
+                className={`px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
                 <div className={`flex items-center gap-[16px] ${leftBorder} pl-[16px]`}>
@@ -1128,6 +1132,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
               </div>
             )
           })}
+          )()}
         </div>
 
         {/* Warning or footer */}

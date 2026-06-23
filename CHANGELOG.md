@@ -1,3 +1,6 @@
+## v1.0.258 — 2026-06-23T19:42:40
+- Reorder modal: displaced future questions show yellow background; fix duplicate upcoming divider
+
 ## v1.0.257 — 2026-06-23T19:36:11
 - Update reorder warning copy: remove 'weekly' from 'weekly queue'
 
