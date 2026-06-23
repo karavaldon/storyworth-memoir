@@ -1,3 +1,6 @@
+## v1.0.260 — 2026-06-23T19:44:46
+- Reorder modal: confirming displaced future question promotes it to unanswered status
+
 ## v1.0.259 — 2026-06-23T19:44:03
 - Reorder modal: inline warning and confirm/cancel buttons on displaced future question row
 

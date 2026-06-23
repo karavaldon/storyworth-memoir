@@ -1135,7 +1135,15 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                           <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#d4d4d4] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
                             <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
                           </button>
-                          <button type="button" onClick={() => { setItems(pendingItems); setPendingItems(null) }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+                          <button type="button" onClick={() => {
+                            const lastNonFuture = pendingItems.reduce((last, it, idx) => it.status !== 'future' ? idx : last, -1)
+                            const dIdx = lastNonFuture + 1
+                            const updated = pendingItems.map((it, idx) =>
+                              it.status === 'future' && idx < dIdx ? { ...it, status: 'asked' as const } : it
+                            )
+                            setItems(updated)
+                            setPendingItems(null)
+                          }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
                             <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
                           </button>
                         </div>
