@@ -1074,9 +1074,15 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
               : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]'
               : item.status === 'this-week' ? 'border-l-[3px] border-l-[#eec256]'
               : 'border-l-[3px] border-l-transparent'
+            const isFirstFuture = item.status === 'future' && (i === 0 || displayItems[i - 1].status !== 'future')
             return (
+              <div key={item.id}>
+                {isFirstFuture && (
+                  <div className="border-t-2 border-[#d4d4d4] px-[24px] py-[14px]">
+                    <p className="font-['GT_America:Medium'] text-[12px] leading-[18px] text-[#61706f] uppercase tracking-[1.6px] m-0">Upcoming questions</p>
+                  </div>
+                )}
               <div
-                key={item.id}
                 draggable={!pendingItems}
                 onDragStart={() => { setDragIdx(i) }}
                 onDragOver={e => { e.preventDefault(); setDropTargetIdx(i) }}
@@ -1116,6 +1122,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     )}
                   </div>
                 </div>
+              </div>
               </div>
             )
           })}

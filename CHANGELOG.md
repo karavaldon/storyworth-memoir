@@ -1,3 +1,6 @@
+## v1.0.250 — 2026-06-23T19:28:20
+- Reorder modal: Upcoming questions section divider before future items
+
 ## v1.0.249 — 2026-06-23T19:26:03
 - Darken Unanswered label in reorder modal
 
