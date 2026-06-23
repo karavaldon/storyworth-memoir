@@ -1,3 +1,6 @@
+## v1.0.241 — 2026-06-23T18:35:06
+- Revert Answer button to invisible-until-row-hover
+
 ## v1.0.240 — 2026-06-23T18:31:24
 - Audio badge hugs content width
 
