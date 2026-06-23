@@ -1060,7 +1060,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
     const movedId = items[dragIdx].id
     const newPos = next.findIndex(it => it.id === movedId)
     const newThisWeekPos = next.findIndex(it => it.status === 'this-week')
-    if (newThisWeekPos >= 0 && newPos < newThisWeekPos && items[dragIdx].status !== 'this-week') {
+    if (newThisWeekPos >= 0 && newPos < newThisWeekPos && items[dragIdx].status === 'future') {
       setPendingItems(next)
     } else {
       setItems(next)

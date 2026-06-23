@@ -1,3 +1,6 @@
+## v1.0.282 — 2026-06-23T20:26:26
+- Reorder modal: fix drag lost after drop — only future items trigger pending confirmation
+
 ## v1.0.281 — 2026-06-23T20:25:28
 - Reorder modal: smooth scroll to moved chapter + teal highlight on landing
 
