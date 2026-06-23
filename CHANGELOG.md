@@ -1,3 +1,6 @@
+## v1.0.271 — 2026-06-23T20:03:07
+- Reorder modal: filter toolbar, select mode with checkboxes, delete/move actions
+
 ## v1.0.270 — 2026-06-23T19:59:02
 - Reorder modal: fix drop indicator disappearing on 1-row drag
 

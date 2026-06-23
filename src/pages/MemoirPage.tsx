@@ -1010,6 +1010,9 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   const [dragIdx, setDragIdx] = useState<number | null>(null)
   const [dropTargetIdx, setDropTargetIdx] = useState<number | null>(null)
   const [pendingItems, setPendingItems] = useState<ReorderItem[] | null>(null)
+  const [filter, setFilter] = useState<'all' | 'stories' | 'upcoming'>('all')
+  const [selectMode, setSelectMode] = useState(false)
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -1045,6 +1048,12 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
 
   const displayItems = pendingItems ?? items
 
+  const filteredItems = filter === 'stories'
+    ? displayItems.filter(it => it.status === 'answered')
+    : filter === 'upcoming'
+    ? displayItems.filter(it => it.status === 'future' || it.status === 'this-week')
+    : displayItems
+
   const chapterNumbers: Record<number, number> = {}
   let chapterCount = 0
   for (const it of displayItems) {
@@ -1065,20 +1074,38 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
           </button>
         </div>
 
+        {/* Toolbar */}
+        <div className="flex-shrink-0 flex items-center justify-between px-[24px] py-[10px] border-t border-[#ebebeb]">
+          <div className="flex gap-[2px]">
+            {(['all', 'stories', 'upcoming'] as const).map(f => (
+              <button key={f} type="button" onClick={() => setFilter(f)}
+                className={`px-[14px] h-[34px] rounded-[20px] font-['GT_America:Medium'] text-[14px] leading-none tracking-[0.5px] uppercase cursor-pointer transition-colors ${filter === f ? 'bg-[#042a21] text-white' : 'text-[#61706f] hover:bg-[#f3f3f3]'}`}>
+                {f === 'all' ? 'All' : f === 'stories' ? 'Stories' : 'Upcoming'}
+              </button>
+            ))}
+          </div>
+          <button type="button"
+            onClick={() => { setSelectMode(v => !v); setSelectedIds(new Set()) }}
+            className={`px-[14px] h-[34px] rounded-[20px] font-['GT_America:Medium'] text-[14px] leading-none tracking-[0.5px] uppercase cursor-pointer transition-colors ${selectMode ? 'bg-[#042a21] text-white' : 'border border-[#d4d4d4] text-[#61706f] hover:border-[#61706f]'}`}>
+            Select
+          </button>
+        </div>
+
         {/* List */}
         <div className="overflow-y-auto flex-1 border-t border-[#ebebeb]">
           {(() => {
             const lastNonFutureIdx = displayItems.reduce((last, it, idx) => it.status !== 'future' ? idx : last, -1)
             const dividerIdx = lastNonFutureIdx + 1
-            return displayItems.map((item, i) => {
+            return filteredItems.map((item, i) => {
             const isDragging = dragIdx === i
             const isDropTarget = dropTargetIdx === i && dragIdx !== null && dragIdx !== i
             const leftBorder = item.status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c]'
               : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]'
               : item.status === 'this-week' ? 'border-l-[3px] border-l-[#eec256]'
               : 'border-l-[3px] border-l-transparent'
-            const isFirstFuture = item.status === 'future' && i === dividerIdx
-            const isDisplacedFuture = item.status === 'future' && i < dividerIdx
+            const isFirstFuture = filter === 'all' && item.status === 'future' && i === dividerIdx
+            const isDisplacedFuture = filter === 'all' && item.status === 'future' && i < dividerIdx
+            const isSelected = selectedIds.has(item.id)
             return (
               <Fragment key={item.id}>
                 {isFirstFuture && (
@@ -1087,7 +1114,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   </div>
                 )}
               <div
-                draggable={!pendingItems}
+                draggable={!pendingItems && !selectMode && filter === 'all'}
                 onDragStart={() => { setDragIdx(i) }}
                 onDragOver={e => { e.preventDefault(); if (i !== dragIdx) setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
@@ -1096,8 +1123,16 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
                 <div className={`flex items-center gap-[16px] ${leftBorder} pl-[16px]`}>
+                  {/* Select checkbox */}
+                  {selectMode && (
+                    <button type="button"
+                      onClick={() => setSelectedIds(prev => { const n = new Set(prev); n.has(item.id) ? n.delete(item.id) : n.add(item.id); return n })}
+                      className={`flex-shrink-0 size-[20px] rounded-full border-2 cursor-pointer flex items-center justify-center transition-colors ${isSelected ? 'bg-[#068089] border-[#068089]' : 'border-[#d4d4d4] bg-white hover:border-[#068089]'}`}>
+                      {isSelected && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                    </button>
+                  )}
                   {/* Drag handle */}
-                  {!pendingItems && (
+                  {!pendingItems && !selectMode && (
                     <div className="flex-shrink-0 flex items-center justify-center w-[24px]" style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
                       <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
                         <circle cx="3" cy="4" r="2" fill="#b0bdb9"/>
@@ -1157,11 +1192,33 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         </div>
 
         {/* Footer */}
-        <div className="flex-shrink-0 border-t border-[#ebebeb] px-[40px] py-[24px] flex justify-end">
-          <button type="button" onClick={onClose} className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-            <span className="font-['GT_America:Medium'] text-[16px] text-white tracking-[1.4px] uppercase">Done</span>
-          </button>
-        </div>
+        {selectMode ? (
+          <div className="flex-shrink-0 border-t border-[#ebebeb] px-[24px] py-[20px] flex items-center gap-[12px]">
+            <button type="button"
+              disabled={selectedIds.size === 0}
+              onClick={() => { setItems(items.filter(it => !selectedIds.has(it.id))); setSelectedIds(new Set()) }}
+              className={`flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 cursor-pointer transition-colors ${selectedIds.size > 0 ? 'border-[#c4234e] text-[#c4234e] hover:bg-[#fff0f3]' : 'border-[#d4d4d4] text-[#b0bdb9] cursor-not-allowed'}`}>
+              <span className="font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase">Delete</span>
+            </button>
+            <button type="button"
+              disabled={selectedIds.size === 0}
+              className={`flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 cursor-pointer transition-colors ${selectedIds.size > 0 ? 'border-[#d4d4d4] text-[#61706f] hover:border-[#61706f]' : 'border-[#d4d4d4] text-[#b0bdb9] cursor-not-allowed'}`}>
+              <span className="font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase">Move to another volume</span>
+            </button>
+            <span className="ml-auto font-['GT_America:Regular'] text-[14px] text-[#61706f] whitespace-nowrap">{selectedIds.size} selected</span>
+            <button type="button"
+              onClick={() => { setSelectMode(false); setSelectedIds(new Set()) }}
+              className="flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 border-[#61706f] cursor-pointer hover:bg-[#f3f3f3] transition-colors">
+              <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
+            </button>
+          </div>
+        ) : (
+          <div className="flex-shrink-0 border-t border-[#ebebeb] px-[40px] py-[24px] flex justify-end">
+            <button type="button" onClick={onClose} className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+              <span className="font-['GT_America:Medium'] text-[16px] text-white tracking-[1.4px] uppercase">Done</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
