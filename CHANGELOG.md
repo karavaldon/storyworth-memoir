@@ -1,3 +1,6 @@
+## v1.0.275 — 2026-06-23T20:10:11
+- Reorder modal: widen subtitle to reduce wrapping
+
 ## v1.0.274 — 2026-06-23T20:08:49
 - Reorder modal: pill tab bar All/Stories, strokeless Select button
 
