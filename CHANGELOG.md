@@ -1,3 +1,6 @@
+## v1.0.265 — 2026-06-23T19:51:49
+- Reorder modal: 16px min text, amber warning text, matched cancel button border
+
 ## v1.0.264 — 2026-06-23T19:48:56
 - Reorder modal: fix sticky upcoming label; remove flanking lines
 

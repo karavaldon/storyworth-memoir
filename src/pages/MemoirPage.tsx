@@ -1058,7 +1058,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
             <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
-            <p className="font-['GT_America:Regular'] text-[15px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[540px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[540px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
           </div>
           <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
@@ -1083,7 +1083,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
               <Fragment key={item.id}>
                 {isFirstFuture && (
                   <div className="sticky top-0 z-10 bg-white px-[24px] py-[16px] border-b border-[#ebebeb]">
-                    <p className="font-['GT_America:Medium'] text-[12px] leading-[16px] text-[#8a9a97] uppercase tracking-[1.6px] m-0 whitespace-nowrap">Upcoming questions</p>
+                    <p className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.6px] m-0 whitespace-nowrap">Upcoming questions</p>
                   </div>
                 )}
               <div
@@ -1112,26 +1112,26 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   {/* Content */}
                   <div className="flex flex-col gap-[4px] flex-1 min-w-0">
                     {item.status === 'answered' && (
-                      <p className="font-['GT_America:Regular'] text-[13px] leading-[18px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
                     )}
                     {item.status === 'asked' && (
-                      <p className="font-['GT_America:Regular'] text-[13px] leading-[18px] text-[#61706f] m-0">Unanswered</p>
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">Unanswered</p>
                     )}
                     {item.status === 'this-week' && (
-                      <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[12px] leading-[18px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
+                      <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[20px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
                     )}
                     <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0${item.status === 'asked' ? ' opacity-75' : ''}`}>{item.q}</p>
                     {item.status === 'answered' && item.preview && (
-                      <p className="font-['GT_Super_Text:Book'] text-[14px] leading-[22px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
+                      <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
                     )}
                     {isDisplacedFuture && pendingItems && (
                       <div className="mt-[12px] flex flex-col gap-[12px]">
-                        <p className="font-['GT_America:Regular'] text-[14px] leading-[22px] text-[#7a5f00] m-0">
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#ab8017] m-0">
                           This will move this question out of the queue and it won't send via email. Are you sure you want to reorder it?
                         </p>
                         <div className="flex gap-[12px]">
-                          <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#d4d4d4] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
-                            <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
+                          <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#61706f] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer transition-colors">
+                            <span className="font-['GT_America:Medium'] text-[16px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
                           </button>
                           <button type="button" onClick={() => {
                             const lastNonFuture = pendingItems.reduce((last, it, idx) => it.status !== 'future' ? idx : last, -1)
@@ -1142,7 +1142,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                             setItems(updated)
                             setPendingItems(null)
                           }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-                            <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
+                            <span className="font-['GT_America:Medium'] text-[16px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
                           </button>
                         </div>
                       </div>
@@ -1159,7 +1159,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         {/* Footer */}
         <div className="flex-shrink-0 border-t border-[#ebebeb] px-[40px] py-[24px] flex justify-end">
           <button type="button" onClick={onClose} className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-            <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Done</span>
+            <span className="font-['GT_America:Medium'] text-[16px] text-white tracking-[1.4px] uppercase">Done</span>
           </button>
         </div>
       </div>
