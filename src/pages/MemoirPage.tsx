@@ -14,7 +14,7 @@ import imgTrashIcon from '../../assets/icons/trash.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
 import imgHeart from '../../assets/icons/heart.svg'
 import imgChat from '../../assets/icons/comment.svg'
-import imgMic from '../../assets/icons/mic.svg'
+import imgVoice from '../../assets/icons/voice.svg'
 import imgStoryPhoto1 from '../../assets/photos/photo1.jpg'
 import imgStoryPhoto2 from '../../assets/photos/photo2.jpg'
 import imgStoryPhoto3 from '../../assets/photos/photo3.jpg'
@@ -3400,10 +3400,10 @@ export default function MemoirPage() {
             { q: 'What are your proudest achievements?',                      status: 'this-week' },
             { q: 'What do you hope your family remembers about you?',         status: 'future' },
           ]
-          const RecordingBadge = () => (
-            <div className="bg-[#ffe7e0] flex gap-[6px] items-center px-[6px] py-[2px] rounded-[5px] flex-shrink-0">
-              <img alt="" className="size-[20px] flex-shrink-0" src={imgMic} />
-              <p className="font-['GT_America:Regular'] leading-[28px] text-[#e14316] text-[16px] whitespace-nowrap m-0">Recording</p>
+          const AudioBadge = () => (
+            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] flex-shrink-0">
+              <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
+              <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
             </div>
           )
           const EngagementRow = () => (
@@ -3466,10 +3466,10 @@ export default function MemoirPage() {
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                         {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                       </p>
-                      {status === 'answered' && (variant === 'recording' || variant === 'all') && <RecordingBadge />}
                     </div>
                     {/* Question text */}
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                     {/* Preview */}
                     {status === 'answered' && preview && (
                       <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
@@ -3565,10 +3565,10 @@ export default function MemoirPage() {
             { q: 'If you could go back, what would you do differently?',                   status: 'future'   },
           ]
 
-          const RecordingBadge = () => (
-            <div className="bg-[#ffe7e0] flex gap-[6px] items-center px-[6px] py-[2px] rounded-[5px] flex-shrink-0">
-              <img alt="" className="size-[20px] flex-shrink-0" src={imgMic} />
-              <p className="font-['GT_America:Regular'] leading-[28px] text-[#e14316] text-[16px] whitespace-nowrap m-0">Recording</p>
+          const AudioBadge = () => (
+            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] flex-shrink-0">
+              <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
+              <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
             </div>
           )
           const SharedRow = () => (
@@ -3629,9 +3629,9 @@ export default function MemoirPage() {
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                           {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                         </p>
-                        {status === 'answered' && (variant === 'recording' || variant === 'all') && <RecordingBadge />}
                       </div>
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                      {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                       {status === 'answered' && preview && (
                         <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
                       )}

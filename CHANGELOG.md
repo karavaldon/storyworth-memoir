@@ -1,3 +1,6 @@
+## v1.0.239 — 2026-06-23T18:30:17
+- Replace Recording tag with Audio badge using voice.svg, moved below question title
+
 ## v1.0.238 — 2026-06-23T18:27:36
 - Answer stroke button fills on row hover via group-hover
 
