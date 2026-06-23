@@ -1013,6 +1013,8 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   const [filter, setFilter] = useState<'all' | 'stories'>('all')
   const [selectMode, setSelectMode] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editingValue, setEditingValue] = useState('')
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -1028,6 +1030,16 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
     const [moved] = next.splice(from, 1)
     next.splice(to, 0, moved)
     return next
+  }
+
+  function moveToChapter(itemId: number, targetChapter: number) {
+    const answeredInOrder = items.filter(it => it.status === 'answered')
+    if (targetChapter < 1 || targetChapter > answeredInOrder.length) return
+    const fromIdx = items.findIndex(it => it.id === itemId)
+    const targetItem = answeredInOrder[targetChapter - 1]
+    if (targetItem.id === itemId) return
+    const toIdx = items.findIndex(it => it.id === targetItem.id)
+    setItems(getReordered(fromIdx, toIdx))
   }
 
   function handleDrop(e: React.DragEvent, targetIdx: number) {
@@ -1148,7 +1160,30 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   {/* Content */}
                   <div className="flex flex-col gap-[4px] flex-1 min-w-0">
                     {item.status === 'answered' && (
-                      <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
+                      editingId === item.id ? (
+                        <div className="flex items-center gap-[4px]">
+                          <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c]">Chapter</span>
+                          <input
+                            type="number" min={1} max={Object.keys(chapterNumbers).length}
+                            value={editingValue}
+                            onChange={e => setEditingValue(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }
+                              if (e.key === 'Escape') setEditingId(null)
+                            }}
+                            onBlur={() => { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }}
+                            className="w-[36px] font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] border-b border-[#1ba07c] bg-transparent outline-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            autoFocus
+                          />
+                        </div>
+                      ) : (
+                        <p
+                          className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] m-0 cursor-text hover:underline select-none"
+                          onClick={() => { if (!selectMode) { setEditingId(item.id); setEditingValue(String(chapterNumbers[item.id])) } }}
+                        >
+                          Chapter {chapterNumbers[item.id]}
+                        </p>
+                      )
                     )}
                     {item.status === 'asked' && (
                       <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Unanswered</p>

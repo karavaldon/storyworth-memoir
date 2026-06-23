@@ -1,3 +1,6 @@
+## v1.0.276 — 2026-06-23T20:14:55
+- Reorder modal: click chapter label to type a chapter number and move story
+
 ## v1.0.275 — 2026-06-23T20:10:11
 - Reorder modal: widen subtitle to reduce wrapping
 
