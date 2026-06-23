@@ -1,3 +1,6 @@
+## v1.0.270 — 2026-06-23T19:59:02
+- Reorder modal: fix drop indicator disappearing on 1-row drag
+
 ## v1.0.269 — 2026-06-23T19:56:30
 - Reorder modal: revert displaced question text to regular black
 

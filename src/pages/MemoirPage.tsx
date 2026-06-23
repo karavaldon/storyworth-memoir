@@ -1089,7 +1089,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
               <div
                 draggable={!pendingItems}
                 onDragStart={() => { setDragIdx(i) }}
-                onDragOver={e => { e.preventDefault(); setDropTargetIdx(i) }}
+                onDragOver={e => { e.preventDefault(); if (i !== dragIdx) setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
                 className={`px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
