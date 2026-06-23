@@ -1,3 +1,6 @@
+## v1.0.233 — 2026-06-23T18:10:14
+- Last question row always has bottom divider; 60px top padding before footer
+
 ## v1.0.232 — 2026-06-23T18:08:24
 - Move 'Share as a podcast' milestone to after 'Add a photo'
 
