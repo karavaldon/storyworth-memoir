@@ -1,3 +1,6 @@
+## v1.0.274 — 2026-06-23T20:08:49
+- Reorder modal: pill tab bar All/Stories, strokeless Select button
+
 ## v1.0.273 — 2026-06-23T20:05:40
 - Reorder modal: remove filter tabs, keep select button
 

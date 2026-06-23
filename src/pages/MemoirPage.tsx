@@ -1010,7 +1010,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   const [dragIdx, setDragIdx] = useState<number | null>(null)
   const [dropTargetIdx, setDropTargetIdx] = useState<number | null>(null)
   const [pendingItems, setPendingItems] = useState<ReorderItem[] | null>(null)
-  const [filter] = useState<'all' | 'stories' | 'upcoming'>('all')
+  const [filter, setFilter] = useState<'all' | 'stories'>('all')
   const [selectMode, setSelectMode] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
   const ref = useRef<HTMLDivElement>(null)
@@ -1050,8 +1050,6 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
 
   const filteredItems = filter === 'stories'
     ? displayItems.filter(it => it.status === 'answered')
-    : filter === 'upcoming'
-    ? displayItems.filter(it => it.status === 'future' || it.status === 'this-week')
     : displayItems
 
   const chapterNumbers: Record<number, number> = {}
@@ -1075,11 +1073,22 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         </div>
 
         {/* Toolbar */}
-        <div className="flex-shrink-0 flex items-center justify-end px-[24px] py-[10px] border-t border-[#ebebeb]">
+        <div className="flex-shrink-0 flex items-center justify-between px-[24px] py-[10px] border-t border-[#ebebeb]">
+          <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
+            {(['all', 'stories'] as const).map(f => (
+              filter === f
+                ? <div key={f} className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[8px] rounded-[22px] cursor-pointer" onClick={() => setFilter(f)}>
+                    <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">{f === 'all' ? 'All' : 'Stories'}</span>
+                  </div>
+                : <button key={f} type="button" onClick={() => setFilter(f)} className="px-[16px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+                    <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">{f === 'all' ? 'All' : 'Stories'}</span>
+                  </button>
+            ))}
+          </div>
           <button type="button"
             onClick={() => { setSelectMode(v => !v); setSelectedIds(new Set()) }}
-            className={`px-[14px] h-[34px] rounded-[20px] font-['GT_America:Medium'] text-[14px] leading-none tracking-[0.5px] uppercase cursor-pointer transition-colors ${selectMode ? 'bg-[#042a21] text-white' : 'border border-[#d4d4d4] text-[#61706f] hover:border-[#61706f]'}`}>
-            Select
+            className="px-[14px] py-[8px] cursor-pointer hover:opacity-70 transition-opacity">
+            <span className={`font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap ${selectMode ? 'text-[#068089]' : 'text-[#61706f]'}`}>Select</span>
           </button>
         </div>
 
