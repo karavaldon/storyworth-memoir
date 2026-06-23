@@ -1010,7 +1010,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   const [dragIdx, setDragIdx] = useState<number | null>(null)
   const [dropTargetIdx, setDropTargetIdx] = useState<number | null>(null)
   const [pendingItems, setPendingItems] = useState<ReorderItem[] | null>(null)
-  const [filter, setFilter] = useState<'all' | 'stories' | 'upcoming'>('all')
+  const [filter] = useState<'all' | 'stories' | 'upcoming'>('all')
   const [selectMode, setSelectMode] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
   const ref = useRef<HTMLDivElement>(null)
@@ -1075,15 +1075,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         </div>
 
         {/* Toolbar */}
-        <div className="flex-shrink-0 flex items-center justify-between px-[24px] py-[10px] border-t border-[#ebebeb]">
-          <div className="flex gap-[2px]">
-            {(['all', 'stories', 'upcoming'] as const).map(f => (
-              <button key={f} type="button" onClick={() => setFilter(f)}
-                className={`px-[14px] h-[34px] rounded-[20px] font-['GT_America:Medium'] text-[14px] leading-none tracking-[0.5px] uppercase cursor-pointer transition-colors ${filter === f ? 'bg-[#042a21] text-white' : 'text-[#61706f] hover:bg-[#f3f3f3]'}`}>
-                {f === 'all' ? 'All' : f === 'stories' ? 'Stories' : 'Upcoming'}
-              </button>
-            ))}
-          </div>
+        <div className="flex-shrink-0 flex items-center justify-end px-[24px] py-[10px] border-t border-[#ebebeb]">
           <button type="button"
             onClick={() => { setSelectMode(v => !v); setSelectedIds(new Set()) }}
             className={`px-[14px] h-[34px] rounded-[20px] font-['GT_America:Medium'] text-[14px] leading-none tracking-[0.5px] uppercase cursor-pointer transition-colors ${selectMode ? 'bg-[#042a21] text-white' : 'border border-[#d4d4d4] text-[#61706f] hover:border-[#61706f]'}`}>

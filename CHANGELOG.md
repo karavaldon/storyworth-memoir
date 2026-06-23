@@ -1,3 +1,6 @@
+## v1.0.273 — 2026-06-23T20:05:40
+- Reorder modal: remove filter tabs, keep select button
+
 ## v1.0.272 — 2026-06-23T20:04:10
 - Story list: green label for answered questions
 
