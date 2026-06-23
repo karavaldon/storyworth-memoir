@@ -1,3 +1,6 @@
+## v1.0.238 — 2026-06-23T18:27:36
+- Answer stroke button fills on row hover via group-hover
+
 ## v1.0.237 — 2026-06-23T18:24:27
 - Answer stroke button uses 2px border
 
