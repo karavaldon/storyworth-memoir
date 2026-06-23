@@ -1,3 +1,6 @@
+## v1.0.231 — 2026-06-23T18:05:57
+- Add 'Ready to add more questions?' footer at the end of the All Questions list for all A1 scenarios
+
 ## v1.0.230 — 2026-06-23T18:01:08
 - Add Share as a podcast milestone before Preview your book
 

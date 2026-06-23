@@ -3321,7 +3321,8 @@ export default function MemoirPage() {
       <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden /></>
       {/* Tab content */}
       {activeTab === 'week-by-week' ? (
-        isA1Unengaged ? (
+        <>
+        {isA1Unengaged ? (
           <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
             {([
               { q: weekQuestions[0],                                         asker: 'Raymond',    status: 'asked'     },
@@ -3853,7 +3854,21 @@ export default function MemoirPage() {
             currentPage={currentPage} setCurrentPage={setCurrentPage}
             pendingScrollWeek={pendingScrollWeek} setPendingScrollWeek={setPendingScrollWeek}
           />
-        )
+        )}
+        {(isA1New || isA1FirstQ || isA1Unengaged) && (
+          <div className="flex flex-col items-center text-center py-[64px] px-[24px]">
+            <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
+              Ready to add more questions?
+            </p>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mb-[24px]">
+              Write your own, browse our library, or try Magic Questions.
+            </p>
+            <button type="button" className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+              <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Make more questions</span>
+            </button>
+          </div>
+        )}
+        </>
       ) : activeTab === 'stories' ? (
         <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
           {isA1NearEnd ? (
