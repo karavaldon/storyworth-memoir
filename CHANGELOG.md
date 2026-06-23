@@ -1,3 +1,6 @@
+## v1.0.269 — 2026-06-23T19:56:30
+- Reorder modal: revert displaced question text to regular black
+
 ## v1.0.268 — 2026-06-23T19:56:03
 - Reorder modal: displaced question text amber; 8px gap above warning
 

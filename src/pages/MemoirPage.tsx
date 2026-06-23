@@ -1120,7 +1120,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     {item.status === 'this-week' && (
                       <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[14px] leading-[20px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
                     )}
-                    <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] m-0${isDisplacedFuture && pendingItems ? ' text-[#ab8017]' : item.status === 'asked' ? ' text-[#042a21] opacity-75' : ' text-[#042a21]'}`}>{item.q}</p>
+                    <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0${item.status === 'asked' ? ' opacity-75' : ''}`}>{item.q}</p>
                     {item.status === 'answered' && item.preview && (
                       <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
                     )}
