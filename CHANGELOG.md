@@ -1,3 +1,6 @@
+## v1.0.247 — 2026-06-23T19:23:14
+- Reorder modal: new title/subtitle, Chapter X / Unanswered labels, indicator at content boundary
+
 ## v1.0.246 — 2026-06-23T19:19:57
 - Reorder modal: 760px wide, left border by status, question + preview, no status labels
 

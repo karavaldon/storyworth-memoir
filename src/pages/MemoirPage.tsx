@@ -1045,14 +1045,20 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
 
   const displayItems = pendingItems ?? items
 
+  const chapterNumbers: Record<number, number> = {}
+  let chapterCount = 0
+  for (const it of displayItems) {
+    if (it.status === 'answered') { chapterCount++; chapterNumbers[it.id] = chapterCount }
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div ref={ref} className="bg-white rounded-[16px] shadow-[0px_16px_48px_rgba(0,0,0,0.18)] max-w-[760px] w-full mx-4 flex flex-col" style={{ maxHeight: 'calc(100vh - 80px)' }}>
         {/* Header */}
         <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
-            <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder questions</h2>
-            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px]">Drag to change the order questions appear in your memoir.</p>
+            <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
+            <p className="font-['GT_America:Regular'] text-[15px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[540px]">Changing the order of answered questions will change the order in your printed book. We won't print any unanswered questions. You can also change the order of upcoming questions.</p>
           </div>
           <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
@@ -1064,6 +1070,10 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
           {displayItems.map((item, i) => {
             const isDragging = dragIdx === i
             const isDropTarget = dropTargetIdx === i && dragIdx !== null && dragIdx !== i
+            const leftBorder = item.status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c]'
+              : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]'
+              : item.status === 'this-week' ? 'border-l-[3px] border-l-[#eec256]'
+              : 'border-l-[3px] border-l-transparent'
             return (
               <div
                 key={item.id}
@@ -1072,33 +1082,39 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 onDragOver={e => { e.preventDefault(); setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
-                className={`flex items-center gap-[16px] px-[24px] py-[20px] border-b border-[#ebebeb] transition-colors
-                  ${item.status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c]' : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]' : item.status === 'this-week' ? 'border-l-[3px] border-l-[#eec256]' : ''}
-                  ${isDragging ? 'opacity-40' : ''} ${isDropTarget ? 'bg-[#edfafb]' : 'bg-white'}`}
+                className={`px-[24px] py-[20px] border-b border-[#ebebeb] transition-colors ${isDragging ? 'opacity-40' : ''} ${isDropTarget ? 'bg-[#edfafb]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
-                {/* Drag handle */}
-                {!pendingItems && (
-                  <div
-                    className="flex-shrink-0 flex items-center justify-center w-[24px]"
-                    style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-                  >
-                    <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
-                      <circle cx="3" cy="4" r="2" fill="#b0bdb9"/>
-                      <circle cx="9" cy="4" r="2" fill="#b0bdb9"/>
-                      <circle cx="3" cy="10" r="2" fill="#b0bdb9"/>
-                      <circle cx="9" cy="10" r="2" fill="#b0bdb9"/>
-                      <circle cx="3" cy="16" r="2" fill="#b0bdb9"/>
-                      <circle cx="9" cy="16" r="2" fill="#b0bdb9"/>
-                    </svg>
-                  </div>
-                )}
-                {/* Content */}
-                <div className="flex flex-col gap-[6px] flex-1 min-w-0">
-                  <p className="font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0">{item.q}</p>
-                  {item.status === 'answered' && item.preview && (
-                    <p className="font-['GT_Super_Text:Book'] text-[14px] leading-[22px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
+                <div className={`flex items-center gap-[16px] ${leftBorder} pl-[16px]`}>
+                  {/* Drag handle */}
+                  {!pendingItems && (
+                    <div className="flex-shrink-0 flex items-center justify-center w-[24px]" style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
+                      <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
+                        <circle cx="3" cy="4" r="2" fill="#b0bdb9"/>
+                        <circle cx="9" cy="4" r="2" fill="#b0bdb9"/>
+                        <circle cx="3" cy="10" r="2" fill="#b0bdb9"/>
+                        <circle cx="9" cy="10" r="2" fill="#b0bdb9"/>
+                        <circle cx="3" cy="16" r="2" fill="#b0bdb9"/>
+                        <circle cx="9" cy="16" r="2" fill="#b0bdb9"/>
+                      </svg>
+                    </div>
                   )}
+                  {/* Content */}
+                  <div className="flex flex-col gap-[4px] flex-1 min-w-0">
+                    {item.status === 'answered' && (
+                      <p className="font-['GT_America:Regular'] text-[13px] leading-[18px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
+                    )}
+                    {item.status === 'asked' && (
+                      <p className="font-['GT_America:Regular'] text-[13px] leading-[18px] text-[#b0bdb9] m-0">Unanswered</p>
+                    )}
+                    {item.status === 'this-week' && (
+                      <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[12px] leading-[18px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
+                    )}
+                    <p className="font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0">{item.q}</p>
+                    {item.status === 'answered' && item.preview && (
+                      <p className="font-['GT_Super_Text:Book'] text-[14px] leading-[22px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             )
