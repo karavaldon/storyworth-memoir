@@ -2774,7 +2774,18 @@ export default function MemoirPage() {
       { id: 5, q: 'How did you decide on your career path?',                status: 'answered',  preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
       { id: 6, q: 'What world event had the biggest impact on your life?',  status: 'asked'     },
       { id: 7, q: 'How did you meet your closest friends?',                 status: 'answered',  preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
-      { id: 8, q: 'What are your proudest achievements?',                   status: 'this-week' },
+      { id: 8,  q: 'What are your proudest achievements?',                   status: 'this-week' },
+      { id: 9,  q: 'What do you hope your family remembers about you?',      status: 'future'    },
+      { id: 10, q: 'Where did you grow up, and what was it like?',           status: 'future'    },
+      { id: 11, q: "What's the best advice you ever received?",              status: 'future'    },
+      { id: 12, q: 'How did you meet your spouse or partner?',               status: 'future'    },
+      { id: 13, q: 'What was your first job like?',                          status: 'future'    },
+      { id: 14, q: 'Describe a perfect day from your childhood.',            status: 'future'    },
+      { id: 15, q: "What's a tradition your family had growing up?",         status: 'future'    },
+      { id: 16, q: 'Who was your childhood hero?',                           status: 'future'    },
+      { id: 17, q: "What's the hardest decision you've ever made?",          status: 'future'    },
+      { id: 18, q: "What's your favorite family recipe?",                    status: 'future'    },
+      { id: 19, q: 'Where did you go on your first trip abroad?',            status: 'future'    },
     ]
     if (isA1Unengaged) return [
       { id: 0, q: weekQuestions[0],                                         status: 'asked'     },
@@ -3400,6 +3411,16 @@ export default function MemoirPage() {
             { q: 'How did you meet your closest friends?',                    status: 'answered', variant: 'plain',      preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
             { q: 'What are your proudest achievements?',                      status: 'this-week' },
             { q: 'What do you hope your family remembers about you?',         status: 'future' },
+            { q: 'Where did you grow up, and what was it like?',              status: 'future' },
+            { q: "What's the best advice you ever received?",                 status: 'future' },
+            { q: 'How did you meet your spouse or partner?',                  status: 'future' },
+            { q: 'What was your first job like?',                             status: 'future' },
+            { q: 'Describe a perfect day from your childhood.',               status: 'future' },
+            { q: "What's a tradition your family had growing up?",            status: 'future' },
+            { q: 'Who was your childhood hero?',                              status: 'future' },
+            { q: "What's the hardest decision you've ever made?",             status: 'future' },
+            { q: "What's your favorite family recipe?",                       status: 'future' },
+            { q: 'Where did you go on your first trip abroad?',               status: 'future' },
           ]
           const AudioBadge = () => (
             <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">

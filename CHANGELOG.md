@@ -1,3 +1,6 @@
+## v1.0.248 — 2026-06-23T19:24:58
+- Five-answered page: add 10 more upcoming future questions
+
 ## v1.0.247 — 2026-06-23T19:23:14
 - Reorder modal: new title/subtitle, Chapter X / Unanswered labels, indicator at content boundary
 
