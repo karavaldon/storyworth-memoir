@@ -1,3 +1,6 @@
+## v1.0.261 — 2026-06-23T19:45:14
+- Reorder modal: remove amber divider above inline warning
+
 ## v1.0.260 — 2026-06-23T19:44:46
 - Reorder modal: confirming displaced future question promotes it to unanswered status
 

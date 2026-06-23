@@ -1127,7 +1127,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                       <p className="font-['GT_Super_Text:Book'] text-[14px] leading-[22px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
                     )}
                     {isDisplacedFuture && pendingItems && (
-                      <div className="mt-[12px] pt-[12px] border-t border-[#eec256] flex flex-col gap-[12px]">
+                      <div className="mt-[12px] flex flex-col gap-[12px]">
                         <p className="font-['GT_America:Regular'] text-[14px] leading-[22px] text-[#7a5f00] m-0">
                           This will move this question out of the queue and it won't send via email. Are you sure you want to reorder it?
                         </p>
