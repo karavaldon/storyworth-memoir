@@ -1105,7 +1105,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                       <p className="font-['GT_America:Regular'] text-[13px] leading-[18px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
                     )}
                     {item.status === 'asked' && (
-                      <p className="font-['GT_America:Regular'] text-[13px] leading-[18px] text-[#b0bdb9] m-0">Unanswered</p>
+                      <p className="font-['GT_America:Regular'] text-[13px] leading-[18px] text-[#61706f] m-0">Unanswered</p>
                     )}
                     {item.status === 'this-week' && (
                       <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[12px] leading-[18px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
