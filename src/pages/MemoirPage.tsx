@@ -1126,6 +1126,21 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     {item.status === 'answered' && item.preview && (
                       <p className="font-['GT_Super_Text:Book'] text-[14px] leading-[22px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
                     )}
+                    {isDisplacedFuture && pendingItems && (
+                      <div className="mt-[12px] pt-[12px] border-t border-[#eec256] flex flex-col gap-[12px]">
+                        <p className="font-['GT_America:Regular'] text-[14px] leading-[22px] text-[#7a5f00] m-0">
+                          This will move this question out of the queue and it won't send via email. Are you sure you want to reorder it?
+                        </p>
+                        <div className="flex gap-[12px]">
+                          <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#d4d4d4] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
+                            <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
+                          </button>
+                          <button type="button" onClick={() => { setItems(pendingItems); setPendingItems(null) }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+                            <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1135,28 +1150,12 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
           )()}
         </div>
 
-        {/* Warning or footer */}
-        {pendingItems ? (
-          <div className="flex-shrink-0 border-t-2 border-[#eec256] bg-[#fffdf0] px-[32px] py-[24px] rounded-b-[16px] flex flex-col gap-[16px]">
-            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#7a5f00] m-0">
-              This will move this question out of the queue and it won't send via email. Are you sure you want to reorder it?
-            </p>
-            <div className="flex gap-[12px]">
-              <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#d4d4d4] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
-                <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
-              </button>
-              <button type="button" onClick={() => { setItems(pendingItems); setPendingItems(null) }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-                <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex-shrink-0 border-t border-[#ebebeb] px-[40px] py-[24px] flex justify-end">
-            <button type="button" onClick={onClose} className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-              <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Done</span>
-            </button>
-          </div>
-        )}
+        {/* Footer */}
+        <div className="flex-shrink-0 border-t border-[#ebebeb] px-[40px] py-[24px] flex justify-end">
+          <button type="button" onClick={onClose} className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
+            <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Done</span>
+          </button>
+        </div>
       </div>
     </div>
   )

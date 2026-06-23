@@ -1,3 +1,6 @@
+## v1.0.259 — 2026-06-23T19:44:03
+- Reorder modal: inline warning and confirm/cancel buttons on displaced future question row
+
 ## v1.0.258 — 2026-06-23T19:42:40
 - Reorder modal: displaced future questions show yellow background; fix duplicate upcoming divider
 
