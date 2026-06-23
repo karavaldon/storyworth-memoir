@@ -1,3 +1,6 @@
+## v1.0.251 — 2026-06-23T19:28:58
+- Upcoming question rows in reorder modal get soft gray background
+
 ## v1.0.250 — 2026-06-23T19:28:20
 - Reorder modal: Upcoming questions section divider before future items
 
