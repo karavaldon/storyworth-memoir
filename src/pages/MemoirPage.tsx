@@ -3561,7 +3561,7 @@ export default function MemoirPage() {
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                      <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'answered' ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
                         {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                       </p>
                     </div>
@@ -3724,7 +3724,7 @@ export default function MemoirPage() {
                   <div key={i} className={`border-b border-[#ebebeb] ${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center">
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                        <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'answered' ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
                           {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                         </p>
                       </div>
@@ -3784,7 +3784,7 @@ export default function MemoirPage() {
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
-                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
+                    <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${i === 0 ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
                       {i === 0 ? 'Question 1 answered' : i === 1 ? 'Question 2 will send next week' : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                     </p>
                     {i === 1 && (

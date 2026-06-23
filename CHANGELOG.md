@@ -1,3 +1,6 @@
+## v1.0.272 — 2026-06-23T20:04:10
+- Story list: green label for answered questions
+
 ## v1.0.271 — 2026-06-23T20:03:07
 - Reorder modal: filter toolbar, select mode with checkboxes, delete/move actions
 
