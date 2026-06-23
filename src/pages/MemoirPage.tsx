@@ -1018,6 +1018,9 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   const [justMovedId, setJustMovedId] = useState<number | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<Record<number, HTMLDivElement | null>>({})
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const autoScrollRAF = useRef<number | null>(null)
+  const scrollSpeed = useRef(0)
 
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
@@ -1032,6 +1035,42 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
     const [moved] = next.splice(from, 1)
     next.splice(to, 0, moved)
     return next
+  }
+
+  function startAutoScroll() {
+    function tick() {
+      const el = scrollRef.current
+      if (el && scrollSpeed.current !== 0) {
+        el.scrollTop += scrollSpeed.current
+        autoScrollRAF.current = requestAnimationFrame(tick)
+      } else {
+        autoScrollRAF.current = null
+      }
+    }
+    if (!autoScrollRAF.current) autoScrollRAF.current = requestAnimationFrame(tick)
+  }
+
+  function stopAutoScroll() {
+    if (autoScrollRAF.current) { cancelAnimationFrame(autoScrollRAF.current); autoScrollRAF.current = null }
+    scrollSpeed.current = 0
+  }
+
+  function handleListDragOver(e: React.DragEvent<HTMLDivElement>) {
+    const el = scrollRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const EDGE = 80
+    const MAX_SPEED = 12
+    const y = e.clientY - rect.top
+    if (y < EDGE) {
+      scrollSpeed.current = -MAX_SPEED * (1 - y / EDGE)
+      startAutoScroll()
+    } else if (y > rect.height - EDGE) {
+      scrollSpeed.current = MAX_SPEED * (1 - (rect.height - y) / EDGE)
+      startAutoScroll()
+    } else {
+      stopAutoScroll()
+    }
   }
 
   function moveToChapter(itemId: number, targetChapter: number) {
@@ -1116,7 +1155,12 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         </div>
 
         {/* List */}
-        <div className="overflow-y-auto flex-1 border-t border-[#ebebeb]">
+        <div
+          ref={scrollRef}
+          className="overflow-y-auto flex-1 border-t border-[#ebebeb]"
+          onDragOver={handleListDragOver}
+          onDragLeave={e => { if (!scrollRef.current?.contains(e.relatedTarget as Node)) stopAutoScroll() }}
+        >
           {(() => {
             const lastNonFutureIdx = displayItems.reduce((last, it, idx) => it.status !== 'future' ? idx : last, -1)
             const dividerIdx = lastNonFutureIdx + 1
@@ -1143,7 +1187,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 onDragStart={() => { setDragIdx(i) }}
                 onDragOver={e => { e.preventDefault(); if (i !== dragIdx) setDropTargetIdx(i) }}
                 onDrop={e => handleDrop(e, i)}
-                onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null) }}
+                onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null); stopAutoScroll() }}
                 className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors duration-700 ${isDragging ? 'opacity-40' : ''} ${justMovedId === item.id ? 'bg-[rgba(6,128,137,0.08)]' : isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >

@@ -1,3 +1,6 @@
+## v1.0.283 — 2026-06-23T20:28:18
+- Reorder modal: auto-scroll list when dragging near top or bottom edge
+
 ## v1.0.282 — 2026-06-23T20:26:26
 - Reorder modal: fix drag lost after drop — only future items trigger pending confirmation
 
