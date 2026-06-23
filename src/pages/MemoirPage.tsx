@@ -1114,7 +1114,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             const isDropTarget = dropTargetIdx === i && dragIdx !== null && dragIdx !== i
             const leftBorder = item.status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c]'
               : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]'
-              : item.status === 'this-week' ? 'border-l-[3px] border-l-[#eec256]'
+              : item.status === 'this-week' ? 'border-l-[3px] border-l-[#5BB8DF]'
               : 'border-l-[3px] border-l-transparent'
             const isFirstFuture = filter === 'all' && item.status === 'future' && i === dividerIdx
             const isDisplacedFuture = filter === 'all' && item.status === 'future' && i < dividerIdx
@@ -1166,7 +1166,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                       <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Unanswered</p>
                     )}
                     {item.status === 'this-week' && (
-                      <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[14px] leading-[20px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
+                      <span className="inline-flex self-start bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[14px] leading-[20px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
                     )}
                     <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0${item.status === 'asked' ? ' opacity-75' : ''}`}>{item.q}</p>
                     {item.status === 'answered' && item.preview && (
@@ -3471,10 +3471,10 @@ export default function MemoirPage() {
               { q: 'What do you hope your family remembers about you?',      asker: 'Storyworth', status: 'future'    },
             ] as { q: string; asker: string; status: 'asked' | 'this-week' | 'future' }[]).map(({ q, asker, status }, i) => {
               if (status === 'this-week') return (
-                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#eec256] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
-                      <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
+                      <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                         This week
                       </span>
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {i + 1}</p>
@@ -3572,10 +3572,10 @@ export default function MemoirPage() {
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#eec256] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
-                        <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
+                        <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                           This week
                         </span>
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {i + 1}</p>
@@ -3738,10 +3738,10 @@ export default function MemoirPage() {
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#eec256] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
-                        <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
+                        <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                           This week
                         </span>
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {i + 1}</p>
@@ -3891,12 +3891,12 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => (
               <div
                 key={i}
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#eec256] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
                     {i === 0 && (
-                      <span className="bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
+                      <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                         This week
                       </span>
                     )}

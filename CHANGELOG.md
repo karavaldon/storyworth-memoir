@@ -1,3 +1,6 @@
+## v1.0.279 — 2026-06-23T20:21:49
+- This week styling: amber replaced with #BDEBFF blue across all pages
+
 ## v1.0.278 — 2026-06-23T20:20:26
 - Reorder modal: update displaced question warning copy
 
