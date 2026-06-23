@@ -1,3 +1,6 @@
+## v1.0.280 — 2026-06-23T20:22:43
+- Reorder modal stories: chapter field always visible, gray stroke, teal on hover
+
 ## v1.0.279 — 2026-06-23T20:21:49
 - This week styling: amber replaced with #BDEBFF blue across all pages
 

@@ -1215,9 +1215,9 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     ) : (
                       <div
                         onClick={() => { setEditingId(item.id); setEditingValue(String(chapterNumbers[item.id])) }}
-                        className="w-[44px] h-[32px] flex items-center justify-center rounded-[6px] cursor-text opacity-0 group-hover:opacity-100 hover:bg-[#f0faf7] transition-all"
+                        className="w-[44px] h-[32px] flex items-center justify-center rounded-[6px] cursor-text border border-[#d4d4d4] hover:border-[#068089] bg-transparent transition-colors"
                       >
-                        <span className="font-['GT_America:Regular'] text-[16px] text-[#1ba07c]">{chapterNumbers[item.id]}</span>
+                        <span className="font-['GT_America:Regular'] text-[16px] text-[#b0bdb9]">{chapterNumbers[item.id]}</span>
                       </div>
                     )}
                   </div>
