@@ -1,3 +1,6 @@
+## v1.0.266 — 2026-06-23T19:52:24
+- Reorder modal: Chapter, Unanswered, This week labels set to 14px
+
 ## v1.0.265 — 2026-06-23T19:51:49
 - Reorder modal: 16px min text, amber warning text, matched cancel button border
 

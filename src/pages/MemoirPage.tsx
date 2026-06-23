@@ -1112,13 +1112,13 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   {/* Content */}
                   <div className="flex flex-col gap-[4px] flex-1 min-w-0">
                     {item.status === 'answered' && (
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
+                      <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
                     )}
                     {item.status === 'asked' && (
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">Unanswered</p>
+                      <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Unanswered</p>
                     )}
                     {item.status === 'this-week' && (
-                      <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[16px] leading-[20px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
+                      <span className="inline-flex self-start bg-[rgba(250,230,188,0.5)] text-[#ab8017] font-['GT_America:Regular'] text-[14px] leading-[20px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
                     )}
                     <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0${item.status === 'asked' ? ' opacity-75' : ''}`}>{item.q}</p>
                     {item.status === 'answered' && item.preview && (
