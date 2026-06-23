@@ -1082,7 +1082,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             return (
               <div key={item.id}>
                 {isFirstFuture && (
-                  <div className="flex items-center gap-[12px] px-[24px] py-[24px]">
+                  <div className="sticky top-0 z-10 bg-white flex items-center gap-[12px] px-[24px] py-[24px] border-b border-[#ebebeb]">
                     <div className="flex-1 h-[1px] bg-[#d4d4d4]" />
                     <p className="font-['GT_America:Medium'] text-[11px] leading-[16px] text-[#8a9a97] uppercase tracking-[1.6px] m-0 whitespace-nowrap">Upcoming questions</p>
                     <div className="flex-1 h-[1px] bg-[#d4d4d4]" />

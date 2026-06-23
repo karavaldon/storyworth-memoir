@@ -1,3 +1,6 @@
+## v1.0.262 — 2026-06-23T19:46:20
+- Reorder modal: sticky upcoming questions divider on scroll
+
 ## v1.0.261 — 2026-06-23T19:45:14
 - Reorder modal: remove amber divider above inline warning
 
