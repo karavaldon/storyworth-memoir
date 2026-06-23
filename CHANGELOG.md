@@ -1,3 +1,6 @@
+## v1.0.256 — 2026-06-23T19:34:26
+- Drop target shows teal line only, no background fill
+
 ## v1.0.255 — 2026-06-23T19:32:15
 - Increase reorder modal row padding from 20px to 26px
 
