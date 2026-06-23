@@ -1,3 +1,6 @@
+## v1.0.235 — 2026-06-23T18:14:02
+- Fix missing space between border and padding classes introduced by previous divider refactor
+
 ## v1.0.234 — 2026-06-23T18:11:30
 - Increase question row vertical padding from 24px to 32px for airier list
 
