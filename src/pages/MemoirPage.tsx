@@ -42,7 +42,7 @@ const imgPhoto2 = "https://www.figma.com/api/mcp/asset/5c281eb9-409b-4314-b508-b
 const imgPhoto3 = "https://www.figma.com/api/mcp/asset/60fe0288-8fbd-455e-9116-318ab6ca1ca2";
 const imgPhoto4 = "https://www.figma.com/api/mcp/asset/3aa2ff32-cc23-46f6-9144-470537a0c127";
 const imgPhoto5 = "https://www.figma.com/api/mcp/asset/c7081c74-1d13-40ec-b82b-c0a443280742";
-import imgBookIlloA from '../../assets/memoir-book.png'
+import imgBookIlloA from '../../assets/book cover.png'
 const imgBookIlloB = imgBookIlloA
 const imgPhoto6 = "https://www.figma.com/api/mcp/asset/b4d5ff05-4330-4455-8b33-929b1064931c";
 const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f0ae31452d32";
@@ -211,6 +211,37 @@ function Navbar({ scenario, onScenarioChange }: { scenario: string; onScenarioCh
   )
 }
 
+function HoverBook() {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <div
+      className="relative cursor-pointer h-[195px] w-[253px] flex-shrink-0"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className={`absolute inset-0 transition-transform duration-300 ${hovered ? 'scale-[1.08]' : 'scale-100'}`}>
+        <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
+      </div>
+      <div className={`absolute inset-0 flex flex-col items-center justify-center gap-[8px] transition-opacity duration-200 ${hovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <button type="button" className="relative h-[40px] w-[180px] group/btn">
+          <div className="absolute bg-white group-hover/btn:bg-[#e6f4f4] border-2 border-[#068089] inset-0 rounded-[24px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] transition-colors duration-150" />
+          <div className="relative z-10 flex gap-[8px] items-center justify-center h-full">
+            <div className="size-[20px] relative flex-shrink-0"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEditCoverIcon} /></div>
+            <span className="font-['GT_America:Medium'] text-[#07777e] text-[14px] tracking-[1.4px] uppercase whitespace-nowrap">Edit Cover</span>
+          </div>
+        </button>
+        <button type="button" className="relative h-[40px] w-[180px] group/btn2">
+          <div className="absolute bg-white group-hover/btn2:bg-[#e6f4f4] border-2 border-[#068089] inset-0 rounded-[24px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] transition-colors duration-150" />
+          <div className="relative z-10 flex gap-[8px] items-center justify-center h-full">
+            <div className="size-[20px] relative flex-shrink-0"><img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPreviewBookIcon} /></div>
+            <span className="font-['GT_America:Medium'] text-[#07777e] text-[14px] tracking-[1.4px] uppercase whitespace-nowrap">Preview Book</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function BookCard({ variant = 'a' }: { variant?: 'a' | 'b' }) {
   const [hovered, setHovered] = useState(false)
 
@@ -251,7 +282,7 @@ function BookCard({ variant = 'a' }: { variant?: 'a' | 'b' }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="h-[194px] w-[164px] relative flex-shrink-0">
+      <div className={`h-[194px] w-[164px] relative flex-shrink-0 transition-transform duration-300 ${hovered ? 'scale-[1.08]' : 'scale-100'}`}>
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBookIlloA} />
       </div>
 
@@ -3215,9 +3246,7 @@ export default function MemoirPage() {
                   </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <div className="h-[195px] w-[253px] relative">
-                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
-                  </div>
+                  <HoverBook />
                 </div>
               </div>
             </div>
@@ -3245,9 +3274,7 @@ export default function MemoirPage() {
                   </button>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <div className="h-[195px] w-[253px] relative">
-                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
-                  </div>
+                  <HoverBook />
                 </div>
               </div>
             </div>
@@ -3277,9 +3304,7 @@ export default function MemoirPage() {
                   </button>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <div className="h-[195px] w-[253px] relative">
-                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
-                  </div>
+                  <HoverBook />
                 </div>
               </div>
             </div>
@@ -3307,9 +3332,7 @@ export default function MemoirPage() {
                   </button>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <div className="h-[195px] w-[253px] relative">
-                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
-                  </div>
+                  <HoverBook />
                 </div>
               </div>
             </div>
@@ -3334,9 +3357,7 @@ export default function MemoirPage() {
                   </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <div className="h-[195px] w-[253px] relative">
-                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
-                  </div>
+                  <HoverBook />
                 </div>
               </div>
             </div>
@@ -3366,9 +3387,7 @@ export default function MemoirPage() {
                   </button>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <div className="h-[195px] w-[253px] relative">
-                    <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
-                  </div>
+                  <HoverBook />
                 </div>
               </div>
             </div>

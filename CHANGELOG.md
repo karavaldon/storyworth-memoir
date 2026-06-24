@@ -1,3 +1,6 @@
+## v1.0.319 — 2026-06-24T18:19:33
+- Add HoverBook component with scale and buttons to scenario headers
+
 ## v1.0.318 — 2026-06-24T17:59:05
 - Add issue badge to near-end tab bar, drafts tab for 5-answered, fix tab reset on scenario change, fix new user page padding
 
