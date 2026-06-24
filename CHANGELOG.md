@@ -1,3 +1,6 @@
+## v1.0.313 — 2026-06-24T15:57:55
+- Restore audio badge, photos, engagement counts on Stories tab
+
 ## v1.0.312 — 2026-06-24T15:01:55
 - Chapter label gray, green left bar removed from answered rows
 

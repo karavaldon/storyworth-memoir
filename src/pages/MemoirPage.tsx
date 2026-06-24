@@ -4207,20 +4207,64 @@ export default function MemoirPage() {
         <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
           {(isA1NearEnd || isA1FiveAnswered) ? (() => {
             const answeredRows = (isA1NearEnd ? nearEndRows : fiveAnsweredRows).filter(r => r.status === 'answered')
+            const heartCount = isA1NearEnd ? 3 : 1
+            const AudioBadge = () => (
+              <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
+                <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
+                <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
+              </div>
+            )
+            const EngagementRow = () => (
+              <div className="flex gap-[16px] items-center flex-wrap">
+                <div className="flex gap-[8px] items-center">
+                  <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} />
+                  <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">{heartCount}</p>
+                </div>
+                <div className="flex gap-[8px] items-center">
+                  <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} />
+                  <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
+                </div>
+                <div className="flex gap-[6px] items-center">
+                  <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                    <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                  </div>
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
+                </div>
+              </div>
+            )
+            const SharedRow = () => (
+              <div className="flex gap-[6px] items-center">
+                <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                  <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                </div>
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
+              </div>
+            )
             return (
               <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
-                {answeredRows.map(({ q, preview }, i) => (
+                {answeredRows.map(({ q, preview, variant }, i) => (
                   <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                      {(variant === 'recording' || variant === 'all') && <AudioBadge />}
                       {preview && <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>}
-                      <div className="flex gap-[6px] items-center">
-                        <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
-                          <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                      {variant === 'photos' && (
+                        <div className="flex items-start">
+                          {[imgStoryPhoto1, imgStoryPhoto2, imgStoryPhoto3].map((src, pi) => (
+                            <div key={pi} className={`border-2 border-white h-[77px] w-[60px] relative shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] flex-shrink-0 overflow-hidden${pi < 2 ? ' mr-[-8px]' : ''}`}>
+                              <img alt="" className="absolute max-w-none object-cover size-full" src={src} />
+                            </div>
+                          ))}
                         </div>
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
-                      </div>
+                      )}
+                      {variant === 'all' && (
+                        <div className="border-2 border-white h-[77px] w-[60px] relative shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] flex-shrink-0 overflow-hidden">
+                          <img alt="" className="absolute max-w-none object-cover size-full" src={imgStoryPhoto4} />
+                        </div>
+                      )}
+                      {(variant === 'engagement' || variant === 'all') && <EngagementRow />}
+                      {(variant === 'plain' || variant === 'photos' || variant === 'recording') && <SharedRow />}
                     </div>
                     <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
