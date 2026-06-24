@@ -9,6 +9,7 @@ import imgMenuIcon from '../../assets/icons/menu.svg'
 import imgChevronDown from '../../assets/icons/chevron-down.svg'
 import imgNewStoryIcon from '../../assets/icons/new-story.svg'
 import imgPencilIcon from '../../assets/icons/pencil.svg'
+import imgEditPencilIcon from '../../assets/icons/edit-pencil.svg'
 import imgReplaceIcon from '../../assets/icons/replace.svg'
 import imgTrashIcon from '../../assets/icons/trash.svg'
 import imgPreviewBookIcon from '../../assets/icons/open-book.svg'
@@ -21,7 +22,6 @@ import imgStoryPhoto3 from '../../assets/photos/photo3.jpg'
 import imgStoryPhoto4 from '../../assets/photos/photo4.jpg'
 import imgArrowLeft from '../../assets/icons/left-arrow.svg'
 import imgArrowRight from '../../assets/icons/right-arrow.svg'
-import imgSearchIcon from '../../assets/icons/search.svg'
 import imgClouds from '../../assets/coulds.svg'
 import imgMilestoneBadge from '../../assets/icons/milestone-badge.svg'
 import imgMilestoneBadge2 from '../../assets/icons/milestone-badge-2.svg'
@@ -334,7 +334,7 @@ function ShuffleHint({
     )
   }
   return (
-    <div className="flex gap-[24px] items-center">
+    <div className="flex gap-[16px] items-center">
       <button type="button" onClick={onPrev} className={`cursor-pointer transition-opacity ${shufflePos > 1 ? 'opacity-100 hover:opacity-60' : 'opacity-30 cursor-default'}`} aria-label="Previous question">
         <div className="relative size-[24px]">
           <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgArrowLeft} />
@@ -383,7 +383,7 @@ function ThisWeekSection() {
   }, [currentQuestion])
 
   return (
-    <div className="flex flex-col gap-[24px] items-center w-full">
+    <div className="flex flex-col gap-[16px] items-center w-full">
       <div className="w-full">
         <div className="bg-white border-2 border-transparent cursor-pointer drop-shadow-[0px_8px_17px_rgba(137,137,137,0.12)] flex flex-col gap-[32px] items-start justify-center pb-[30px] pt-[27px] px-[24px] rounded-[12px] transition-all duration-200 hover:-translate-y-1 hover:bg-[#f0faf9] hover:border-[#068089] w-full">
           <div className="flex flex-col gap-[26px] items-center w-full">
@@ -894,6 +894,7 @@ type MilestoneItem = { label: string; earned?: boolean; link?: string; earnedLin
 const MILESTONE_LIST: MilestoneItem[] = [
   { label: 'Explore questions', earned: true, link: 'Keep exploring →' },
   { label: 'Add your first story', link: 'Tell a story →', earnedLink: 'Keep telling stories →', badgeSrc: imgMilestoneBadge2 },
+  { label: 'Explore Magic Questions', link: 'Make personalized questions →' },
   { label: 'Record over the phone', subtext: 'Open any new story to record', badgeSrc: imgMilestoneBadge3 },
   { label: 'Add a photo', subtext: 'Open any story to upload photos', badgeSrc: imgMilestoneBadge5 },
   { label: 'Share as a podcast', link: 'Publish your podcast →' },
@@ -934,7 +935,7 @@ function MilestoneModalRow({ label, earned, link, earnedLink, subtext, earnedSub
             {label}
           </p>
           {earned && (
-            <div className="bg-[#d3f7ed] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0">
+            <div className="bg-[#d3f7ed] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0 ml-auto">
               <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#158768]">Reached</p>
             </div>
           )}
@@ -1016,6 +1017,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editingValue, setEditingValue] = useState('')
   const [justMovedId, setJustMovedId] = useState<number | null>(null)
+  const [pendingMovedId, setPendingMovedId] = useState<number | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<Record<number, HTMLDivElement | null>>({})
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -1089,10 +1091,16 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   useEffect(() => {
     if (justMovedId === null) return
     const el = itemRefs.current[justMovedId]
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
     const t = setTimeout(() => setJustMovedId(null), 1200)
     return () => clearTimeout(t)
   }, [justMovedId])
+
+  useEffect(() => {
+    if (pendingMovedId === null) return
+    const el = itemRefs.current[pendingMovedId]
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [pendingMovedId])
 
   function handleDrop(e: React.DragEvent, targetIdx: number) {
     e.preventDefault()
@@ -1108,8 +1116,10 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
     const newThisWeekPos = next.findIndex(it => it.status === 'this-week')
     if (newThisWeekPos >= 0 && newPos < newThisWeekPos && items[dragIdx].status === 'future') {
       setPendingItems(next)
+      setPendingMovedId(movedId)
     } else {
       setItems(next)
+      setJustMovedId(movedId)
     }
     setDragIdx(null)
     setDropTargetIdx(null)
@@ -1134,9 +1144,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
             <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
-            <div className={`overflow-hidden transition-all duration-150 ${dragIdx !== null ? 'max-h-0 opacity-0' : 'max-h-[80px] opacity-100'}`}>
-              <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
-            </div>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
           </div>
           <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
@@ -1144,8 +1152,13 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         </div>
 
         {/* Toolbar */}
-        <div className={`flex-shrink-0 overflow-hidden transition-all duration-150 ${dragIdx !== null ? 'max-h-0 opacity-0' : 'max-h-[68px] opacity-100'}`}>
-        <div className="flex items-center justify-between px-[24px] pt-[10px] pb-[14px] border-t border-[#ebebeb]">
+        <div className="flex-shrink-0 border-t border-[#ebebeb] h-[68px]">
+        {dragIdx !== null ? (
+          <div className="flex items-center justify-center h-full px-[24px]">
+            <span className="font-['GT_America:Regular'] text-[14px] text-[#8a9a97]">Drag and drop the row to reorder</span>
+          </div>
+        ) : (
+        <div className="flex items-center justify-between px-[24px] pt-[10px] pb-[14px]">
           <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
             {(['all', 'stories'] as const).map(f => (
               filter === f
@@ -1163,6 +1176,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             <span className={`font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap ${selectMode ? 'text-[#068089]' : 'text-[#61706f]'}`}>Select</span>
           </button>
         </div>
+        )}
         </div>
 
         {/* List */}
@@ -1188,7 +1202,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             return (
               <Fragment key={item.id}>
                 {isFirstFuture && (
-                  <div className="sticky top-0 z-10 bg-white px-[24px] py-[16px] border-b border-[#ebebeb]">
+                  <div className="sticky top-0 z-10 bg-[#fafafa] px-[24px] py-[16px] border-b border-[#ebebeb]">
                     <p className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.6px] m-0 whitespace-nowrap">Upcoming questions</p>
                   </div>
                 )}
@@ -1205,7 +1219,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null); stopAutoScroll() }}
-                className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors duration-700 ${isDragging ? 'opacity-40' : ''} ${justMovedId === item.id ? 'bg-[rgba(6,128,137,0.08)]' : isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
+                className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors duration-700 ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : justMovedId === item.id ? 'bg-[rgba(6,128,137,0.08)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
                 <div className={`flex items-center gap-[16px] flex-1 min-w-0 ${leftBorder} pl-[16px]`}>
@@ -1243,7 +1257,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     )}
                     <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0${item.status === 'asked' ? ' opacity-75' : ''}`}>{item.q}</p>
                     {item.status === 'answered' && item.preview && (
-                      <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] text-[#445f59] m-0 line-clamp-2">{item.preview}</p>
+                      <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] text-[#445f59] m-0">{item.preview.length > 70 ? item.preview.slice(0, 70) + '…"' : item.preview}</p>
                     )}
                     {isDisplacedFuture && pendingItems && (
                       <div className="mt-[4px] flex flex-col gap-[12px]">
@@ -1251,7 +1265,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                           This change will move this question out of the upcoming queue and it won't send via email or text. Are you sure you want to reorder it?
                         </p>
                         <div className="flex gap-[12px]">
-                          <button type="button" onClick={() => setPendingItems(null)} className="bg-white border-2 border-[#61706f] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer transition-colors">
+                          <button type="button" onClick={() => { setPendingItems(null); setPendingMovedId(null) }} className="bg-white border-2 border-[#61706f] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer transition-colors">
                             <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
                           </button>
                           <button type="button" onClick={() => {
@@ -1262,6 +1276,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                             )
                             setItems(updated)
                             setPendingItems(null)
+                            setPendingMovedId(null)
                           }} className="bg-[#068089] flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
                             <span className="font-['GT_America:Medium'] text-[14px] text-white tracking-[1.4px] uppercase">Yes, reorder</span>
                           </button>
@@ -1335,7 +1350,31 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
   )
 }
 
-function QuestionButtonBank() {
+function QuestionButtonBank({ horizontal }: { horizontal?: boolean } = {}) {
+  if (horizontal) {
+    return (
+      <div className="flex gap-[4px] items-center overflow-hidden group-hover:overflow-visible max-w-0 group-hover:max-w-[120px] opacity-0 group-hover:opacity-100 transition-all duration-200 flex-shrink-0 mt-[3px]">
+        <div className="relative group/edit flex-shrink-0">
+          <button type="button" className="size-[32px] flex items-center justify-center rounded-full cursor-pointer hover:ring-2 hover:ring-[#07777e] transition-all flex-shrink-0">
+            <img alt="Edit question" className="size-[18px]" src={imgEditPencilIcon} />
+          </button>
+          <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/edit:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Edit question</span>
+        </div>
+        <div className="relative group/replace flex-shrink-0">
+          <button type="button" className="size-[32px] flex items-center justify-center rounded-full cursor-pointer hover:ring-2 hover:ring-[#07777e] transition-all flex-shrink-0">
+            <img alt="Replace" className="size-[20px]" src={imgReplaceIcon} />
+          </button>
+          <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/replace:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Replace</span>
+        </div>
+        <div className="relative group/remove flex-shrink-0">
+          <button type="button" className="size-[32px] flex items-center justify-center rounded-full cursor-pointer hover:ring-2 hover:ring-[#07777e] transition-all flex-shrink-0">
+            <img alt="Remove" className="size-[18px]" src={imgTrashIcon} />
+          </button>
+          <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/remove:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Remove</span>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="flex gap-[12px] items-center overflow-hidden max-h-0 opacity-0 group-hover:max-h-[60px] group-hover:opacity-100 transition-all duration-200">
       <button type="button" className="bg-[#ededed] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:border-[#07777e] transition-colors flex-shrink-0">
@@ -1383,9 +1422,12 @@ function MilestonesModal({ onClose, earnedCount = 1, storyCount }: { onClose: ()
 
   return (
     <div ref={ref}
-      className="absolute right-0 z-50 bg-white rounded-[12px] p-[24px] flex flex-col gap-[6px]"
-      style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)', maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
-      {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} storyCount={storyCount} />)}
+      className="absolute right-0 z-50 bg-white rounded-[12px] overflow-hidden"
+      style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
+      <div className="p-[24px] pb-[80px] flex flex-col gap-[6px] overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+        {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} storyCount={storyCount} />)}
+      </div>
+      <div className="absolute bottom-0 inset-x-0 h-[80px] pointer-events-none" style={{ background: 'linear-gradient(to top, white 30%, transparent)' }} />
     </div>
   )
 }
@@ -1443,7 +1485,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
             {showTimeline2 ? (
               <span>⛰️ Your next milestone:{' '}
-                <button type="button" className="font-['GT_America:Medium'] underline [text-decoration-skip-ink:none] cursor-pointer hover:text-[#068089] group-hover:text-[#068089] transition-colors group/next">
+                <button type="button" className="font-['GT_America:Medium'] cursor-pointer hover:underline group-hover:underline hover:text-[#068089] group-hover:text-[#068089] transition-colors group/next">
                   <span className={nextMilestoneHoverText ? 'group-hover:hidden' : ''}>
                     {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 group-hover:opacity-100 transition-opacity"> →</span>
                   </span>
@@ -1634,7 +1676,7 @@ function OptionCNew() {
 
       {/* ── Left sticky panel ── */}
       <div
-        className="sticky top-0 self-start flex-none w-[382px] pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[24px] overflow-hidden"
+        className="sticky top-0 self-start flex-none w-[382px] pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[16px] overflow-hidden"
         style={{ height: '100vh' }}
       >
         <div className="flex items-start">
@@ -1737,7 +1779,7 @@ function OptionCNew() {
             <div
               key={week.weekNum}
               ref={el => { weekRowRefs.current[i] = el }}
-              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
+              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
             >
               <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
@@ -1747,10 +1789,12 @@ function OptionCNew() {
                       ? `Week ${week.weekNum} · Asked by Raymond`
                       : `Week ${week.weekNum} · Asked by ${week.asker}`}
                 </p>
-                <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">
-                  {week.question}
-                </p>
-                <QuestionButtonBank />
+                <div className="flex items-start gap-[16px]">
+                  <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0 min-w-0">
+                    {week.question}
+                  </p>
+                  <QuestionButtonBank horizontal />
+                </div>
               </div>
               <button type="button" className="invisible group-hover:visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                 <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
@@ -1776,7 +1820,7 @@ function OptionCNew() {
         })}
 
         {/* Pagination */}
-        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[32px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -1894,7 +1938,7 @@ function OptionCMidSub() {
       {/* ── Left sticky panel ── */}
       <div
         className="sticky top-0 self-start flex-none w-[382px]
-                   pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[24px] overflow-hidden"
+                   pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[16px] overflow-hidden"
         style={{ height: '100vh' }}
       >
         <div className="flex items-start">
@@ -2039,7 +2083,7 @@ function OptionCMidSub() {
         {pageWeeks.map((week, i) => {
           if (week.isThisWeek) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="py-[72px] px-[24px] flex flex-col gap-[24px] items-center">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="py-[72px] px-[24px] flex flex-col gap-[16px] items-center">
                 <div
                   ref={thisWeekRef}
                   className="bg-white border border-[#288068] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] px-[24px] py-[36px] flex items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#f0f7f4] hover:-translate-y-1 transition-all"
@@ -2067,8 +2111,6 @@ function OptionCMidSub() {
                 <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0 text-center">
                   Not feeling it?{' '}
                   <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">Pick a new one</button>
-                  {' '}or{' '}
-                  <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">shuffle this question</button>
                 </p>
               </div>
             )
@@ -2076,22 +2118,20 @@ function OptionCMidSub() {
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
                   </p>
-                  <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
-                    {week.question}
-                  </p>
+                  <div className="flex items-start gap-[16px]">
+                    <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0 min-w-0">
+                      {week.question}
+                    </p>
+                    <QuestionButtonBank horizontal />
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  className="invisible group-hover:visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity"
-                >
-                  <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
-                    answer
-                  </span>
+                <button type="button" className="invisible group-hover:visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+                  <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
                 </button>
               </div>
             )
@@ -2100,7 +2140,7 @@ function OptionCMidSub() {
           const story = week.story!
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-start justify-between gap-[24px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
@@ -2108,7 +2148,7 @@ function OptionCMidSub() {
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">
                   {story.question}
                 </p>
-                <div className="flex gap-[24px] items-start">
+                <div className="flex gap-[16px] items-start">
                   {story.photos.length > 0 && (
                     <div className="border-2 border-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] w-[60px] h-[77px] relative flex-shrink-0">
                       <img alt="" className="absolute inset-0 size-full object-cover" src={story.photos[0]} />
@@ -2139,7 +2179,7 @@ function OptionCMidSub() {
         })}
 
         {/* Pagination */}
-        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[32px]">
           <button
             type="button"
             disabled={currentPage === 1}
@@ -2228,7 +2268,7 @@ function OptionCEnd() {
     <div className="flex bg-[#f8f4f1] min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-105px)]">
 
       {/* ── Left sticky panel ── */}
-      <div className="sticky top-0 self-start flex-none w-[382px] pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[24px] overflow-hidden" style={{ height: '100vh' }}>
+      <div className="sticky top-0 self-start flex-none w-[382px] pl-[60px] pr-[22px] pt-[32px] flex flex-col gap-[16px] overflow-hidden" style={{ height: '100vh' }}>
         <div className="flex items-start">
           <div className="h-[166px] w-[140px] relative flex-shrink-0">
             <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgBookIlloB} />
@@ -2332,10 +2372,13 @@ function OptionCEnd() {
         {pageWeeks.map((week, i) => {
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
-                  <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
+                  <div className="flex items-start gap-[16px]">
+                    <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0 min-w-0">{week.question}</p>
+                    <QuestionButtonBank horizontal />
+                  </div>
                 </div>
                 <button type="button" className="invisible group-hover:visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
@@ -2345,11 +2388,11 @@ function OptionCEnd() {
           }
           const story = week.story!
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-start justify-between gap-[24px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
-                <div className="flex gap-[24px] items-start">
+                <div className="flex gap-[16px] items-start">
                   {story.photos.length > 0 && (
                     <div className="border-2 border-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] w-[60px] h-[77px] relative flex-shrink-0">
                       <img alt="" className="absolute inset-0 size-full object-cover" src={story.photos[0]} />
@@ -2374,7 +2417,7 @@ function OptionCEnd() {
         })}
 
         {/* Pagination */}
-        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[32px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -2571,7 +2614,7 @@ function OptionAEnd() {
         ))}
 
         {/* Pagination */}
-        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[32px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -2654,7 +2697,7 @@ function WeekByWeekPanel({
           // This-week card (mid-sub only)
           if (week.isThisWeek && !isNewUser) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="py-[72px] flex flex-col gap-[24px] items-center">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="py-[72px] flex flex-col gap-[16px] items-center">
                 <div ref={thisWeekRef} className="bg-white border border-[#288068] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] px-[24px] py-[36px] flex items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#f0f7f4] hover:-translate-y-1 transition-all">
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[12px] items-center">
@@ -2672,8 +2715,6 @@ function WeekByWeekPanel({
                 <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0 text-center">
                   Not feeling it?{' '}
                   <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">Pick a new one</button>
-                  {' '}or{' '}
-                  <button type="button" onClick={shuffleQuestion} className="underline [text-decoration-skip-ink:none] cursor-pointer hover:opacity-70 transition-opacity">shuffle this question</button>
                 </p>
               </div>
             )
@@ -2683,12 +2724,15 @@ function WeekByWeekPanel({
           if (week.isUpcoming || isNewUser || (week.isThisWeek && isNewUser)) {
             return (
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
-                className={`${isNewUser && week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-center justify-between gap-[24px] group transition-all cursor-pointer hover:bg-[#f7f7f7]`}>
+                className={`${isNewUser && week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer hover:bg-[#f7f7f7]`}>
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
                     Week {week.weekNum} · Asked by {week.asker ?? 'Storyworth'}
                   </p>
-                  <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">{week.question}</p>
+                  <div className="flex items-start gap-[16px]">
+                    <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0 min-w-0">{week.question}</p>
+                    <QuestionButtonBank horizontal />
+                  </div>
                 </div>
                 <button type="button" className="invisible group-hover:visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
@@ -2702,11 +2746,11 @@ function WeekByWeekPanel({
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
             <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
-              className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-start justify-between gap-[24px] cursor-pointer hover:bg-[#f7f7f7] transition-all`}>
+              className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-start justify-between gap-[16px] cursor-pointer hover:bg-[#f7f7f7] transition-all`}>
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">{story.question}</p>
-                <div className="flex gap-[24px] items-start">
+                <div className="flex gap-[16px] items-start">
                   {story.photos.length > 0 && (
                     <div className="border-2 border-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.08)] w-[60px] h-[77px] relative flex-shrink-0">
                       <img alt="" className="absolute inset-0 size-full object-cover" src={story.photos[0]} />
@@ -2754,7 +2798,7 @@ function WeekByWeekPanel({
 
       {/* Pagination */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="flex gap-[24px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[32px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); snapToTop() }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -2797,6 +2841,7 @@ export default function MemoirPage() {
   const [activeTab, setActiveTab] = useState<Tab>('week-by-week')
   const [showReorderModal, setShowReorderModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
+  const [heroScrolled, setHeroScrolled] = useState(false)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
 
@@ -2894,6 +2939,17 @@ export default function MemoirPage() {
   const isA1Month4 = scenario === 'a1-month4'
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
+
+  // Reset hero-scroll state when scenario changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { setHeroScrolled(false) }, [scenario])
+
+  useEffect(() => {
+    if (!isNewUser || heroScrolled) return
+    const handler = () => { if (window.scrollY > 10) setHeroScrolled(true) }
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [isNewUser, heroScrolled])
 
   const storiesWrittenCount = isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : isA1FirstQuestionAnswered ? 1 : (isA1New || isA1FirstQuestion || isA1Unengaged || isNewUser) ? 0 : stories.length
 
@@ -3000,7 +3056,7 @@ export default function MemoirPage() {
     ]
     if (isA1FirstQuestion) return [
       { id: 0, q: weekQuestions[0],                                          status: 'this-week' },
-      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'asked'     },
+      { id: 1, q: 'What legacy do you want to leave behind?',               status: 'future'    },
       { id: 2, q: 'Who has been your biggest fan?',                         status: 'future'    },
       { id: 3, q: 'Did you have any jobs growing up?',                      status: 'future'    },
       { id: 4, q: 'What was your favorite childhood vacation?',             status: 'future'    },
@@ -3048,6 +3104,7 @@ export default function MemoirPage() {
               </div>
             )}
           </section>
+          <div style={{ opacity: isNewUser && !heroScrolled ? 0 : 1, pointerEvents: isNewUser && !heroScrolled ? 'none' : 'auto', transition: 'opacity 0.7s ease-out' }}>
           <section>
             <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
               <HeroContent variant="b" scenarioId={scenario} />
@@ -3056,6 +3113,7 @@ export default function MemoirPage() {
               <div className="h-px bg-[#d1d1d1]" />
             </div>
           </section>
+          </div>
         </>
       ) : isA1New ? (
         <>
@@ -3078,7 +3136,6 @@ export default function MemoirPage() {
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -3104,16 +3161,11 @@ export default function MemoirPage() {
                   <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
                     <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
                   </button>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">
-                    Take 10 minutes to write or record a story, or{' '}
-                    <button type="button" className="underline hover:opacity-70 transition-opacity cursor-pointer">shuffle this question</button>.
-                  </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -3141,16 +3193,11 @@ export default function MemoirPage() {
                   <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
                     <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
                   </button>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">
-                    Take 10 minutes to write or record a story, or{' '}
-                    <button type="button" className="underline hover:opacity-70 transition-opacity cursor-pointer">shuffle this question</button>.
-                  </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -3176,16 +3223,11 @@ export default function MemoirPage() {
                   <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
                     <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
                   </button>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">
-                    Take 10 minutes to write or record a story, or{' '}
-                    <button type="button" className="underline hover:opacity-70 transition-opacity cursor-pointer">shuffle this question</button>.
-                  </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -3213,7 +3255,6 @@ export default function MemoirPage() {
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -3241,16 +3282,11 @@ export default function MemoirPage() {
                   <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
                     <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
                   </button>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#61706f] m-0">
-                    Take 10 minutes to write or record a story, or{' '}
-                    <button type="button" className="underline hover:opacity-70 transition-opacity cursor-pointer">shuffle this question</button>.
-                  </p>
                 </div>
                 <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
                   <div className="h-[195px] w-[253px] relative">
                     <img alt="Your memoir book" className="absolute block inset-0 max-w-none size-full object-contain" src={imgBookIlloA} />
                   </div>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 ml-[12px]">Your memoir preview</p>
                 </div>
               </div>
             </div>
@@ -3293,13 +3329,13 @@ export default function MemoirPage() {
               <HeroContent scenarioId={scenario} />
             </div>
           </section>
-          {!isA1New && <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isNewUser ? 'sm:-mt-[62px]' : 'sm:-mt-[78px]'} pb-[20px]`}>
+          {!isA1New && <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isNewUser ? 'sm:-mt-[62px]' : 'sm:-mt-[78px]'} pb-[20px]`} style={isNewUser ? { opacity: heroScrolled ? 1 : 0, pointerEvents: heroScrolled ? 'auto' : 'none', transition: 'opacity 0.7s ease-out' } : undefined}>
             {isNewUser ? <WelcomeCard /> : <ThisWeekSection />}
           </div>}
         </>
       ))}
 
-      {!isOptionC && !isAEnd && <>{/* Progress message */}
+      {!isOptionC && !isAEnd && <div style={isNewUser ? { opacity: heroScrolled ? 1 : 0, pointerEvents: heroScrolled ? 'auto' : 'none', transition: 'opacity 0.7s ease-out' } : undefined}>{/* Progress message */}
       {(isA1New || isA1FirstQ || isA1Month4 || isA1Unengaged) && (
         isA1New ? (
           <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors"
@@ -3328,10 +3364,10 @@ export default function MemoirPage() {
                 animate={false}
                 showBar={false}
                 showBarFill={false}
-                milestoneCount={isA1FiveAnswered ? 5 : isA1NearEnd ? 6 : isA1FirstQuestionAnswered ? 2 : 1}
+                milestoneCount={isA1FiveAnswered ? 7 : isA1NearEnd ? 6 : isA1FirstQuestionAnswered ? 2 : 1}
                 storyCount={isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : undefined}
                 nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
-                nextMilestoneHoverText={isA1NearEnd ? 'Add another story to reach 16/20 stories' : isA1FiveAnswered ? 'Add another story to reach 6/10 stories' : undefined}
+                nextMilestoneHoverText={isA1NearEnd ? "Add 20 stories: you've written 15/20" : isA1FiveAnswered ? "Add 10 stories: you've written 5/10" : undefined}
               />
             </div>
           </div>
@@ -3373,7 +3409,7 @@ export default function MemoirPage() {
       <div className={`max-w-[1189px] mx-auto ${(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} ${isA1Month4 ? 'pt-[24px]' : (isA1New || isA1Unengaged) ? 'pt-[42px]' : (isA1FirstQ || isNewUser) ? 'pt-[66px]' : 'pt-[68px]'} ${(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) ? 'pb-[14px]' : 'pb-[2px]'} flex flex-col gap-[16px]`}>
         {(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) ? (
           <div className="flex flex-col gap-[12px]">
-            <div className="flex items-center gap-[24px]">
+            <div className="flex items-center gap-[16px]">
               <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
                 My Life Stories
               </h2>
@@ -3393,7 +3429,7 @@ export default function MemoirPage() {
                 </button>
               </p>
             </div>
-            <div className="hidden sm:flex gap-[24px] items-center flex-shrink-0 pt-[4px]">
+            <div className="hidden sm:flex gap-[16px] items-center flex-shrink-0 pt-[4px]">
               <button type="button" className="bg-[#D6ECF5] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#0E719A] transition-colors">
                 <div className="relative size-[24px] flex-shrink-0">
                   <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
@@ -3437,7 +3473,7 @@ export default function MemoirPage() {
           <div className="flex items-center justify-between gap-4">
 
             {/* Left group: pill tabs + (for isA1FirstQ) reorder + search */}
-            <div className="flex items-center gap-[24px]">
+            <div className="flex items-center gap-[16px]">
               <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px] overflow-x-auto flex-shrink-0">
                 <div className="flex items-center min-w-max">
                   {tabs.map(({ key, label }) => (
@@ -3470,12 +3506,6 @@ export default function MemoirPage() {
                     <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                     <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] tracking-[1.4px] uppercase whitespace-nowrap">reorder</span>
                   </button>
-                  <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors flex-shrink-0">
-                    <div className="relative size-[24px] flex-shrink-0">
-                      <img alt="" className="block max-w-none size-full" src={imgSearchIcon} />
-                    </div>
-                    <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] tracking-[1.4px] uppercase whitespace-nowrap">search</span>
-                  </button>
                 </div>
               )}
             </div>
@@ -3490,12 +3520,6 @@ export default function MemoirPage() {
                 >
                   <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                   <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">reorder</span>
-                </button>
-                <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors flex-shrink-0">
-                  <div className="relative size-[24px] flex-shrink-0">
-                    <img alt="" className="block max-w-none size-full" src={imgSearchIcon} />
-                  </div>
-                  <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">search</span>
                 </button>
               </>}
               {(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) && (
@@ -3544,7 +3568,7 @@ export default function MemoirPage() {
               { q: 'What do you hope your family remembers about you?',      asker: 'Storyworth', status: 'future'    },
             ] as { q: string; asker: string; status: 'asked' | 'this-week' | 'future' }[]).map(({ q, asker, status }, i) => {
               if (status === 'this-week') return (
-                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3558,7 +3582,10 @@ export default function MemoirPage() {
                         </span>
                       </div>
                     </div>
-                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    <div className="flex items-start gap-[16px]">
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                      <QuestionButtonBank horizontal />
+                    </div>
                   </div>
                   <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                     <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
@@ -3566,15 +3593,21 @@ export default function MemoirPage() {
                 </div>
               )
               return (
-                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                         {status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                       </p>
                     </div>
-                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
-                    {status === 'asked' && <QuestionButtonBank />}
+                    {status === 'asked' ? (
+                      <div className="flex items-start gap-[16px]">
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <QuestionButtonBank horizontal />
+                      </div>
+                    ) : (
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    )}
                   </div>
                   {status === 'asked' && (
                     <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
@@ -3616,7 +3649,7 @@ export default function MemoirPage() {
             </div>
           )
           const EngagementRow = () => (
-            <div className="flex gap-[24px] items-center flex-wrap">
+            <div className="flex gap-[16px] items-center flex-wrap">
               <div className="flex gap-[8px] items-center">
                 <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} />
                 <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
@@ -3645,7 +3678,7 @@ export default function MemoirPage() {
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3659,8 +3692,10 @@ export default function MemoirPage() {
                           </span>
                         </div>
                       </div>
-                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
-                      <QuestionButtonBank />
+                      <div className="flex items-start gap-[16px]">
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <QuestionButtonBank horizontal />
+                      </div>
                     </div>
                     <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
@@ -3668,7 +3703,7 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                <div key={i} className={`border-b border-[#ebebeb] ${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb] ${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
@@ -3677,7 +3712,14 @@ export default function MemoirPage() {
                       </p>
                     </div>
                     {/* Question text */}
-                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    {status === 'asked' ? (
+                      <div className="flex items-start gap-[16px]">
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <QuestionButtonBank horizontal />
+                      </div>
+                    ) : (
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                    )}
                     {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                     {/* Preview */}
                     {status === 'answered' && preview && (
@@ -3701,7 +3743,6 @@ export default function MemoirPage() {
                     {/* Footer */}
                     {status === 'answered' && (variant === 'engagement' || variant === 'all') && <EngagementRow />}
                     {status === 'answered' && (variant === 'plain' || variant === 'photos' || variant === 'recording') && <SharedRow />}
-                    {status === 'asked' && <QuestionButtonBank />}
                   </div>
                   {status === 'answered' ? (
                     <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
@@ -3811,7 +3852,7 @@ export default function MemoirPage() {
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3823,8 +3864,10 @@ export default function MemoirPage() {
                           <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by Raymond</span>
                         </div>
                       </div>
-                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
-                      <QuestionButtonBank />
+                      <div className="flex items-start gap-[16px]">
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <QuestionButtonBank horizontal />
+                      </div>
                     </div>
                     <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
@@ -3832,14 +3875,21 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                  <div key={i} className={`border-b border-[#ebebeb] ${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] ${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center">
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'answered' ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
                           {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                         </p>
                       </div>
-                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                      {status === 'asked' ? (
+                        <div className="flex items-start gap-[16px]">
+                          <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                          <QuestionButtonBank horizontal />
+                        </div>
+                      ) : (
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                      )}
                       {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                       {status === 'answered' && preview && (
                         <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
@@ -3855,7 +3905,6 @@ export default function MemoirPage() {
                       )}
                       {status === 'answered' && variant === 'engagement' && <EngagementRow />}
                       {status === 'answered' && (variant === 'plain' || variant === 'photos' || variant === 'recording') && <SharedRow />}
-                      {status === 'asked' && <QuestionButtonBank />}
                     </div>
                     {status === 'answered' ? (
                       <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
@@ -3891,7 +3940,7 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => (
               <div
                 key={i}
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -3907,11 +3956,11 @@ export default function MemoirPage() {
                       </div>
                     )}
                   </div>
-                  <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
-                    {q}
-                  </p>
-                  {i === 0 && (
+                  {i === 0 ? (
                     <>
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
+                        {q}
+                      </p>
                       <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">
                         "I remember the summer days spent at my grandmother's house, where we would bake cookies and play in the garden, surrounded by laughter..."
                       </p>
@@ -3924,8 +3973,14 @@ export default function MemoirPage() {
                         </p>
                       </div>
                     </>
+                  ) : (
+                    <div className="flex items-start gap-[16px]">
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
+                        {q}
+                      </p>
+                      <QuestionButtonBank horizontal />
+                    </div>
                   )}
-                  {i > 0 && <QuestionButtonBank />}
                 </div>
                 {i === 0 ? (
                   <button
@@ -3964,7 +4019,7 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => (
               <div
                 key={i}
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -3985,10 +4040,12 @@ export default function MemoirPage() {
                       </div>
                     )}
                   </div>
-                  <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
-                    {q}
-                  </p>
-                  <QuestionButtonBank />
+                  <div className="flex items-start gap-[16px]">
+                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
+                      {q}
+                    </p>
+                    <QuestionButtonBank horizontal />
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -4011,7 +4068,7 @@ export default function MemoirPage() {
                   <div
                     key={week.weekNum}
                     ref={i === 0 ? question1Ref : i === 7 ? question8Ref : undefined}
-                    className={`border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                    className={`border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
                   >
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center flex-wrap">
@@ -4019,12 +4076,13 @@ export default function MemoirPage() {
                           {`Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
                         </p>
                       </div>
-                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">
-                        {week.question}
-                      </p>
-                      <QuestionButtonBank />
+                      <div className="flex items-start gap-[16px]">
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
+                          {week.question}
+                        </p>
+                        <QuestionButtonBank horizontal />
+                      </div>
                     </div>
-                    {/* Always rendered so row width stays stable; hidden until milestone earned */}
                     <button
                       type="button"
                       className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
@@ -4037,7 +4095,7 @@ export default function MemoirPage() {
             </div>
           </div>
         ) : isANewReveal && revealState !== 'revealed' ? (
-          <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[24px] pb-[46px] px-[24px]">
+          <div className="min-h-[calc(100vh+1px)] flex flex-col items-center gap-[16px] pb-[46px] px-[24px]">
             <img alt="" className="flex-none w-[89px]" src={imgClouds} />
             <div className="flex flex-col gap-[6px] items-center text-center max-w-[520px]">
               <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[#042a21] tracking-[-0.2px]">
@@ -4099,7 +4157,7 @@ export default function MemoirPage() {
                 { q: "What's the kindest thing anyone has ever done for you?",        num: 43, preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
                 { q: "Tell me about a time you made a difference in someone's life.", num: 44, preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
               ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
-                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
@@ -4126,7 +4184,7 @@ export default function MemoirPage() {
                 { q: 'How did you decide on your career path?',                num: 6, preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
                 { q: 'How did you meet your closest friends?',                 num: 8, preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
               ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
-                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
@@ -4149,7 +4207,7 @@ export default function MemoirPage() {
               className="relative max-w-[1189px] mx-auto"
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
             >
-              <div className="border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[24px] group cursor-pointer hover:bg-[#fafafa]">
+              <div className="border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                     Chapter 1
@@ -4191,7 +4249,7 @@ export default function MemoirPage() {
             </div>
           ) : isNewUser ? (
             <div className="flex flex-col items-center justify-center py-[24px] px-[16px]">
-              <div className="flex flex-col gap-[24px] items-center text-center max-w-[600px] py-[40px]">
+              <div className="flex flex-col gap-[16px] items-center text-center max-w-[600px] py-[40px]">
                 <div className="flex flex-col gap-[12px]">
                   <p className="font-['GT_Super_Display:Medium'] leading-[34px] text-[20px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.2px]">No stories yet.</p>
                   <p className="font-['GT_Super_Text:Book'] leading-[28px] text-[18px] text-[#445f59]">
@@ -4224,7 +4282,7 @@ export default function MemoirPage() {
           </button>
         </div>
       ) : null}
-      </>}
+      </div>}
 
       {showReorderModal && (
         <ReorderModal onClose={() => setShowReorderModal(false)} initialItems={reorderInitialItems} />

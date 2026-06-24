@@ -1,3 +1,39 @@
+## v1.0.298 — 2026-06-24T00:46:01
+- mark Add 5 stories milestone as reached in isA1FiveAnswered state
+
+## v1.0.297 — 2026-06-24T00:44:18
+- right-align Reached tags in milestone modal rows
+
+## v1.0.296 — 2026-06-24T00:43:37
+- next milestone hover text shows Add X stories: you've written X/X, underline on row hover
+
+## v1.0.295 — 2026-06-24T00:41:07
+- add bottom padding to milestones modal so last row scrolls clear of gradient
+
+## v1.0.294 — 2026-06-24T00:40:17
+- add white fade gradient at bottom of milestones modal
+
+## v1.0.293 — 2026-06-24T00:38:32
+- add Explore Magic Questions milestone with hover link
+
+## v1.0.292 — 2026-06-24T00:37:49
+- QB icons: 16px gap from question, 3px top offset, 4px spacing between icons
+
+## v1.0.291 — 2026-06-24T00:36:39
+- use edit-pencil.svg for QB edit button, 2px stroke on all QB icons, hover ring + floating tooltips (Edit question / Replace / Remove)
+
+## v1.0.290 — 2026-06-24T00:30:15
+- Remove flex-1 from question text so QB sits 24px after end of text
+
+## v1.0.289 — 2026-06-24T00:26:14
+- Gap 24px, top-align icons with question text
+
+## v1.0.288 — 2026-06-23T22:37:04
+- Move icon bank inline next to question text on all unanswered and upcoming rows
+
+## v1.0.287 — 2026-06-23T21:58:43
+- Icon-only QB on all unanswered and upcoming rows
+
 ## v1.0.286 — 2026-06-23T20:35:40
 - Reorder modal toolbar: reduce button py to 4px, restore container bottom padding
 
