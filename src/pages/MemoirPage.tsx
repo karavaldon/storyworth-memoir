@@ -2851,6 +2851,7 @@ export default function MemoirPage() {
   const question1Ref = useRef<HTMLDivElement>(null)
   const question5Ref = useRef<HTMLDivElement>(null)
   const question8Ref = useRef<HTMLDivElement>(null)
+  const nearEndErrorRowRef = useRef<HTMLDivElement>(null)
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
   const [timelineAnimating, setTimelineAnimating] = useState(false)
@@ -2869,6 +2870,7 @@ export default function MemoirPage() {
   useEffect(() => {
     setCurrentPage(1)
     setPendingScrollWeek(null)
+    setActiveTab('week-by-week')
     setRevealState('hidden')
     setTimelineAnimating(false)
     setShowTimeline2(false)
@@ -3157,7 +3159,7 @@ export default function MemoirPage() {
   const tabs: { key: Tab; label: string }[] = [
     { key: 'week-by-week', label: 'All' },
     { key: 'stories',      label: storiesWrittenCount > 0 ? `Stories (${storiesWrittenCount})` : 'Stories' },
-    { key: 'drafts',       label: 'Drafts' },
+    { key: 'drafts',       label: isA1FiveAnswered ? 'Drafts (1)' : 'Drafts' },
   ]
 
   return (
@@ -3623,6 +3625,21 @@ export default function MemoirPage() {
                   </button>
                 </div>
               )}
+              {isA1NearEnd && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = nearEndErrorRowRef.current
+                    if (!el) return
+                    const y = el.getBoundingClientRect().top + window.scrollY - 170
+                    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                  }}
+                  className="hidden sm:flex gap-[8px] items-center pl-[10px] pr-[8px] h-[28px] rounded-[5px] bg-[#ffefeb] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
+                >
+                  <div className="size-[10px] rounded-full flex-shrink-0" style={{ backgroundColor: '#ED5D34', boxShadow: '0 0 0 3px #F4A68F' }} />
+                  <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">1 issue to resolve</span>
+                </button>
+              )}
             </div>
 
             {/* Right group: reorder + search (non-firstQ) + new story */}
@@ -3956,14 +3973,14 @@ export default function MemoirPage() {
                 )
                 return (
                   <Fragment key={i}>
-                  <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : error ? 'border-l-[3px] border-l-[#D24620] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                  <div ref={error ? nearEndErrorRowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center flex-wrap">
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                           {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
                         {error && (
-                          <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 text-[#D24620] whitespace-nowrap">
+                          <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 text-[#ED5D34] whitespace-nowrap">
                             Heads up: this image may not print clearly.{' '}
                             <span className="underline cursor-pointer">Resolve →</span>
                           </p>
@@ -4150,7 +4167,7 @@ export default function MemoirPage() {
             {/* Questions 1–10 */}
             <div
               className="relative max-w-[1189px] mx-auto"
-              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '42px' }}
+              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
             >
               <div>
                 {optionCWeeks.slice(0, 10).map((week, i) => {
@@ -4370,7 +4387,27 @@ export default function MemoirPage() {
             </div>
           )}
         </div>
-      ) : activeTab === 'drafts' && (isA1FirstQuestion || isA1New || isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd) ? (
+      ) : activeTab === 'drafts' && isA1FiveAnswered ? (
+        <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+          {(() => {
+            const draftRow = fiveAnsweredRows.find(r => r.status === 'draft')!
+            return (
+              <div className="border-b border-[#ebebeb] border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer">
+                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]">Draft</p>
+                  <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{draftRow.q}</p>
+                  {draftRow.preview && (
+                    <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{draftRow.preview}</p>
+                  )}
+                </div>
+                <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                  <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
+                </button>
+              </div>
+            )
+          })()}
+        </div>
+      ) : activeTab === 'drafts' && (isA1FirstQuestion || isA1New || isA1FirstQuestionAnswered || isA1NearEnd) ? (
         <div className="flex flex-col items-center justify-center text-center py-[64px] px-[24px]">
           <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
             Your stories are waiting to be written.

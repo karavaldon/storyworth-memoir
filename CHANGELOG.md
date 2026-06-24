@@ -1,3 +1,6 @@
+## v1.0.318 — 2026-06-24T17:59:05
+- Add issue badge to near-end tab bar, drafts tab for 5-answered, fix tab reset on scenario change, fix new user page padding
+
 ## v1.0.317 — 2026-06-24T17:15:16
 - Fix Stories tab AudioBadge to use absolute tooltip style matching All tab
 
