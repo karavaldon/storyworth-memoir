@@ -1,3 +1,6 @@
+## v1.0.317 — 2026-06-24T17:15:16
+- Fix Stories tab AudioBadge to use absolute tooltip style matching All tab
+
 ## v1.0.316 — 2026-06-24T17:08:55
 - Draft state, error state, AudioBadge icon-only with tooltip, engagement row styling
 

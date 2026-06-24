@@ -4233,9 +4233,9 @@ export default function MemoirPage() {
             const answeredRows = (isA1NearEnd ? nearEndRows : fiveAnsweredRows).filter(r => r.status === 'answered')
             const heartCount = isA1NearEnd ? 3 : 1
             const AudioBadge = () => (
-              <span className="group/audio inline-flex items-center gap-[5px] flex-shrink-0 mt-[4px]">
+              <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
                 <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
-                <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#b42800] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity">Voice recording</span>
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Voice recording</span>
               </span>
             )
             const EngagementRow = () => (
