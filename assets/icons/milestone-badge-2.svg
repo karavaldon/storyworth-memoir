@@ -1,9 +1,9 @@
 <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="12" cy="12" r="11" fill="url(#paint0_linear_badge2)" stroke="#6D3786" stroke-width="2"/>
+<circle cx="12" cy="12" r="11" fill="url(#paint0_linear_badge2)" stroke="#CC5C3A" stroke-width="2"/>
 <defs>
 <linearGradient id="paint0_linear_badge2" x1="4.12483" y1="1.32169" x2="19.336" y2="22.237" gradientUnits="userSpaceOnUse">
-<stop stop-color="#6D3786"/>
-<stop offset="1" stop-color="#BE81DB"/>
+<stop stop-color="#E87256"/>
+<stop offset="1" stop-color="#FFB8A8"/>
 </linearGradient>
 </defs>
 </svg>
