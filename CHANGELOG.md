@@ -1,3 +1,6 @@
+## v1.0.316 — 2026-06-24T17:08:55
+- Draft state, error state, AudioBadge icon-only with tooltip, engagement row styling
+
 ## v1.0.315 — 2026-06-24T16:35:17
 - Upcoming rows: gray fill, QuestionButtonBank icons, and Answer button on hover
 

@@ -2957,14 +2957,14 @@ export default function MemoirPage() {
   const storiesWrittenCount = isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : isA1FirstQuestionAnswered ? 1 : (isA1New || isA1FirstQuestion || isA1Unengaged || isNewUser) ? 0 : stories.length
 
   type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
-  type MemoirRow = { q: string; status: 'answered' | 'asked' | 'future' | 'this-week'; preview?: string; variant?: MemoirRowVariant }
+  type MemoirRow = { q: string; status: 'answered' | 'asked' | 'future' | 'this-week' | 'draft'; preview?: string; variant?: MemoirRowVariant; error?: boolean }
 
   const fiveAnsweredRows: MemoirRow[] = [
     { q: weekQuestions[0],                                            status: 'answered', variant: 'engagement', preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
     { q: 'What legacy do you want to leave behind?',                  status: 'answered', variant: 'photos',     preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
     { q: 'Who has been your biggest fan?',                            status: 'asked' },
     { q: 'Did you have any jobs growing up?',                         status: 'answered', variant: 'recording',  preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
-    { q: 'What was your favorite childhood vacation?',                status: 'asked' },
+    { q: 'What was your favorite childhood vacation?',                status: 'draft',  preview: '"We used to drive up to the lake every August — I can still smell the pine trees and hear the sound of the boat motor early in the morning..."' },
     { q: 'How did you decide on your career path?',                   status: 'answered', variant: 'all',        preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
     { q: 'What world event had the biggest impact on your life?',     status: 'asked' },
     { q: 'How did you meet your closest friends?',                    status: 'answered', variant: 'plain',      preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
@@ -2994,7 +2994,7 @@ export default function MemoirPage() {
     { q: 'What are your proudest achievements?',                                   status: 'asked'    },
     { q: 'What do you hope your family remembers about you?',                      status: 'answered', variant: 'recording', preview: '"I hope they remember that I always had time for them, no matter how busy work got..."' },
     { q: 'Where did you grow up, and what was it like?',                          status: 'answered', variant: 'all',        preview: '"I grew up in a small town in Ohio, where everybody knew your name and your business..."' },
-    { q: 'What\'s the best advice you ever received?',                             status: 'answered', variant: 'photos',     preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."' },
+    { q: 'What\'s the best advice you ever received?',                             status: 'answered', variant: 'photos',     preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."', error: true },
     { q: 'How did you meet your spouse or partner?',                               status: 'asked'    },
     { q: 'What was your first job like?',                                          status: 'asked'    },
     { q: 'Describe a perfect day from your childhood.',                            status: 'asked'    },
@@ -3769,20 +3769,22 @@ export default function MemoirPage() {
         ) : isA1FiveAnswered ? (() => {
           const rows = fiveAnsweredRows
           const AudioBadge = () => (
-            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
-              <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
-              <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
-            </div>
+            <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
+              <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Voice recording</span>
+            </span>
           )
           const EngagementRow = () => (
             <div className="flex gap-[16px] items-center flex-wrap">
-              <div className="flex gap-[8px] items-center">
-                <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} />
-                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
+              <div className="relative group/heart flex gap-[8px] items-center">
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} style={{ filter: 'invert(44%) sepia(5%) saturate(150%) hue-rotate(55deg) brightness(97%) contrast(87%)' }} />
+                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#6B7268] m-0 whitespace-nowrap">1</p>
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/heart:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Raymond thanked you</span>
               </div>
-              <div className="flex gap-[8px] items-center">
-                <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} />
-                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
+              <div className="relative group/comment flex gap-[8px] items-center">
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} style={{ filter: 'invert(44%) sepia(5%) saturate(150%) hue-rotate(55deg) brightness(97%) contrast(87%)' }} />
+                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#6B7268] m-0 whitespace-nowrap">1</p>
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/comment:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Raymond commented</span>
               </div>
               <div className="flex gap-[6px] items-center">
                 <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
@@ -3827,12 +3829,12 @@ export default function MemoirPage() {
                 )
                 return (
                 <Fragment key={i}>
-                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
                       <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
-                        {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
+                        {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
                     </div>
                     {/* Question text */}
@@ -3844,10 +3846,12 @@ export default function MemoirPage() {
                     ) : (
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                     )}
-                    {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                     {/* Preview */}
-                    {status === 'answered' && preview && (
-                      <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                    {(status === 'answered' || status === 'draft') && preview && (
+                      <div className="flex items-start gap-[8px]">
+                        {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
+                        <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                      </div>
                     )}
                     {/* Photos */}
                     {status === 'answered' && variant === 'photos' && (
@@ -3872,6 +3876,10 @@ export default function MemoirPage() {
                     <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
                     </button>
+                  ) : status === 'draft' ? (
+                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
+                    </button>
                   ) : (status === 'asked' || status === 'future') ? (
                     <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
@@ -3887,10 +3895,10 @@ export default function MemoirPage() {
           const rows = nearEndRows
 
           const AudioBadge = () => (
-            <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
-              <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
-              <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
-            </div>
+            <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
+              <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Voice recording</span>
+            </span>
           )
           const SharedRow = () => (
             <div className="flex gap-[6px] items-center">
@@ -3902,13 +3910,15 @@ export default function MemoirPage() {
           )
           const EngagementRow = () => (
             <div className="flex gap-[16px] items-center">
-              <div className="flex gap-[8px] items-center">
-                <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} />
-                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">3</p>
+              <div className="relative group/heart flex gap-[8px] items-center">
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} style={{ filter: 'invert(44%) sepia(5%) saturate(150%) hue-rotate(55deg) brightness(97%) contrast(87%)' }} />
+                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#6B7268] m-0 whitespace-nowrap">3</p>
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/heart:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Raymond thanked you</span>
               </div>
-              <div className="flex gap-[8px] items-center">
-                <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} />
-                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
+              <div className="relative group/comment flex gap-[8px] items-center">
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} style={{ filter: 'invert(44%) sepia(5%) saturate(150%) hue-rotate(55deg) brightness(97%) contrast(87%)' }} />
+                <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#6B7268] m-0 whitespace-nowrap">1</p>
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/comment:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Raymond commented</span>
               </div>
               <div className="flex gap-[6px] items-center">
                 <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
@@ -3921,7 +3931,7 @@ export default function MemoirPage() {
 
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
-              {rows.map(({ q, status, preview, variant }, i) => {
+              {rows.map(({ q, status, preview, variant, error }, i) => {
                 if (status === 'answered' && !rowFilter.answered) return null
                 if (status === 'asked' && !rowFilter.unanswered) return null
                 if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
@@ -3946,12 +3956,18 @@ export default function MemoirPage() {
                 )
                 return (
                   <Fragment key={i}>
-                  <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                  <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : error ? 'border-l-[3px] border-l-[#D24620] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                      <div className="flex gap-[12px] items-center">
+                      <div className="flex gap-[12px] items-center flex-wrap">
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                           {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
+                        {error && (
+                          <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 text-[#D24620] whitespace-nowrap">
+                            Heads up: this image may not print clearly.{' '}
+                            <span className="underline cursor-pointer">Resolve →</span>
+                          </p>
+                        )}
                       </div>
                       {(status === 'asked' || status === 'future') ? (
                         <div className="flex items-start gap-[8px]">
@@ -3961,9 +3977,11 @@ export default function MemoirPage() {
                       ) : (
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                       )}
-                      {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                       {status === 'answered' && preview && (
-                        <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                        <div className="flex items-start gap-[8px]">
+                          {(variant === 'recording' || variant === 'all') && <AudioBadge />}
+                          <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                        </div>
                       )}
                       {status === 'answered' && variant === 'photos' && (
                         <div className="flex items-start">
@@ -4215,20 +4233,22 @@ export default function MemoirPage() {
             const answeredRows = (isA1NearEnd ? nearEndRows : fiveAnsweredRows).filter(r => r.status === 'answered')
             const heartCount = isA1NearEnd ? 3 : 1
             const AudioBadge = () => (
-              <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
-                <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
-                <p className="font-['GT_America:Regular'] leading-[28px] text-[#b42800] text-[16px] whitespace-nowrap m-0">Audio</p>
-              </div>
+              <span className="group/audio inline-flex items-center gap-[5px] flex-shrink-0 mt-[4px]">
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
+                <span className="font-['GT_America:Regular'] text-[13px] leading-[20px] text-[#b42800] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity">Voice recording</span>
+              </span>
             )
             const EngagementRow = () => (
               <div className="flex gap-[16px] items-center flex-wrap">
-                <div className="flex gap-[8px] items-center">
-                  <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} />
-                  <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">{heartCount}</p>
+                <div className="relative group/heart flex gap-[8px] items-center">
+                  <img alt="" className="size-[24px] flex-shrink-0" src={imgHeart} style={{ filter: 'invert(44%) sepia(5%) saturate(150%) hue-rotate(55deg) brightness(97%) contrast(87%)' }} />
+                  <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#6B7268] m-0 whitespace-nowrap">{heartCount}</p>
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/heart:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Raymond thanked you</span>
                 </div>
-                <div className="flex gap-[8px] items-center">
-                  <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} />
-                  <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#07777e] m-0 whitespace-nowrap">1</p>
+                <div className="relative group/comment flex gap-[8px] items-center">
+                  <img alt="" className="size-[24px] flex-shrink-0" src={imgChat} style={{ filter: 'invert(44%) sepia(5%) saturate(150%) hue-rotate(55deg) brightness(97%) contrast(87%)' }} />
+                  <p className="font-['GT_America:Regular'] leading-[28px] text-[16px] text-[#6B7268] m-0 whitespace-nowrap">1</p>
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/comment:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Raymond commented</span>
                 </div>
                 <div className="flex gap-[6px] items-center">
                   <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
@@ -4253,8 +4273,12 @@ export default function MemoirPage() {
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
-                      {(variant === 'recording' || variant === 'all') && <AudioBadge />}
-                      {preview && <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>}
+                      {preview && (
+                        <div className="flex items-start gap-[8px]">
+                          {(variant === 'recording' || variant === 'all') && <AudioBadge />}
+                          <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
+                        </div>
+                      )}
                       {variant === 'photos' && (
                         <div className="flex items-start">
                           {[imgStoryPhoto1, imgStoryPhoto2, imgStoryPhoto3].map((src, pi) => (
