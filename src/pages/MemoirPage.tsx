@@ -1144,7 +1144,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
             <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
-            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Arrange your questions in the order you prefer. We won't print any unanswered questions in your book. You can also change the order of upcoming questions.</p>
+            <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Drag and drop to reorder questions and stories. Only answered questions will be printed in your book.</p>
           </div>
           <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
@@ -1789,7 +1789,7 @@ function OptionCNew() {
                       ? `Week ${week.weekNum} · Asked by Raymond`
                       : `Week ${week.weekNum} · Asked by ${week.asker}`}
                 </p>
-                <div className="flex items-start gap-[16px]">
+                <div className="flex items-start gap-[8px]">
                   <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0 min-w-0">
                     {week.question}
                   </p>
@@ -2123,7 +2123,7 @@ function OptionCMidSub() {
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
                   </p>
-                  <div className="flex items-start gap-[16px]">
+                  <div className="flex items-start gap-[8px]">
                     <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0 min-w-0">
                       {week.question}
                     </p>
@@ -2375,7 +2375,7 @@ function OptionCEnd() {
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
-                  <div className="flex items-start gap-[16px]">
+                  <div className="flex items-start gap-[8px]">
                     <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0 min-w-0">{week.question}</p>
                     <QuestionButtonBank horizontal />
                   </div>
@@ -2729,7 +2729,7 @@ function WeekByWeekPanel({
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
                     Week {week.weekNum} · Asked by {week.asker ?? 'Storyworth'}
                   </p>
-                  <div className="flex items-start gap-[16px]">
+                  <div className="flex items-start gap-[8px]">
                     <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0 min-w-0">{week.question}</p>
                     <QuestionButtonBank horizontal />
                   </div>
@@ -3582,7 +3582,7 @@ export default function MemoirPage() {
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-start gap-[16px]">
+                    <div className="flex items-start gap-[8px]">
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                       <QuestionButtonBank horizontal />
                     </div>
@@ -3597,11 +3597,11 @@ export default function MemoirPage() {
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                        {status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                        {status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
                     </div>
                     {status === 'asked' ? (
-                      <div className="flex items-start gap-[16px]">
+                      <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                         <QuestionButtonBank horizontal />
                       </div>
@@ -3692,7 +3692,7 @@ export default function MemoirPage() {
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-start gap-[16px]">
+                      <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                         <QuestionButtonBank horizontal />
                       </div>
@@ -3708,12 +3708,12 @@ export default function MemoirPage() {
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
                       <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'answered' ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
-                        {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                        {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
                     </div>
                     {/* Question text */}
                     {status === 'asked' ? (
-                      <div className="flex items-start gap-[16px]">
+                      <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                         <QuestionButtonBank horizontal />
                       </div>
@@ -3864,7 +3864,7 @@ export default function MemoirPage() {
                           <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by Raymond</span>
                         </div>
                       </div>
-                      <div className="flex items-start gap-[16px]">
+                      <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                         <QuestionButtonBank horizontal />
                       </div>
@@ -3879,11 +3879,11 @@ export default function MemoirPage() {
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center">
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'answered' ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
-                          {status === 'answered' ? `Question ${i + 1} answered` : status === 'asked' ? `Question ${i + 1} asked` : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                          {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
                       </div>
                       {status === 'asked' ? (
-                        <div className="flex items-start gap-[16px]">
+                        <div className="flex items-start gap-[8px]">
                           <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                           <QuestionButtonBank horizontal />
                         </div>
@@ -3945,7 +3945,7 @@ export default function MemoirPage() {
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
                     <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${i === 0 ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
-                      {i === 0 ? 'Question 1 answered' : i === 1 ? 'Question 2 will send next week' : `Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                      {i === 0 ? 'Chapter 1' : `Sends on ${getQuestionSendDate(i)}`}
                     </p>
                     {i === 1 && (
                       <div className="flex gap-[6px] items-center flex-shrink-0">
@@ -3974,7 +3974,7 @@ export default function MemoirPage() {
                       </div>
                     </>
                   ) : (
-                    <div className="flex items-start gap-[16px]">
+                    <div className="flex items-start gap-[8px]">
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
                         {q}
                       </p>
@@ -4029,7 +4029,7 @@ export default function MemoirPage() {
                       </span>
                     )}
                     <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                      {i === 1 ? 'Question 2 will send next week' : i >= 2 ? `Question ${i + 1} sends on ${getQuestionSendDate(i)}` : `Question ${i + 1}`}
+                      {i === 0 ? `Question ${i + 1}` : `Sends on ${getQuestionSendDate(i)}`}
                     </p>
                     {i <= 1 && (
                       <div className="flex gap-[6px] items-center flex-shrink-0">
@@ -4040,7 +4040,7 @@ export default function MemoirPage() {
                       </div>
                     )}
                   </div>
-                  <div className="flex items-start gap-[16px]">
+                  <div className="flex items-start gap-[8px]">
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
                       {q}
                     </p>
@@ -4073,10 +4073,10 @@ export default function MemoirPage() {
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center flex-wrap">
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                          {`Question ${i + 1} sends on ${getQuestionSendDate(i)}`}
+                          {i === 0 ? `Your first question will send on ${getQuestionSendDate(0)}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
                       </div>
-                      <div className="flex items-start gap-[16px]">
+                      <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
                           {week.question}
                         </p>

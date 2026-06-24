@@ -1,3 +1,12 @@
+## v1.0.301 — 2026-06-24T14:07:32
+- reduce question-to-QB icon gap from 16px to 8px
+
+## v1.0.300 — 2026-06-24T14:05:35
+- rework question row labels: Chapter X / Asked on date / Sends on date / Your first question will send on...
+
+## v1.0.299 — 2026-06-24T13:57:54
+- update reorder modal subtitle copy
+
 ## v1.0.298 — 2026-06-24T00:46:01
 - mark Add 5 stories milestone as reached in isA1FiveAnswered state
 
