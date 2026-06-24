@@ -42,7 +42,7 @@ const imgPhoto2 = "https://www.figma.com/api/mcp/asset/5c281eb9-409b-4314-b508-b
 const imgPhoto3 = "https://www.figma.com/api/mcp/asset/60fe0288-8fbd-455e-9116-318ab6ca1ca2";
 const imgPhoto4 = "https://www.figma.com/api/mcp/asset/3aa2ff32-cc23-46f6-9144-470537a0c127";
 const imgPhoto5 = "https://www.figma.com/api/mcp/asset/c7081c74-1d13-40ec-b82b-c0a443280742";
-import imgBookIlloA from '../../assets/book cover.png'
+import imgBookIlloA from '../../assets/book-cover.png'
 const imgBookIlloB = imgBookIlloA
 const imgPhoto6 = "https://www.figma.com/api/mcp/asset/b4d5ff05-4330-4455-8b33-929b1064931c";
 const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f0ae31452d32";

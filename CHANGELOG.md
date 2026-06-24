@@ -1,3 +1,6 @@
+## v1.0.320 — 2026-06-24T18:49:33
+- Fix book cover filename space causing Netlify build failure
+
 ## v1.0.319 — 2026-06-24T18:19:33
 - Add HoverBook component with scale and buttons to scenario headers
 
