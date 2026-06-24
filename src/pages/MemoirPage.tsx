@@ -3740,19 +3740,14 @@ export default function MemoirPage() {
               )
               return (
                 <Fragment key={i}>
-                  {i === 8 && status === 'future' && (
-                    <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
-                      <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
-                    </div>
-                  )}
-                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                         {status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
                     </div>
-                    {status === 'asked' ? (
+                    {(status === 'asked' || status === 'future') ? (
                       <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                         <QuestionButtonBank horizontal />
@@ -3761,7 +3756,7 @@ export default function MemoirPage() {
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                     )}
                   </div>
-                  {status === 'asked' && (
+                  {(status === 'asked' || status === 'future') && (
                     <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
@@ -3805,7 +3800,6 @@ export default function MemoirPage() {
               <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
             </div>
           )
-          const firstFutureIdx = rows.findIndex(r => r.status === 'future')
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
@@ -3833,12 +3827,7 @@ export default function MemoirPage() {
                 )
                 return (
                 <Fragment key={i}>
-                  {i === firstFutureIdx && (
-                    <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
-                      <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
-                    </div>
-                  )}
-                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
@@ -3847,7 +3836,7 @@ export default function MemoirPage() {
                       </p>
                     </div>
                     {/* Question text */}
-                    {status === 'asked' ? (
+                    {(status === 'asked' || status === 'future') ? (
                       <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                         <QuestionButtonBank horizontal />
@@ -3883,7 +3872,7 @@ export default function MemoirPage() {
                     <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
                     </button>
-                  ) : status === 'asked' ? (
+                  ) : (status === 'asked' || status === 'future') ? (
                     <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                       <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
@@ -3929,7 +3918,6 @@ export default function MemoirPage() {
               </div>
             </div>
           )
-          const firstFutureIdx = rows.findIndex(r => r.status === 'future')
 
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
@@ -3958,19 +3946,14 @@ export default function MemoirPage() {
                 )
                 return (
                   <Fragment key={i}>
-                    {i === firstFutureIdx && (
-                      <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
-                        <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
-                      </div>
-                    )}
-                  <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                  <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center">
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                           {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
                       </div>
-                      {status === 'asked' ? (
+                      {(status === 'asked' || status === 'future') ? (
                         <div className="flex items-start gap-[8px]">
                           <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
                           <QuestionButtonBank horizontal />
@@ -3998,7 +3981,7 @@ export default function MemoirPage() {
                       <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                         <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
                       </button>
-                    ) : status === 'asked' ? (
+                    ) : (status === 'asked' || status === 'future') ? (
                       <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                         <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                       </button>
@@ -4030,13 +4013,8 @@ export default function MemoirPage() {
               if (i === 0 && !rowFilter.answered) return null
               if (i > 0 && !rowFilter.upcoming) return null
               return (<Fragment key={i}>
-                {i === 1 && (
-                  <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
-                    <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
-                  </div>
-                )}
                 <div
-                className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb] ${i > 0 ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -4116,13 +4094,8 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => {
               if (!rowFilter.upcoming) return null
               return (<Fragment key={i}>
-                {i === 1 && (
-                  <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
-                    <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
-                  </div>
-                )}
                 <div
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'bg-[#fafafa] hover:bg-[#f3f3f3]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">

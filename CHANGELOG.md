@@ -1,3 +1,6 @@
+## v1.0.315 — 2026-06-24T16:35:17
+- Upcoming rows: gray fill, QuestionButtonBank icons, and Answer button on hover
+
 ## v1.0.314 — 2026-06-24T16:16:53
 - Add Upcoming questions section label; soft fills for unanswered and this-week rows
 
