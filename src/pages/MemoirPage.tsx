@@ -3720,7 +3720,7 @@ export default function MemoirPage() {
               if (status === 'asked' && !rowFilter.unanswered) return null
               if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
               if (status === 'this-week') return (
-                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3739,7 +3739,13 @@ export default function MemoirPage() {
                 </div>
               )
               return (
-                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <Fragment key={i}>
+                  {i === 8 && status === 'future' && (
+                    <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
+                      <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
+                    </div>
+                  )}
+                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
@@ -3761,6 +3767,7 @@ export default function MemoirPage() {
                     </button>
                   )}
                 </div>
+                </Fragment>
               )
             })}
           </div>
@@ -3798,6 +3805,7 @@ export default function MemoirPage() {
               <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
             </div>
           )
+          const firstFutureIdx = rows.findIndex(r => r.status === 'future')
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
@@ -3805,7 +3813,7 @@ export default function MemoirPage() {
                 if (status === 'asked' && !rowFilter.unanswered) return null
                 if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3824,7 +3832,13 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                <div key={i} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <Fragment key={i}>
+                  {i === firstFutureIdx && (
+                    <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
+                      <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
+                    </div>
+                  )}
+                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
@@ -3875,6 +3889,7 @@ export default function MemoirPage() {
                     </button>
                   ) : null}
                 </div>
+                </Fragment>
               )})}
             </div>
           )
@@ -3914,6 +3929,7 @@ export default function MemoirPage() {
               </div>
             </div>
           )
+          const firstFutureIdx = rows.findIndex(r => r.status === 'future')
 
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
@@ -3922,7 +3938,7 @@ export default function MemoirPage() {
                 if (status === 'asked' && !rowFilter.unanswered) return null
                 if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -3941,7 +3957,13 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                  <div key={i} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <Fragment key={i}>
+                    {i === firstFutureIdx && (
+                      <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
+                        <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
+                      </div>
+                    )}
+                  <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center">
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
@@ -3982,6 +4004,7 @@ export default function MemoirPage() {
                       </button>
                     ) : null}
                   </div>
+                  </Fragment>
                 )
               })}
             </div>
@@ -4006,8 +4029,13 @@ export default function MemoirPage() {
             ].map(({ q, asker }, i) => {
               if (i === 0 && !rowFilter.answered) return null
               if (i > 0 && !rowFilter.upcoming) return null
-              return (<div
-                key={i}
+              return (<Fragment key={i}>
+                {i === 1 && (
+                  <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
+                    <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
+                  </div>
+                )}
+                <div
                 className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
@@ -4066,7 +4094,7 @@ export default function MemoirPage() {
                   </button>
                 )}
               </div>
-              )
+              </Fragment>)
             })}
           </div>
         ) : isA1FirstQuestion ? (
@@ -4087,9 +4115,14 @@ export default function MemoirPage() {
               { q: 'What do you hope your family remembers about you?', asker: 'Storyworth' },
             ].map(({ q, asker }, i) => {
               if (!rowFilter.upcoming) return null
-              return (<div
-                key={i}
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
+              return (<Fragment key={i}>
+                {i === 1 && (
+                  <div className="px-[24px] py-[16px] border-b border-[#ebebeb]">
+                    <p className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.4px] m-0">Upcoming questions</p>
+                  </div>
+                )}
+                <div
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -4118,7 +4151,7 @@ export default function MemoirPage() {
                   <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                 </button>
               </div>
-              )
+              </Fragment>)
             })}
           </div>
         ) : isA1New ? (

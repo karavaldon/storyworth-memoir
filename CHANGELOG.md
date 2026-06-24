@@ -1,3 +1,6 @@
+## v1.0.314 — 2026-06-24T16:16:53
+- Add Upcoming questions section label; soft fills for unanswered and this-week rows
+
 ## v1.0.313 — 2026-06-24T15:57:55
 - Restore audio badge, photos, engagement counts on Stories tab
 
