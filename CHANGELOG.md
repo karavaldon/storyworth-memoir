@@ -1,3 +1,36 @@
+## v1.0.312 — 2026-06-24T15:01:55
+- Chapter label gray, green left bar removed from answered rows
+
+## v1.0.311 — 2026-06-24T14:59:25
+- Stories tab now filters from same data as All tab
+
+## v1.0.310 — 2026-06-24T14:49:45
+- hide filter button
+
+## v1.0.309 — 2026-06-24T14:48:49
+- add 6px gap between tab bar buttons
+
+## v1.0.308 — 2026-06-24T14:48:11
+- filter menu with row type toggles, chevron in button, only on All tab
+
+## v1.0.307 — 2026-06-24T14:42:24
+- add Filter button left of Reorder in toolbar
+
+## v1.0.306 — 2026-06-24T14:36:59
+- revert tabs to All / Stories(X) / Drafts
+
+## v1.0.305 — 2026-06-24T14:33:23
+- tab hover: gray fill instead of underline
+
+## v1.0.304 — 2026-06-24T14:31:37
+- update tab labels: All / Answered(X) / Drafts / Upcoming(X) / Unanswered(X)
+
+## v1.0.303 — 2026-06-24T14:22:13
+- This week row label: show Asked by Raymond only, remove Question X
+
+## v1.0.302 — 2026-06-24T14:18:57
+- increase question/story row vertical padding from 32px to 36px
+
 ## v1.0.301 — 2026-06-24T14:07:32
 - reduce question-to-QB icon gap from 16px to 8px
 

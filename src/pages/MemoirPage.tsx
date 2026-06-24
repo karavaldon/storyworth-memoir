@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useLayoutEffect, useMemo, Fragment } from 
 import logoHorizontal from '../../assets/logo/storyworth-logo-horizontal.svg'
 import imgPolygon1 from '../../assets/icons/chevron.svg'
 import imgReorderIcon from '../../assets/icons/reorder.svg'
+import imgFilterIcon from '../../assets/icons/filter.svg'
 import imgEditCoverIcon from '../../assets/icons/book.svg'
 import imgMenuIcon from '../../assets/icons/menu.svg'
 import imgChevronDown from '../../assets/icons/chevron-down.svg'
@@ -737,7 +738,7 @@ function HeroMenuButton({ paddingX = '16px' }: { paddingX?: string }) {
   )
 }
 
-type Tab = 'week-by-week' | 'stories' | 'drafts'
+type Tab = 'week-by-week' | 'stories' | 'drafts' | 'upcoming' | 'unanswered'
 
 // ─── Shared hero content (book + title + My Memoir button) ──────────────────
 
@@ -1192,7 +1193,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             return filteredItems.map((item, i) => {
             const isDragging = dragIdx === i
             const isDropTarget = dropTargetIdx === i && dragIdx !== null && dragIdx !== i
-            const leftBorder = item.status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c]'
+            const leftBorder = item.status === 'answered' ? ''
               : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]'
               : item.status === 'this-week' ? 'border-l-[3px] border-l-[#5BB8DF]'
               : 'border-l-[3px] border-l-transparent'
@@ -1247,7 +1248,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                   {/* Content */}
                   <div className="flex flex-col gap-[4px] flex-1 min-w-0">
                     {item.status === 'answered' && (
-                      <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#1ba07c] m-0">Chapter {chapterNumbers[item.id]}</p>
+                      <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Chapter {chapterNumbers[item.id]}</p>
                     )}
                     {item.status === 'asked' && (
                       <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Unanswered</p>
@@ -1779,7 +1780,7 @@ function OptionCNew() {
             <div
               key={week.weekNum}
               ref={el => { weekRowRefs.current[i] = el }}
-              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
+              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
             >
               <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
@@ -1803,7 +1804,7 @@ function OptionCNew() {
           )
           if (week.weekNum === 3) {
             return [row, (
-              <div key="phone-banner" className="px-[24px] py-[32px]">
+              <div key="phone-banner" className="px-[24px] py-[36px]">
                 <div className="bg-[#e8f3f8] border-2 border-[#b1d8ea] rounded-[8px] px-[24px] py-[16px] flex items-center justify-between gap-[16px] cursor-pointer hover:opacity-90 transition-opacity">
                   <div className="flex gap-[10px] items-center flex-1 min-w-0 flex-wrap">
                     <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#12473a] whitespace-nowrap">📱 Want to get your weekly questions by text?</span>
@@ -1820,7 +1821,7 @@ function OptionCNew() {
         })}
 
         {/* Pagination */}
-        <div className="flex gap-[16px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[36px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -2118,7 +2119,7 @@ function OptionCMidSub() {
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
@@ -2140,7 +2141,7 @@ function OptionCMidSub() {
           const story = week.story!
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[32px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
@@ -2179,7 +2180,7 @@ function OptionCMidSub() {
         })}
 
         {/* Pagination */}
-        <div className="flex gap-[16px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[36px]">
           <button
             type="button"
             disabled={currentPage === 1}
@@ -2372,7 +2373,7 @@ function OptionCEnd() {
         {pageWeeks.map((week, i) => {
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
                   <div className="flex items-start gap-[8px]">
@@ -2388,7 +2389,7 @@ function OptionCEnd() {
           }
           const story = week.story!
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[32px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
               <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
@@ -2417,7 +2418,7 @@ function OptionCEnd() {
         })}
 
         {/* Pagination */}
-        <div className="flex gap-[16px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[36px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -2614,7 +2615,7 @@ function OptionAEnd() {
         ))}
 
         {/* Pagination */}
-        <div className="flex gap-[16px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[36px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -2779,7 +2780,7 @@ function WeekByWeekPanel({
         })()
           if (isNewUser && week.weekNum === 3) {
             return [row, (
-              <div key="phone-banner" className="py-[32px]">
+              <div key="phone-banner" className="py-[36px]">
                 <div className="bg-[#e8f3f8] border-2 border-[#b1d8ea] rounded-[8px] px-[24px] py-[16px] flex items-center justify-between gap-[16px] cursor-pointer hover:opacity-90 transition-opacity">
                   <div className="flex gap-[10px] items-center flex-1 min-w-0 flex-wrap">
                     <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#12473a] whitespace-nowrap">📱 Want to get your weekly questions by text?</span>
@@ -2798,7 +2799,7 @@ function WeekByWeekPanel({
 
       {/* Pagination */}
       <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="flex gap-[16px] items-center justify-center py-[32px]">
+        <div className="flex gap-[16px] items-center justify-center py-[36px]">
           <button type="button" disabled={currentPage === 1}
             onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); snapToTop() }}
             className={`relative size-[40px] flex-none bg-white border-2 border-[#068089] rounded-full shadow-[0px_4px_16px_0px_rgba(0,0,0,0.1)] flex items-center justify-center transition-opacity ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'}`}
@@ -2840,6 +2841,8 @@ export default function MemoirPage() {
   const [scenario, setScenario] = useState('a1-new')
   const [activeTab, setActiveTab] = useState<Tab>('week-by-week')
   const [showReorderModal, setShowReorderModal] = useState(false)
+  const [showFilterMenu, setShowFilterMenu] = useState(false)
+  const [rowFilter, setRowFilter] = useState({ answered: true, unanswered: true, upcoming: true, drafts: true })
   const [currentPage, setCurrentPage] = useState(1)
   const [heroScrolled, setHeroScrolled] = useState(false)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
@@ -2952,6 +2955,87 @@ export default function MemoirPage() {
   }, [isNewUser, heroScrolled])
 
   const storiesWrittenCount = isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : isA1FirstQuestionAnswered ? 1 : (isA1New || isA1FirstQuestion || isA1Unengaged || isNewUser) ? 0 : stories.length
+
+  type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
+  type MemoirRow = { q: string; status: 'answered' | 'asked' | 'future' | 'this-week'; preview?: string; variant?: MemoirRowVariant }
+
+  const fiveAnsweredRows: MemoirRow[] = [
+    { q: weekQuestions[0],                                            status: 'answered', variant: 'engagement', preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
+    { q: 'What legacy do you want to leave behind?',                  status: 'answered', variant: 'photos',     preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
+    { q: 'Who has been your biggest fan?',                            status: 'asked' },
+    { q: 'Did you have any jobs growing up?',                         status: 'answered', variant: 'recording',  preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
+    { q: 'What was your favorite childhood vacation?',                status: 'asked' },
+    { q: 'How did you decide on your career path?',                   status: 'answered', variant: 'all',        preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
+    { q: 'What world event had the biggest impact on your life?',     status: 'asked' },
+    { q: 'How did you meet your closest friends?',                    status: 'answered', variant: 'plain',      preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
+    { q: 'What are your proudest achievements?',                      status: 'this-week' },
+    { q: 'What do you hope your family remembers about you?',         status: 'future' },
+    { q: 'Where did you grow up, and what was it like?',              status: 'future' },
+    { q: "What's the best advice you ever received?",                 status: 'future' },
+    { q: 'How did you meet your spouse or partner?',                  status: 'future' },
+    { q: 'What was your first job like?',                             status: 'future' },
+    { q: 'Describe a perfect day from your childhood.',               status: 'future' },
+    { q: "What's a tradition your family had growing up?",            status: 'future' },
+    { q: 'Who was your childhood hero?',                              status: 'future' },
+    { q: "What's the hardest decision you've ever made?",             status: 'future' },
+    { q: "What's your favorite family recipe?",                       status: 'future' },
+    { q: 'Where did you go on your first trip abroad?',               status: 'future' },
+  ]
+
+  const nearEndRows: MemoirRow[] = [
+    { q: weekQuestions[0],                                                          status: 'asked'    },
+    { q: 'What legacy do you want to leave behind?',                               status: 'answered', variant: 'plain',      preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
+    { q: 'Who has been your biggest fan?',                                         status: 'answered', variant: 'engagement', preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
+    { q: 'Did you have any jobs growing up?',                                      status: 'asked'    },
+    { q: 'What was your favorite childhood vacation?',                             status: 'answered', variant: 'photos',     preview: '"Every summer we drove down to the Jersey Shore. I can still smell the salt air and feel the warm sand..."' },
+    { q: 'How did you decide on your career path?',                                status: 'asked'    },
+    { q: 'What world event had the biggest impact on your life?',                  status: 'asked'    },
+    { q: 'How did you meet your closest friends?',                                 status: 'asked'    },
+    { q: 'What are your proudest achievements?',                                   status: 'asked'    },
+    { q: 'What do you hope your family remembers about you?',                      status: 'answered', variant: 'recording', preview: '"I hope they remember that I always had time for them, no matter how busy work got..."' },
+    { q: 'Where did you grow up, and what was it like?',                          status: 'answered', variant: 'all',        preview: '"I grew up in a small town in Ohio, where everybody knew your name and your business..."' },
+    { q: 'What\'s the best advice you ever received?',                             status: 'answered', variant: 'photos',     preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."' },
+    { q: 'How did you meet your spouse or partner?',                               status: 'asked'    },
+    { q: 'What was your first job like?',                                          status: 'asked'    },
+    { q: 'Describe a perfect day from your childhood.',                            status: 'asked'    },
+    { q: 'What\'s a tradition your family had growing up?',                        status: 'asked'    },
+    { q: 'Who was your childhood hero?',                                           status: 'asked'    },
+    { q: 'What\'s the hardest decision you\'ve ever made?',                        status: 'asked'    },
+    { q: 'What\'s your favorite family recipe?',                                   status: 'asked'    },
+    { q: 'Where did you go on your first trip abroad?',                            status: 'asked'    },
+    { q: 'What did your parents teach you about money?',                           status: 'asked'    },
+    { q: 'Tell me about your first car.',                                          status: 'answered', variant: 'engagement', preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."' },
+    { q: 'What school subject did you love most?',                                 status: 'asked'    },
+    { q: 'What sports or activities did you play as a kid?',                       status: 'asked'    },
+    { q: 'What was your biggest professional accomplishment?',                     status: 'answered', variant: 'recording', preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
+    { q: 'What\'s something you learned from a failure?',                          status: 'asked'    },
+    { q: 'Tell me about a mentor who shaped your life.',                           status: 'asked'    },
+    { q: 'What\'s something you miss from your childhood?',                        status: 'asked'    },
+    { q: 'What was your favorite movie or book growing up?',                       status: 'asked'    },
+    { q: 'Describe your first home as an adult.',                                  status: 'answered', variant: 'photos',     preview: '"A tiny studio apartment in Chicago with a leaky faucet and the best view of the El train..."' },
+    { q: 'What do you wish you had known at age 20?',                             status: 'answered', variant: 'all',        preview: '"That it\'s okay not to have all the answers. Everybody else is figuring it out too..."' },
+    { q: 'How has your relationship with your siblings changed over time?',        status: 'asked'    },
+    { q: 'What\'s the bravest thing you\'ve ever done?',                           status: 'asked'    },
+    { q: 'What\'s a place that holds special meaning for you?',                    status: 'asked'    },
+    { q: 'What did your grandparents mean to you?',                                status: 'asked'    },
+    { q: 'Tell me about raising your children.',                                   status: 'asked'    },
+    { q: 'What are the most important life lessons you\'ve learned?',              status: 'asked'    },
+    { q: 'How did you handle a major setback in life?',                            status: 'asked'    },
+    { q: 'What\'s something you\'re still proud of today?',                        status: 'asked'    },
+    { q: 'Tell me about the neighborhood you grew up in.',                         status: 'answered', variant: 'plain',      preview: '"Our street was the kind where kids played outside until the streetlights came on. Everyone\'s door was always open..."' },
+    { q: 'What was your biggest adventure?',                                       status: 'answered', variant: 'photos',     preview: '"Three weeks in Southeast Asia with nothing but a backpack and a Lonely Planet guide. Terrified and exhilarated..."' },
+    { q: 'How did your faith or values shape your life?',                          status: 'answered', variant: 'engagement', preview: '"Faith was the backbone of our household. Sunday dinners, church on Christmas Eve, the rosary in every car..."' },
+    { q: 'What\'s the kindest thing anyone has ever done for you?',                status: 'answered', variant: 'recording', preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
+    { q: 'Tell me about a time you made a difference in someone\'s life.',         status: 'answered', variant: 'all',        preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
+    { q: 'What were your dreams when you were young?',                             status: 'asked'    },
+    { q: 'How do you define success?',                                             status: 'asked'    },
+    { q: 'What\'s the most important thing you want your grandchildren to know?',  status: 'asked'    },
+    { q: 'What were the biggest changes you witnessed in your lifetime?',          status: 'asked'    },
+    { q: 'What has brought you the most joy in life?',                             status: 'asked'    },
+    { q: 'What do you want people to remember about you?',                         status: 'this-week' },
+    { q: 'What\'s your advice for living a good life?',                            status: 'future'   },
+    { q: 'If you could go back, what would you do differently?',                   status: 'future'   },
+  ]
 
   const reorderInitialItems = useMemo((): ReorderItem[] => {
     if (isA1NearEnd) return [
@@ -3070,14 +3154,10 @@ export default function MemoirPage() {
     return optionCWeeks.slice(0, 10).map((w, i) => ({ id: i, q: w.question, status: 'future' as const }))
   }, [scenario]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const tabs: { key: Tab; label: string }[] = (isA1New || isA1FirstQ || isA1Unengaged || isNewUser) ? [
-    { key: 'week-by-week', label: 'All questions' },
-    { key: 'stories', label: storiesWrittenCount > 0 ? `Stories (${storiesWrittenCount})` : 'Stories' },
-    { key: 'drafts', label: 'Drafts' },
-  ] : [
-    { key: 'week-by-week', label: 'Week by week' },
-    { key: 'stories', label: storiesWrittenCount > 0 ? `Stories (${storiesWrittenCount})` : 'Stories' },
-    { key: 'drafts', label: 'Drafts' },
+  const tabs: { key: Tab; label: string }[] = [
+    { key: 'week-by-week', label: 'All' },
+    { key: 'stories',      label: storiesWrittenCount > 0 ? `Stories (${storiesWrittenCount})` : 'Stories' },
+    { key: 'drafts',       label: 'Drafts' },
   ]
 
   return (
@@ -3119,7 +3199,7 @@ export default function MemoirPage() {
         <>
           {/* Option A.1 new user: gift text + heading left, book preview right */}
           <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[32px]">
+            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[36px]">
               <div className="flex gap-[40px] items-center justify-center">
                 <div className="flex flex-[1_0_0] flex-col gap-[12px] items-start min-w-px">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 mb-[8px]">
@@ -3475,7 +3555,7 @@ export default function MemoirPage() {
             {/* Left group: pill tabs + (for isA1FirstQ) reorder + search */}
             <div className="flex items-center gap-[16px]">
               <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px] overflow-x-auto flex-shrink-0">
-                <div className="flex items-center min-w-max">
+                <div className="flex items-center gap-[6px] min-w-max">
                   {tabs.map(({ key, label }) => (
                     <button
                       key={key}
@@ -3485,8 +3565,8 @@ export default function MemoirPage() {
                         "cursor-pointer px-[16px] py-[8px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase transition-colors duration-200",
                         activeTab === key
                           ? 'bg-white text-[color:var(--green\/900,#12473a)] drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)]'
-                          : 'text-[#61706f] hover:text-[color:var(--green\/900,#12473a)]',
-                        key !== 'week-by-week' && activeTab !== key ? 'hover:underline' : '',
+                          : 'text-[#61706f] hover:bg-[#e8e8e8] hover:text-[color:var(--green\/900,#12473a)]',
+                        '',
                       ].join(' ')}
                     >
                       {label}
@@ -3498,6 +3578,41 @@ export default function MemoirPage() {
               {/* Reorder + Search: left of tabs for isA1FirstQ/isA1New, right side otherwise (rendered below) */}
               {(isA1FirstQ || isA1New || isA1Unengaged) && (
                 <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
+                  {false && activeTab === 'week-by-week' && (
+                    <div className="relative">
+                      {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
+                      <button
+                        type="button"
+                        className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors relative z-50"
+                        onClick={() => setShowFilterMenu(v => !v)}
+                      >
+                        <img alt="" className="size-[24px] flex-shrink-0" src={imgFilterIcon} />
+                        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] tracking-[1.4px] uppercase whitespace-nowrap">filter</span>
+                        <img alt="" className={`size-[16px] flex-shrink-0 transition-transform duration-200${showFilterMenu ? ' rotate-180' : ''}`} src={imgChevronDown} />
+                      </button>
+                      {showFilterMenu && (
+                        <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]" style={{ minWidth: '224px' }}>
+                          {([
+                            { key: 'answered', label: 'Answered Questions' },
+                            { key: 'unanswered', label: 'Unanswered Questions' },
+                            { key: 'upcoming', label: 'Upcoming Questions' },
+                            { key: 'drafts', label: 'Unfinished Drafts' },
+                          ] as const).map(({ key, label }) => {
+                            const on = rowFilter[key]
+                            return (
+                              <button key={key} type="button"
+                                onClick={() => setRowFilter(f => ({ ...f, [key]: !f[key] }))}
+                                className={`flex gap-[10px] items-center justify-between w-full px-[16px] py-[8px] rounded-[22px] border-2 cursor-pointer transition-colors ${on ? 'bg-[#f0f4f4] border-[#068089]' : 'bg-[#f3f3f3] border-transparent'}`}
+                              >
+                                <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] tracking-[1.4px] uppercase text-[#07777e] whitespace-nowrap">{label}</span>
+                                {on && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                              </button>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <button
                     type="button"
                     className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors"
@@ -3513,6 +3628,41 @@ export default function MemoirPage() {
             {/* Right group: reorder + search (non-firstQ) + new story */}
             <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
               {!isA1FirstQ && !isNewUser && !isA1New && !isA1Unengaged && <>
+                {activeTab === 'week-by-week' && (
+                  <div className="relative">
+                    {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
+                    <button
+                      type="button"
+                      className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors relative z-50"
+                      onClick={() => setShowFilterMenu(v => !v)}
+                    >
+                      <img alt="" className="size-[24px] flex-shrink-0" src={imgFilterIcon} />
+                      <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">filter</span>
+                      <img alt="" className={`size-[16px] flex-shrink-0 transition-transform duration-200${showFilterMenu ? ' rotate-180' : ''}`} src={imgChevronDown} />
+                    </button>
+                    {showFilterMenu && (
+                      <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]" style={{ minWidth: '224px' }}>
+                        {([
+                          { key: 'answered', label: 'Answered Questions' },
+                          { key: 'unanswered', label: 'Unanswered Questions' },
+                          { key: 'upcoming', label: 'Upcoming Questions' },
+                          { key: 'drafts', label: 'Unfinished Drafts' },
+                        ] as const).map(({ key, label }) => {
+                          const on = rowFilter[key]
+                          return (
+                            <button key={key} type="button"
+                              onClick={() => setRowFilter(f => ({ ...f, [key]: !f[key] }))}
+                              className={`flex gap-[10px] items-center justify-between w-full px-[16px] py-[8px] rounded-[22px] border-2 cursor-pointer transition-colors ${on ? 'bg-[#f0f4f4] border-[#068089]' : 'bg-[#f3f3f3] border-transparent'}`}
+                            >
+                              <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] tracking-[1.4px] uppercase text-[#07777e] whitespace-nowrap">{label}</span>
+                              {on && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <button
                   type="button"
                   className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity"
@@ -3567,20 +3717,16 @@ export default function MemoirPage() {
               { q: 'What are your proudest achievements?',                   asker: 'Raymond',    status: 'future'    },
               { q: 'What do you hope your family remembers about you?',      asker: 'Storyworth', status: 'future'    },
             ] as { q: string; asker: string; status: 'asked' | 'this-week' | 'future' }[]).map(({ q, asker, status }, i) => {
+              if (status === 'asked' && !rowFilter.unanswered) return null
+              if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
               if (status === 'this-week') return (
-                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                         This week
                       </span>
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {i + 1}</p>
-                      <div className="flex gap-[6px] items-center flex-shrink-0">
-                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f]">·</span>
-                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">
-                          Asked by {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}
-                        </span>
-                      </div>
+                      <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}</span>
                     </div>
                     <div className="flex items-start gap-[8px]">
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
@@ -3593,7 +3739,7 @@ export default function MemoirPage() {
                 </div>
               )
               return (
-                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
@@ -3619,29 +3765,7 @@ export default function MemoirPage() {
             })}
           </div>
         ) : isA1FiveAnswered ? (() => {
-          type RowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
-          const rows: { q: string; status: 'answered' | 'asked' | 'future' | 'this-week'; preview?: string; variant?: RowVariant }[] = [
-            { q: weekQuestions[0],                                            status: 'answered', variant: 'engagement', preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
-            { q: 'What legacy do you want to leave behind?',                  status: 'answered', variant: 'photos',     preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
-            { q: 'Who has been your biggest fan?',                            status: 'asked' },
-            { q: 'Did you have any jobs growing up?',                         status: 'answered', variant: 'recording',  preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
-            { q: 'What was your favorite childhood vacation?',                status: 'asked' },
-            { q: 'How did you decide on your career path?',                   status: 'answered', variant: 'all',        preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
-            { q: 'What world event had the biggest impact on your life?',     status: 'asked' },
-            { q: 'How did you meet your closest friends?',                    status: 'answered', variant: 'plain',      preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
-            { q: 'What are your proudest achievements?',                      status: 'this-week' },
-            { q: 'What do you hope your family remembers about you?',         status: 'future' },
-            { q: 'Where did you grow up, and what was it like?',              status: 'future' },
-            { q: "What's the best advice you ever received?",                 status: 'future' },
-            { q: 'How did you meet your spouse or partner?',                  status: 'future' },
-            { q: 'What was your first job like?',                             status: 'future' },
-            { q: 'Describe a perfect day from your childhood.',               status: 'future' },
-            { q: "What's a tradition your family had growing up?",            status: 'future' },
-            { q: 'Who was your childhood hero?',                              status: 'future' },
-            { q: "What's the hardest decision you've ever made?",             status: 'future' },
-            { q: "What's your favorite family recipe?",                       status: 'future' },
-            { q: 'Where did you go on your first trip abroad?',               status: 'future' },
-          ]
+          const rows = fiveAnsweredRows
           const AudioBadge = () => (
             <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
               <img alt="" className="size-[22px] flex-shrink-0" src={imgVoice} />
@@ -3677,20 +3801,17 @@ export default function MemoirPage() {
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
+                if (status === 'answered' && !rowFilter.answered) return null
+                if (status === 'asked' && !rowFilter.unanswered) return null
+                if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                           This week
                         </span>
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {i + 1}</p>
-                        <div className="flex gap-[6px] items-center flex-shrink-0">
-                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f]">·</span>
-                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">
-                            Asked by Raymond
-                          </span>
-                        </div>
+                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by Raymond</span>
                       </div>
                       <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
@@ -3703,11 +3824,11 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                <div key={i} className={`border-b border-[#ebebeb] ${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                <div key={i} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[12px] items-center">
-                      <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'answered' ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
+                      <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                         {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
                     </div>
@@ -3759,61 +3880,7 @@ export default function MemoirPage() {
           )
         })()
         : isA1NearEnd ? (() => {
-          type NearEndVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
-          const rows: { q: string; status: 'answered' | 'asked' | 'future' | 'this-week'; preview?: string; variant?: NearEndVariant }[] = [
-            { q: weekQuestions[0],                                                          status: 'asked'    },
-            { q: 'What legacy do you want to leave behind?',                               status: 'answered', variant: 'plain',      preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
-            { q: 'Who has been your biggest fan?',                                         status: 'answered', variant: 'engagement', preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
-            { q: 'Did you have any jobs growing up?',                                      status: 'asked'    },
-            { q: 'What was your favorite childhood vacation?',                             status: 'answered', variant: 'photos',     preview: '"Every summer we drove down to the Jersey Shore. I can still smell the salt air and feel the warm sand..."' },
-            { q: 'How did you decide on your career path?',                                status: 'asked'    },
-            { q: 'What world event had the biggest impact on your life?',                  status: 'asked'    },
-            { q: 'How did you meet your closest friends?',                                 status: 'asked'    },
-            { q: 'What are your proudest achievements?',                                   status: 'asked'    },
-            { q: 'What do you hope your family remembers about you?',                      status: 'answered', variant: 'recording', preview: '"I hope they remember that I always had time for them, no matter how busy work got..."' },
-            { q: 'Where did you grow up, and what was it like?',                          status: 'answered', variant: 'all',        preview: '"I grew up in a small town in Ohio, where everybody knew your name and your business..."' },
-            { q: 'What\'s the best advice you ever received?',                             status: 'answered', variant: 'photos',     preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."' },
-            { q: 'How did you meet your spouse or partner?',                               status: 'asked'    },
-            { q: 'What was your first job like?',                                          status: 'asked'    },
-            { q: 'Describe a perfect day from your childhood.',                            status: 'asked'    },
-            { q: 'What\'s a tradition your family had growing up?',                        status: 'asked'    },
-            { q: 'Who was your childhood hero?',                                           status: 'asked'    },
-            { q: 'What\'s the hardest decision you\'ve ever made?',                        status: 'asked'    },
-            { q: 'What\'s your favorite family recipe?',                                   status: 'asked'    },
-            { q: 'Where did you go on your first trip abroad?',                            status: 'asked'    },
-            { q: 'What did your parents teach you about money?',                           status: 'asked'    },
-            { q: 'Tell me about your first car.',                                          status: 'answered', variant: 'engagement', preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."' },
-            { q: 'What school subject did you love most?',                                 status: 'asked'    },
-            { q: 'What sports or activities did you play as a kid?',                       status: 'asked'    },
-            { q: 'What was your biggest professional accomplishment?',                     status: 'answered', variant: 'recording', preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
-            { q: 'What\'s something you learned from a failure?',                          status: 'asked'    },
-            { q: 'Tell me about a mentor who shaped your life.',                           status: 'asked'    },
-            { q: 'What\'s something you miss from your childhood?',                        status: 'asked'    },
-            { q: 'What was your favorite movie or book growing up?',                       status: 'asked'    },
-            { q: 'Describe your first home as an adult.',                                  status: 'answered', variant: 'photos',     preview: '"A tiny studio apartment in Chicago with a leaky faucet and the best view of the El train..."' },
-            { q: 'What do you wish you had known at age 20?',                             status: 'answered', variant: 'all',        preview: '"That it\'s okay not to have all the answers. Everybody else is figuring it out too..."' },
-            { q: 'How has your relationship with your siblings changed over time?',        status: 'asked'    },
-            { q: 'What\'s the bravest thing you\'ve ever done?',                           status: 'asked'    },
-            { q: 'What\'s a place that holds special meaning for you?',                    status: 'asked'    },
-            { q: 'What did your grandparents mean to you?',                                status: 'asked'    },
-            { q: 'Tell me about raising your children.',                                   status: 'asked'    },
-            { q: 'What are the most important life lessons you\'ve learned?',              status: 'asked'    },
-            { q: 'How did you handle a major setback in life?',                            status: 'asked'    },
-            { q: 'What\'s something you\'re still proud of today?',                        status: 'asked'    },
-            { q: 'Tell me about the neighborhood you grew up in.',                         status: 'answered', variant: 'plain',      preview: '"Our street was the kind where kids played outside until the streetlights came on. Everyone\'s door was always open..."' },
-            { q: 'What was your biggest adventure?',                                       status: 'answered', variant: 'photos',     preview: '"Three weeks in Southeast Asia with nothing but a backpack and a Lonely Planet guide. Terrified and exhilarated..."' },
-            { q: 'How did your faith or values shape your life?',                          status: 'answered', variant: 'engagement', preview: '"Faith was the backbone of our household. Sunday dinners, church on Christmas Eve, the rosary in every car..."' },
-            { q: 'What\'s the kindest thing anyone has ever done for you?',                status: 'answered', variant: 'recording', preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
-            { q: 'Tell me about a time you made a difference in someone\'s life.',         status: 'answered', variant: 'all',        preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
-            { q: 'What were your dreams when you were young?',                             status: 'asked'    },
-            { q: 'How do you define success?',                                             status: 'asked'    },
-            { q: 'What\'s the most important thing you want your grandchildren to know?',  status: 'asked'    },
-            { q: 'What were the biggest changes you witnessed in your lifetime?',          status: 'asked'    },
-            { q: 'What has brought you the most joy in life?',                             status: 'asked'    },
-            { q: 'What do you want people to remember about you?',                         status: 'this-week' },
-            { q: 'What\'s your advice for living a good life?',                            status: 'future'   },
-            { q: 'If you could go back, what would you do differently?',                   status: 'future'   },
-          ]
+          const rows = nearEndRows
 
           const AudioBadge = () => (
             <div className="bg-[#ffefeb] flex gap-[6px] items-center pl-[4px] pr-[6px] py-[2px] rounded-[5px] w-fit">
@@ -3851,18 +3918,17 @@ export default function MemoirPage() {
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
+                if (status === 'answered' && !rowFilter.answered) return null
+                if (status === 'asked' && !rowFilter.unanswered) return null
+                if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                           This week
                         </span>
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Question {i + 1}</p>
-                        <div className="flex gap-[6px] items-center flex-shrink-0">
-                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f]">·</span>
-                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by Raymond</span>
-                        </div>
+                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by Raymond</span>
                       </div>
                       <div className="flex items-start gap-[8px]">
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
@@ -3875,10 +3941,10 @@ export default function MemoirPage() {
                   </div>
                 )
                 return (
-                  <div key={i} className={`border-b border-[#ebebeb] ${status === 'answered' ? 'border-l-[3px] border-l-[#1ba07c] ' : status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center">
-                        <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${status === 'answered' ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
+                        <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                           {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
                       </div>
@@ -3937,14 +4003,16 @@ export default function MemoirPage() {
               { q: 'How did you meet your closest friends?', asker: 'Storyworth' },
               { q: 'What are your proudest achievements?', asker: 'Raymond' },
               { q: 'What do you hope your family remembers about you?', asker: 'Storyworth' },
-            ].map(({ q, asker }, i) => (
-              <div
+            ].map(({ q, asker }, i) => {
+              if (i === 0 && !rowFilter.answered) return null
+              if (i > 0 && !rowFilter.upcoming) return null
+              return (<div
                 key={i}
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#1ba07c] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
-                    <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap ${i === 0 ? 'text-[#1ba07c]' : 'text-[#61706f]'}`}>
+                    <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                       {i === 0 ? 'Chapter 1' : `Sends on ${getQuestionSendDate(i)}`}
                     </p>
                     {i === 1 && (
@@ -3998,7 +4066,8 @@ export default function MemoirPage() {
                   </button>
                 )}
               </div>
-            ))}
+              )
+            })}
           </div>
         ) : isA1FirstQuestion ? (
           <div
@@ -4016,10 +4085,11 @@ export default function MemoirPage() {
               { q: 'How did you meet your closest friends?', asker: 'Storyworth' },
               { q: 'What are your proudest achievements?', asker: 'Raymond' },
               { q: 'What do you hope your family remembers about you?', asker: 'Storyworth' },
-            ].map(({ q, asker }, i) => (
-              <div
+            ].map(({ q, asker }, i) => {
+              if (!rowFilter.upcoming) return null
+              return (<div
                 key={i}
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] ' : ''}py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -4028,16 +4098,10 @@ export default function MemoirPage() {
                         This week
                       </span>
                     )}
-                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
-                      {i === 0 ? `Question ${i + 1}` : `Sends on ${getQuestionSendDate(i)}`}
-                    </p>
-                    {i <= 1 && (
-                      <div className="flex gap-[6px] items-center flex-shrink-0">
-                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f]">·</span>
-                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] flex items-center gap-[4px] whitespace-nowrap">
-                          Asked by {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}
-                        </span>
-                      </div>
+                    {i === 0 ? (
+                      <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}</span>
+                    ) : (
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">{`Sends on ${getQuestionSendDate(i)}`}</p>
                     )}
                   </div>
                   <div className="flex items-start gap-[8px]">
@@ -4054,7 +4118,8 @@ export default function MemoirPage() {
                   <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                 </button>
               </div>
-            ))}
+              )
+            })}
           </div>
         ) : isA1New ? (
           <div>
@@ -4064,11 +4129,12 @@ export default function MemoirPage() {
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '42px' }}
             >
               <div>
-                {optionCWeeks.slice(0, 10).map((week, i) => (
-                  <div
+                {optionCWeeks.slice(0, 10).map((week, i) => {
+                  if (!rowFilter.upcoming) return null
+                  return (<div
                     key={week.weekNum}
                     ref={i === 0 ? question1Ref : i === 7 ? question8Ref : undefined}
-                    className={`border-b border-[#ebebeb] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
+                    className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
                   >
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[12px] items-center flex-wrap">
@@ -4090,7 +4156,8 @@ export default function MemoirPage() {
                       <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -4138,76 +4205,36 @@ export default function MemoirPage() {
         </>
       ) : activeTab === 'stories' ? (
         <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
-          {isA1NearEnd ? (
-            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
-              {([
-                { q: 'What legacy do you want to leave behind?',                       num: 2,  preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
-                { q: 'Who has been your biggest fan?',                                 num: 3,  preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
-                { q: 'What was your favorite childhood vacation?',                     num: 5,  preview: '"Every summer we drove down to the Jersey Shore. I can still smell the salt air and feel the warm sand..."' },
-                { q: 'What do you hope your family remembers about you?',              num: 10, preview: '"I hope they remember that I always had time for them, no matter how busy work got..."' },
-                { q: 'Where did you grow up, and what was it like?',                   num: 11, preview: '"I grew up in a small town in Ohio, where everybody knew your name and your business..."' },
-                { q: "What's the best advice you ever received?",                      num: 12, preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."' },
-                { q: 'Tell me about your first car.',                                  num: 22, preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."' },
-                { q: 'What was your biggest professional accomplishment?',             num: 25, preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
-                { q: 'Describe your first home as an adult.',                          num: 30, preview: '"A tiny studio apartment in Chicago with a leaky faucet and the best view of the El train..."' },
-                { q: 'What do you wish you had known at age 20?',                     num: 31, preview: '"That it\'s okay not to have all the answers. Everybody else is figuring it out too..."' },
-                { q: 'Tell me about the neighborhood you grew up in.',                 num: 40, preview: '"Our street was the kind where kids played outside until the streetlights came on. Everyone\'s door was always open..."' },
-                { q: 'What was your biggest adventure?',                              num: 41, preview: '"Three weeks in Southeast Asia with nothing but a backpack and a Lonely Planet guide. Terrified and exhilarated..."' },
-                { q: 'How did your faith or values shape your life?',                 num: 42, preview: '"Faith was the backbone of our household. Sunday dinners, church on Christmas Eve, the rosary in every car..."' },
-                { q: "What's the kindest thing anyone has ever done for you?",        num: 43, preview: '"When I lost my job in 2002, my neighbor Rosa showed up every Tuesday with a pot of soup. Never said a word..."' },
-                { q: "Tell me about a time you made a difference in someone's life.", num: 44, preview: '"I tutored a kid named Marcus for three years. He became an engineer. I still have the card he sent me..."' },
-              ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
-                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
-                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
-                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
-                    <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
-                    <div className="flex gap-[6px] items-center">
-                      <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
-                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+          {(isA1NearEnd || isA1FiveAnswered) ? (() => {
+            const answeredRows = (isA1NearEnd ? nearEndRows : fiveAnsweredRows).filter(r => r.status === 'answered')
+            return (
+              <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+                {answeredRows.map(({ q, preview }, i) => (
+                  <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
+                    <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
+                      {preview && <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>}
+                      <div className="flex gap-[6px] items-center">
+                        <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
+                          <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
+                        </div>
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
                       </div>
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
                     </div>
+                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
+                    </button>
                   </div>
-                  <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                    <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : isA1FiveAnswered ? (
-            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
-              {([
-                { q: weekQuestions[0],                                          num: 1, preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
-                { q: 'What legacy do you want to leave behind?',               num: 2, preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
-                { q: 'Did you have any jobs growing up?',                      num: 4, preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
-                { q: 'How did you decide on your career path?',                num: 6, preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
-                { q: 'How did you meet your closest friends?',                 num: 8, preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
-              ] as { q: string; num: number; preview: string }[]).map(({ q, preview }, i, arr) => (
-                <div key={i} className={`${i < arr.length - 1 ? 'border-b border-[#ebebeb] ' : ''}border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
-                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                    <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
-                    <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
-                    <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
-                    <div className="flex gap-[6px] items-center">
-                      <div className="size-[18px] rounded-full bg-[#D8A577] flex items-center justify-center flex-shrink-0">
-                        <span className="font-['GT_America:Medium'] text-[10px] text-white tracking-[0.5px]" style={{ marginLeft: '1px' }}>R</span>
-                      </div>
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Shared with Raymond</p>
-                    </div>
-                  </div>
-                  <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                    <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : isA1FirstQuestionAnswered ? (
+                ))}
+              </div>
+            )
+          })() : isA1FirstQuestionAnswered ? (
             <div
               className="relative max-w-[1189px] mx-auto"
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
             >
-              <div className="border-l-[3px] border-l-[#1ba07c] py-[32px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]">
+              <div className="py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                     Chapter 1
@@ -4280,6 +4307,14 @@ export default function MemoirPage() {
           <button type="button" className="bg-[#ededed] border-2 border-transparent flex h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors">
             <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap">Start a new story</span>
           </button>
+        </div>
+      ) : activeTab === 'upcoming' ? (
+        <div className="flex flex-col items-center justify-center text-center py-[64px] px-[24px]">
+          <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0">Upcoming questions will appear here.</p>
+        </div>
+      ) : activeTab === 'unanswered' ? (
+        <div className="flex flex-col items-center justify-center text-center py-[64px] px-[24px]">
+          <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0">Unanswered questions will appear here.</p>
         </div>
       ) : null}
       </div>}
