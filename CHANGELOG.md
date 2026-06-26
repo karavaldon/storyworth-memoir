@@ -1,3 +1,6 @@
+## v1.0.351 — 2026-06-26T17:39:44
+- Add congratulations overlay to milestone bar on confetti for new user
+
 ## v1.0.350 — 2026-06-26T17:37:34
 - Remove Upcoming questions section label; add Upcoming tag per future row
 

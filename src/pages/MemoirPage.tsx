@@ -2896,6 +2896,7 @@ export default function MemoirPage() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [milestoneGlow, setMilestoneGlow] = useState(false)
   const [milestoneBarHighlight, setMilestoneBarHighlight] = useState(false)
+  const [milestoneCongratsVisible, setMilestoneCongratsVisible] = useState(false)
   const milestoneButtonRef = useRef<HTMLButtonElement>(null)
 
   function handleReveal() {
@@ -2917,6 +2918,7 @@ export default function MemoirPage() {
     setShowTimeline2(false)
     setMilestoneGlow(false)
     setMilestoneBarHighlight(false)
+    setMilestoneCongratsVisible(false)
     if (scenario === 'a1-new' || scenario === 'a1-first-question' || scenario === 'a1-first-question-answered' || scenario === 'a1-unengaged') {
       history.scrollRestoration = 'manual'
       requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }))
@@ -2958,10 +2960,12 @@ export default function MemoirPage() {
     const origins = [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]
     origins.forEach(x => confetti({ ...base, particleCount: 8, origin: { x, y: oy } }))
     setMilestoneBarHighlight(true)
+    setMilestoneCongratsVisible(true)
     const t0 = setTimeout(() => setMilestoneBarHighlight(false), 1000)
+    const t3 = setTimeout(() => setMilestoneCongratsVisible(false), 2500)
     const t1 = setTimeout(() => setMilestoneGlow(true), 2600)
     const t2 = setTimeout(() => setMilestoneGlow(false), 6600)
-    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2) }
+    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
   }, [scenario, showTimeline2, timelineAnimating])
 
   // a1-new / a1-unengaged: track scroll progress from page top to target question for milestone progress bar
@@ -3310,6 +3314,13 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             <div className={`absolute bottom-0 left-0 w-full h-[3px] transition-opacity duration-500 ${showTimeline2 ? 'opacity-0' : 'opacity-100'}`}>
               <div className="absolute left-0 top-0 h-full bg-[#068089]"
                 style={{ width: `${revealState !== 'hidden' ? 100 : scrollProgress * 100}%`, transition: 'width 80ms linear', backgroundColor: '#7dd4d8' }} />
+            </div>
+            {/* Congratulations overlay — fades in with confetti, clears after 2.5s */}
+            <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500 z-10 ${milestoneCongratsVisible ? 'opacity-100' : 'opacity-0'}`}
+              style={{ backgroundColor: '#E9FAFC' }}>
+              <p className="font-['GT_America:Medium'] text-[16px] leading-[24px] text-[#068089] text-center px-[48px] m-0">
+                Congratulations! You've reached your first milestone by exploring your memoir questions!
+              </p>
             </div>
           </div>
         ) : isA1FirstQ ? (
