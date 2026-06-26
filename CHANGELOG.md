@@ -1,3 +1,6 @@
+## v1.0.355 — 2026-06-26T18:35:19
+- Fix question card hover: no lift, no layout shift (2px border always)
+
 ## v1.0.354 — 2026-06-26T17:58:18
 - Congrats overlay extended to 4.5s; row list gap reduced 12px; question card padding and spacing tuned; gradient border on card hover; firstRowHasFill extra padding logic
 

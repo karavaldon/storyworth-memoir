@@ -3359,7 +3359,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
       {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1NearEnd || isA1Month4) && (
         <div className="max-w-[1189px] mx-auto px-[24px] pt-[32px] pb-[60px]">
           <style>{`.question-card:hover { border: 2px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%) border-box; }`}</style>
-          <div className="question-card bg-white border border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200 hover:-translate-y-1" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.18)' }}>
+          <div className="question-card bg-white border-2 border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.18)' }}>
             <div className="flex flex-col items-center gap-[24px] px-[24px] py-[32px]">
               <div className="flex flex-col gap-[14px] items-center">
                 <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0">
