@@ -2962,7 +2962,7 @@ export default function MemoirPage() {
     setMilestoneBarHighlight(true)
     setMilestoneCongratsVisible(true)
     const t0 = setTimeout(() => setMilestoneBarHighlight(false), 1000)
-    const t3 = setTimeout(() => setMilestoneCongratsVisible(false), 2500)
+    const t3 = setTimeout(() => setMilestoneCongratsVisible(false), 4500)
     const t1 = setTimeout(() => setMilestoneGlow(true), 2600)
     const t2 = setTimeout(() => setMilestoneGlow(false), 6600)
     return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
@@ -3357,8 +3357,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
         )
       )}
       {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1NearEnd || isA1Month4) && (
-        <div className="max-w-[1189px] mx-auto px-[24px] pt-[32px] pb-[24px]">
-          <div className="group bg-white border border-[#d8e0e3] hover:border-2 hover:border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200 hover:-translate-y-1" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.18)' }}>
+        <div className="max-w-[1189px] mx-auto px-[24px] pt-[32px] pb-[60px]">
+          <style>{`.question-card:hover { border: 2px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%) border-box; }`}</style>
+          <div className="question-card bg-white border border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200 hover:-translate-y-1" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.18)' }}>
             <div className="flex flex-col items-center gap-[24px] px-[24px] py-[32px]">
               <div className="flex flex-col gap-[14px] items-center">
                 <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0">
@@ -3476,10 +3477,26 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           upcoming:   true,
         }
         const filterCount = filterOptions.filter(f => rowFilter[f.key]).length
+        const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
+        const firstRowHasFill = activeTab === 'week-by-week' && (() => {
+          if (isA1Unengaged) return true // first row is always 'asked' or 'this-week', both have fill
+          if (isA1FirstQuestion) return true // first row is always blue 'this-week'
+          if (isA1New) return false // all future rows, no fill
+          if (isA1FiveAnswered) {
+            if (!_hasFilter) return false // first row is 'answered', no fill
+            if (rowFilter.upcoming || rowFilter.unanswered) return true // 'this-week' or 'asked' rows have fill
+            return false
+          }
+          if (isA1NearEnd) {
+            if (rowFilter.answered && !rowFilter.unanswered) return false // only answered rows shown
+            return true // first row is 'asked' (gray fill)
+          }
+          return false
+        })()
         return (
           <div className={`sticky ${isA1FirstQ ? 'top-[72px]' : (isA1New || isA1Unengaged) ? 'top-[88px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
             style={{ boxShadow: tabBarStuck ? '0 4px 24px rgba(0,0,0,0.10)' : 'none' }}>
-            <div className={`max-w-[1189px] mx-auto px-[24px] ${tabBarStuck ? 'pt-[24px]' : 'pt-[32px]'} pb-[24px] transition-all duration-200`}>
+            <div className={`max-w-[1189px] mx-auto px-[24px] ${tabBarStuck ? 'pt-[24px] pb-[24px]' : `pt-[32px] ${firstRowHasFill ? 'pb-[26px]' : 'pb-[10px]'}`} transition-all duration-200`}>
               <div className="flex flex-col gap-[16px]">
 
                 {/* Main row */}
@@ -3583,7 +3600,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
       {activeTab === 'week-by-week' ? (
         <>
         {isA1Unengaged ? (
-          <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+          <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
             {([
               { q: weekQuestions[0],                                         asker: 'Raymond',    status: 'asked'     },
               { q: 'What legacy do you want to leave behind?',               asker: 'Raymond',    status: 'asked'     },
@@ -3684,7 +3701,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             </div>
           )
           return (
-            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
                 const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
                 if (_hasFilter && status === 'answered' && !rowFilter.answered) return null
@@ -3813,7 +3830,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           )
 
           return (
-            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+            <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
               {rows.map(({ q, status, preview, variant, error }, i) => {
                 const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
                 if (_hasFilter && status === 'answered' && !rowFilter.answered) return null
@@ -3899,7 +3916,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
         : isA1FirstQuestionAnswered ? (
           <div
             className="relative max-w-[1189px] mx-auto"
-            style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
+            style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}
           >
             {[
               { q: weekQuestions[0], asker: 'Raymond' },
@@ -3983,7 +4000,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
         ) : isA1FirstQuestion ? (
           <div
             className="relative max-w-[1189px] mx-auto"
-            style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
+            style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}
           >
             {[
               { q: weekQuestions[0], asker: 'Raymond' },
@@ -4039,7 +4056,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             {/* Questions 1–10 */}
             <div
               className="relative max-w-[1189px] mx-auto"
-              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
+              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}
             >
               <div>
                 {(() => {
@@ -4162,7 +4179,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               </div>
             )
             return (
-              <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+              <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
                 {answeredRows.map(({ q, preview, variant }, i) => (
                   <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
@@ -4201,7 +4218,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           })() : isA1FirstQuestionAnswered ? (
             <div
               className="relative max-w-[1189px] mx-auto"
-              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
+              style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}
             >
               <div className="py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
@@ -4266,7 +4283,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           )}
         </div>
       ) : activeTab === 'drafts' && isA1FiveAnswered ? (
-        <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
+        <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
           {(() => {
             const draftRow = fiveAnsweredRows.find(r => r.status === 'draft')!
             return (

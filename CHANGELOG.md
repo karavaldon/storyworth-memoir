@@ -1,3 +1,9 @@
+## v1.0.354 — 2026-06-26T17:58:18
+- Congrats overlay extended to 4.5s; row list gap reduced 12px; question card padding and spacing tuned; gradient border on card hover; firstRowHasFill extra padding logic
+
+## v1.0.353 — 2026-06-26T17:44:49
+- Extend congratulations overlay to 4.5s (2s longer)
+
 ## v1.0.352 — 2026-06-26T17:44:18
 - Add 24px padding below floating question card
 
