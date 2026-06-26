@@ -1,3 +1,6 @@
+## v1.0.352 — 2026-06-26T17:44:18
+- Add 24px padding below floating question card
+
 ## v1.0.351 — 2026-06-26T17:39:44
 - Add congratulations overlay to milestone bar on confetti for new user
 

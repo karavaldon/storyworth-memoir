@@ -3357,7 +3357,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
         )
       )}
       {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1NearEnd || isA1Month4) && (
-        <div className="max-w-[1189px] mx-auto px-[24px] pt-[32px] pb-[32px]">
+        <div className="max-w-[1189px] mx-auto px-[24px] pt-[32px] pb-[24px]">
           <div className="group bg-white border border-[#d8e0e3] hover:border-2 hover:border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200 hover:-translate-y-1" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.18)' }}>
             <div className="flex flex-col items-center gap-[24px] px-[24px] py-[32px]">
               <div className="flex flex-col gap-[14px] items-center">
