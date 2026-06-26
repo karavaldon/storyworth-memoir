@@ -1,3 +1,93 @@
+## v1.0.350 — 2026-06-26T17:37:34
+- Remove Upcoming questions section label; add Upcoming tag per future row
+
+## v1.0.349 — 2026-06-26T17:30:57
+- Button highlight: delay to 2.6s, extend duration to 4s
+
+## v1.0.348 — 2026-06-26T17:23:18
+- Delay badge hop and button highlight by 1s extra to let confetti clear first
+
+## v1.0.347 — 2026-06-26T17:19:01
+- Confetti: library-default physics (spread 45, velocity 40, ticks 200, scalar 1, circles+squares)
+
+## v1.0.346 — 2026-06-26T17:11:51
+- Upcoming questions label: lighter color, equal top/bottom padding, hidden for new user
+
+## v1.0.345 — 2026-06-26T17:09:30
+- Full-width confetti; bar flashes E9FAFC for 1s; milestone button highlight matches bar color
+
+## v1.0.344 — 2026-06-26T17:05:37
+- Remove gray fill from upcoming rows; add Upcoming questions section header with 32px top padding
+
+## v1.0.343 — 2026-06-26T16:58:42
+- Filter and Menu buttons: dark border, label, icons on hover
+
+## v1.0.342 — 2026-06-26T16:56:59
+- Reorder button: gray pill fill + dark label/icon on hover
+
+## v1.0.341 — 2026-06-26T16:56:12
+- Remove gray fill from Upcoming questions filter pill when selected
+
+## v1.0.340 — 2026-06-26T16:55:07
+- Reduce top padding on sticky stories bar when stuck
+
+## v1.0.339 — 2026-06-26T16:54:30
+- Darken disabled filter pill opacity
+
+## v1.0.338 — 2026-06-26T16:53:35
+- Disable filter options with 0 matching rows per scenario
+
+## v1.0.337 — 2026-06-26T16:46:34
+- Filter dropdown items-start so pills hug text
+
+## v1.0.336 — 2026-06-26T16:46:11
+- Reset filter selections on scenario change
+
+## v1.0.335 — 2026-06-26T16:44:56
+- Filter drawer pills hug text width
+
+## v1.0.334 — 2026-06-26T16:43:55
+- Fix confetti on-load; spread burst across element; glow 2s then clears; chevron collapses to zero-width, expands on hover
+
+## v1.0.333 — 2026-06-26T16:39:19
+- 40px gap before stories bar on no-question scenarios; fix question card shadow clipped by stories bar
+
+## v1.0.332 — 2026-06-26T16:37:15
+- Replace custom CSS confetti with canvas-confetti poof from milestone button; add glow stroke after bounce
+
+## v1.0.331 — 2026-06-26T16:25:20
+- Remove redundant My Life Stories+Menu above filter bar on A1 pages; remove subtitle highlight
+
+## v1.0.330 — 2026-06-26T16:21:32
+- New user milestone celebration: flash banner + confetti on first milestone
+
+## v1.0.329 — 2026-06-26T16:14:44
+- Filter drawer: match Figma pills (border-only inactive, short labels, no uppercase); remove chevron rotation on open
+
+## v1.0.328 — 2026-06-26T16:13:16
+- Fix filter logic: show all rows by default, only filter when a pill is selected
+
+## v1.0.327 — 2026-06-26T16:09:31
+- Question card: softer shadow, pointer cursor, 4px lift + 2px border on hover; milestone singular/plural fix
+
+## v1.0.326 — 2026-06-26T16:08:41
+- Replace tab bar with 'Your stories' + filter/reorder header; filter pills row; inclusive filter model
+
+## v1.0.325 — 2026-06-26T15:52:19
+- Header: labels right-aligned 16px, underline on hover instead of teal, 24px gap between title and byline
+
+## v1.0.324 — 2026-06-26T15:51:30
+- Move question card below milestones band; change milestone count to 'X milestones' earned only
+
+## v1.0.323 — 2026-06-26T15:50:01
+- Header refinements: white menu button with stroke/radius, no-radius highlight, 2px title gap, larger book, hover tooltips on title and author
+
+## v1.0.322 — 2026-06-26T15:47:58
+- Add floating question card below header for all this-week scenarios with gradient CTA button
+
+## v1.0.321 — 2026-06-26T15:40:46
+- Unified tan header across all A1 scenarios with title, byline, colored subtitle, and menu button
+
 ## v1.0.320 — 2026-06-24T18:49:33
 - Fix book cover filename space causing Netlify build failure
 

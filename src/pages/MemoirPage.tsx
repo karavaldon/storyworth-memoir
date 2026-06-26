@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect, useLayoutEffect, useMemo, Fragment } from 'react'
+import React, { useState, useRef, useEffect, useLayoutEffect, useMemo, Fragment } from 'react'
+import confetti from 'canvas-confetti'
 
 // Local assets
 import logoHorizontal from '../../assets/logo/storyworth-logo-horizontal.svg'
 import imgPolygon1 from '../../assets/icons/chevron.svg'
 import imgReorderIcon from '../../assets/icons/reorder.svg'
-import imgFilterIcon from '../../assets/icons/filter.svg'
+import imgFilterHorizontalIcon from '../../assets/icons/filter-horizontal.svg'
 import imgEditCoverIcon from '../../assets/icons/book.svg'
 import imgMenuIcon from '../../assets/icons/menu.svg'
 import imgChevronDown from '../../assets/icons/chevron-down.svg'
@@ -215,7 +216,7 @@ function HoverBook() {
   const [hovered, setHovered] = useState(false)
   return (
     <div
-      className="relative cursor-pointer h-[195px] w-[253px] flex-shrink-0"
+      className="relative cursor-pointer h-[234px] w-[304px] flex-shrink-0"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -1006,7 +1007,7 @@ function MenuModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div ref={ref}
-      className="absolute right-0 z-50 bg-white border border-[#d1d1d1] rounded-[8px] p-[16px] flex flex-col"
+      className="absolute left-0 z-50 bg-white border border-[#d1d1d1] rounded-[8px] p-[16px] flex flex-col"
       style={{ top: 'calc(100% + 8px)', width: '312px', boxShadow: '0 4px 12px rgba(0,0,0,0.12)' }}>
       {MENU_ITEMS.map(({ icon, label }, i) => (
         <div key={label}>
@@ -1430,11 +1431,11 @@ function MenuButton() {
     <div className="relative">
       <button
         type="button"
-        className="bg-[#f3f3f3] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center pl-[22px] pr-[18px] rounded-[24px] cursor-pointer hover:border-[#61706f] transition-colors"
+        className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center pl-[22px] pr-[18px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors"
         onClick={() => setOpen(v => !v)}
       >
-        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap">menu</span>
-        <img alt="" className="size-[18px] flex-shrink-0" src={imgChevronDown} />
+        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">menu</span>
+        <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
       </button>
       {open && <MenuModal onClose={() => setOpen(false)} />}
     </div>
@@ -1478,7 +1479,7 @@ function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
   )
 }
 
-function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true }: {
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0 }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
@@ -1491,6 +1492,9 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   showBar?: boolean
   nextMilestoneText?: string
   nextMilestoneHoverText?: string
+  highlightButton?: boolean
+  milestoneButtonRef?: React.RefObject<HTMLButtonElement | null>
+  badgeHopDelay?: number
 }) {
   const [showMilestonesModal, setShowMilestonesModal] = useState(false)
   if (variant === 'explore') {
@@ -1498,7 +1502,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
     const barGradient = (milestoneCount ?? 1) >= 2 ? RED_MAGENTA_GRADIENT : PURPLE_GRADIENT
     return (
       <div className="relative z-[10] flex gap-[16px] items-center w-full cursor-pointer min-h-[40px]">
-        <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } }`}</style>
+        <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } } @keyframes milestone-glow { 0% { box-shadow:0 0 0 0 rgba(6,128,137,0); } 40% { box-shadow:0 0 0 5px rgba(6,128,137,0.55); } 100% { box-shadow:0 0 0 3px rgba(6,128,137,0.25); } }`}</style>
         {showBar && <div className="relative flex-none w-[146px]">
           <div className="relative h-[20px] w-full rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
@@ -1532,8 +1536,8 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
           </p>
           {showTimeline2 && (
             <div className="relative flex-shrink-0" style={{ animation: 'milestone-in 0.4s ease-out both' }}>
-              <button type="button"
-                className="flex gap-[8px] items-center h-[40px] px-[14px] rounded-[20px] border-2 border-transparent hover:border-[#61706f] hover:bg-white transition-colors cursor-pointer group/milestone"
+              <button type="button" ref={milestoneButtonRef}
+                className={`flex gap-[8px] items-center h-[40px] px-[14px] rounded-[20px] border-2 transition-colors cursor-pointer group/milestone ${highlightButton ? 'bg-[#E9FAFC] border-[#068089]' : 'hover:bg-white border-transparent hover:border-[#61706f]'}`}
                 onMouseDown={e => e.stopPropagation()}
                 onClick={e => { e.stopPropagation(); setShowMilestonesModal(v => !v) }}>
                 <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
@@ -1542,31 +1546,31 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 {(milestoneCount ?? 1) >= 5 ? (
                   <div className="relative flex-shrink-0" style={{ width: '64px', height: '24px' }}>
                     <div className="absolute left-0 top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                     </div>
                     <div className="absolute left-[10px] top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.55s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                     </div>
                     <div className="absolute left-[20px] top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.7s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.7 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge3} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                     </div>
                     <div className="absolute left-[30px] top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.85s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.85 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge5} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                     </div>
                     <div className="absolute left-[40px] top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 1.0s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${1.0 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge4} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
@@ -1575,19 +1579,19 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 ) : (milestoneCount ?? 1) >= 3 ? (
                   <div className="relative flex-shrink-0" style={{ width: '44px', height: '24px' }}>
                     <div className="absolute left-0 top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                     </div>
                     <div className="absolute left-[10px] top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.55s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                     </div>
                     <div className="absolute left-[20px] top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.7s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.7 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge3} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
@@ -1596,13 +1600,13 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 ) : (milestoneCount ?? 1) >= 2 ? (
                   <div className="relative flex-shrink-0" style={{ width: '34px', height: '24px' }}>
                     <div className="absolute left-0 top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                     </div>
                     <div className="absolute left-[10px] top-0 size-[24px]"
-                      style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.65s both' }}>
+                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.65 + badgeHopDelay}s both` }}>
                       <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
                       <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                         style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
@@ -1610,16 +1614,18 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                   </div>
                 ) : (
                   <div className="relative size-[24px] flex-shrink-0"
-                    style={{ animation: 'badge-hop-spin 0.6s ease-in-out 0.4s both' }}>
+                    style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
                     <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
                     <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
                       style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                   </div>
                 )}
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                  {milestoneCount ?? 1} of {MILESTONE_LIST.length} milestones
+                  {milestoneCount ?? 1} {(milestoneCount ?? 1) === 1 ? 'milestone' : 'milestones'}
                 </span>
-                <img alt="" className="size-[18px] flex-shrink-0 opacity-0 group-hover/milestone:opacity-100 transition-opacity" src={imgChevronDown} />
+                <div className="overflow-hidden flex-shrink-0 w-0 ml-[-8px] group-hover/milestone:w-[18px] group-hover/milestone:ml-0 transition-all duration-150">
+                  <img alt="" className="size-[18px] block" src={imgChevronDown} />
+                </div>
               </button>
               {showMilestonesModal && (
                 <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} />
@@ -2873,7 +2879,7 @@ export default function MemoirPage() {
   const [activeTab, setActiveTab] = useState<Tab>('week-by-week')
   const [showReorderModal, setShowReorderModal] = useState(false)
   const [showFilterMenu, setShowFilterMenu] = useState(false)
-  const [rowFilter, setRowFilter] = useState({ answered: true, unanswered: true, upcoming: true, drafts: true })
+  const [rowFilter, setRowFilter] = useState({ answered: false, unanswered: false, upcoming: false, drafts: false })
   const [currentPage, setCurrentPage] = useState(1)
   const [heroScrolled, setHeroScrolled] = useState(false)
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
@@ -2888,6 +2894,9 @@ export default function MemoirPage() {
   const [timelineAnimating, setTimelineAnimating] = useState(false)
   const [showTimeline2, setShowTimeline2] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [milestoneGlow, setMilestoneGlow] = useState(false)
+  const [milestoneBarHighlight, setMilestoneBarHighlight] = useState(false)
+  const milestoneButtonRef = useRef<HTMLButtonElement>(null)
 
   function handleReveal() {
     setRevealState('revealing')
@@ -2902,9 +2911,12 @@ export default function MemoirPage() {
     setCurrentPage(1)
     setPendingScrollWeek(null)
     setActiveTab('week-by-week')
+    setRowFilter({ answered: false, unanswered: false, upcoming: false, drafts: false })
     setRevealState('hidden')
     setTimelineAnimating(false)
     setShowTimeline2(false)
+    setMilestoneGlow(false)
+    setMilestoneBarHighlight(false)
     if (scenario === 'a1-new' || scenario === 'a1-first-question' || scenario === 'a1-first-question-answered' || scenario === 'a1-unengaged') {
       history.scrollRestoration = 'manual'
       requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }))
@@ -2934,6 +2946,23 @@ export default function MemoirPage() {
     obs.observe(el)
     return () => obs.disconnect()
   }, [scenario, revealState])
+
+  // a1-new: fire full-width confetti, highlight the bar for 1s, then highlight the milestone button
+  // Guard on timelineAnimating prevents spurious fire when switching scenarios while showTimeline2 is stale-true
+  useEffect(() => {
+    if (scenario !== 'a1-new' || !showTimeline2 || !timelineAnimating) return
+    const el = milestoneButtonRef.current
+    const rect = el?.getBoundingClientRect()
+    const oy = rect ? rect.top / window.innerHeight : 0.06
+    const base = { angle: 90, spread: 45, scalar: 1, startVelocity: 40, ticks: 200, gravity: 1, decay: 0.9, shapes: ['square' as const, 'circle' as const], colors: ['#068089', '#7dd4d8', '#2E7C69', '#50A890', '#F5DA96', '#7B4ED6', '#c4234e'], disableForReducedMotion: true, zIndex: 9999 }
+    const origins = [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]
+    origins.forEach(x => confetti({ ...base, particleCount: 8, origin: { x, y: oy } }))
+    setMilestoneBarHighlight(true)
+    const t0 = setTimeout(() => setMilestoneBarHighlight(false), 1000)
+    const t1 = setTimeout(() => setMilestoneGlow(true), 2600)
+    const t2 = setTimeout(() => setMilestoneGlow(false), 6600)
+    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2) }
+  }, [scenario, showTimeline2, timelineAnimating])
 
   // a1-new / a1-unengaged: track scroll progress from page top to target question for milestone progress bar
   useEffect(() => {
@@ -2987,9 +3016,7 @@ export default function MemoirPage() {
     return () => window.removeEventListener('scroll', handler)
   }, [isNewUser, heroScrolled])
 
-  const storiesWrittenCount = isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : isA1FirstQuestionAnswered ? 1 : (isA1New || isA1FirstQuestion || isA1Unengaged || isNewUser) ? 0 : stories.length
-
-  type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
+type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
   type MemoirRow = { q: string; status: 'answered' | 'asked' | 'future' | 'this-week' | 'draft'; preview?: string; variant?: MemoirRowVariant; error?: boolean }
 
   const fiveAnsweredRows: MemoirRow[] = [
@@ -3187,11 +3214,6 @@ export default function MemoirPage() {
     return optionCWeeks.slice(0, 10).map((w, i) => ({ id: i, q: w.question, status: 'future' as const }))
   }, [scenario]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const tabs: { key: Tab; label: string }[] = [
-    { key: 'week-by-week', label: 'All' },
-    { key: 'stories',      label: storiesWrittenCount > 0 ? `Stories (${storiesWrittenCount})` : 'Stories' },
-    { key: 'drafts',       label: isA1FiveAnswered ? 'Drafts (1)' : 'Drafts' },
-  ]
 
   return (
     <div className="bg-white min-h-screen">
@@ -3228,218 +3250,49 @@ export default function MemoirPage() {
           </section>
           </div>
         </>
-      ) : isA1New ? (
-        <>
-          {/* Option A.1 new user: gift text + heading left, book preview right */}
-          <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 py-[36px]">
-              <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[12px] items-start min-w-px">
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0 mb-[8px]">
-                    Hi, Brian! Raymond gifted you a Storyworth Memoir
-                  </p>
-                  <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                    Let's capture some memories together.
-                  </p>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
-                    Tell your life story over the next year, and print it in a hardcover book.
-                  </p>
-                </div>
-                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <HoverBook />
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
-      ) : isA1Unengaged ? (
-        <>
-          {/* Option A.1 unengaged: week 8 question left, book preview right */}
-          <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
-              <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
-                  <div className="flex flex-col gap-[16px]">
-                    <div className="flex items-center gap-[6px] flex-wrap">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">For you this week</p>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">·</span>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">Asked by Raymond</span>
-                    </div>
-                    <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                      How did you meet your closest friends?
-                    </p>
-                  </div>
-                  <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
-                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
-                  </button>
-                </div>
-                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <HoverBook />
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
-      ) : isA1FiveAnswered ? (
-        <>
-          {/* Option A.1 five answered: this week's question (Q9) + book preview right */}
-          <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
-              <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
-                  <div className="flex flex-col gap-[16px]">
-                    <div className="flex items-center gap-[6px] flex-wrap">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">For you this week</p>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">·</span>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">
-                        Asked by Raymond
-                      </span>
-                    </div>
-                    <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                      What are your proudest achievements?
-                    </p>
-                  </div>
-                  <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
-                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
-                  </button>
-                </div>
-                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <HoverBook />
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
-      ) : isA1NearEnd ? (
-        <>
-          {/* Option A.1 near end: week 50 this-week question + book preview right */}
-          <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
-              <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
-                  <div className="flex flex-col gap-[16px]">
-                    <div className="flex items-center gap-[6px] flex-wrap">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">For you this week</p>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">·</span>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">Asked by Raymond</span>
-                    </div>
-                    <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                      What do you want people to remember about you?
-                    </p>
-                  </div>
-                  <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
-                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
-                  </button>
-                </div>
-                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <HoverBook />
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
-      ) : isA1FirstQuestionAnswered ? (
-        <>
-          {/* Option A.1 first question answered: nice work + book preview right */}
-          <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
-              <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[16px] items-start min-w-px">
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">Nice work, Brian!</p>
-                  <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                    You added a story this week.
-                  </p>
-                  <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#445f59] m-0">
-                    We've sent your story to Raymond to read. You can always{' '}
-                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">edit</button>
-                    {' '}and{' '}
-                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">add photos</button>.
-                  </p>
-                </div>
-                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <HoverBook />
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
-      ) : isA1FirstQuestion ? (
-        <>
-          {/* Option A.1 first question: weekly question left, book preview right */}
-          <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
-              <div className="flex gap-[40px] items-center justify-center">
-                <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
-                  <div className="flex flex-col gap-[16px]">
-                    <div className="flex items-center gap-[6px] flex-wrap">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59] m-0">For you this week</p>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">·</span>
-                      <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">
-                        Asked by Raymond
-                      </span>
-                    </div>
-                    <p className="font-['GT_Super_Display:Medium'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] m-0">
-                      {weekQuestions[0]}
-                    </p>
-                  </div>
-                  <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
-                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
-                  </button>
-                </div>
-                <div className="hidden sm:flex flex-col gap-[4px] items-center flex-shrink-0">
-                  <HoverBook />
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
-      ) : isA1Month4 ? (
-        <>
-          {/* Option A.1 mid sub: book card left + this week right */}
-          <section className="bg-[#f8f4f1]">
-            <div className="max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] pb-8 sm:pb-[50px]">
-              <div className="flex gap-[40px] items-center">
-                <BookCard />
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-col gap-[22px]">
-                    <div className="flex flex-col gap-[14px]">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#12473a]">
-                        For you this week • Asked by Alex
-                      </p>
-                      <p className="font-['GT_Super_Display:Regular'] text-[28px] sm:text-[32px] leading-[1.125] tracking-[-0.32px] text-[#042a21] max-w-[477px]">
-                        {weekQuestions[0]}
-                      </p>
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#445f59]">
-                        Take 10 minutes to add a story for Alex to read.
-                      </p>
-                    </div>
-                    <button type="button" className="bg-[#068089] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity self-start">
-                      <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
       ) : (
-        <>
-          {/* Option A variants: book/title in tan hero, card half-overlapping below */}
-          <section className="bg-[#f8f4f1]">
-            <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pt-8 sm:pt-[50px] ${isA1New ? 'pb-8 sm:pb-[32px]' : 'pb-8 sm:pb-[138px]'}`}>
-              <HeroContent scenarioId={scenario} />
+        <section className="bg-[#f8f4f1]">
+          <div className="max-w-[1189px] mx-auto px-[24px] py-[32px] flex gap-[40px] items-center">
+            <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
+              <div className="flex flex-col gap-[24px]">
+                <div className="relative group/title cursor-pointer w-fit">
+                  <p className="font-['GT_Super_Display:Medium'] text-[48px] tracking-[-0.48px] m-0 leading-[1] text-[#042a21] group-hover/title:underline decoration-[#042a21]">My Life Stories</p>
+                  <span className="absolute top-1/2 -translate-y-1/2 left-full ml-[16px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/title:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Edit book title</span>
+                </div>
+                <p className="font-['GT_Super_Display:Regular'] text-[22px] tracking-[-0.22px] text-[#042a21] m-0 leading-[normal]">by{' '}
+                  <span className="relative group/author cursor-pointer">
+                    <span className="group-hover/author:underline decoration-[#042a21]">Brian Little</span>
+                    <span className="absolute top-1/2 -translate-y-1/2 left-full ml-[16px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/author:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Change author name</span>
+                  </span>
+                </p>
+              </div>
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#042a21] m-0">
+                {isA1New ? (
+                  'Hi Brian! Raymond gifted you Storyworth—an easy way to capture your life story in a hardcover book.'
+                ) : isA1FirstQuestion ? (
+                  'Hey Brian! Your first question has arrived.'
+                ) : isA1FirstQuestionAnswered ? (
+                  <>Nice work, Brian! You added a story this week. You can always{' '}
+                  <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">edit</button>
+                  {' '}or{' '}
+                  <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">add photos</button>.</>
+                ) : (
+                  'Hey Brian! Raymond asked a question this week.'
+                )}
+              </p>
+              <MenuButton />
             </div>
-          </section>
-          {!isA1New && <div className={`max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 ${isNewUser ? 'sm:-mt-[62px]' : 'sm:-mt-[78px]'} pb-[20px]`} style={isNewUser ? { opacity: heroScrolled ? 1 : 0, pointerEvents: heroScrolled ? 'auto' : 'none', transition: 'opacity 0.7s ease-out' } : undefined}>
-            {isNewUser ? <WelcomeCard /> : <ThisWeekSection />}
-          </div>}
-        </>
+            <div className="hidden sm:flex flex-col items-center flex-shrink-0">
+              <HoverBook />
+            </div>
+          </div>
+        </section>
       ))}
 
       {!isOptionC && !isAEnd && <div style={isNewUser ? { opacity: heroScrolled ? 1 : 0, pointerEvents: heroScrolled ? 'auto' : 'none', transition: 'opacity 0.7s ease-out' } : undefined}>{/* Progress message */}
       {(isA1New || isA1FirstQ || isA1Month4 || isA1Unengaged) && (
         isA1New ? (
-          <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors"
+          <div className={`w-full ${milestoneBarHighlight ? 'bg-[#E9FAFC]' : 'bg-white'} hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors`}
             onClick={() => question1Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <MilestoneTimeline
@@ -3448,6 +3301,9 @@ export default function MemoirPage() {
                 showTimeline2={showTimeline2}
                 showBar={false}
                 showBarFill={false}
+                highlightButton={milestoneGlow}
+                milestoneButtonRef={milestoneButtonRef}
+                badgeHopDelay={1}
               />
             </div>
             {/* Scroll progress bar — bottom edge, full width, 0→100% as user scrolls q1→q8 */}
@@ -3465,7 +3321,7 @@ export default function MemoirPage() {
                 animate={false}
                 showBar={false}
                 showBarFill={false}
-                milestoneCount={isA1FiveAnswered ? 7 : isA1NearEnd ? 6 : isA1FirstQuestionAnswered ? 2 : 1}
+                milestoneCount={isA1FiveAnswered ? 7 : isA1NearEnd ? 8 : isA1FirstQuestionAnswered ? 2 : 1}
                 storyCount={isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : undefined}
                 nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
                 nextMilestoneHoverText={isA1NearEnd ? "Add 20 stories: you've written 15/20" : isA1FiveAnswered ? "Add 10 stories: you've written 5/10" : undefined}
@@ -3489,6 +3345,32 @@ export default function MemoirPage() {
           </div>
         )
       )}
+      {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1NearEnd || isA1Month4) && (
+        <div className="max-w-[1189px] mx-auto px-[24px] pt-[32px] pb-[32px]">
+          <div className="group bg-white border border-[#d8e0e3] hover:border-2 hover:border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200 hover:-translate-y-1" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.18)' }}>
+            <div className="flex flex-col items-center gap-[24px] px-[24px] py-[32px]">
+              <div className="flex flex-col gap-[14px] items-center">
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0">
+                  {isA1Month4 ? 'Asked by Alex today' : 'Asked by Raymond today'}
+                </p>
+                <p className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] text-center m-0">
+                  {isA1Unengaged ? 'How did you meet your closest friends?' :
+                   isA1FiveAnswered ? 'What are your proudest achievements?' :
+                   isA1NearEnd ? 'What do you want people to remember about you?' :
+                   weekQuestions[0]}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="h-[40px] rounded-[24px] px-[32px] flex items-center justify-center hover:opacity-90 transition-opacity"
+                style={{ backgroundImage: 'linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%)' }}
+              >
+                <span className="font-['GT_America:Medium'] text-[16px] tracking-[1.6px] uppercase text-white leading-[20px]">tell my story</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {(isA1New || isA1Unengaged) && (
         <div
           className="overflow-hidden pointer-events-none"
@@ -3507,8 +3389,8 @@ export default function MemoirPage() {
           </div>
         </div>
       )}
-      <div className={`max-w-[1189px] mx-auto ${(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} ${isA1Month4 ? 'pt-[24px]' : (isA1New || isA1Unengaged) ? 'pt-[42px]' : (isA1FirstQ || isNewUser) ? 'pt-[66px]' : 'pt-[68px]'} ${(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) ? 'pb-[14px]' : 'pb-[2px]'} flex flex-col gap-[16px]`}>
-        {(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) ? (
+      {!(isA1FirstQ || isA1New || isA1Unengaged) && <div className={`max-w-[1189px] mx-auto ${isNewUser ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} ${isA1Month4 ? 'pt-[24px]' : isNewUser ? 'pt-[66px]' : 'pt-[68px]'} ${isNewUser ? 'pb-[14px]' : 'pb-[2px]'} flex flex-col gap-[16px]`}>
+        {isNewUser ? (
           <div className="flex flex-col gap-[12px]">
             <div className="flex items-center gap-[16px]">
               <h2 className="font-['GT_Super_Display:Regular'] leading-[36px] text-[32px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.32px] m-0">
@@ -3564,176 +3446,126 @@ export default function MemoirPage() {
             )}
           </>
         )}
-      </div>
+      </div>}
 
+      {(isA1New || isA1FirstQuestionAnswered) && <div className="h-[40px]" aria-hidden />}
       <><div ref={sentinelRef} className="h-0" aria-hidden />
-      {/* Sticky tab bar — full-width so bg covers edge-to-edge */}
-      <div className={`sticky ${isA1FirstQ ? 'top-[72px]' : (isA1New || isA1Unengaged) ? 'top-[88px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
-        style={{ boxShadow: tabBarStuck ? '0 4px 24px rgba(0,0,0,0.10)' : 'none' }}>
-        <div className={`max-w-[1189px] mx-auto ${(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) ? 'px-[24px]' : 'px-4 sm:px-6 lg:px-10'} pt-[22px] pb-[24px]`}>
-          <div className="flex items-center justify-between gap-4">
+      {/* Sticky stories bar — full-width so bg covers edge-to-edge */}
+      {(() => {
+        const filterOptions = [
+          { key: 'answered' as const, label: 'Answered' },
+          { key: 'unanswered' as const, label: 'Unanswered' },
+          { key: 'drafts' as const, label: 'Drafts' },
+          { key: 'upcoming' as const, label: 'Upcoming questions' },
+        ]
+        const filterAvailable: Record<'answered' | 'unanswered' | 'drafts' | 'upcoming', boolean> = {
+          answered:   isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd || isA1Month4,
+          unanswered: isA1Unengaged || isA1FiveAnswered || isA1NearEnd,
+          drafts:     isA1FiveAnswered,
+          upcoming:   true,
+        }
+        const filterCount = filterOptions.filter(f => rowFilter[f.key]).length
+        return (
+          <div className={`sticky ${isA1FirstQ ? 'top-[72px]' : (isA1New || isA1Unengaged) ? 'top-[88px]' : 'top-0'} z-20 bg-white transition-shadow duration-200`}
+            style={{ boxShadow: tabBarStuck ? '0 4px 24px rgba(0,0,0,0.10)' : 'none' }}>
+            <div className={`max-w-[1189px] mx-auto px-[24px] ${tabBarStuck ? 'pt-[24px]' : 'pt-[32px]'} pb-[24px] transition-all duration-200`}>
+              <div className="flex flex-col gap-[16px]">
 
-            {/* Left group: pill tabs + (for isA1FirstQ) reorder + search */}
-            <div className="flex items-center gap-[16px]">
-              <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px] overflow-x-auto flex-shrink-0">
-                <div className="flex items-center gap-[6px] min-w-max">
-                  {tabs.map(({ key, label }) => (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => setActiveTab(key)}
-                      className={[
-                        "cursor-pointer px-[16px] py-[8px] rounded-[22px] whitespace-nowrap font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase transition-colors duration-200",
-                        activeTab === key
-                          ? 'bg-white text-[color:var(--green\/900,#12473a)] drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)]'
-                          : 'text-[#61706f] hover:bg-[#e8e8e8] hover:text-[color:var(--green\/900,#12473a)]',
-                        '',
-                      ].join(' ')}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Reorder + Search: left of tabs for isA1FirstQ/isA1New, right side otherwise (rendered below) */}
-              {(isA1FirstQ || isA1New || isA1Unengaged) && (
-                <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
-                  {false && activeTab === 'week-by-week' && (
-                    <div className="relative">
-                      {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
+                {/* Main row */}
+                <div className="flex items-center justify-between">
+                  {/* Left: title + filter + reorder + nearEnd badge */}
+                  <div className="flex gap-[24px] items-center">
+                    <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[36px] tracking-[-0.22px] text-[#042a21] m-0 whitespace-nowrap">Your stories</p>
+                    <div className="hidden sm:flex gap-[16px] items-center">
+                      {/* Filter button */}
+                      <div className="relative">
+                        {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
+                        <button
+                          type="button"
+                          className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[12px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors relative z-50"
+                          onClick={() => setShowFilterMenu(v => !v)}
+                        >
+                          <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgFilterHorizontalIcon} />
+                          <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">
+                            Filter{filterCount > 0 ? ` (${filterCount})` : ''}
+                          </span>
+                          <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
+                        </button>
+                        {showFilterMenu && (
+                          <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] items-start drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]">
+                            {filterOptions.map(({ key, label }) => {
+                              const on = rowFilter[key]
+                              const avail = filterAvailable[key]
+                              return (
+                                <button key={key} type="button"
+                                  disabled={!avail}
+                                  onClick={() => avail && setRowFilter(f => ({ ...f, [key]: !f[key] }))}
+                                  className={`flex gap-[10px] items-center px-[16px] py-[8px] h-[36px] rounded-[22px] border-2 transition-colors ${!avail ? 'border-[#c0c0c0] cursor-not-allowed opacity-60' : on ? `${key !== 'upcoming' ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0]' : 'hover:bg-[#f7f7f7]'} border-[#068089] cursor-pointer` : 'border-[#61706f] hover:bg-[#f7f7f7] cursor-pointer'}`}
+                                >
+                                  <span className={`font-['GT_America:Medium'] text-[14px] leading-[20px] whitespace-nowrap ${!avail ? 'text-[#8a8a8a]' : on ? 'text-[#07777e]' : 'text-[#61706f]'}`}>{label}</span>
+                                  {on && avail && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </div>
+                      {/* Reorder button */}
                       <button
                         type="button"
-                        className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors relative z-50"
-                        onClick={() => setShowFilterMenu(v => !v)}
+                        className="group cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#efefef] transition-colors"
+                        onClick={() => setShowReorderModal(true)}
                       >
-                        <img alt="" className="size-[24px] flex-shrink-0" src={imgFilterIcon} />
-                        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] tracking-[1.4px] uppercase whitespace-nowrap">filter</span>
-                        <img alt="" className={`size-[16px] flex-shrink-0 transition-transform duration-200${showFilterMenu ? ' rotate-180' : ''}`} src={imgChevronDown} />
+                        <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgReorderIcon} />
+                        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">reorder</span>
                       </button>
-                      {showFilterMenu && (
-                        <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]" style={{ minWidth: '224px' }}>
-                          {([
-                            { key: 'answered', label: 'Answered Questions' },
-                            { key: 'unanswered', label: 'Unanswered Questions' },
-                            { key: 'upcoming', label: 'Upcoming Questions' },
-                            { key: 'drafts', label: 'Unfinished Drafts' },
-                          ] as const).map(({ key, label }) => {
-                            const on = rowFilter[key]
-                            return (
-                              <button key={key} type="button"
-                                onClick={() => setRowFilter(f => ({ ...f, [key]: !f[key] }))}
-                                className={`flex gap-[10px] items-center justify-between w-full px-[16px] py-[8px] rounded-[22px] border-2 cursor-pointer transition-colors ${on ? 'bg-[#f0f4f4] border-[#068089]' : 'bg-[#f3f3f3] border-transparent'}`}
-                              >
-                                <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] tracking-[1.4px] uppercase text-[#07777e] whitespace-nowrap">{label}</span>
-                                {on && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                              </button>
-                            )
-                          })}
-                        </div>
+                      {/* Near-end issue badge */}
+                      {isA1NearEnd && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const el = nearEndErrorRowRef.current
+                            if (!el) return
+                            const y = el.getBoundingClientRect().top + window.scrollY - 170
+                            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                          }}
+                          className="flex gap-[8px] items-center pl-[10px] pr-[8px] h-[28px] rounded-[5px] bg-[#ffefeb] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
+                        >
+                          <div className="size-[10px] rounded-full flex-shrink-0" style={{ backgroundColor: '#ED5D34', boxShadow: '0 0 0 3px #F4A68F' }} />
+                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">1 issue to resolve</span>
+                        </button>
                       )}
                     </div>
-                  )}
-                  <button
-                    type="button"
-                    className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors"
-                    onClick={() => setShowReorderModal(true)}
-                  >
-                    <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
-                    <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] tracking-[1.4px] uppercase whitespace-nowrap">reorder</span>
+                  </div>
+                  {/* Right: New Story */}
+                  <button type="button" className="bg-[#D6ECF5] flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:border-2 hover:border-[#0E719A] transition-colors flex-shrink-0">
+                    <div className="relative size-[24px] flex-shrink-0">
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
+                    </div>
+                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#0E719A] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
                   </button>
                 </div>
-              )}
-              {isA1NearEnd && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    const el = nearEndErrorRowRef.current
-                    if (!el) return
-                    const y = el.getBoundingClientRect().top + window.scrollY - 170
-                    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                  }}
-                  className="hidden sm:flex gap-[8px] items-center pl-[10px] pr-[8px] h-[28px] rounded-[5px] bg-[#ffefeb] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
-                >
-                  <div className="size-[10px] rounded-full flex-shrink-0" style={{ backgroundColor: '#ED5D34', boxShadow: '0 0 0 3px #F4A68F' }} />
-                  <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">1 issue to resolve</span>
-                </button>
-              )}
-            </div>
 
-            {/* Right group: reorder + search (non-firstQ) + new story */}
-            <div className="hidden sm:flex gap-[12px] items-center flex-shrink-0">
-              {!isA1FirstQ && !isNewUser && !isA1New && !isA1Unengaged && <>
-                {activeTab === 'week-by-week' && (
-                  <div className="relative">
-                    {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
-                    <button
-                      type="button"
-                      className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#f3f3f3] transition-colors relative z-50"
-                      onClick={() => setShowFilterMenu(v => !v)}
-                    >
-                      <img alt="" className="size-[24px] flex-shrink-0" src={imgFilterIcon} />
-                      <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">filter</span>
-                      <img alt="" className={`size-[16px] flex-shrink-0 transition-transform duration-200${showFilterMenu ? ' rotate-180' : ''}`} src={imgChevronDown} />
-                    </button>
-                    {showFilterMenu && (
-                      <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]" style={{ minWidth: '224px' }}>
-                        {([
-                          { key: 'answered', label: 'Answered Questions' },
-                          { key: 'unanswered', label: 'Unanswered Questions' },
-                          { key: 'upcoming', label: 'Upcoming Questions' },
-                          { key: 'drafts', label: 'Unfinished Drafts' },
-                        ] as const).map(({ key, label }) => {
-                          const on = rowFilter[key]
-                          return (
-                            <button key={key} type="button"
-                              onClick={() => setRowFilter(f => ({ ...f, [key]: !f[key] }))}
-                              className={`flex gap-[10px] items-center justify-between w-full px-[16px] py-[8px] rounded-[22px] border-2 cursor-pointer transition-colors ${on ? 'bg-[#f0f4f4] border-[#068089]' : 'bg-[#f3f3f3] border-transparent'}`}
-                            >
-                              <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] tracking-[1.4px] uppercase text-[#07777e] whitespace-nowrap">{label}</span>
-                              {on && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                            </button>
-                          )
-                        })}
-                      </div>
-                    )}
+                {/* Active filter pills */}
+                {filterCount > 0 && (
+                  <div className="flex gap-[8px] items-center flex-wrap">
+                    {filterOptions.filter(f => rowFilter[f.key]).map(({ key, label }) => (
+                      <button key={key} type="button"
+                        onClick={() => setRowFilter(f => ({ ...f, [key]: false }))}
+                        className="bg-[#ebebeb] flex gap-[10px] h-[36px] items-center pb-[5px] pl-[16px] pr-[12px] pt-[4px] rounded-[22px] cursor-pointer hover:bg-[#e0e0e0] transition-colors"
+                      >
+                        <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#12473a] whitespace-nowrap">{label}</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M6 6l8 8M14 6l-8 8" stroke="#12473a" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                      </button>
+                    ))}
                   </div>
                 )}
-                <button
-                  type="button"
-                  className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] hover:opacity-70 transition-opacity"
-                  onClick={() => setShowReorderModal(true)}
-                >
-                  <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
-                  <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#61706f] tracking-[1.6px] uppercase whitespace-nowrap">reorder</span>
-                </button>
-              </>}
-              {(isA1FirstQ || isNewUser || isA1New || isA1Unengaged) && (
-                <button type="button" className="bg-[#D6ECF5] border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#0E719A] transition-colors">
-                  <div className="relative size-[24px] flex-shrink-0">
-                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
-                  </div>
-                  <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#0E719A] tracking-[1.4px] uppercase whitespace-nowrap">new story</span>
-                </button>
-              )}
-              {!isA1New && !isA1FirstQ && !isNewUser && !isA1Unengaged && <button
-                type="button"
-                className="border-2 border-transparent flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:border-[#068089] transition-colors"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="flex-shrink-0">
-                  <circle cx="12" cy="12" r="9" stroke="#068089" strokeWidth="1.5"/>
-                  <path d="M12 8v8M8 12h8" stroke="#068089" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-                <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#068089] tracking-[1.4px] uppercase whitespace-nowrap">
-                  new story
-                </span>
-              </button>}
+
+              </div>
             </div>
-
           </div>
-
-        </div>
-      </div>
+        )
+      })()}
 
       <div style={{ height: tabBarStuck ? 50 : 0, transition: 'height 0.25s ease-out' }} aria-hidden /></>
       {/* Tab content */}
@@ -3753,8 +3585,9 @@ export default function MemoirPage() {
               { q: 'What are your proudest achievements?',                   asker: 'Raymond',    status: 'future'    },
               { q: 'What do you hope your family remembers about you?',      asker: 'Storyworth', status: 'future'    },
             ] as { q: string; asker: string; status: 'asked' | 'this-week' | 'future' }[]).map(({ q, asker, status }, i) => {
-              if (status === 'asked' && !rowFilter.unanswered) return null
-              if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
+              const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
+              if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
+              if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
               if (status === 'this-week') return (
                 <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
@@ -3776,9 +3609,10 @@ export default function MemoirPage() {
               )
               return (
                 <Fragment key={i}>
-                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     <div className="flex gap-[8px] items-center flex-wrap">
+                      {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                         {status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
@@ -3841,9 +3675,10 @@ export default function MemoirPage() {
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant }, i) => {
-                if (status === 'answered' && !rowFilter.answered) return null
-                if (status === 'asked' && !rowFilter.unanswered) return null
-                if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
+                const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
+                if (_hasFilter && status === 'answered' && !rowFilter.answered) return null
+                if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
+                if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
                   <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
@@ -3865,10 +3700,11 @@ export default function MemoirPage() {
                 )
                 return (
                 <Fragment key={i}>
-                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa]' : status === 'future' ? 'hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
-                    <div className="flex gap-[12px] items-center">
+                    <div className="flex gap-[8px] items-center flex-wrap">
+                      {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                       <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                         {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
@@ -3968,9 +3804,10 @@ export default function MemoirPage() {
           return (
             <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}>
               {rows.map(({ q, status, preview, variant, error }, i) => {
-                if (status === 'answered' && !rowFilter.answered) return null
-                if (status === 'asked' && !rowFilter.unanswered) return null
-                if ((status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
+                const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
+                if (_hasFilter && status === 'answered' && !rowFilter.answered) return null
+                if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
+                if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
                   <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
@@ -3992,9 +3829,10 @@ export default function MemoirPage() {
                 )
                 return (
                   <Fragment key={i}>
-                  <div ref={error ? nearEndErrorRowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                  <div ref={error ? nearEndErrorRowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                      <div className="flex gap-[12px] items-center flex-wrap">
+                      <div className="flex gap-[8px] items-center flex-wrap">
+                        {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                           {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
@@ -4064,14 +3902,16 @@ export default function MemoirPage() {
               { q: 'What are your proudest achievements?', asker: 'Raymond' },
               { q: 'What do you hope your family remembers about you?', asker: 'Storyworth' },
             ].map(({ q, asker }, i) => {
-              if (i === 0 && !rowFilter.answered) return null
-              if (i > 0 && !rowFilter.upcoming) return null
+              const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
+              if (_hasFilter && i === 0 && !rowFilter.answered) return null
+              if (_hasFilter && i > 0 && !rowFilter.upcoming) return null
               return (<Fragment key={i}>
                 <div
-                className={`border-b border-[#ebebeb] ${i > 0 ? 'bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
+                className={`border-b border-[#ebebeb] hover:bg-[#fafafa] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
+                    {i > 0 && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                     <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                       {i === 0 ? 'Chapter 1' : `Sends on ${getQuestionSendDate(i)}`}
                     </p>
@@ -4146,10 +3986,11 @@ export default function MemoirPage() {
               { q: 'What are your proudest achievements?', asker: 'Raymond' },
               { q: 'What do you hope your family remembers about you?', asker: 'Storyworth' },
             ].map(({ q, asker }, i) => {
-              if (!rowFilter.upcoming) return null
+              const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
+              if (_hasFilter && !rowFilter.upcoming) return null
               return (<Fragment key={i}>
                 <div
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'bg-[#fafafa] hover:bg-[#f3f3f3]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
               >
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -4158,6 +3999,7 @@ export default function MemoirPage() {
                         This week
                       </span>
                     )}
+                    {i > 0 && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                     {i === 0 ? (
                       <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}</span>
                     ) : (
@@ -4189,15 +4031,19 @@ export default function MemoirPage() {
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '8px' }}
             >
               <div>
-                {optionCWeeks.slice(0, 10).map((week, i) => {
-                  if (!rowFilter.upcoming) return null
-                  return (<div
+                {(() => {
+                  const _hasFilter = rowFilter.answered || rowFilter.unanswered || rowFilter.upcoming || rowFilter.drafts
+                  return <>
+                    {optionCWeeks.slice(0, 10).map((week, i) => {
+                      if (_hasFilter && !rowFilter.upcoming) return null
+                      return (<div
                     key={week.weekNum}
                     ref={i === 0 ? question1Ref : i === 7 ? question8Ref : undefined}
                     className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
                   >
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                      <div className="flex gap-[12px] items-center flex-wrap">
+                      <div className="flex gap-[8px] items-center flex-wrap">
+                        <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                           {i === 0 ? `Your first question will send on ${getQuestionSendDate(0)}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
@@ -4218,6 +4064,8 @@ export default function MemoirPage() {
                   </div>
                   )
                 })}
+                  </>
+                })()}
               </div>
             </div>
           </div>
