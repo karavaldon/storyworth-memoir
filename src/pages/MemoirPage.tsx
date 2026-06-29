@@ -968,8 +968,8 @@ function MilestoneModalRow({ label, earned, link, earnedLink, subtext, earnedSub
             {label}
           </p>
           {earned && (
-            <div className="bg-[#d3f7ed] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0 ml-auto">
-              <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#158768]">Reached</p>
+            <div className="bg-[#E9FAFC] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0 ml-auto">
+              <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#068089]">Reached</p>
             </div>
           )}
         </div>
