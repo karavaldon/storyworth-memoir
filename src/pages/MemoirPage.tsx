@@ -1014,7 +1014,7 @@ function MenuModal({ onClose }: { onClose: () => void }) {
           {i > 0 && <div className="h-px bg-[#d1d1d1]" />}
           <button
             type="button"
-            className="flex gap-[10px] items-center px-[6px] py-[16px] w-full rounded-[6px] cursor-pointer text-left transition-colors hover:bg-[#f5f5f5]"
+            className="flex gap-[10px] items-center px-[6px] py-[16px] w-full cursor-pointer text-left transition-colors hover:bg-[#f5f5f5]"
           >
             <img alt="" className="size-[24px] flex-shrink-0" src={icon} style={{ filter: 'grayscale(1)' }} />
             <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap">

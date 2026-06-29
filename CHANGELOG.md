@@ -1,3 +1,6 @@
+## v1.0.371 — 2026-06-29T21:10:46
+- Menu hover fills 0 border radius
+
 ## v1.0.370 — 2026-06-29T21:10:09
 - Menu drawers: 14px gray labels and grayscale icons to match Menu button
 
