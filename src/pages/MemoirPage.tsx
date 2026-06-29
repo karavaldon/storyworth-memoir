@@ -2934,7 +2934,7 @@ export default function MemoirPage() {
     setMilestoneGlow(false)
     setMilestoneBarHighlight(false)
     setMilestoneCongratsVisible(false)
-    if (scenario === 'a1-new' || scenario === 'a1-first-question' || scenario === 'a1-first-question-answered' || scenario === 'a1-unengaged') {
+    if (scenario === 'a1-new' || scenario === 'a1-first-question' || scenario === 'a1-first-question-answered' || scenario === 'a1-unengaged' || scenario === 'a1-near-end') {
       history.scrollRestoration = 'manual'
       requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }))
     } else {
@@ -2947,21 +2947,26 @@ export default function MemoirPage() {
   }, [scenario])
 
   // a1-new / a1-unengaged: trigger milestone animation when target question enters the viewport
+  // obs.observe is deferred in a rAF so the scroll-to-top (also rAF) always completes first,
+  // preventing the IO from seeing Q5 in the old viewport position from a previous scenario.
   useEffect(() => {
-    if ((scenario !== 'a1-new' && scenario !== 'a1-unengaged') || revealState !== 'hidden') return
-    const el = scenario === 'a1-unengaged' ? question5Ref.current : question8Ref.current
+    if ((scenario !== 'a1-new' && scenario !== 'a1-unengaged' && scenario !== 'a1-near-end') || revealState !== 'hidden') return
+    const el = (scenario === 'a1-unengaged' || scenario === 'a1-near-end') ? question5Ref.current : question8Ref.current
     if (!el) return
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setRevealState('revealing')
-        setTimeout(() => setTimelineAnimating(true), 0)
-        setTimeout(() => setShowTimeline2(true), 600)
-        setTimeout(() => setRevealState('revealed'), 800)
-        obs.disconnect()
-      }
-    }, { threshold: 0 })
-    obs.observe(el)
-    return () => obs.disconnect()
+    let obs: IntersectionObserver | null = null
+    const rafId = requestAnimationFrame(() => {
+      obs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          setRevealState('revealing')
+          setTimeout(() => setTimelineAnimating(true), 0)
+          setTimeout(() => setShowTimeline2(true), 600)
+          setTimeout(() => setRevealState('revealed'), 800)
+          obs?.disconnect()
+        }
+      }, { threshold: 0 })
+      obs.observe(el)
+    })
+    return () => { cancelAnimationFrame(rafId); obs?.disconnect() }
   }, [scenario, revealState])
 
   // a1-new: fire full-width confetti, highlight the bar for 1s, then highlight the milestone button

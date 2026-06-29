@@ -1,3 +1,6 @@
+## v1.0.363 — 2026-06-29T20:53:57
+- Defer IO observe to rAF so scroll-to-top completes before intersection check
+
 ## v1.0.362 — 2026-06-29T20:43:56
 - Five answered subscription progress 19% (10/52 weeks)
 
