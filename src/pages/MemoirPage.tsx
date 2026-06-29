@@ -4216,7 +4216,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               Write your own, browse our library, or try Magic Questions.
             </p>
             <button type="button" className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-              <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Make more questions</span>
+              <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Add more questions</span>
             </button>
           </div>
         )}

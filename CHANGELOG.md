@@ -1,3 +1,6 @@
+## v1.0.369 — 2026-06-29T21:07:03
+- Rename Make more questions to Add more questions
+
 ## v1.0.368 — 2026-06-29T21:06:21
 - Hide next arrow completely when at last issue
 
