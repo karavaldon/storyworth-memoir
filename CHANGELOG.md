@@ -1,3 +1,6 @@
+## v1.0.356 — 2026-06-29T15:38:09
+- Add confetti and congratulations celebration to a1-unengaged milestone bar
+
 ## v1.0.355 — 2026-06-26T18:35:19
 - Fix question card hover: no lift, no layout shift (2px border always)
 

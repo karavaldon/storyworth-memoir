@@ -2952,7 +2952,7 @@ export default function MemoirPage() {
   // a1-new: fire full-width confetti, highlight the bar for 1s, then highlight the milestone button
   // Guard on timelineAnimating prevents spurious fire when switching scenarios while showTimeline2 is stale-true
   useEffect(() => {
-    if (scenario !== 'a1-new' || !showTimeline2 || !timelineAnimating) return
+    if ((scenario !== 'a1-new' && scenario !== 'a1-unengaged') || !showTimeline2 || !timelineAnimating) return
     const el = milestoneButtonRef.current
     const rect = el?.getBoundingClientRect()
     const oy = rect ? rect.top / window.innerHeight : 0.06
@@ -3340,14 +3340,24 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             </div>
           </div>
         ) : isA1Unengaged ? (
-          <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors"
+          <div className={`w-full ${milestoneBarHighlight ? 'bg-[#E9FAFC]' : 'bg-white'} hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors`}
             onClick={() => question1Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
-              <MilestoneTimeline variant="explore" animate={timelineAnimating} showTimeline2={showTimeline2} showBar={false} showBarFill={false} />
+              <MilestoneTimeline variant="explore" animate={timelineAnimating} showTimeline2={showTimeline2} showBar={false} showBarFill={false}
+                highlightButton={milestoneGlow}
+                milestoneButtonRef={milestoneButtonRef}
+                badgeHopDelay={1}
+              />
             </div>
             <div className={`absolute bottom-0 left-0 w-full h-[3px] transition-opacity duration-500 ${showTimeline2 ? 'opacity-0' : 'opacity-100'}`}>
               <div className="absolute left-0 top-0 h-full"
                 style={{ width: `${revealState !== 'hidden' ? 100 : scrollProgress * 100}%`, transition: 'width 80ms linear', backgroundColor: '#7dd4d8' }} />
+            </div>
+            <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500 z-10 ${milestoneCongratsVisible ? 'opacity-100' : 'opacity-0'}`}
+              style={{ backgroundColor: '#E9FAFC' }}>
+              <p className="font-['GT_America:Medium'] text-[16px] leading-[24px] text-[#068089] text-center px-[48px] m-0">
+                Congratulations! You've reached your first milestone by exploring your memoir questions!
+              </p>
             </div>
           </div>
         ) : (
