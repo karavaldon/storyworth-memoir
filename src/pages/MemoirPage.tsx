@@ -719,7 +719,7 @@ function DropdownMenu({ onClose }: { onClose: () => void }) {
           <button
             type="button"
             onClick={onClose}
-            className="cursor-pointer font-['GT_America:Medium'] leading-[20px] text-[16px] text-[color:var(--teal\/900,#07777e)] tracking-[1.6px] uppercase whitespace-nowrap px-[6px] py-[16px] w-full text-left transition-colors hover:bg-[#dae4e1]"
+            className="cursor-pointer font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap px-[6px] py-[16px] w-full text-left transition-colors hover:bg-[#f5f5f5]"
           >
             {item}
           </button>
@@ -1016,8 +1016,8 @@ function MenuModal({ onClose }: { onClose: () => void }) {
             type="button"
             className="flex gap-[10px] items-center px-[6px] py-[16px] w-full rounded-[6px] cursor-pointer text-left transition-colors hover:bg-[#f5f5f5]"
           >
-            <img alt="" className="size-[24px] flex-shrink-0" src={icon} />
-            <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#07777e] tracking-[1.6px] uppercase whitespace-nowrap">
+            <img alt="" className="size-[24px] flex-shrink-0" src={icon} style={{ filter: 'grayscale(1)' }} />
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#61706f] tracking-[1.4px] uppercase whitespace-nowrap">
               {label}
             </span>
           </button>

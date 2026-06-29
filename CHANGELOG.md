@@ -1,3 +1,6 @@
+## v1.0.370 — 2026-06-29T21:10:09
+- Menu drawers: 14px gray labels and grayscale icons to match Menu button
+
 ## v1.0.369 — 2026-06-29T21:07:03
 - Rename Make more questions to Add more questions
 
