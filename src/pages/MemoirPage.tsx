@@ -1442,7 +1442,7 @@ function MenuButton() {
   )
 }
 
-function MilestonesModal({ onClose, earnedCount = 1, storyCount }: { onClose: () => void; earnedCount?: number; storyCount?: number }) {
+function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPercent = 1 }: { onClose: () => void; earnedCount?: number; storyCount?: number; subscriptionPercent?: number }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -1457,8 +1457,22 @@ function MilestonesModal({ onClose, earnedCount = 1, storyCount }: { onClose: ()
     <div ref={ref}
       className="absolute right-0 z-50 bg-white rounded-[12px] overflow-hidden"
       style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
-      <div className="p-[24px] pb-[80px] flex flex-col gap-[6px] overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
-        {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} storyCount={storyCount} />)}
+      <div className="p-[24px] pb-[80px] flex flex-col overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+        <div>
+          <p className="font-['GT_America:Medium'] text-[18px] leading-[24px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
+          <div className="relative h-[8px] w-full rounded-full overflow-hidden bg-[#f7f7f7] border border-[#eaeaea] mb-[8px]">
+            <div className="absolute top-0 left-0 h-full rounded-full"
+              style={{ width: `${subscriptionPercent}%`, backgroundImage: MILESTONE_GRADIENT }} />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">{subscriptionPercent}%</span>
+            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
+          </div>
+        </div>
+        <div className="h-px bg-[#e8e8e8] my-[12px]" />
+        <div className="flex flex-col gap-[6px]">
+          {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} storyCount={storyCount} />)}
+        </div>
       </div>
       <div className="absolute bottom-0 inset-x-0 h-[80px] pointer-events-none" style={{ background: 'linear-gradient(to top, white 30%, transparent)' }} />
     </div>
@@ -1479,7 +1493,7 @@ function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
   )
 }
 
-function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0 }: {
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0, subscriptionPercent = 1 }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
@@ -1495,6 +1509,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   highlightButton?: boolean
   milestoneButtonRef?: React.RefObject<HTMLButtonElement | null>
   badgeHopDelay?: number
+  subscriptionPercent?: number
 }) {
   const [showMilestonesModal, setShowMilestonesModal] = useState(false)
   if (variant === 'explore') {
@@ -1628,7 +1643,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 </div>
               </button>
               {showMilestonesModal && (
-                <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} />
+                <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} />
               )}
             </div>
           )}
@@ -3308,6 +3323,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 highlightButton={milestoneGlow}
                 milestoneButtonRef={milestoneButtonRef}
                 badgeHopDelay={1}
+                subscriptionPercent={1}
               />
             </div>
             {/* Scroll progress bar — bottom edge, full width, 0→100% as user scrolls q1→q8 */}
@@ -3336,6 +3352,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 storyCount={isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : undefined}
                 nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
                 nextMilestoneHoverText={isA1NearEnd ? "Add 20 stories: you've written 15/20" : isA1FiveAnswered ? "Add 10 stories: you've written 5/10" : undefined}
+                subscriptionPercent={isA1NearEnd ? 90 : isA1FiveAnswered ? 40 : isA1FirstQuestionAnswered ? 10 : 5}
               />
             </div>
           </div>
@@ -3347,6 +3364,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 highlightButton={milestoneGlow}
                 milestoneButtonRef={milestoneButtonRef}
                 badgeHopDelay={1}
+                subscriptionPercent={1}
               />
             </div>
             <div className={`absolute bottom-0 left-0 w-full h-[3px] transition-opacity duration-500 ${showTimeline2 ? 'opacity-0' : 'opacity-100'}`}>

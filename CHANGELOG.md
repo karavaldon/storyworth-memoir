@@ -1,3 +1,6 @@
+## v1.0.358 — 2026-06-29T20:38:44
+- Add subscription progress bar to milestones drawer with divider
+
 ## v1.0.357 — 2026-06-29T15:53:57
 - Reached tag: filled teal bg and teal text to match milestone bar
 
