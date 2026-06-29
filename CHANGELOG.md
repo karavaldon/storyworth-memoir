@@ -1,3 +1,6 @@
+## v1.0.359 — 2026-06-29T20:41:26
+- Match One-year subscription text style to milestone name rows
+
 ## v1.0.358 — 2026-06-29T20:38:44
 - Add subscription progress bar to milestones drawer with divider
 
