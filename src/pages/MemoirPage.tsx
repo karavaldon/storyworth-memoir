@@ -3585,7 +3585,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       </button>
                       {/* Near-end issue badge + navigation */}
                       {isA1NearEnd && (
-                        <div className="flex items-center gap-[10px] flex-shrink-0">
+                        <div className="flex items-center gap-[12px] flex-shrink-0">
                           <button
                             type="button"
                             onClick={() => {
@@ -3601,39 +3601,41 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                             <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">2 issues to resolve</span>
                           </button>
                           {issueNavStep !== null && (
-                            <div className="flex items-center gap-[4px]">
-                              <div className="relative group/issueBack flex-shrink-0">
-                                <button type="button"
-                                  onClick={issueNavStep === 2 ? () => {
-                                    setIssueNavStep(1)
-                                    const el = nearEndErrorRowRef.current
-                                    if (!el) return
-                                    const y = el.getBoundingClientRect().top + window.scrollY - 170
-                                    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                                  } : undefined}
-                                  className={`size-[32px] flex items-center justify-center rounded-full transition-all flex-shrink-0 ${issueNavStep === 2 ? 'cursor-pointer hover:ring-2 hover:ring-[#07777e]' : 'opacity-25 cursor-default'}`}
-                                >
-                                  <img alt="" className="size-[20px]" src={imgArrowLeft} />
-                                </button>
-                                {issueNavStep === 2 && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueBack:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Back</span>}
-                              </div>
+                            <>
                               <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">{issueNavStep} of 2</span>
-                              <div className="relative group/issueNext flex-shrink-0">
-                                <button type="button"
-                                  onClick={issueNavStep === 1 ? () => {
-                                    setIssueNavStep(2)
-                                    const el = nearEndError2RowRef.current
-                                    if (!el) return
-                                    const y = el.getBoundingClientRect().top + window.scrollY - 170
-                                    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                                  } : undefined}
-                                  className={`size-[32px] flex items-center justify-center rounded-full transition-all flex-shrink-0 ${issueNavStep === 1 ? 'cursor-pointer hover:ring-2 hover:ring-[#07777e]' : 'opacity-25 cursor-default'}`}
-                                >
-                                  <img alt="" className="size-[20px]" src={imgArrowRight} />
-                                </button>
-                                {issueNavStep === 1 && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueNext:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Next</span>}
+                              <div className="flex items-center gap-[4px]">
+                                <div className="relative group/issueBack flex-shrink-0">
+                                  <button type="button"
+                                    onClick={issueNavStep === 2 ? () => {
+                                      setIssueNavStep(1)
+                                      const el = nearEndErrorRowRef.current
+                                      if (!el) return
+                                      const y = el.getBoundingClientRect().top + window.scrollY - 170
+                                      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                                    } : undefined}
+                                    className={`size-[32px] flex items-center justify-center rounded-full transition-all flex-shrink-0 ${issueNavStep === 2 ? 'cursor-pointer hover:ring-2 hover:ring-[#ED5D34]' : 'opacity-25 cursor-default'}`}
+                                  >
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10.5 4.5L3 12L10.5 19.5M3 12L21 12" stroke="#ED5D34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                  </button>
+                                  {issueNavStep === 2 && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueBack:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Back</span>}
+                                </div>
+                                <div className="relative group/issueNext flex-shrink-0">
+                                  <button type="button"
+                                    onClick={issueNavStep === 1 ? () => {
+                                      setIssueNavStep(2)
+                                      const el = nearEndError2RowRef.current
+                                      if (!el) return
+                                      const y = el.getBoundingClientRect().top + window.scrollY - 170
+                                      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                                    } : undefined}
+                                    className={`size-[32px] flex items-center justify-center rounded-full transition-all flex-shrink-0 ${issueNavStep === 1 ? 'cursor-pointer hover:ring-2 hover:ring-[#ED5D34]' : 'opacity-25 cursor-default'}`}
+                                  >
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13.5 19.5L21 12L13.5 4.5M21 12L3 12" stroke="#ED5D34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                  </button>
+                                  {issueNavStep === 1 && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueNext:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Next</span>}
+                                </div>
                               </div>
-                            </div>
+                            </>
                           )}
                         </div>
                       )}

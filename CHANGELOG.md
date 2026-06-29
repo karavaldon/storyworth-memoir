@@ -1,3 +1,6 @@
+## v1.0.366 — 2026-06-29T21:04:34
+- Issue nav: red arrows, gap-12 layout badge | X of 2 | arrows
+
 ## v1.0.365 — 2026-06-29T21:02:50
 - Issue nav: left/right arrow SVGs with replace-style hover ring and Back/Next tooltips
 
