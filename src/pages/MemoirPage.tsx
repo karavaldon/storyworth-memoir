@@ -2904,6 +2904,8 @@ export default function MemoirPage() {
   const question5Ref = useRef<HTMLDivElement>(null)
   const question8Ref = useRef<HTMLDivElement>(null)
   const nearEndErrorRowRef = useRef<HTMLDivElement>(null)
+  const nearEndError2RowRef = useRef<HTMLDivElement>(null)
+  const [issueNavStep, setIssueNavStep] = useState<null | 1 | 2>(null)
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
   const [timelineAnimating, setTimelineAnimating] = useState(false)
@@ -2934,6 +2936,7 @@ export default function MemoirPage() {
     setMilestoneGlow(false)
     setMilestoneBarHighlight(false)
     setMilestoneCongratsVisible(false)
+    setIssueNavStep(null)
     if (scenario === 'a1-new' || scenario === 'a1-first-question' || scenario === 'a1-first-question-answered' || scenario === 'a1-unengaged' || scenario === 'a1-near-end') {
       history.scrollRestoration = 'manual'
       requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }))
@@ -3041,7 +3044,7 @@ export default function MemoirPage() {
   }, [isNewUser, heroScrolled])
 
 type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
-  type MemoirRow = { q: string; status: 'answered' | 'asked' | 'future' | 'this-week' | 'draft'; preview?: string; variant?: MemoirRowVariant; error?: boolean }
+  type MemoirRow = { q: string; status: 'answered' | 'asked' | 'future' | 'this-week' | 'draft'; preview?: string; variant?: MemoirRowVariant; error?: string }
 
   const fiveAnsweredRows: MemoirRow[] = [
     { q: weekQuestions[0],                                            status: 'answered', variant: 'engagement', preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
@@ -3078,7 +3081,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
     { q: 'What are your proudest achievements?',                                   status: 'asked'    },
     { q: 'What do you hope your family remembers about you?',                      status: 'answered', variant: 'recording', preview: '"I hope they remember that I always had time for them, no matter how busy work got..."' },
     { q: 'Where did you grow up, and what was it like?',                          status: 'answered', variant: 'all',        preview: '"I grew up in a small town in Ohio, where everybody knew your name and your business..."' },
-    { q: 'What\'s the best advice you ever received?',                             status: 'answered', variant: 'photos',     preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."', error: true },
+    { q: 'What\'s the best advice you ever received?',                             status: 'answered', variant: 'photos',     preview: '"My father told me: \'Do one thing every day that scares you.\' It took me years to understand..."', error: 'Heads up: this image may not print clearly.' },
     { q: 'How did you meet your spouse or partner?',                               status: 'asked'    },
     { q: 'What was your first job like?',                                          status: 'asked'    },
     { q: 'Describe a perfect day from your childhood.',                            status: 'asked'    },
@@ -3088,7 +3091,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
     { q: 'What\'s your favorite family recipe?',                                   status: 'asked'    },
     { q: 'Where did you go on your first trip abroad?',                            status: 'asked'    },
     { q: 'What did your parents teach you about money?',                           status: 'asked'    },
-    { q: 'Tell me about your first car.',                                          status: 'answered', variant: 'engagement', preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."' },
+    { q: 'Tell me about your first car.',                                          status: 'answered', variant: 'engagement', preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."', error: 'Heads up: Looks like there\'s an unsaved edit on this story.' },
     { q: 'What school subject did you love most?',                                 status: 'asked'    },
     { q: 'What sports or activities did you play as a kid?',                       status: 'asked'    },
     { q: 'What was your biggest professional accomplishment?',                     status: 'answered', variant: 'recording', preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
@@ -3580,21 +3583,56 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgReorderIcon} />
                         <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">reorder</span>
                       </button>
-                      {/* Near-end issue badge */}
+                      {/* Near-end issue badge + navigation */}
                       {isA1NearEnd && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const el = nearEndErrorRowRef.current
-                            if (!el) return
-                            const y = el.getBoundingClientRect().top + window.scrollY - 170
-                            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                          }}
-                          className="flex gap-[8px] items-center pl-[10px] pr-[8px] h-[28px] rounded-[5px] bg-[#ffefeb] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
-                        >
-                          <div className="size-[10px] rounded-full flex-shrink-0" style={{ backgroundColor: '#ED5D34', boxShadow: '0 0 0 3px #F4A68F' }} />
-                          <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">1 issue to resolve</span>
-                        </button>
+                        <div className="flex items-center gap-[10px] flex-shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIssueNavStep(1)
+                              const el = nearEndErrorRowRef.current
+                              if (!el) return
+                              const y = el.getBoundingClientRect().top + window.scrollY - 170
+                              window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                            }}
+                            className="flex gap-[8px] items-center pl-[10px] pr-[8px] h-[28px] rounded-[5px] bg-[#ffefeb] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
+                          >
+                            <div className="size-[10px] rounded-full flex-shrink-0" style={{ backgroundColor: '#ED5D34', boxShadow: '0 0 0 3px #F4A68F' }} />
+                            <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">2 issues to resolve</span>
+                          </button>
+                          {issueNavStep !== null && (
+                            <div className="flex items-center gap-[6px]">
+                              {issueNavStep === 2 && (
+                                <button type="button"
+                                  onClick={() => {
+                                    setIssueNavStep(1)
+                                    const el = nearEndErrorRowRef.current
+                                    if (!el) return
+                                    const y = el.getBoundingClientRect().top + window.scrollY - 170
+                                    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                                  }}
+                                  className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] cursor-pointer hover:opacity-70 transition-opacity"
+                                >←</button>
+                              )}
+                              <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">{issueNavStep} of 2</span>
+                              {issueNavStep === 1 && (
+                                <button type="button"
+                                  onClick={() => {
+                                    setIssueNavStep(2)
+                                    const el = nearEndError2RowRef.current
+                                    if (!el) return
+                                    const y = el.getBoundingClientRect().top + window.scrollY - 170
+                                    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                                  }}
+                                  className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] underline cursor-pointer hover:opacity-70 transition-opacity"
+                                >Next →</button>
+                              )}
+                              {issueNavStep === 2 && (
+                                <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d]">→</span>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -3826,6 +3864,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
         })()
         : isA1NearEnd ? (() => {
           const rows = nearEndRows
+          const firstErrorIdx = rows.findIndex(r => r.error)
+          const secondErrorIdx = rows.findIndex((r, i) => r.error && i > firstErrorIdx)
 
           const AudioBadge = () => (
             <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
@@ -3890,7 +3930,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 )
                 return (
                   <Fragment key={i}>
-                  <div ref={error ? nearEndErrorRowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                  <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
@@ -3899,7 +3939,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         </p>
                         {error && (
                           <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 text-[#ED5D34] whitespace-nowrap">
-                            Heads up: this image may not print clearly.{' '}
+                            {error}{' '}
                             <span className="underline cursor-pointer">Resolve →</span>
                           </p>
                         )}

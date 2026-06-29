@@ -1,3 +1,6 @@
+## v1.0.364 — 2026-06-29T21:00:14
+- Near-end: Chapter 7 error state, 2 issues badge, nav 1 of 2 / 2 of 2
+
 ## v1.0.363 — 2026-06-29T20:53:57
 - Defer IO observe to rAF so scroll-to-top completes before intersection check
 
