@@ -1,3 +1,6 @@
+## v1.0.362 — 2026-06-29T20:43:56
+- Five answered subscription progress 19% (10/52 weeks)
+
 ## v1.0.361 — 2026-06-29T20:43:04
 - Unengaged subscription progress set to 17% (2/12 months)
 

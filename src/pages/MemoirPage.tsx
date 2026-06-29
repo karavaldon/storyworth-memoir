@@ -3352,7 +3352,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 storyCount={isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : undefined}
                 nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
                 nextMilestoneHoverText={isA1NearEnd ? "Add 20 stories: you've written 15/20" : isA1FiveAnswered ? "Add 10 stories: you've written 5/10" : undefined}
-                subscriptionPercent={isA1NearEnd ? 90 : isA1FiveAnswered ? 40 : isA1FirstQuestionAnswered ? 10 : 5}
+                subscriptionPercent={isA1NearEnd ? 90 : isA1FiveAnswered ? 19 : isA1FirstQuestionAnswered ? 10 : 5}
               />
             </div>
           </div>
