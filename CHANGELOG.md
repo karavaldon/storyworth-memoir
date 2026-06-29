@@ -1,3 +1,6 @@
+## v1.0.368 — 2026-06-29T21:06:21
+- Hide next arrow completely when at last issue
+
 ## v1.0.367 — 2026-06-29T21:05:21
 - Hide back arrow completely when at step 1
 
