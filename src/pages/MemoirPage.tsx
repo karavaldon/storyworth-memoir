@@ -1459,7 +1459,7 @@ function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPer
       style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
       <div className="p-[24px] pb-[80px] flex flex-col overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
         <div>
-          <p className="font-['GT_America:Regular'] text-[14px] leading-[18px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
+          <p className="font-['GT_America:Medium'] text-[14px] leading-[18px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
           <div className="relative h-[8px] w-full rounded-full overflow-hidden bg-[#f7f7f7] border border-[#eaeaea] mb-[8px]">
             <div className="absolute top-0 left-0 h-full rounded-full"
               style={{ width: `${subscriptionPercent}%`, backgroundImage: MILESTONE_GRADIENT }} />
