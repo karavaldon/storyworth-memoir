@@ -1,3 +1,6 @@
+## v1.0.367 — 2026-06-29T21:05:21
+- Hide back arrow completely when at step 1
+
 ## v1.0.366 — 2026-06-29T21:04:34
 - Issue nav: red arrows, gap-12 layout badge | X of 2 | arrows
 

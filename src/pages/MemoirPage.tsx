@@ -3604,21 +3604,23 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                             <>
                               <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">{issueNavStep} of 2</span>
                               <div className="flex items-center gap-[4px]">
-                                <div className="relative group/issueBack flex-shrink-0">
-                                  <button type="button"
-                                    onClick={issueNavStep === 2 ? () => {
-                                      setIssueNavStep(1)
-                                      const el = nearEndErrorRowRef.current
-                                      if (!el) return
-                                      const y = el.getBoundingClientRect().top + window.scrollY - 170
-                                      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                                    } : undefined}
-                                    className={`size-[32px] flex items-center justify-center rounded-full transition-all flex-shrink-0 ${issueNavStep === 2 ? 'cursor-pointer hover:ring-2 hover:ring-[#ED5D34]' : 'opacity-25 cursor-default'}`}
-                                  >
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10.5 4.5L3 12L10.5 19.5M3 12L21 12" stroke="#ED5D34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                                  </button>
-                                  {issueNavStep === 2 && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueBack:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Back</span>}
-                                </div>
+                                {issueNavStep === 2 && (
+                                  <div className="relative group/issueBack flex-shrink-0">
+                                    <button type="button"
+                                      onClick={() => {
+                                        setIssueNavStep(1)
+                                        const el = nearEndErrorRowRef.current
+                                        if (!el) return
+                                        const y = el.getBoundingClientRect().top + window.scrollY - 170
+                                        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                                      }}
+                                      className="size-[32px] flex items-center justify-center rounded-full cursor-pointer hover:ring-2 hover:ring-[#ED5D34] transition-all flex-shrink-0"
+                                    >
+                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10.5 4.5L3 12L10.5 19.5M3 12L21 12" stroke="#ED5D34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                    </button>
+                                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueBack:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Back</span>
+                                  </div>
+                                )}
                                 <div className="relative group/issueNext flex-shrink-0">
                                   <button type="button"
                                     onClick={issueNavStep === 1 ? () => {
