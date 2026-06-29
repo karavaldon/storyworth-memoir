@@ -1,3 +1,6 @@
+## v1.0.361 — 2026-06-29T20:43:04
+- Unengaged subscription progress set to 17% (2/12 months)
+
 ## v1.0.360 — 2026-06-29T20:42:29
 - One-year subscription text weight to Medium
 

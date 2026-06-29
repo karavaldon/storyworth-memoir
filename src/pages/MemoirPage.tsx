@@ -3364,7 +3364,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 highlightButton={milestoneGlow}
                 milestoneButtonRef={milestoneButtonRef}
                 badgeHopDelay={1}
-                subscriptionPercent={1}
+                subscriptionPercent={17}
               />
             </div>
             <div className={`absolute bottom-0 left-0 w-full h-[3px] transition-opacity duration-500 ${showTimeline2 ? 'opacity-0' : 'opacity-100'}`}>
