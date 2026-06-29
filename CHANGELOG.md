@@ -1,3 +1,6 @@
+## v1.0.365 — 2026-06-29T21:02:50
+- Issue nav: left/right arrow SVGs with replace-style hover ring and Back/Next tooltips
+
 ## v1.0.364 — 2026-06-29T21:00:14
 - Near-end: Chapter 7 error state, 2 issues badge, nav 1 of 2 / 2 of 2
 

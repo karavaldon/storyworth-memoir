@@ -3601,35 +3601,38 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                             <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">2 issues to resolve</span>
                           </button>
                           {issueNavStep !== null && (
-                            <div className="flex items-center gap-[6px]">
-                              {issueNavStep === 2 && (
+                            <div className="flex items-center gap-[4px]">
+                              <div className="relative group/issueBack flex-shrink-0">
                                 <button type="button"
-                                  onClick={() => {
+                                  onClick={issueNavStep === 2 ? () => {
                                     setIssueNavStep(1)
                                     const el = nearEndErrorRowRef.current
                                     if (!el) return
                                     const y = el.getBoundingClientRect().top + window.scrollY - 170
                                     window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                                  }}
-                                  className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] cursor-pointer hover:opacity-70 transition-opacity"
-                                >←</button>
-                              )}
+                                  } : undefined}
+                                  className={`size-[32px] flex items-center justify-center rounded-full transition-all flex-shrink-0 ${issueNavStep === 2 ? 'cursor-pointer hover:ring-2 hover:ring-[#07777e]' : 'opacity-25 cursor-default'}`}
+                                >
+                                  <img alt="" className="size-[20px]" src={imgArrowLeft} />
+                                </button>
+                                {issueNavStep === 2 && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueBack:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Back</span>}
+                              </div>
                               <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">{issueNavStep} of 2</span>
-                              {issueNavStep === 1 && (
+                              <div className="relative group/issueNext flex-shrink-0">
                                 <button type="button"
-                                  onClick={() => {
+                                  onClick={issueNavStep === 1 ? () => {
                                     setIssueNavStep(2)
                                     const el = nearEndError2RowRef.current
                                     if (!el) return
                                     const y = el.getBoundingClientRect().top + window.scrollY - 170
                                     window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                                  }}
-                                  className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] underline cursor-pointer hover:opacity-70 transition-opacity"
-                                >Next →</button>
-                              )}
-                              {issueNavStep === 2 && (
-                                <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d]">→</span>
-                              )}
+                                  } : undefined}
+                                  className={`size-[32px] flex items-center justify-center rounded-full transition-all flex-shrink-0 ${issueNavStep === 1 ? 'cursor-pointer hover:ring-2 hover:ring-[#07777e]' : 'opacity-25 cursor-default'}`}
+                                >
+                                  <img alt="" className="size-[20px]" src={imgArrowRight} />
+                                </button>
+                                {issueNavStep === 1 && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueNext:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Next</span>}
+                              </div>
                             </div>
                           )}
                         </div>
