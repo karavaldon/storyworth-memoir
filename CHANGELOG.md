@@ -1,3 +1,15 @@
+## v1.0.415 — 2026-06-30T17:21:52
+- Add 4px gap between subtitle lines in new user scenario
+
+## v1.0.414 — 2026-06-30T17:21:26
+- Break 'Watch' onto its own line in new user subtitle
+
+## v1.0.413 — 2026-06-30T17:20:56
+- Underline only 'getting started video' in new user subtitle
+
+## v1.0.412 — 2026-06-30T17:19:20
+- Update isA1New subtitle with video link
+
 ## v1.0.411 — 2026-06-30T17:16:03
 - Rename v2 scenario to 'Milestones v2'
 

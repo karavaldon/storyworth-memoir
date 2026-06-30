@@ -3424,7 +3424,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               <div className="flex flex-col gap-[24px]">
                 <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#042a21] m-0">
                   {isA1New ? (
-                    'Hi Brian! Raymond gifted you Storyworth—an easy way to capture your life story in a hardcover book.'
+                    <><span className="block">Hi Brian! Raymond gifted you Storyworth to capture your life story in a hardcover book.</span><span className="block mt-[4px]">Watch a 2 minute <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">getting started video.</button></span></>
                   ) : isA1FirstQuestion ? (
                     <span className="bg-[#D6ECF5] p-[1px]">Hey Brian! Your first question has arrived.{' '}
                     <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity" onClick={() => questionCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>Take a look.</button></span>
