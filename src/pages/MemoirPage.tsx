@@ -50,6 +50,18 @@ const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f
 const imgPhoto8 = "https://www.figma.com/api/mcp/asset/10ae6512-65f9-45fe-86eb-5962e1181b9a";
 const imgWavingHandA = "https://www.figma.com/api/mcp/asset/60e78d47-c6b4-4807-a91f-663aa168a5f1";
 
+import imgV2ExploreQ     from '../../assets/milestone v2/questions.svg'
+import imgV2AddStory     from '../../assets/milestone v2/first-story.svg'
+import imgV2AddReader    from '../../assets/milestone v2/reader.svg'
+import imgV2MagicQ       from '../../assets/milestone v2/magic-qs.svg'
+import imgV2RecordPhone  from '../../assets/milestone v2/record.svg'
+import imgV2Podcast      from '../../assets/milestone v2/podcast.svg'
+import imgV2Unearned     from '../../assets/milestone v2/unearned.svg'
+import imgMiniGreen  from '../../assets/milestone v2/mini-green.svg'
+import imgMiniBlue   from '../../assets/milestone v2/mini-blue.svg'
+import imgMiniTan    from '../../assets/milestone v2/mini-tan.svg'
+import imgMiniRed    from '../../assets/milestone v2/mini-red.svg'
+
 // ─── Sub-components ────────────────────────────────────────────────────────
 
 
@@ -60,6 +72,7 @@ const devScenarios: { label: string; id: string; implemented: boolean; hidden?: 
   { label: 'Option A.1 — First question',        id: 'a1-first-question',          implemented: true  },
   { label: 'Option A.1 — First q. answered',     id: 'a1-first-question-answered', implemented: true  },
   { label: 'Option A.1 — 5 answered',            id: 'a1-five-answered',           implemented: true  },
+  { label: 'Option A.1 — Milestones v2',          id: 'a1-five-answered-v2',         implemented: true  },
   { label: 'Option A.1 — Unengaged (2 mo.)',     id: 'a1-unengaged',               implemented: true  },
   { label: 'Option A.1 — Near end (avg.)',        id: 'a1-near-end',                implemented: true  },
   { label: 'Option A.1 — Mid sub',         id: 'a1-month4',         implemented: true, hidden: true },
@@ -968,7 +981,7 @@ function MilestoneModalRow({ label, earned, link, earnedLink, subtext, earnedSub
             {label}
           </p>
           {earned && (
-            <div className="bg-[#E9FAFC] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0 ml-auto">
+            <div className="bg-[#D6ECF5] flex items-center px-[5px] py-[2px] rounded-[2px] shrink-0 ml-auto">
               <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#068089]">Reached</p>
             </div>
           )}
@@ -1479,6 +1492,118 @@ function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPer
   )
 }
 
+type V2MilestoneItem = { label: string; earned?: boolean; link?: string; earnedLink?: string }
+
+const MILESTONE_LIST_V2: V2MilestoneItem[] = [
+  { label: 'Explore questions',       earned: true, link: 'Keep exploring →' },
+  { label: 'Add your first story',    earned: true, earnedLink: 'Keep telling stories →' },
+  { label: 'Add a reader',            earned: true },
+  { label: 'Explore magic questions', earned: true },
+  { label: 'Record over the phone',   earned: true },
+  { label: 'Add a photo' },
+  { label: 'Add 5 stories' },
+  { label: 'Add 10 stories' },
+  { label: 'Add 20 stories' },
+  { label: 'Start your podcast',      earned: true },
+  { label: 'Design your cover' },
+  { label: 'Preview your book' },
+  { label: 'Print your book' },
+]
+
+function V2IllustrationCard({ label, earned }: { label: string; earned?: boolean }) {
+  // Each SVG is self-contained (background + illustration). Base sizes scaled 20% from originals.
+  // Reader (44px) and Podcast (38px) are wider than the standard 36px card.
+  // Reader cheats its extra 8px into the left row padding via negative marginLeft.
+  // Podcast absorbs its extra 2px via negative marginRight, shrinking the gap to the text.
+  if (!earned) return <img alt="" src={imgV2Unearned} width={36} height={48} className="shrink-0 block" />
+  const cards: Record<string, { src: string; w: number; style?: React.CSSProperties }> = {
+    'Explore questions':       { src: imgV2ExploreQ,    w: 36 },
+    'Add your first story':    { src: imgV2AddStory,    w: 36 },
+    'Add a reader':            { src: imgV2AddReader,   w: 44, style: { marginLeft: '-8px' } },
+    'Explore magic questions': { src: imgV2MagicQ,      w: 36 },
+    'Record over the phone':   { src: imgV2RecordPhone, w: 36 },
+    'Start your podcast':      { src: imgV2Podcast,     w: 38, style: { marginRight: '-2px' } },
+  }
+  const card = cards[label]
+  if (!card) return <img alt="" src={imgV2Unearned} width={36} height={48} className="shrink-0 block" />
+  return <img alt="" src={card.src} width={card.w} height={48} className="shrink-0 block" style={card.style} />
+}
+
+function MilestoneModalRowV2({ label, earned, link, earnedLink }: V2MilestoneItem) {
+  const [hovered, setHovered] = useState(false)
+  const activeLink = earned && earnedLink ? earnedLink : link
+  return (
+    <div
+      className={`flex gap-[12px] items-center p-[8px] rounded-[4px] w-full shrink-0 ${activeLink ? 'cursor-pointer' : 'cursor-default'}`}
+      style={{ background: hovered ? '#f5f5f5' : 'transparent' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <V2IllustrationCard label={label} earned={earned} />
+      <div className="flex flex-col gap-[4px] justify-center min-w-0 flex-1">
+        <p className={`font-['GT_America:${earned ? 'Medium' : 'Regular'}'] text-[14px] leading-[18px] text-[#042a21] whitespace-nowrap`}>
+          {label}
+        </p>
+        {earned && (
+          <div className="relative h-[16px]">
+            <div className="absolute inset-0 flex items-center transition-opacity duration-[180ms]"
+              style={{ opacity: hovered && activeLink ? 0 : 1 }}>
+              <div className="bg-[#D6ECF5] inline-flex items-center px-[5px] py-[2px] rounded-[2px]">
+                <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#068089]">Reached</p>
+              </div>
+            </div>
+            {activeLink && (
+              <p className="absolute inset-0 flex items-center font-['GT_America:Regular'] text-[14px] leading-[16px] text-[#07777e] underline [text-decoration-skip-ink:none] [text-underline-position:from-font] whitespace-nowrap transition-opacity duration-[180ms]"
+                style={{ opacity: hovered ? 1 : 0 }}>
+                {activeLink}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function MilestonesModalV2({ onClose, subscriptionPercent = 5 }: { onClose: () => void; subscriptionPercent?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function handleMouseDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose()
+    }
+    document.addEventListener('mousedown', handleMouseDown)
+    return () => document.removeEventListener('mousedown', handleMouseDown)
+  }, [onClose])
+  return (
+    <div ref={ref}
+      className="absolute right-0 z-50 bg-white rounded-[12px] overflow-hidden"
+      style={{ top: 'calc(100% + 8px)', width: '600px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
+      <div className="p-[24px] flex flex-col overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+        <div>
+          <p className="font-['GT_America:Medium'] text-[14px] leading-[18px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
+          <div className="relative h-[8px] w-full rounded-full overflow-hidden bg-[#f7f7f7] border border-[#eaeaea] mb-[8px]">
+            <div className="absolute top-0 left-0 h-full rounded-full"
+              style={{ width: `${subscriptionPercent}%`, backgroundImage: MILESTONE_GRADIENT }} />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">11 months to go</span>
+            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
+          </div>
+        </div>
+        <div className="h-px bg-[#e8e8e8] my-[26px]" />
+        <div className="flex gap-[16px]">
+          <div className="flex flex-col gap-[6px] flex-1">
+            {MILESTONE_LIST_V2.slice(0, 7).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
+          </div>
+          <div className="flex flex-col gap-[6px] flex-1">
+            {MILESTONE_LIST_V2.slice(7).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
   const [w, setW] = useState(0)
   useEffect(() => {
@@ -1493,7 +1618,7 @@ function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
   )
 }
 
-function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0, subscriptionPercent = 1 }: {
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0, subscriptionPercent = 1, milestoneModalV2 = false }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
@@ -1510,6 +1635,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   milestoneButtonRef?: React.RefObject<HTMLButtonElement | null>
   badgeHopDelay?: number
   subscriptionPercent?: number
+  milestoneModalV2?: boolean
 }) {
   const [showMilestonesModal, setShowMilestonesModal] = useState(false)
   if (variant === 'explore') {
@@ -1535,7 +1661,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
           <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
             {showTimeline2 ? (
-              <span>⛰️ Your next milestone:{' '}
+              <span className="inline-flex items-center gap-[6px]">⛰️ Your next milestone:{' '}
                 <button type="button" className="font-['GT_America:Medium'] cursor-pointer hover:underline group-hover:underline hover:text-[#068089] group-hover:text-[#068089] transition-colors group/next">
                   <span className={nextMilestoneHoverText ? 'group-hover:hidden' : ''}>
                     {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 group-hover:opacity-100 transition-opacity"> →</span>
@@ -1552,45 +1678,55 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
           {showTimeline2 && (
             <div className="relative flex-shrink-0" style={{ animation: 'milestone-in 0.4s ease-out both' }}>
               <button type="button" ref={milestoneButtonRef}
-                className={`flex gap-[8px] items-center h-[40px] px-[14px] rounded-[20px] border-2 transition-colors cursor-pointer group/milestone ${highlightButton ? 'bg-[#E9FAFC] border-[#068089]' : 'hover:bg-white border-transparent hover:border-[#61706f]'}`}
+                className={`flex gap-[8px] items-center h-[40px] px-[14px] rounded-[20px] border-2 transition-colors cursor-pointer group/milestone ${highlightButton ? 'bg-[#D6ECF5] border-[#068089]' : 'hover:bg-white border-transparent hover:border-[#61706f]'}`}
                 onMouseDown={e => e.stopPropagation()}
                 onClick={e => { e.stopPropagation(); setShowMilestonesModal(v => !v) }}>
                 <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
                   You've reached
                 </span>
                 {(milestoneCount ?? 1) >= 5 ? (
-                  <div className="relative flex-shrink-0" style={{ width: '64px', height: '24px' }}>
-                    <div className="absolute left-0 top-0 size-[24px]"
-                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
-                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                  milestoneModalV2 ? (
+                    <div className="relative flex-shrink-0 mx-[-4px]" style={{ width: '141px', height: '55px' }}>
+                      {[imgMiniGreen, imgMiniBlue, imgMiniTan, imgMiniGreen, imgMiniRed, imgMiniBlue].map((src, i) => (
+                        <div key={i} className="absolute top-[2px]" style={{ left: `${i * 18}px`, animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay + i * 0.1}s both` }}>
+                          <img alt="" src={src} width={51} height={55} className="block" />
+                        </div>
+                      ))}
                     </div>
-                    <div className="absolute left-[10px] top-0 size-[24px]"
-                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay}s both` }}>
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
-                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                  ) : (
+                    <div className="relative flex-shrink-0" style={{ width: '64px', height: '24px' }}>
+                      <div className="absolute left-0 top-0 size-[24px]"
+                        style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge} />
+                        <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                          style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                      </div>
+                      <div className="absolute left-[10px] top-0 size-[24px]"
+                        style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay}s both` }}>
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge2} />
+                        <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                          style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                      </div>
+                      <div className="absolute left-[20px] top-0 size-[24px]"
+                        style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.7 + badgeHopDelay}s both` }}>
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge3} />
+                        <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                          style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                      </div>
+                      <div className="absolute left-[30px] top-0 size-[24px]"
+                        style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.85 + badgeHopDelay}s both` }}>
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge5} />
+                        <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                          style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                      </div>
+                      <div className="absolute left-[40px] top-0 size-[24px]"
+                        style={{ animation: `badge-hop-spin 0.6s ease-in-out ${1.0 + badgeHopDelay}s both` }}>
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge4} />
+                        <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
+                          style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
+                      </div>
                     </div>
-                    <div className="absolute left-[20px] top-0 size-[24px]"
-                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.7 + badgeHopDelay}s both` }}>
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge3} />
-                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                    </div>
-                    <div className="absolute left-[30px] top-0 size-[24px]"
-                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.85 + badgeHopDelay}s both` }}>
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge5} />
-                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                    </div>
-                    <div className="absolute left-[40px] top-0 size-[24px]"
-                      style={{ animation: `badge-hop-spin 0.6s ease-in-out ${1.0 + badgeHopDelay}s both` }}>
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMilestoneBadge4} />
-                      <span className="absolute text-[12px] leading-none text-center whitespace-nowrap"
-                        style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
-                    </div>
-                  </div>
+                  )
                 ) : (milestoneCount ?? 1) >= 3 ? (
                   <div className="relative flex-shrink-0" style={{ width: '44px', height: '24px' }}>
                     <div className="absolute left-0 top-0 size-[24px]"
@@ -1643,7 +1779,9 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 </div>
               </button>
               {showMilestonesModal && (
-                <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} />
+                milestoneModalV2
+                  ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} />
+                  : <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} />
               )}
             </div>
           )}
@@ -2171,7 +2309,7 @@ function OptionCMidSub() {
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#e5e5e5]'}`}>
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
@@ -2425,7 +2563,7 @@ function OptionCEnd() {
         {pageWeeks.map((week, i) => {
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#fafafa] hover:bg-[#f4f4f4]">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] hover:bg-[#e5e5e5]">
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
                   <div className="flex items-start gap-[8px]">
@@ -2777,7 +2915,7 @@ function WeekByWeekPanel({
           if (week.isUpcoming || isNewUser || (week.isThisWeek && isNewUser)) {
             return (
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
-                className={`${isNewUser && week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer hover:bg-[#f7f7f7]`}>
+                className={`${isNewUser && week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] hover:bg-[#e5e5e5]`}>
                 <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
                     Week {week.weekNum} · Asked by {week.asker ?? 'Storyworth'}
@@ -2900,6 +3038,7 @@ export default function MemoirPage() {
   const [pendingScrollWeek, setPendingScrollWeek] = useState<number | null>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
 
+  const questionCardRef = useRef<HTMLDivElement>(null)
   const question1Ref = useRef<HTMLDivElement>(null)
   const question5Ref = useRef<HTMLDivElement>(null)
   const question8Ref = useRef<HTMLDivElement>(null)
@@ -3025,9 +3164,10 @@ export default function MemoirPage() {
   const isA1FirstQuestion = scenario === 'a1-first-question'
   const isA1FirstQuestionAnswered = scenario === 'a1-first-question-answered'
   const isA1FiveAnswered = scenario === 'a1-five-answered'
+  const isA1FiveAnsweredV2 = scenario === 'a1-five-answered-v2'
   const isA1Unengaged = scenario === 'a1-unengaged'
   const isA1NearEnd = scenario === 'a1-near-end'
-  const isA1FirstQ = isA1FirstQuestion || isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd
+  const isA1FirstQ = isA1FirstQuestion || isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd
   const isA1Month4 = scenario === 'a1-month4'
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
@@ -3179,7 +3319,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
       { id: 50, q: "What's your advice for living a good life?",                            status: 'future'    },
       { id: 51, q: 'If you could go back, what would you do differently?',                   status: 'future'    },
     ]
-    if (isA1FiveAnswered) return [
+    if (isA1FiveAnswered || isA1FiveAnsweredV2) return [
       { id: 0, q: weekQuestions[0],                                          status: 'answered',  preview: '"I remember the summer days spent at my grandmother\'s house, where we would bake cookies and play in the garden..."' },
       { id: 1, q: 'What legacy do you want to leave behind?',               status: 'answered',  preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
       { id: 2, q: 'Who has been your biggest fan?',                         status: 'asked'     },
@@ -3282,31 +3422,33 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           <div className="max-w-[1189px] mx-auto px-[24px] py-[32px] flex gap-[40px] items-center">
             <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
               <div className="flex flex-col gap-[24px]">
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#042a21] m-0">
+                  {isA1New ? (
+                    'Hi Brian! Raymond gifted you Storyworth—an easy way to capture your life story in a hardcover book.'
+                  ) : isA1FirstQuestion ? (
+                    <span className="bg-[#D6ECF5] p-[1px]">Hey Brian! Your first question has arrived.{' '}
+                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity" onClick={() => questionCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>Take a look.</button></span>
+                  ) : isA1FirstQuestionAnswered ? (
+                    <>Nice work, Brian! You added a story this week. You can always{' '}
+                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">edit</button>
+                    {' '}or{' '}
+                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">add photos</button>.</>
+                  ) : (
+                    <span className="bg-[#D6ECF5] p-[1px]">Hey Brian! Raymond asked a question this week.{' '}
+                    <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity" onClick={() => questionCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>Take a look.</button></span>
+                  )}
+                </p>
                 <div className="relative group/title cursor-pointer w-fit">
                   <p className="font-['GT_Super_Display:Medium'] text-[48px] tracking-[-0.48px] m-0 leading-[1] text-[#042a21] group-hover/title:underline decoration-[#042a21]">My Life Stories</p>
                   <span className="absolute top-1/2 -translate-y-1/2 left-full ml-[16px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/title:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Edit book title</span>
                 </div>
-                <p className="font-['GT_Super_Display:Regular'] text-[22px] tracking-[-0.22px] text-[#042a21] m-0 leading-[normal]">by{' '}
+                <p className="font-['GT_Super_Display:Regular'] text-[22px] tracking-[-0.22px] text-[#042a21] m-0 leading-[normal] mt-[-4px]">by{' '}
                   <span className="relative group/author cursor-pointer">
                     <span className="group-hover/author:underline decoration-[#042a21]">Brian Little</span>
                     <span className="absolute top-1/2 -translate-y-1/2 left-full ml-[16px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/author:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Change author name</span>
                   </span>
                 </p>
               </div>
-              <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#042a21] m-0">
-                {isA1New ? (
-                  'Hi Brian! Raymond gifted you Storyworth—an easy way to capture your life story in a hardcover book.'
-                ) : isA1FirstQuestion ? (
-                  'Hey Brian! Your first question has arrived.'
-                ) : isA1FirstQuestionAnswered ? (
-                  <>Nice work, Brian! You added a story this week. You can always{' '}
-                  <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">edit</button>
-                  {' '}or{' '}
-                  <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">add photos</button>.</>
-                ) : (
-                  'Hey Brian! Raymond asked a question this week.'
-                )}
-              </p>
               <MenuButton />
             </div>
             <div className="hidden sm:flex flex-col items-center flex-shrink-0">
@@ -3319,7 +3461,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
       {!isOptionC && !isAEnd && <div style={isNewUser ? { opacity: heroScrolled ? 1 : 0, pointerEvents: heroScrolled ? 'auto' : 'none', transition: 'opacity 0.7s ease-out' } : undefined}>{/* Progress message */}
       {(isA1New || isA1FirstQ || isA1Month4 || isA1Unengaged) && (
         isA1New ? (
-          <div className={`w-full ${milestoneBarHighlight ? 'bg-[#E9FAFC]' : 'bg-white'} hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors`}
+          <div className={`w-full ${milestoneBarHighlight ? 'bg-[#D6ECF5]' : 'bg-white'} hover:bg-[#D6ECF5] sticky top-0 z-30 group transition-colors`}
             onClick={() => question1Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <MilestoneTimeline
@@ -3348,7 +3490,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             </div>
           </div>
         ) : isA1FirstQ ? (
-          <div className="w-full bg-white hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors">
+          <div className="w-full bg-white hover:bg-[#D6ECF5] sticky top-0 z-30 group transition-colors">
             <div className="max-w-[1189px] mx-auto px-[24px] py-[16px]">
               <MilestoneTimeline
                 variant="explore"
@@ -3356,16 +3498,17 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 animate={false}
                 showBar={false}
                 showBarFill={false}
-                milestoneCount={isA1FiveAnswered ? 7 : isA1NearEnd ? 8 : isA1FirstQuestionAnswered ? 2 : 1}
-                storyCount={isA1FiveAnswered ? 5 : isA1NearEnd ? 15 : undefined}
-                nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
+                milestoneCount={isA1FiveAnsweredV2 ? 6 : isA1FiveAnswered ? 7 : isA1NearEnd ? 8 : isA1FirstQuestionAnswered ? 2 : 1}
+                storyCount={(isA1FiveAnswered || isA1FiveAnsweredV2) ? 5 : isA1NearEnd ? 15 : undefined}
+                nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnsweredV2 ? 'Add a photo' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
                 nextMilestoneHoverText={isA1NearEnd ? "Add 20 stories: you've written 15/20" : isA1FiveAnswered ? "Add 10 stories: you've written 5/10" : undefined}
                 subscriptionPercent={isA1NearEnd ? 90 : isA1FiveAnswered ? 19 : isA1FirstQuestionAnswered ? 10 : 5}
+                milestoneModalV2={isA1FiveAnsweredV2}
               />
             </div>
           </div>
         ) : isA1Unengaged ? (
-          <div className={`w-full ${milestoneBarHighlight ? 'bg-[#E9FAFC]' : 'bg-white'} hover:bg-[#E9FAFC] sticky top-0 z-30 group transition-colors`}
+          <div className={`w-full ${milestoneBarHighlight ? 'bg-[#D6ECF5]' : 'bg-white'} hover:bg-[#D6ECF5] sticky top-0 z-30 group transition-colors`}
             onClick={() => question1Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <MilestoneTimeline variant="explore" animate={timelineAnimating} showTimeline2={showTimeline2} showBar={false} showBarFill={false}
@@ -3392,10 +3535,10 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           </div>
         )
       )}
-      {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1NearEnd || isA1Month4) && (
-        <div className="max-w-[1189px] mx-auto px-[24px] pt-[32px] pb-[60px]">
+      {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isA1Month4) && (
+        <div className="max-w-[1189px] mx-auto px-[24px] pt-[44px] pb-[60px]">
           <style>{`.question-card:hover { border: 2px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%) border-box; }`}</style>
-          <div className="question-card bg-white border-2 border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.18)' }}>
+          <div ref={questionCardRef} className="question-card bg-white border-2 border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.09)' }}>
             <div className="flex flex-col items-center gap-[24px] px-[24px] py-[32px]">
               <div className="flex flex-col gap-[14px] items-center">
                 <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0">
@@ -3403,7 +3546,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 </p>
                 <p className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] text-center m-0">
                   {isA1Unengaged ? 'How did you meet your closest friends?' :
-                   isA1FiveAnswered ? 'What are your proudest achievements?' :
+                   (isA1FiveAnswered || isA1FiveAnsweredV2) ? 'What are your proudest achievements?' :
                    isA1NearEnd ? 'What do you want people to remember about you?' :
                    weekQuestions[0]}
                 </p>
@@ -3507,9 +3650,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           { key: 'upcoming' as const, label: 'Upcoming questions' },
         ]
         const filterAvailable: Record<'answered' | 'unanswered' | 'drafts' | 'upcoming', boolean> = {
-          answered:   isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd || isA1Month4,
-          unanswered: isA1Unengaged || isA1FiveAnswered || isA1NearEnd,
-          drafts:     isA1FiveAnswered,
+          answered:   isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isA1Month4,
+          unanswered: isA1Unengaged || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd,
+          drafts:     isA1FiveAnswered || isA1FiveAnsweredV2,
           upcoming:   true,
         }
         const filterCount = filterOptions.filter(f => rowFilter[f.key]).length
@@ -3518,7 +3661,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           if (isA1Unengaged) return true // first row is always 'asked' or 'this-week', both have fill
           if (isA1FirstQuestion) return true // first row is always blue 'this-week'
           if (isA1New) return false // all future rows, no fill
-          if (isA1FiveAnswered) {
+          if (isA1FiveAnswered || isA1FiveAnsweredV2) {
             if (!_hasFilter) return false // first row is 'answered', no fill
             if (rowFilter.upcoming || rowFilter.unanswered) return true // 'this-week' or 'asked' rows have fill
             return false
@@ -3744,7 +3887,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               )
             })}
           </div>
-        ) : isA1FiveAnswered ? (() => {
+        ) : (isA1FiveAnswered || isA1FiveAnsweredV2) ? (() => {
           const rows = fiveAnsweredRows
           const AudioBadge = () => (
             <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
@@ -4222,8 +4365,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
         )}
         </>
       ) : activeTab === 'stories' ? (
-        <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1NearEnd) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
-          {(isA1NearEnd || isA1FiveAnswered) ? (() => {
+        <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
+          {(isA1NearEnd || isA1FiveAnswered || isA1FiveAnsweredV2) ? (() => {
             const answeredRows = (isA1NearEnd ? nearEndRows : fiveAnsweredRows).filter(r => r.status === 'answered')
             const heartCount = isA1NearEnd ? 3 : 1
             const AudioBadge = () => (
@@ -4364,7 +4507,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             </div>
           )}
         </div>
-      ) : activeTab === 'drafts' && isA1FiveAnswered ? (
+      ) : activeTab === 'drafts' && (isA1FiveAnswered || isA1FiveAnsweredV2) ? (
         <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
           {(() => {
             const draftRow = fiveAnsweredRows.find(r => r.status === 'draft')!

@@ -1,3 +1,123 @@
+## v1.0.411 — 2026-06-30T17:16:03
+- Rename v2 scenario to 'Milestones v2'
+
+## v1.0.410 — 2026-06-30T17:15:09
+- Increase V2 drawer divider margin to 26px
+
+## v1.0.409 — 2026-06-30T17:14:41
+- Increase V2 drawer divider margin to 20px
+
+## v1.0.408 — 2026-06-30T17:14:02
+- Change 5% to '11 months to go' in V2 drawer
+
+## v1.0.407 — 2026-06-30T17:12:48
+- Set V2 drawer divider margin to 12px
+
+## v1.0.406 — 2026-06-30T17:11:55
+- Set V2 drawer divider margin to 6px above and below
+
+## v1.0.405 — 2026-06-30T17:10:44
+- Add 12px to gap between milestone bar and question card
+
+## v1.0.404 — 2026-06-30T17:08:45
+- Add 12px bottom padding to milestone bar when question card is present
+
+## v1.0.403 — 2026-06-30T17:06:49
+- Soften question card shadow opacity
+
+## v1.0.402 — 2026-06-30T17:05:41
+- Reduce gap between title and byline by 4px
+
+## v1.0.401 — 2026-06-30T17:05:02
+- Move subtitle above 'My Life Stories'
+
+## v1.0.400 — 2026-06-30T17:04:18
+- Move subtitle inline to the right of 'by Brian Little' with 24px gap
+
+## v1.0.399 — 2026-06-30T17:00:32
+- Move MenuButton inline left of subtitle with 24px gap
+
+## v1.0.398 — 2026-06-30T16:58:53
+- Remove gradient-mini SVG, revert to emoji
+
+## v1.0.397 — 2026-06-30T16:53:56
+- Scale V2 mini bar SVGs 15% larger (51x55px)
+
+## v1.0.396 — 2026-06-30T16:52:48
+- Reduce gap between gradient-mini and next milestone text by 6px
+
+## v1.0.395 — 2026-06-30T16:52:11
+- Use gradient-mini SVG for next milestone icon
+
+## v1.0.394 — 2026-06-30T16:51:00
+- Reduce horizontal padding around V2 mini bar by 4px each side
+
+## v1.0.393 — 2026-06-30T16:49:10
+- Shift V2 mini bar SVGs 2px lower
+
+## v1.0.392 — 2026-06-30T16:48:22
+- Scale V2 mini bar SVGs to 2x (44x48px)
+
+## v1.0.391 — 2026-06-30T16:47:20
+- Replace V2 mini bar rectangles and next-milestone emoji with mini SVGs
+
+## v1.0.390 — 2026-06-30T16:35:30
+- Subtitle highlight: 0 corner radius, 1px padding
+
+## v1.0.389 — 2026-06-30T16:35:13
+- Change subtitle highlight to #D6ECF5
+
+## v1.0.388 — 2026-06-30T16:34:46
+- Add teal background highlight to subtitle on question-arrival scenarios
+
+## v1.0.387 — 2026-06-30T16:32:36
+- Darken unanswered row fill to #ebebeb
+
+## v1.0.386 — 2026-06-30T16:31:02
+- Darken unanswered question row fill to #f5f5f5
+
+## v1.0.385 — 2026-06-30T16:28:44
+- Change 'Take a look!' to 'Take a look.' in subtitle
+
+## v1.0.384 — 2026-06-30T16:28:25
+- Revert MenuButton position back to standalone below subtitle
+
+## v1.0.383 — 2026-06-30T16:26:30
+- Move MenuButton inline with 'by Brian Little' at 24px gap
+
+## v1.0.382 — 2026-06-30T16:25:35
+- Add 'Take a look!' scroll link to subtitle on question-change scenarios
+
+## v1.0.381 — 2026-06-29T21:51:51
+- Replace V2 mini milestone bar badges with colored rectangles
+
+## v1.0.380 — 2026-06-29T21:48:34
+- Swap milestone bar mini badges with V2 illustration cards in a1-five-answered-v2 scenario
+
+## v1.0.379 — 2026-06-29T21:43:18
+- Remove divider between V2 milestone drawer columns
+
+## v1.0.378 — 2026-06-29T21:42:47
+- V2 milestone drawer: align reader/podcast illos — reader cheats 8px into left margin, podcast reduces gap by 2px
+
+## v1.0.377 — 2026-06-29T21:41:28
+- V2 milestone drawer: Reached tag stacked below title, cross-fades to hover link text on hover
+
+## v1.0.376 — 2026-06-29T21:39:36
+- Fix V2 milestone drawer: Reached tags moved outside overflow-hidden container, modal widened to 680px
+
+## v1.0.375 — 2026-06-29T21:34:41
+- V2 milestone drawer: 2-column layout (7 left, 6 right), wider modal at 560px
+
+## v1.0.374 — 2026-06-29T21:32:59
+- V2 milestone drawer uses local SVG assets instead of Figma URLs; illustrations scaled 20% (36-44x48px)
+
+## v1.0.373 — 2026-06-29T21:28:50
+- V2 milestone drawer illustrations scaled up 20% (36x48px cards)
+
+## v1.0.372 — 2026-06-29T21:23:34
+- Add a1-five-answered-v2 scenario: clone of 5q page with new milestone drawer illustrations from Figma node 126-1044
+
 ## v1.0.371 — 2026-06-29T21:10:46
 - Menu hover fills 0 border radius
 
