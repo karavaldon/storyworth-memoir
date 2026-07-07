@@ -1,3 +1,18 @@
+## v1.0.465 — 2026-07-07T20:10:25
+- Story progress tiles: circles with per-milestone colors, earned/unearned states, updated below copy
+
+## v1.0.464 — 2026-07-07T19:39:14
+- Milestones v2 dropdown: '11 months to go' label instead of 'You've reached'
+
+## v1.0.463 — 2026-07-07T19:35:30
+- Milestones v2 drawer: tile story progress, Explore your toolbox heading, remove Add your first story
+
+## v1.0.462 — 2026-07-07T19:22:22
+- Milestones v2: 'Print your book' as last bar stop, removed from milestone list
+
+## v1.0.461 — 2026-07-07T19:21:02
+- Milestones v2 drawer: remove story-count rows, add stories progress bar with dots at 1/5/10/20
+
 ## v1.0.460 — 2026-07-07T18:21:33
 - New story button: always border-2 transparent to prevent layout shift on hover
 

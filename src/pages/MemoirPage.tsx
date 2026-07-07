@@ -1658,18 +1658,13 @@ type V2MilestoneItem = { label: string; earned?: boolean; link?: string; earnedL
 
 const MILESTONE_LIST_V2: V2MilestoneItem[] = [
   { label: 'Explore questions',       earned: true, link: 'Keep exploring →' },
-  { label: 'Add your first story',    earned: true, earnedLink: 'Keep telling stories →' },
   { label: 'Add a reader',            earned: true },
   { label: 'Explore magic questions', earned: true },
   { label: 'Record over the phone',   earned: true },
   { label: 'Add a photo' },
-  { label: 'Add 5 stories' },
-  { label: 'Add 10 stories' },
-  { label: 'Add 20 stories' },
   { label: 'Start your podcast',      earned: true },
   { label: 'Design your cover' },
   { label: 'Preview your book' },
-  { label: 'Print your book' },
 ]
 
 function V2IllustrationCard({ label, earned }: { label: string; earned?: boolean }) {
@@ -1727,7 +1722,7 @@ function MilestoneModalRowV2({ label, earned, link, earnedLink }: V2MilestoneIte
   )
 }
 
-function MilestonesModalV2({ onClose, subscriptionPercent = 5 }: { onClose: () => void; subscriptionPercent?: number }) {
+function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0 }: { onClose: () => void; subscriptionPercent?: number; storyCount?: number }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
@@ -1752,13 +1747,45 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5 }: { onClose: () =
             <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
           </div>
         </div>
-        <div className="w-full border-t border-[#e8e8e8] my-[26px]" />
+        <div className="w-full border-t border-[#e8e8e8] my-[24px]" />
+        {/* Story progress */}
+        <div className="flex flex-col gap-[12px]">
+          <p className="font-['GT_America:Medium'] text-[14px] leading-normal text-[#042a21] m-0">Story progress</p>
+          <div className="flex gap-[16px] items-center">
+            {([1, 5, 10, 20, 52] as const).map(n => {
+              const earned = storyCount >= n
+              const earnedBg: Record<number, string> = { 1: '#4CAED1', 5: '#E8956C', 10: '#A080C8', 20: '#3E8070', 52: '#E8B03A' }
+              return (
+                <div key={n} className={`size-[33px] rounded-full flex items-center justify-center flex-shrink-0 ${earned ? '' : 'border border-dashed border-[#cfcfcf]'}`} style={earned ? { backgroundColor: earnedBg[n] } : undefined}>
+                  <span className={`font-['GT_America:Medium'] text-[14px] leading-normal text-center ${earned ? 'text-white' : 'text-[#cfcfcf]'}`}>{n}</span>
+                </div>
+              )
+            })}
+          </div>
+          {storyCount === 0 ? (
+            <div className="flex items-center justify-between">
+              <p className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#042a21] m-0">
+                No stories yet.{' '}
+                <button type="button" className="font-['GT_America:Medium'] text-[#07777e] underline cursor-pointer hover:opacity-70 transition-opacity">Add your first story →</button>
+              </p>
+              <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#606060]">25 pages needed to print your book</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between">
+              <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#042a21]">{storyCount} {storyCount === 1 ? 'story' : 'stories'} captured · 🔥 2 week streak</span>
+              <button type="button" className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#0f89a8] underline cursor-pointer hover:opacity-70 transition-opacity">Preview your book →</button>
+            </div>
+          )}
+        </div>
+        <div className="w-full border-t border-[#e8e8e8] my-[24px]" />
+        {/* Toolbox milestones */}
+        <p className="font-['GT_America:Medium'] text-[14px] leading-normal text-[#042a21] m-0 mb-[12px]">Explore your toolbox</p>
         <div className="flex gap-[16px]">
           <div className="flex flex-col gap-[6px] flex-1">
-            {MILESTONE_LIST_V2.slice(0, 7).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
+            {MILESTONE_LIST_V2.slice(0, 4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
           </div>
           <div className="flex flex-col gap-[6px] flex-1">
-            {MILESTONE_LIST_V2.slice(7).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
+            {MILESTONE_LIST_V2.slice(4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
           </div>
         </div>
       </div>
@@ -1857,7 +1884,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                   </>
                 ) : (<>
                 <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                  You've reached
+                  {milestoneModalV2 ? '11 months to go' : 'You\'ve reached'}
                 </span>
                 {(milestoneCount ?? 1) >= 5 ? (
                   milestoneModalV2 ? (
@@ -1954,7 +1981,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
               </button>
               {showMilestonesModal && (
                 milestoneModalV2
-                  ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} />
+                  ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} storyCount={storyCount} />
                   : <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} subscriptionEnded={subscriptionEnded} renewCopy={renewCopy} />
               )}
             </div>
