@@ -1,3 +1,6 @@
+## v1.0.466 — 2026-07-07T20:20:11
+- Dropdown label v2: story badge + 2 milestone minis + stories·milestones count
+
 ## v1.0.465 — 2026-07-07T20:10:25
 - Story progress tiles: circles with per-milestone colors, earned/unearned states, updated below copy
 

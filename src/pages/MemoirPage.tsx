@@ -59,10 +59,6 @@ import imgV2MagicQ       from '../../assets/milestone v2/magic-qs.svg'
 import imgV2RecordPhone  from '../../assets/milestone v2/record.svg'
 import imgV2Podcast      from '../../assets/milestone v2/podcast.svg'
 import imgV2Unearned     from '../../assets/milestone v2/unearned.svg'
-import imgMiniGreen  from '../../assets/milestone v2/mini-green.svg'
-import imgMiniBlue   from '../../assets/milestone v2/mini-blue.svg'
-import imgMiniTan    from '../../assets/milestone v2/mini-tan.svg'
-import imgMiniRed    from '../../assets/milestone v2/mini-red.svg'
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
@@ -1886,16 +1882,33 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
                   {milestoneModalV2 ? '11 months to go' : 'You\'ve reached'}
                 </span>
-                {(milestoneCount ?? 1) >= 5 ? (
-                  milestoneModalV2 ? (
-                    <div className="relative flex-shrink-0 mx-[-4px]" style={{ width: '141px', height: '55px' }}>
-                      {[imgMiniGreen, imgMiniBlue, imgMiniTan, imgMiniGreen, imgMiniRed, imgMiniBlue].map((src, i) => (
-                        <div key={i} className="absolute top-[2px]" style={{ left: `${i * 18}px`, animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay + i * 0.1}s both` }}>
-                          <img alt="" src={src} width={51} height={55} className="block" />
+                {milestoneModalV2 ? (
+                  <div className="flex items-center flex-shrink-0">
+                    {(storyCount ?? 0) > 0 && (() => {
+                      const earnedBg: Record<number, string> = { 1: '#4CAED1', 5: '#E8956C', 10: '#A080C8', 20: '#3E8070', 52: '#E8B03A' }
+                      const highest = [1, 5, 10, 20, 52].filter(n => (storyCount ?? 0) >= n).pop()!
+                      return (
+                        <div className="size-[26px] rounded-full flex items-center justify-center flex-shrink-0 border-2 border-white relative z-[3]" style={{ backgroundColor: earnedBg[highest], marginRight: '-6px' }}>
+                          <span className="font-['GT_America:Medium'] text-[13px] leading-none text-white">{highest}</span>
                         </div>
-                      ))}
+                      )
+                    })()}
+                    <div className="flex items-center justify-center relative z-[2]" style={{ width: '25px', height: '29px', marginRight: '-6px' }}>
+                      <div style={{ transform: 'rotate(-7.53deg)' }}>
+                        <div className="border-2 border-white flex items-center justify-center rounded-[2px] bg-[#189271]" style={{ width: '22px', height: '26px', boxShadow: '0px 2px 6px rgba(0,0,0,0.06)' }}>
+                          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M8 8V1.5M8 1.5C6.5 0.5 3.5 0.5 1 1.5V8C3.5 7 6.5 7 8 8M8 1.5C9.5 0.5 12.5 0.5 15 1.5V8C12.5 7 9.5 7 8 8" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </div>
+                      </div>
                     </div>
-                  ) : (
+                    <div className="flex items-center justify-center relative z-[1]" style={{ width: '25px', height: '29px' }}>
+                      <div style={{ transform: 'rotate(7.78deg)' }}>
+                        <div className="border-2 border-white flex items-center justify-center rounded-[2px] bg-[#e3a369]" style={{ width: '22px', height: '26px', boxShadow: '0px 2px 6px rgba(0,0,0,0.06)' }}>
+                          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M8 8V1.5M8 1.5C6.5 0.5 3.5 0.5 1 1.5V8C3.5 7 6.5 7 8 8M8 1.5C9.5 0.5 12.5 0.5 15 1.5V8C12.5 7 9.5 7 8 8" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (milestoneCount ?? 1) >= 5 ? (
                     <div className="relative flex-shrink-0" style={{ width: '64px', height: '24px' }}>
                       <div className="absolute left-0 top-0 size-[24px]"
                         style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
@@ -1928,7 +1941,6 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                           style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                       </div>
                     </div>
-                  )
                 ) : (milestoneCount ?? 1) >= 3 ? (
                   <div className="relative flex-shrink-0" style={{ width: '44px', height: '24px' }}>
                     <div className="absolute left-0 top-0 size-[24px]"
@@ -1974,7 +1986,10 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                   </div>
                 )}
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                  {milestoneCount ?? 1} {(milestoneCount ?? 1) === 1 ? 'milestone' : 'milestones'}
+                  {milestoneModalV2
+                    ? `${storyCount ?? 0} ${(storyCount ?? 0) === 1 ? 'story' : 'stories'} · ${milestoneCount ?? 1} milestones`
+                    : `${milestoneCount ?? 1} ${(milestoneCount ?? 1) === 1 ? 'milestone' : 'milestones'}`
+                  }
                 </span>
                 <img alt="" className="size-[18px] block flex-shrink-0" src={imgChevronDown} />
                 </>)}
