@@ -1,3 +1,139 @@
+## v1.0.460 — 2026-07-07T18:21:33
+- New story button: always border-2 transparent to prevent layout shift on hover
+
+## v1.0.459 — 2026-07-07T18:21:08
+- New user: 16px gap between menu and finish setup buttons
+
+## v1.0.458 — 2026-07-07T18:20:47
+- Finish setup: fix hover border using hover: not group-hover: on the button itself
+
+## v1.0.457 — 2026-07-07T18:19:45
+- Finish setup: inline SVG for currentColor, matching label color + dark border on hover
+
+## v1.0.456 — 2026-07-07T18:17:42
+- Finish setup: add setup icon with brightness-0 hover matching reorder style
+
+## v1.0.455 — 2026-07-07T18:16:10
+- Finish setup: style as gray pill button matching reorder
+
+## v1.0.454 — 2026-07-07T18:15:46
+- Match 'New story' and 'Finish setup' label size to 14px/1.4px like menu and filter
+
+## v1.0.453 — 2026-07-07T18:14:20
+- New user: add 'Finish setup' teal button 24px right of menu button
+
+## v1.0.452 — 2026-07-07T18:13:00
+- New user: remove 'Watch a 2 min' video copy from header
+
+## v1.0.451 — 2026-07-07T18:12:21
+- Sub-ended low: restore 'That's okay!' in header copy
+
+## v1.0.450 — 2026-07-07T18:12:02
+- Sub-ended low: update header copy to 'You have 3 more months...'
+
+## v1.0.449 — 2026-07-07T18:11:19
+- Sub-ended low: add 'That's okay!' to header eyebrow
+
+## v1.0.448 — 2026-07-07T18:10:57
+- Sub-ended low: 'Asked by Raymond' (no today), working shuffle through weekQuestions
+
+## v1.0.447 — 2026-07-07T18:08:50
+- Sub-ended header highlight: use amber-200 (#FDE68A) to match milestone bar hover
+
+## v1.0.446 — 2026-07-07T18:06:57
+- Sub-ended: yellow highlight on 'Your subscription has ended', fix modal title copy
+
+## v1.0.445 — 2026-07-07T18:05:13
+- Add sub-ended low content scenario with question card, shuffle link, and low-pages print modal
+
+## v1.0.444 — 2026-07-07T17:49:55
+- Sub-ended header: underline 'print your book' as a link
+
+## v1.0.443 — 2026-07-07T17:48:17
+- Heads up modal: solid teal Renew button, dark label on hover for secondary
+
+## v1.0.442 — 2026-07-07T17:47:28
+- Drawer: coral progress bar fill, remove extra bottom padding, 16px renew copy
+
+## v1.0.441 — 2026-07-07T17:45:20
+- Sub-ended: update end-of-list CTA to print book messaging
+
+## v1.0.440 — 2026-07-07T17:44:34
+- Add Print my book button and subscription-ended new story modal to sub-ended scenario
+
+## v1.0.439 — 2026-07-07T17:41:31
+- Update print banner to new Figma design: centered layout with two book images and features list
+
+## v1.0.438 — 2026-07-07T17:30:17
+- Hide milestone list and bottom fade from drawer when subscription ended
+
+## v1.0.437 — 2026-07-07T17:27:01
+- Redesign print card: single book cover left, content right, matches updated Figma
+
+## v1.0.436 — 2026-07-07T17:04:36
+- Print card uses same question-card hover style as question card
+
+## v1.0.435 — 2026-07-07T17:03:49
+- Scale print card book images to 60% of Figma dimensions
+
+## v1.0.434 — 2026-07-07T17:02:14
+- Add print card in sub-ended page where question card goes; full-width renew button in drawer
+
+## v1.0.433 — 2026-07-07T16:55:06
+- Add renew copy and CTA button in subscription-ended milestone drawer
+
+## v1.0.432 — 2026-07-07T16:52:54
+- Remove yellow highlight from sub-ended eyebrow copy
+
+## v1.0.431 — 2026-07-07T16:52:10
+- Sub-ended milestone bar always yellow (#FEF3C7), darker on hover (#FDE68A)
+
+## v1.0.430 — 2026-07-07T16:41:30
+- Add subscription ended scenario with yellow subtitle, full gray bar, ended milestone drawer, and 50% opacity milestones
+
+## v1.0.429 — 2026-07-01T16:37:38
+- Always show milestone title as teal and underlined
+
+## v1.0.428 — 2026-07-01T16:36:55
+- Stack next milestone label and title when they wrap at narrow widths
+
+## v1.0.427 — 2026-07-01T16:34:07
+- Always show chevron on milestones dropdown button
+
+## v1.0.426 — 2026-07-01T16:32:59
+- Wrap issues badge to second row in sticky bar below 1024px viewport
+
+## v1.0.425 — 2026-07-01T16:30:04
+- Set min-width: 768px on body to stop layout compression below tablet width
+
+## v1.0.424 — 2026-07-01T16:27:46
+- Fix issue nav scroll regression — use useEffect to scroll after state settles
+- Make X of 2 counter gray instead of red
+
+## v1.0.423 — 2026-07-01T15:00:44
+- Equalize reorder modal toolbar padding top and bottom
+
+## v1.0.422 — 2026-07-01T15:00:14
+- Fix Preview my book icon color with grayscale filter
+
+## v1.0.421 — 2026-07-01T14:58:35
+- Match Preview my book to sticky tab bar reorder button style
+
+## v1.0.420 — 2026-07-01T14:56:17
+- Match Preview my book button style to reorder button
+
+## v1.0.419 — 2026-07-01T14:55:17
+- Move Select left, add Preview my book button to reorder modal toolbar
+
+## v1.0.418 — 2026-07-01T14:52:25
+- Remove All/Stories tab from reorder modal; show chapter input on all answered rows
+
+## v1.0.417 — 2026-06-30T20:49:27
+- Fix V2 drawer divider using border-t instead of h-px bg
+
+## v1.0.416 — 2026-06-30T20:48:23
+- Fix V2 drawer divider visibility with w-full
+
 ## v1.0.415 — 2026-06-30T17:21:52
 - Add 4px gap between subtitle lines in new user scenario
 

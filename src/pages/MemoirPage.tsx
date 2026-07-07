@@ -44,6 +44,8 @@ const imgPhoto3 = "https://www.figma.com/api/mcp/asset/60fe0288-8fbd-455e-9116-3
 const imgPhoto4 = "https://www.figma.com/api/mcp/asset/3aa2ff32-cc23-46f6-9144-470537a0c127";
 const imgPhoto5 = "https://www.figma.com/api/mcp/asset/c7081c74-1d13-40ec-b82b-c0a443280742";
 import imgBookIlloA from '../../assets/book-cover.png'
+import imgPrintBookCover from '../../assets/print-book-cover-new.png'
+import imgPrintBookOpen from '../../assets/print-book-open-new.jpg'
 const imgBookIlloB = imgBookIlloA
 const imgPhoto6 = "https://www.figma.com/api/mcp/asset/b4d5ff05-4330-4455-8b33-929b1064931c";
 const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f0ae31452d32";
@@ -75,6 +77,8 @@ const devScenarios: { label: string; id: string; implemented: boolean; hidden?: 
   { label: 'Option A.1 — Milestones v2',          id: 'a1-five-answered-v2',         implemented: true  },
   { label: 'Option A.1 — Unengaged (2 mo.)',     id: 'a1-unengaged',               implemented: true  },
   { label: 'Option A.1 — Near end (avg.)',        id: 'a1-near-end',                implemented: true  },
+  { label: 'Option A.1 — Sub. ended',            id: 'a1-sub-ended',               implemented: true  },
+  { label: 'Option A.1 — Sub. ended, low content', id: 'a1-sub-ended-low',         implemented: true  },
   { label: 'Option A.1 — Mid sub',         id: 'a1-month4',         implemented: true, hidden: true },
   { label: 'Option A — New user',   id: 'a-new',     implemented: true,  hidden: true },
   { label: 'Option A — Mid sub',    id: 'a-month4',  implemented: true,  hidden: true },
@@ -1008,6 +1012,68 @@ const MENU_ITEMS = [
   { icon: imgReadersIcon,         label: 'Manage readers'    },
 ]
 
+function SubEndedLowPrintModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/40" onMouseDown={onClose}>
+      <div
+        className="bg-white rounded-[16px] p-[32px] flex flex-col gap-[24px] w-full max-w-[480px] mx-[24px]"
+        style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}
+        onMouseDown={e => e.stopPropagation()}
+      >
+        <div className="flex flex-col gap-[12px]">
+          <p className="font-['GT_Super_Display:Regular'] text-[24px] leading-[32px] tracking-[-0.24px] text-[#042a21] m-0">You only need 12 more pages to print your book!</p>
+          <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0">The minimum book length is 25 pages. Add a few more stories or photos to reach the minimum so we can get your book on your shelf!</p>
+        </div>
+        <div className="flex flex-col gap-[12px]">
+          <button type="button"
+            className="w-full h-[48px] rounded-[24px] flex items-center justify-center cursor-pointer bg-[#068089] hover:opacity-80 transition-opacity"
+            onClick={onClose}
+          >
+            <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-white whitespace-nowrap">Answer questions</span>
+          </button>
+          <button type="button"
+            className="group w-full h-[48px] rounded-[24px] flex items-center justify-center cursor-pointer border-2 border-[#d1d1d1] hover:border-[#042a21] transition-colors"
+            onClick={onClose}
+          >
+            <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] group-hover:text-[#042a21] whitespace-nowrap transition-colors duration-150">Preview my book</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function SubEndedNewStoryModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/40" onMouseDown={onClose}>
+      <div
+        className="bg-white rounded-[16px] p-[32px] flex flex-col gap-[24px] w-full max-w-[480px] mx-[24px]"
+        style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}
+        onMouseDown={e => e.stopPropagation()}
+      >
+        <div className="flex flex-col gap-[12px]">
+          <p className="font-['GT_Super_Display:Regular'] text-[24px] leading-[32px] tracking-[-0.24px] text-[#042a21] m-0">Heads up, your subscription has ended.</p>
+          <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0">We're offering 3 more months to edit your stories and print your book. Please renew your subscription if you'd like to continue to receive weekly questions.</p>
+        </div>
+        <div className="flex flex-col gap-[12px]">
+          <button type="button"
+            className="w-full h-[48px] rounded-[24px] flex items-center justify-center cursor-pointer bg-[#068089] hover:opacity-80 transition-opacity"
+            onClick={onClose}
+          >
+            <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-white whitespace-nowrap">Renew</span>
+          </button>
+          <button type="button"
+            className="group w-full h-[48px] rounded-[24px] flex items-center justify-center cursor-pointer border-2 border-[#d1d1d1] hover:border-[#042a21] transition-colors"
+            onClick={onClose}
+          >
+            <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] group-hover:text-[#042a21] whitespace-nowrap transition-colors duration-150">Add a new story</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function MenuModal({ onClose }: { onClose: () => void }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -1050,20 +1116,21 @@ function getQuestionSendDate(questionIndex: number): string {
   return `Monday, ${months[d.getMonth()]} ${day}${suffix}`
 }
 
-type ReorderItem = { id: number; q: string; status: 'answered' | 'asked' | 'this-week' | 'future'; preview?: string }
+type ReorderItem = { id: number; q: string; status: 'answered' | 'draft' | 'asked' | 'this-week' | 'future'; preview?: string }
 
-function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialItems: ReorderItem[] }) {
+function ReorderModal({ onClose, initialItems, initialFilter }: { onClose: () => void; initialItems: ReorderItem[]; initialFilter?: { answered: boolean; unanswered: boolean; upcoming: boolean; drafts: boolean } }) {
   const [items, setItems] = useState(initialItems)
   const [dragIdx, setDragIdx] = useState<number | null>(null)
   const [dropTargetIdx, setDropTargetIdx] = useState<number | null>(null)
   const [pendingItems, setPendingItems] = useState<ReorderItem[] | null>(null)
-  const [filter, setFilter] = useState<'all' | 'stories'>('all')
   const [selectMode, setSelectMode] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editingValue, setEditingValue] = useState('')
   const [justMovedId, setJustMovedId] = useState<number | null>(null)
   const [pendingMovedId, setPendingMovedId] = useState<number | null>(null)
+  const [filterReorder, setFilterReorder] = useState({ answered: initialFilter?.answered ?? false, draft: initialFilter?.drafts ?? false, unanswered: initialFilter?.unanswered ?? false, upcoming: initialFilter?.upcoming ?? false })
+  const [showReorderFilterMenu, setShowReorderFilterMenu] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<Record<number, HTMLDivElement | null>>({})
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -1173,11 +1240,21 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
 
   const displayItems = pendingItems ?? items
 
-  const filteredItems = filter === 'stories'
-    ? displayItems.filter(it => it.status === 'answered')
-    : displayItems
+  const moveItem = (idx: number, dir: -1 | 1) => {
+    const newIdx = idx + dir
+    if (newIdx < 0 || newIdx >= items.length) return
+    const current = items[idx]
+    const adjacent = items[newIdx]
+    if ((current.status === 'answered' || current.status === 'asked' || current.status === 'draft') &&
+        (adjacent.status === 'future' || adjacent.status === 'this-week')) return
+    const next = [...items]
+    next[idx] = adjacent
+    next[newIdx] = current
+    setItems(next)
+    setJustMovedId(current.id)
+  }
 
-  const chapterNumbers: Record<number, number> = {}
+const chapterNumbers: Record<number, number> = {}
   let chapterCount = 0
   for (const it of displayItems) {
     if (it.status === 'answered') { chapterCount++; chapterNumbers[it.id] = chapterCount }
@@ -1187,7 +1264,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div ref={ref} className="bg-white rounded-[16px] shadow-[0px_16px_48px_rgba(0,0,0,0.18)] max-w-[760px] w-full mx-4 flex flex-col" style={{ maxHeight: 'calc(100vh - 80px)' }}>
         {/* Header */}
-        <div className="px-[40px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
+        <div className="px-[32px] pt-[36px] pb-[20px] flex items-start justify-between flex-shrink-0">
           <div>
             <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
             <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Drag and drop to reorder questions and stories. Only answered questions will be printed in your book.</p>
@@ -1200,26 +1277,72 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
         {/* Toolbar */}
         <div className="flex-shrink-0 border-t border-[#ebebeb] h-[68px]">
         {dragIdx !== null ? (
-          <div className="flex items-center justify-center h-full px-[24px]">
+          <div className="flex items-center h-full px-[32px]">
             <span className="font-['GT_America:Regular'] text-[14px] text-[#8a9a97]">Drag and drop the row to reorder</span>
           </div>
         ) : (
-        <div className="flex items-center justify-between px-[24px] pt-[10px] pb-[14px]">
-          <div className="bg-[#f3f3f3] flex items-center p-[4px] rounded-[25px]">
-            {(['all', 'stories'] as const).map(f => (
-              filter === f
-                ? <div key={f} className="bg-white drop-shadow-[0px_4px_6px_rgba(0,0,0,0.06)] px-[16px] py-[4px] rounded-[22px] cursor-pointer" onClick={() => setFilter(f)}>
-                    <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#12473a] whitespace-nowrap">{f === 'all' ? 'All' : 'Stories'}</span>
-                  </div>
-                : <button key={f} type="button" onClick={() => setFilter(f)} className="px-[16px] py-[4px] cursor-pointer hover:opacity-70 transition-opacity">
-                    <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#61706f] whitespace-nowrap">{f === 'all' ? 'All' : 'Stories'}</span>
-                  </button>
-            ))}
+        <div className="flex items-center justify-between px-[32px] h-full">
+          <div className="flex items-center gap-[12px]">
+            {/* Filter button */}
+            <div className="relative">
+              {showReorderFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowReorderFilterMenu(false)} />}
+              {(() => {
+                const reorderFilterOptions = [
+                  { key: 'answered' as const, label: 'Answered' },
+                  { key: 'draft' as const, label: 'Drafts' },
+                  { key: 'unanswered' as const, label: 'Unanswered' },
+                  { key: 'upcoming' as const, label: 'Upcoming' },
+                ]
+                const filterAvail = {
+                  answered:  items.some(it => it.status === 'answered'),
+                  draft:     items.some(it => it.status === 'draft'),
+                  unanswered: items.some(it => it.status === 'asked'),
+                  upcoming:  items.some(it => it.status === 'future' || it.status === 'this-week'),
+                }
+                const filterCount = reorderFilterOptions.filter(f => filterReorder[f.key]).length
+                return (
+                  <>
+                    <button type="button"
+                      className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[12px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors relative z-50"
+                      onClick={() => setShowReorderFilterMenu(v => !v)}
+                    >
+                      <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgFilterHorizontalIcon} />
+                      <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">
+                        Filter{filterCount > 0 ? ` (${filterCount})` : ''}
+                      </span>
+                      <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
+                    </button>
+                    {showReorderFilterMenu && (
+                      <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] items-start drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]">
+                        {reorderFilterOptions.map(({ key, label }) => {
+                          const on = filterReorder[key]
+                          const avail = filterAvail[key]
+                          return (
+                            <button key={key} type="button"
+                              disabled={!avail}
+                              onClick={() => avail && setFilterReorder(f => ({ ...f, [key]: !f[key] }))}
+                              className={`flex gap-[10px] items-center px-[16px] py-[8px] h-[36px] rounded-[22px] border-2 transition-colors ${!avail ? 'border-[#c0c0c0] cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] border-[#068089] cursor-pointer' : 'border-[#61706f] hover:bg-[#f7f7f7] cursor-pointer'}`}
+                            >
+                              <span className={`font-['GT_America:Medium'] text-[14px] leading-[20px] whitespace-nowrap ${!avail ? 'text-[#8a8a8a]' : on ? 'text-[#07777e]' : 'text-[#61706f]'}`}>{label}</span>
+                              {on && avail && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </>
+                )
+              })()}
+            </div>
+            <button type="button"
+              onClick={() => { setSelectMode(v => !v); setSelectedIds(new Set()) }}
+              className="group cursor-pointer flex h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#efefef] transition-colors">
+              <span className={`font-['GT_America:Medium'] leading-[20px] text-[14px] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150 ${selectMode ? 'text-[#068089]' : 'text-[#6b7268] group-hover:text-[#042a21]'}`}>Select</span>
+            </button>
           </div>
-          <button type="button"
-            onClick={() => { setSelectMode(v => !v); setSelectedIds(new Set()) }}
-            className="px-[14px] py-[4px] cursor-pointer hover:opacity-70 transition-opacity">
-            <span className={`font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap ${selectMode ? 'text-[#068089]' : 'text-[#61706f]'}`}>Select</span>
+          <button type="button" className="group cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#efefef] transition-colors">
+            <img alt="" className="size-[24px] flex-shrink-0 brightness-0 opacity-40 group-hover:opacity-100 transition-[filter,opacity] duration-150" src={imgPreviewBookIcon} />
+            <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">Preview my book</span>
           </button>
         </div>
         )}
@@ -1235,26 +1358,27 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
           {(() => {
             const lastNonFutureIdx = displayItems.reduce((last, it, idx) => it.status !== 'future' ? idx : last, -1)
             const dividerIdx = lastNonFutureIdx + 1
-            return filteredItems.map((item, i) => {
+            const _hasReorderFilter = filterReorder.answered || filterReorder.draft || filterReorder.unanswered || filterReorder.upcoming
+            return displayItems.map((item, i) => {
+            if (_hasReorderFilter && item.status === 'answered' && !filterReorder.answered) return null
+            if (_hasReorderFilter && item.status === 'draft' && !filterReorder.draft) return null
+            if (_hasReorderFilter && item.status === 'asked' && !filterReorder.unanswered) return null
+            if (_hasReorderFilter && (item.status === 'future' || item.status === 'this-week') && !filterReorder.upcoming) return null
             const isDragging = dragIdx === i
             const isDropTarget = dropTargetIdx === i && dragIdx !== null && dragIdx !== i
-            const leftBorder = item.status === 'answered' ? ''
-              : item.status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4]'
-              : item.status === 'this-week' ? 'border-l-[3px] border-l-[#5BB8DF]'
-              : 'border-l-[3px] border-l-transparent'
-            const isFirstFuture = filter === 'all' && item.status === 'future' && i === dividerIdx
-            const isDisplacedFuture = filter === 'all' && item.status === 'future' && i < dividerIdx
+            const isFirstFuture = item.status === 'future' && i === dividerIdx
+            const isDisplacedFuture = item.status === 'future' && i < dividerIdx
             const isSelected = selectedIds.has(item.id)
             return (
               <Fragment key={item.id}>
                 {isFirstFuture && (
-                  <div className="sticky top-0 z-10 bg-[#fafafa] px-[24px] py-[16px] border-b border-[#ebebeb]">
+                  <div className="sticky top-0 z-10 bg-[#fafafa] px-[32px] py-[16px] border-b border-[#ebebeb]">
                     <p className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#8a9a97] uppercase tracking-[1.6px] m-0 whitespace-nowrap">Upcoming questions</p>
                   </div>
                 )}
               <div
                 ref={el => { itemRefs.current[item.id] = el }}
-                draggable={!pendingItems && !selectMode && filter === 'all'}
+                draggable={!pendingItems && !selectMode}
                 onDragStart={() => { setDragIdx(i) }}
                 onDragOver={e => {
                   e.preventDefault()
@@ -1265,10 +1389,10 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                 }}
                 onDrop={e => handleDrop(e, i)}
                 onDragEnd={() => { setDragIdx(null); setDropTargetIdx(null); stopAutoScroll() }}
-                className={`group flex items-center px-[24px] py-[26px] border-b border-[#ebebeb] transition-colors duration-700 ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : justMovedId === item.id ? 'bg-[rgba(6,128,137,0.08)]' : item.status === 'future' ? 'bg-[#fafafa]' : 'bg-white'}`}
+                className={`group flex items-center px-[32px] py-[26px] border-b border-[#ebebeb] transition-colors duration-700 ${isDragging ? 'opacity-40' : ''} ${isDisplacedFuture ? 'bg-[rgba(250,230,188,0.35)]' : justMovedId === item.id ? 'bg-[rgba(6,128,137,0.08)]' : item.status === 'draft' ? 'bg-[#FFFBEB]' : item.status === 'this-week' ? 'bg-[#f0f9ff]' : (item.status === 'future' || item.status === 'asked') ? 'bg-[#fafafa]' : 'bg-white'}`}
                 style={{ borderTopColor: isDropTarget ? '#068089' : undefined, borderTopWidth: isDropTarget ? '2px' : undefined }}
               >
-                <div className={`flex items-center gap-[16px] flex-1 min-w-0 ${leftBorder} pl-[16px]`}>
+                <div className="flex items-center gap-[16px] flex-1 min-w-0">
                   {/* Select checkbox */}
                   {selectMode && (
                     <button type="button"
@@ -1295,6 +1419,9 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     {item.status === 'answered' && (
                       <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Chapter {chapterNumbers[item.id]}</p>
                     )}
+                    {item.status === 'draft' && (
+                      <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Draft</p>
+                    )}
                     {item.status === 'asked' && (
                       <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0">Unanswered</p>
                     )}
@@ -1302,7 +1429,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                       <span className="inline-flex self-start bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[14px] leading-[20px] rounded-[6px] px-[8px] py-[2px] whitespace-nowrap">This week</span>
                     )}
                     <p className={`font-['GT_Super_Display:Medium'] text-[18px] leading-[26px] tracking-[-0.18px] text-[#042a21] m-0${item.status === 'asked' ? ' opacity-75' : ''}`}>{item.q}</p>
-                    {item.status === 'answered' && item.preview && (
+                    {(item.status === 'answered' || item.status === 'draft') && item.preview && (
                       <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[24px] text-[#445f59] m-0">{item.preview.length > 70 ? item.preview.slice(0, 70) + '…"' : item.preview}</p>
                     )}
                     {isDisplacedFuture && pendingItems && (
@@ -1331,27 +1458,42 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
                     )}
                   </div>
                 </div>
-                {filter === 'stories' && item.status === 'answered' && !selectMode && (
-                  <div className="flex-shrink-0 pl-[8px]">
-                    {editingId === item.id ? (
-                      <input
-                        type="number" min={1} max={Object.keys(chapterNumbers).length}
-                        value={editingValue}
-                        onChange={e => setEditingValue(e.target.value)}
-                        onKeyDown={e => {
-                          if (e.key === 'Enter') { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }
-                          if (e.key === 'Escape') setEditingId(null)
-                        }}
-                        onBlur={() => { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }}
-                        className="w-[44px] font-['GT_America:Regular'] text-[16px] text-[#1ba07c] border-b-2 border-[#1ba07c] bg-transparent outline-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        autoFocus
-                      />
-                    ) : (
-                      <div
-                        onClick={() => { setEditingId(item.id); setEditingValue(String(chapterNumbers[item.id])) }}
-                        className="w-[44px] h-[32px] flex items-center justify-center rounded-[6px] cursor-text border border-[#d4d4d4] hover:border-[#068089] bg-transparent transition-colors"
-                      >
-                        <span className="font-['GT_America:Regular'] text-[16px] text-[#b0bdb9]">{chapterNumbers[item.id]}</span>
+                {!selectMode && (
+                  <div className="flex-shrink-0 flex items-center gap-[16px] pl-[8px]">
+                    {item.status === 'answered' && (
+                      <div>
+                        {editingId === item.id ? (
+                          <input
+                            type="number" min={1} max={Object.keys(chapterNumbers).length}
+                            value={editingValue}
+                            onChange={e => setEditingValue(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }
+                              if (e.key === 'Escape') setEditingId(null)
+                            }}
+                            onBlur={() => { moveToChapter(item.id, parseInt(editingValue)); setEditingId(null) }}
+                            className="w-[44px] font-['GT_America:Regular'] text-[16px] text-[#1ba07c] border-b-2 border-[#1ba07c] bg-transparent outline-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            autoFocus
+                          />
+                        ) : (
+                          <div
+                            onClick={() => { setEditingId(item.id); setEditingValue(String(chapterNumbers[item.id])) }}
+                            className="relative group/chapternum w-[44px] h-[32px] flex items-center justify-center rounded-[6px] cursor-text border-2 border-[#d4d4d4] hover:border-[#333] bg-transparent transition-colors"
+                          >
+                            <span className="font-['GT_America:Regular'] text-[16px] text-[#042a21]">{chapterNumbers[item.id]}</span>
+                            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/chapternum:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Enter chapter number</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {!pendingItems && (
+                      <div className="flex flex-col gap-[2px] opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button type="button" onClick={() => moveItem(i, -1)} className="w-[28px] h-[28px] flex items-center justify-center rounded-[6px] hover:bg-[#efefef] transition-colors cursor-pointer">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8l4-4 4 4" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </button>
+                        <button type="button" onClick={() => moveItem(i, 1)} className="w-[28px] h-[28px] flex items-center justify-center rounded-[6px] hover:bg-[#efefef] transition-colors cursor-pointer">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        </button>
                       </div>
                     )}
                   </div>
@@ -1365,7 +1507,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
 
         {/* Footer */}
         {selectMode ? (
-          <div className="flex-shrink-0 border-t border-[#ebebeb] px-[24px] py-[20px] flex items-center gap-[12px]">
+          <div className="flex-shrink-0 border-t border-[#ebebeb] px-[32px] py-[20px] flex items-center gap-[12px]">
             <button type="button"
               disabled={selectedIds.size === 0}
               onClick={() => { setItems(items.filter(it => !selectedIds.has(it.id))); setSelectedIds(new Set()) }}
@@ -1374,7 +1516,7 @@ function ReorderModal({ onClose, initialItems }: { onClose: () => void; initialI
             </button>
             <button type="button"
               disabled={selectedIds.size === 0}
-              className={`flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 cursor-pointer transition-colors ${selectedIds.size > 0 ? 'border-[#d4d4d4] text-[#61706f] hover:border-[#61706f]' : 'border-[#d4d4d4] text-[#b0bdb9] cursor-not-allowed'}`}>
+              className={`flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 cursor-pointer transition-colors ${selectedIds.size > 0 ? 'border-[#d4d4d4] text-[#61706f] hover:border-[#61706f] hover:bg-[#f3f3f3]' : 'border-[#d4d4d4] text-[#b0bdb9] cursor-not-allowed'}`}>
               <span className="font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase">Move to another volume</span>
             </button>
             <span className="ml-auto font-['GT_America:Regular'] text-[14px] text-[#61706f] whitespace-nowrap">{selectedIds.size} selected</span>
@@ -1455,7 +1597,7 @@ function MenuButton() {
   )
 }
 
-function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPercent = 1 }: { onClose: () => void; earnedCount?: number; storyCount?: number; subscriptionPercent?: number }) {
+function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPercent = 1, subscriptionEnded = false, renewCopy }: { onClose: () => void; earnedCount?: number; storyCount?: number; subscriptionPercent?: number; subscriptionEnded?: boolean; renewCopy?: string }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -1470,24 +1612,44 @@ function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPer
     <div ref={ref}
       className="absolute right-0 z-50 bg-white rounded-[12px] overflow-hidden"
       style={{ top: 'calc(100% + 8px)', width: '340px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
-      <div className="p-[24px] pb-[80px] flex flex-col overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+      <div className={`p-[24px] ${subscriptionEnded ? '' : 'pb-[80px]'} flex flex-col overflow-y-auto`} style={{ maxHeight: 'calc(100vh - 100px)' }}>
         <div>
           <p className="font-['GT_America:Medium'] text-[14px] leading-[18px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
           <div className="relative h-[8px] w-full rounded-full overflow-hidden bg-[#f7f7f7] border border-[#eaeaea] mb-[8px]">
             <div className="absolute top-0 left-0 h-full rounded-full"
-              style={{ width: `${subscriptionPercent}%`, backgroundImage: MILESTONE_GRADIENT }} />
+              style={{ width: subscriptionEnded ? '100%' : `${subscriptionPercent}%`, backgroundImage: subscriptionEnded ? 'none' : MILESTONE_GRADIENT, backgroundColor: subscriptionEnded ? '#d9705f' : undefined }} />
           </div>
           <div className="flex items-center justify-between">
-            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">{subscriptionPercent}%</span>
-            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
+            {subscriptionEnded ? (
+              <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ended May 12, 2026</span>
+            ) : (
+              <>
+                <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">{subscriptionPercent}%</span>
+                <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
+              </>
+            )}
           </div>
+          {subscriptionEnded && (
+            <div className="mt-[16px] flex flex-col gap-[16px]">
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0">
+                {renewCopy ?? 'You have 3 more months to edit your existing stories. If you\'d like to receive weekly questions or add new stories, you can renew.'}
+              </p>
+              <button type="button" className="w-full flex items-center justify-center h-[40px] px-[24px] rounded-[24px] bg-[#068089] cursor-pointer hover:opacity-80 transition-opacity">
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Renew for $99</span>
+              </button>
+            </div>
+          )}
         </div>
-        <div className="h-px bg-[#e8e8e8] my-[12px]" />
-        <div className="flex flex-col gap-[6px]">
-          {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} storyCount={storyCount} />)}
-        </div>
+        {!subscriptionEnded && (
+          <>
+            <div className="h-px bg-[#e8e8e8] my-[12px]" />
+            <div className="flex flex-col gap-[6px]">
+              {MILESTONE_LIST.map((m, i) => <MilestoneModalRow key={i} {...m} earned={i < earnedCount ? true : m.earned} storyCount={storyCount} />)}
+            </div>
+          </>
+        )}
       </div>
-      <div className="absolute bottom-0 inset-x-0 h-[80px] pointer-events-none" style={{ background: 'linear-gradient(to top, white 30%, transparent)' }} />
+      {!subscriptionEnded && <div className="absolute bottom-0 inset-x-0 h-[80px] pointer-events-none" style={{ background: 'linear-gradient(to top, white 30%, transparent)' }} />}
     </div>
   )
 }
@@ -1590,7 +1752,7 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5 }: { onClose: () =
             <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
           </div>
         </div>
-        <div className="h-px bg-[#e8e8e8] my-[26px]" />
+        <div className="w-full border-t border-[#e8e8e8] my-[26px]" />
         <div className="flex gap-[16px]">
           <div className="flex flex-col gap-[6px] flex-1">
             {MILESTONE_LIST_V2.slice(0, 7).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
@@ -1618,7 +1780,7 @@ function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
   )
 }
 
-function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0, subscriptionPercent = 1, milestoneModalV2 = false }: {
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0, subscriptionPercent = 1, milestoneModalV2 = false, subscriptionEnded = false, renewCopy }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
@@ -1636,6 +1798,8 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   badgeHopDelay?: number
   subscriptionPercent?: number
   milestoneModalV2?: boolean
+  subscriptionEnded?: boolean
+  renewCopy?: string
 }) {
   const [showMilestonesModal, setShowMilestonesModal] = useState(false)
   if (variant === 'explore') {
@@ -1660,9 +1824,14 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
         <div className={`relative flex flex-1 items-center gap-4 ${!showBar && !showTimeline2 ? 'justify-center' : 'justify-between'}`}>
           <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
-            {showTimeline2 ? (
-              <span className="inline-flex items-center gap-[6px]">⛰️ Your next milestone:{' '}
-                <button type="button" className="font-['GT_America:Medium'] cursor-pointer hover:underline group-hover:underline hover:text-[#068089] group-hover:text-[#068089] transition-colors group/next">
+            {subscriptionEnded ? (
+              <span className="flex flex-wrap items-baseline gap-x-[6px]">
+                <span className="whitespace-nowrap">Need more time?</span>
+                <button type="button" className="font-['GT_America:Medium'] cursor-pointer underline text-[#068089] transition-colors">Renew your subscription</button>
+              </span>
+            ) : showTimeline2 ? (
+              <span className="flex flex-wrap items-baseline gap-x-[6px]"><span className="whitespace-nowrap">⛰️ Your next milestone:</span>
+                <button type="button" className="font-['GT_America:Medium'] cursor-pointer underline text-[#068089] transition-colors group/next">
                   <span className={nextMilestoneHoverText ? 'group-hover:hidden' : ''}>
                     {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 group-hover:opacity-100 transition-opacity"> →</span>
                   </span>
@@ -1675,12 +1844,18 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
               <>⛰️ Your first milestone: <span className="font-['GT_America:Medium']">Scroll to explore your memoir questions</span></>
             )}
           </p>
-          {showTimeline2 && (
+          {(showTimeline2 || subscriptionEnded) && (
             <div className="relative flex-shrink-0" style={{ animation: 'milestone-in 0.4s ease-out both' }}>
               <button type="button" ref={milestoneButtonRef}
                 className={`flex gap-[8px] items-center h-[40px] px-[14px] rounded-[20px] border-2 transition-colors cursor-pointer group/milestone ${highlightButton ? 'bg-[#D6ECF5] border-[#068089]' : 'hover:bg-white border-transparent hover:border-[#61706f]'}`}
                 onMouseDown={e => e.stopPropagation()}
                 onClick={e => { e.stopPropagation(); setShowMilestonesModal(v => !v) }}>
+                {subscriptionEnded ? (
+                  <>
+                    <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">My subscription (ended)</span>
+                    <img alt="" className="size-[18px] block flex-shrink-0" src={imgChevronDown} />
+                  </>
+                ) : (<>
                 <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
                   You've reached
                 </span>
@@ -1774,14 +1949,13 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
                   {milestoneCount ?? 1} {(milestoneCount ?? 1) === 1 ? 'milestone' : 'milestones'}
                 </span>
-                <div className="overflow-hidden flex-shrink-0 w-0 ml-[-8px] group-hover/milestone:w-[18px] group-hover/milestone:ml-0 transition-all duration-150">
-                  <img alt="" className="size-[18px] block" src={imgChevronDown} />
-                </div>
+                <img alt="" className="size-[18px] block flex-shrink-0" src={imgChevronDown} />
+                </>)}
               </button>
               {showMilestonesModal && (
                 milestoneModalV2
                   ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} />
-                  : <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} />
+                  : <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} subscriptionEnded={subscriptionEnded} renewCopy={renewCopy} />
               )}
             </div>
           )}
@@ -3031,6 +3205,9 @@ export default function MemoirPage() {
   const [scenario, setScenario] = useState('a1-new')
   const [activeTab, setActiveTab] = useState<Tab>('week-by-week')
   const [showReorderModal, setShowReorderModal] = useState(false)
+  const [showSubEndedNewStoryModal, setShowSubEndedNewStoryModal] = useState(false)
+  const [showSubEndedLowPrintModal, setShowSubEndedLowPrintModal] = useState(false)
+  const [subEndedLowShuffleIdx, setSubEndedLowShuffleIdx] = useState(0)
   const [showFilterMenu, setShowFilterMenu] = useState(false)
   const [rowFilter, setRowFilter] = useState({ answered: false, unanswered: false, upcoming: false, drafts: false })
   const [currentPage, setCurrentPage] = useState(1)
@@ -3045,6 +3222,13 @@ export default function MemoirPage() {
   const nearEndErrorRowRef = useRef<HTMLDivElement>(null)
   const nearEndError2RowRef = useRef<HTMLDivElement>(null)
   const [issueNavStep, setIssueNavStep] = useState<null | 1 | 2>(null)
+  useEffect(() => {
+    if (issueNavStep === null) return
+    const el = (issueNavStep === 1 ? nearEndErrorRowRef : nearEndError2RowRef).current
+    if (!el) return
+    const y = el.getBoundingClientRect().top + window.scrollY - 170
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+  }, [issueNavStep])
   const [tabBarStuck, setTabBarStuck] = useState(false)
   const [revealState, setRevealState] = useState<'hidden' | 'revealing' | 'revealed'>('hidden')
   const [timelineAnimating, setTimelineAnimating] = useState(false)
@@ -3167,7 +3351,10 @@ export default function MemoirPage() {
   const isA1FiveAnsweredV2 = scenario === 'a1-five-answered-v2'
   const isA1Unengaged = scenario === 'a1-unengaged'
   const isA1NearEnd = scenario === 'a1-near-end'
-  const isA1FirstQ = isA1FirstQuestion || isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd
+  const isA1SubEnded = scenario === 'a1-sub-ended'
+  const isA1SubEndedLow = scenario === 'a1-sub-ended-low'
+  const isAnySubEnded = isA1SubEnded || isA1SubEndedLow
+  const isA1FirstQ = isA1FirstQuestion || isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isA1SubEnded || isA1SubEndedLow
   const isA1Month4 = scenario === 'a1-month4'
   const isNewUser = scenario === 'a-new' || scenario === 'b-new'
   const isANewReveal = scenario === 'a-new' || scenario === 'a1-new'
@@ -3212,7 +3399,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
   const nearEndRows: MemoirRow[] = [
     { q: weekQuestions[0],                                                          status: 'asked'    },
     { q: 'What legacy do you want to leave behind?',                               status: 'answered', variant: 'plain',      preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
-    { q: 'Who has been your biggest fan?',                                         status: 'answered', variant: 'engagement', preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
+    { q: 'Who has been your biggest fan?',                                         status: 'draft',                           preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
     { q: 'Did you have any jobs growing up?',                                      status: 'asked'    },
     { q: 'What was your favorite childhood vacation?',                             status: 'answered', variant: 'photos',     preview: '"Every summer we drove down to the Jersey Shore. I can still smell the salt air and feel the warm sand..."' },
     { q: 'How did you decide on your career path?',                                status: 'asked'    },
@@ -3234,7 +3421,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
     { q: 'Tell me about your first car.',                                          status: 'answered', variant: 'engagement', preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."', error: 'Heads up: Looks like there\'s an unsaved edit on this story.' },
     { q: 'What school subject did you love most?',                                 status: 'asked'    },
     { q: 'What sports or activities did you play as a kid?',                       status: 'asked'    },
-    { q: 'What was your biggest professional accomplishment?',                     status: 'answered', variant: 'recording', preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
+    { q: 'What was your biggest professional accomplishment?',                     status: 'draft',                          preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
     { q: 'What\'s something you learned from a failure?',                          status: 'asked'    },
     { q: 'Tell me about a mentor who shaped your life.',                           status: 'asked'    },
     { q: 'What\'s something you miss from your childhood?',                        status: 'asked'    },
@@ -3265,10 +3452,10 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
   ]
 
   const reorderInitialItems = useMemo((): ReorderItem[] => {
-    if (isA1NearEnd) return [
+    if (isA1NearEnd || isAnySubEnded) return [
       { id:  0, q: weekQuestions[0],                                                         status: 'asked'     },
       { id:  1, q: 'What legacy do you want to leave behind?',                               status: 'answered',  preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
-      { id:  2, q: 'Who has been your biggest fan?',                                         status: 'answered',  preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
+      { id:  2, q: 'Who has been your biggest fan?',                                         status: 'draft',     preview: '"Without a doubt, my mother was my biggest fan. She never missed a recital, game, or graduation..."' },
       { id:  3, q: 'Did you have any jobs growing up?',                                      status: 'asked'     },
       { id:  4, q: 'What was your favorite childhood vacation?',                             status: 'answered',  preview: '"Every summer we drove down to the Jersey Shore. I can still smell the salt air and feel the warm sand..."' },
       { id:  5, q: 'How did you decide on your career path?',                                status: 'asked'     },
@@ -3290,7 +3477,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
       { id: 21, q: 'Tell me about your first car.',                                          status: 'answered',  preview: '"A 1978 Ford Pinto — not exactly glamorous, but it was mine. I saved up for two years at the grocery store..."' },
       { id: 22, q: 'What school subject did you love most?',                                 status: 'asked'     },
       { id: 23, q: 'What sports or activities did you play as a kid?',                       status: 'asked'     },
-      { id: 24, q: 'What was your biggest professional accomplishment?',                     status: 'answered',  preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
+      { id: 24, q: 'What was your biggest professional accomplishment?',                     status: 'draft',     preview: '"When I finally made partner after eight years, I called my dad from the parking garage and cried..."' },
       { id: 25, q: "What's something you learned from a failure?",                          status: 'asked'     },
       { id: 26, q: 'Tell me about a mentor who shaped your life.',                           status: 'asked'     },
       { id: 27, q: "What's something you miss from your childhood?",                        status: 'asked'     },
@@ -3324,7 +3511,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
       { id: 1, q: 'What legacy do you want to leave behind?',               status: 'answered',  preview: '"The legacy I want to leave is one of kindness and honesty — being someone people could always count on..."' },
       { id: 2, q: 'Who has been your biggest fan?',                         status: 'asked'     },
       { id: 3, q: 'Did you have any jobs growing up?',                      status: 'answered',  preview: '"Growing up I took on every job I could find — newspapers at dawn, stacking shelves, mowing lawns on weekends..."' },
-      { id: 4, q: 'What was your favorite childhood vacation?',             status: 'asked'     },
+      { id: 4, q: 'What was your favorite childhood vacation?',             status: 'draft',     preview: '"We used to drive up to the lake every August — I can still smell the pine trees and hear the sound of the boat motor early in the morning..."' },
       { id: 5, q: 'How did you decide on your career path?',                status: 'answered',  preview: '"Choosing engineering wasn\'t planned. A summer internship changed everything and set me on a path I\'ve loved..."' },
       { id: 6, q: 'What world event had the biggest impact on your life?',  status: 'asked'     },
       { id: 7, q: 'How did you meet your closest friends?',                 status: 'answered',  preview: '"Some of my closest friends I met in my first week of college. We\'ve been through everything together..."' },
@@ -3384,7 +3571,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
 
   return (
     <div className="bg-white min-h-screen">
-      <Navbar scenario={scenario} onScenarioChange={setScenario} />
+      <Navbar scenario={scenario} onScenarioChange={(id) => { if (id === scenario) setIssueNavStep(null); setScenario(id) }} />
 
       {scenario === 'c-new' ? <OptionCNew /> : scenario === 'c-month4' ? <OptionCMidSub /> : scenario === 'c-end' ? <OptionCEnd /> : scenario === 'a-end' ? <OptionAEnd /> : null}
 
@@ -3423,8 +3610,13 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             <div className="flex flex-[1_0_0] flex-col gap-[20px] items-start min-w-px">
               <div className="flex flex-col gap-[24px]">
                 <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#042a21] m-0">
-                  {isA1New ? (
-                    <><span className="block">Hi Brian! Raymond gifted you Storyworth to capture your life story in a hardcover book.</span><span className="block mt-[4px]">Watch a 2 minute <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">getting started video.</button></span></>
+                  {isA1SubEndedLow ? (
+                    <><span className="bg-[#FDE68A]">Your subscription has ended.</span> That's okay! You have 3 more months to answer questions and order your book.</>
+                  ) : isA1SubEnded ? (
+                    <><span className="bg-[#FDE68A]">Your subscription has ended.</span> You can still edit your stories and <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity">print your book</button>.</>
+
+                  ) : isA1New ? (
+                    <>Hi Brian! Raymond gifted you Storyworth to capture your life story in a hardcover book.</>
                   ) : isA1FirstQuestion ? (
                     <span className="bg-[#D6ECF5] p-[1px]">Hey Brian! Your first question has arrived.{' '}
                     <button type="button" className="underline cursor-pointer hover:opacity-70 transition-opacity" onClick={() => questionCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>Take a look.</button></span>
@@ -3449,7 +3641,22 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                   </span>
                 </p>
               </div>
-              <MenuButton />
+              <div className="flex items-center gap-[16px]">
+                <MenuButton />
+                {isA1New && (
+                  <button type="button" className="cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] border-2 border-transparent hover:bg-[#efefef] hover:border-[#042a21] hover:text-[#042a21] transition-colors text-[#6b7268]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="size-[24px] flex-shrink-0" aria-hidden>
+                      <path d="M7.5 3.5C5.9442 3.54667 5.01661 3.71984 4.37477 4.36227C3.49609 5.24177 3.49609 6.6573 3.49609 9.48836L3.49609 15.9944C3.49609 18.8255 3.49609 20.241 4.37477 21.1205C5.25345 22 6.66767 22 9.49609 22L14.4961 22C17.3245 22 18.7387 22 19.6174 21.1205C20.4961 20.241 20.4961 18.8255 20.4961 15.9944V9.48836C20.4961 6.6573 20.4961 5.24177 19.6174 4.36228C18.9756 3.71984 18.048 3.54667 16.4922 3.5" stroke="currentColor" strokeWidth="1.5"/>
+                      <path d="M7.49609 3.75C7.49609 2.7835 8.2796 2 9.24609 2H14.7461C15.7126 2 16.4961 2.7835 16.4961 3.75C16.4961 4.7165 15.7126 5.5 14.7461 5.5H9.24609C8.2796 5.5 7.49609 4.7165 7.49609 3.75Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                      <path d="M6.5 10L10.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <path d="M13.5 11C13.5 11 14 11 14.5 12C14.5 12 16.0882 9.5 17.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M6.5 16L10.5 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <path d="M13.5 17C13.5 17 14 17 14.5 18C14.5 18 16.0882 15.5 17.5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] tracking-[1.4px] uppercase whitespace-nowrap">Finish setup</span>
+                  </button>
+                )}
+              </div>
             </div>
             <div className="hidden sm:flex flex-col items-center flex-shrink-0">
               <HoverBook />
@@ -3487,6 +3694,22 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               <p className="font-['GT_America:Medium'] text-[16px] leading-[24px] text-[#068089] text-center px-[48px] m-0">
                 Congratulations! You've reached your first milestone by exploring your memoir questions!
               </p>
+            </div>
+          </div>
+        ) : isAnySubEnded ? (
+          <div className="w-full bg-[#FEF3C7] hover:bg-[#FDE68A] sticky top-0 z-30 group transition-colors">
+            <div className="max-w-[1189px] mx-auto px-[24px] py-[16px]">
+              <MilestoneTimeline
+                variant="explore"
+                showTimeline2={true}
+                animate={false}
+                showBar={false}
+                subscriptionEnded={true}
+                milestoneCount={8}
+                storyCount={15}
+                subscriptionPercent={100}
+                renewCopy={isA1SubEndedLow ? 'You have 3 more months to edit stories and answer questions. If you\'d like to receive weekly questions, you can renew your subscription.' : undefined}
+              />
             </div>
           </div>
         ) : isA1FirstQ ? (
@@ -3535,29 +3758,74 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           </div>
         )
       )}
-      {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isA1Month4) && (
+      {isA1SubEnded && (
+        <div className="max-w-[1189px] mx-auto px-[24px] pt-[44px] pb-[60px]">
+          <style>{`.question-card:hover { border: 2px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%) border-box; }`}</style>
+          <div className="question-card bg-white border-2 border-[#d8e0e3] rounded-[12px] flex flex-col items-center gap-[24px] p-[32px] cursor-pointer transition-all duration-200" style={{ boxShadow: '0px 4px 7px rgba(55,132,164,0.12)' }}>
+            {/* Title */}
+            <p className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] text-center m-0 whitespace-nowrap">Put your 14 stories on your shelf, Brain.</p>
+            {/* Images + features */}
+            <div className="flex items-center gap-[24px]">
+              <div className="relative rounded-[8px] overflow-hidden flex-shrink-0 border-[3px] border-white" style={{ width: '160px', height: '137px', boxShadow: '0px 4px 23px 0px rgba(0,0,0,0.09)' }}>
+                <img alt="" className="absolute top-0 max-w-none h-full" style={{ left: '-11.35%', width: '111.35%' }} src={imgPrintBookCover} />
+              </div>
+              <div className="relative rounded-[8px] overflow-hidden flex-shrink-0 border-[3px] border-white" style={{ width: '188px', height: '137px', boxShadow: '0px 4px 23px 0px rgba(0,0,0,0.09)' }}>
+                <img alt="" className="absolute inset-0 max-w-none object-cover size-full rounded-[8px]" src={imgPrintBookOpen} />
+              </div>
+              <div className="flex flex-col gap-[10px]">
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[normal] text-[#61706f] m-0 whitespace-nowrap">Premium color printing</p>
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[normal] text-[#61706f] m-0 whitespace-nowrap">Free shipping in the U.S.</p>
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[normal] text-[#61706f] m-0 whitespace-nowrap">Scan to listen to your recordings</p>
+                <p className="font-['GT_America:Regular'] text-[16px] leading-[normal] text-[#61706f] m-0 whitespace-nowrap">Order today and get it by [Date].</p>
+              </div>
+            </div>
+            {/* CTA + subtext */}
+            <div className="flex flex-col gap-[8px] items-center">
+              <button type="button"
+                className="h-[40px] rounded-[24px] px-[32px] flex items-center justify-center hover:opacity-90 transition-opacity"
+                style={{ backgroundImage: 'linear-gradient(80.13deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%)' }}
+              >
+                <span className="font-['GT_America:Medium'] text-[16px] tracking-[1.6px] uppercase text-white leading-[20px]">order my book</span>
+              </button>
+              <p className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">You have a book credit to use, redeemable for 1 color hardcover book.</p>
+            </div>
+          </div>
+        </div>
+      )}
+      {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isA1Month4 || isA1SubEndedLow) && (
         <div className="max-w-[1189px] mx-auto px-[24px] pt-[44px] pb-[60px]">
           <style>{`.question-card:hover { border: 2px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%) border-box; }`}</style>
           <div ref={questionCardRef} className="question-card bg-white border-2 border-[#d8e0e3] rounded-[12px] cursor-pointer transition-all duration-200" style={{ boxShadow: '0px 8px 24px rgba(55, 132, 164, 0.09)' }}>
             <div className="flex flex-col items-center gap-[24px] px-[24px] py-[32px]">
               <div className="flex flex-col gap-[14px] items-center">
                 <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0">
-                  {isA1Month4 ? 'Asked by Alex today' : 'Asked by Raymond today'}
+                  {isA1Month4 ? 'Asked by Alex today' : isA1SubEndedLow ? 'Asked by Raymond' : 'Asked by Raymond today'}
                 </p>
                 <p className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] text-center m-0">
                   {isA1Unengaged ? 'How did you meet your closest friends?' :
                    (isA1FiveAnswered || isA1FiveAnsweredV2) ? 'What are your proudest achievements?' :
                    isA1NearEnd ? 'What do you want people to remember about you?' :
+                   isA1SubEndedLow ? weekQuestions[subEndedLowShuffleIdx] :
                    weekQuestions[0]}
                 </p>
               </div>
-              <button
-                type="button"
-                className="h-[40px] rounded-[24px] px-[32px] flex items-center justify-center hover:opacity-90 transition-opacity"
-                style={{ backgroundImage: 'linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%)' }}
-              >
-                <span className="font-['GT_America:Medium'] text-[16px] tracking-[1.6px] uppercase text-white leading-[20px]">tell my story</span>
-              </button>
+              <div className="flex flex-col items-center gap-[12px]">
+                <button
+                  type="button"
+                  className="h-[40px] rounded-[24px] px-[32px] flex items-center justify-center hover:opacity-90 transition-opacity"
+                  style={{ backgroundImage: 'linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%)' }}
+                >
+                  <span className="font-['GT_America:Medium'] text-[16px] tracking-[1.6px] uppercase text-white leading-[20px]">tell my story</span>
+                </button>
+                {isA1SubEndedLow && (
+                  <button type="button"
+                    className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#068089] underline cursor-pointer hover:opacity-70 transition-opacity"
+                    onClick={() => setSubEndedLowShuffleIdx(i => (i + 1) % weekQuestions.length)}
+                  >
+                    Shuffle to a new question
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -3650,9 +3918,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           { key: 'upcoming' as const, label: 'Upcoming questions' },
         ]
         const filterAvailable: Record<'answered' | 'unanswered' | 'drafts' | 'upcoming', boolean> = {
-          answered:   isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isA1Month4,
-          unanswered: isA1Unengaged || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd,
-          drafts:     isA1FiveAnswered || isA1FiveAnsweredV2,
+          answered:   isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isAnySubEnded || isA1Month4,
+          unanswered: isA1Unengaged || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isAnySubEnded,
+          drafts:     isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isAnySubEnded,
           upcoming:   true,
         }
         const filterCount = filterOptions.filter(f => rowFilter[f.key]).length
@@ -3666,7 +3934,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             if (rowFilter.upcoming || rowFilter.unanswered) return true // 'this-week' or 'asked' rows have fill
             return false
           }
-          if (isA1NearEnd) {
+          if (isA1NearEnd || isAnySubEnded) {
             if (rowFilter.answered && !rowFilter.unanswered) return false // only answered rows shown
             return true // first row is 'asked' (gray fill)
           }
@@ -3726,9 +3994,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgReorderIcon} />
                         <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#6b7268] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">reorder</span>
                       </button>
-                      {/* Near-end issue badge + navigation */}
+                      {/* Near-end issue badge + navigation — inline at lg+, hidden here (shown in row below) */}
                       {isA1NearEnd && (
-                        <div className="flex items-center gap-[12px] flex-shrink-0">
+                        <div className="hidden lg:flex items-center gap-[12px] flex-shrink-0">
                           <button
                             type="button"
                             onClick={() => {
@@ -3745,42 +4013,22 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                           </button>
                           {issueNavStep !== null && (
                             <>
-                              <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">{issueNavStep} of 2</span>
-                              <div className="flex items-center gap-[4px]">
-                                {issueNavStep === 2 && (
-                                  <div className="relative group/issueBack flex-shrink-0">
-                                    <button type="button"
-                                      onClick={() => {
-                                        setIssueNavStep(1)
-                                        const el = nearEndErrorRowRef.current
-                                        if (!el) return
-                                        const y = el.getBoundingClientRect().top + window.scrollY - 170
-                                        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                                      }}
-                                      className="size-[32px] flex items-center justify-center rounded-full cursor-pointer hover:ring-2 hover:ring-[#ED5D34] transition-all flex-shrink-0"
-                                    >
-                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10.5 4.5L3 12L10.5 19.5M3 12L21 12" stroke="#ED5D34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                                    </button>
-                                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueBack:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Back</span>
-                                  </div>
-                                )}
-                                {issueNavStep === 1 && (
-                                  <div className="relative group/issueNext flex-shrink-0">
-                                    <button type="button"
-                                      onClick={() => {
-                                        setIssueNavStep(2)
-                                        const el = nearEndError2RowRef.current
-                                        if (!el) return
-                                        const y = el.getBoundingClientRect().top + window.scrollY - 170
-                                        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
-                                      }}
-                                      className="size-[32px] flex items-center justify-center rounded-full cursor-pointer hover:ring-2 hover:ring-[#ED5D34] transition-all flex-shrink-0"
-                                    >
-                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13.5 19.5L21 12L13.5 4.5M21 12L3 12" stroke="#ED5D34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                                    </button>
-                                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/issueNext:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Next</span>
-                                  </div>
-                                )}
+                              <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#6b7268] whitespace-nowrap">{issueNavStep} of 2</span>
+                              <div className="flex flex-col gap-[2px]">
+                                <button type="button"
+                                  disabled={issueNavStep === 1}
+                                  onClick={() => setIssueNavStep(1)}
+                                  className="w-[28px] h-[28px] flex items-center justify-center rounded-[6px] hover:bg-[#efefef] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default disabled:hover:bg-transparent"
+                                >
+                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8l4-4 4 4" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                </button>
+                                <button type="button"
+                                  disabled={issueNavStep === 2}
+                                  onClick={() => setIssueNavStep(2)}
+                                  className="w-[28px] h-[28px] flex items-center justify-center rounded-[6px] hover:bg-[#efefef] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default disabled:hover:bg-transparent"
+                                >
+                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                </button>
                               </div>
                             </>
                           )}
@@ -3788,14 +4036,66 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       )}
                     </div>
                   </div>
-                  {/* Right: New Story */}
-                  <button type="button" className="bg-[#D6ECF5] flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer hover:border-2 hover:border-[#0E719A] transition-colors flex-shrink-0">
-                    <div className="relative size-[24px] flex-shrink-0">
-                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
-                    </div>
-                    <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-[#0E719A] tracking-[1.6px] uppercase whitespace-nowrap">new story</span>
-                  </button>
+                  {/* Right: New Story [+ Print my book for sub-ended] */}
+                  <div className="flex items-center gap-[12px] flex-shrink-0">
+                    <button type="button"
+                      onClick={() => isA1SubEnded && setShowSubEndedNewStoryModal(true)}
+                      className="bg-[#D6ECF5] flex gap-[10px] h-[40px] items-center justify-center px-[16px] rounded-[24px] cursor-pointer border-2 border-transparent hover:border-[#0E719A] transition-colors flex-shrink-0">
+                      <div className="relative size-[24px] flex-shrink-0">
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgNewStoryIcon} />
+                      </div>
+                      <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#0E719A] tracking-[1.4px] uppercase whitespace-nowrap">new story</span>
+                    </button>
+                    {isAnySubEnded && (
+                      <button type="button"
+                        onClick={() => isA1SubEndedLow && setShowSubEndedLowPrintModal(true)}
+                        className="flex h-[40px] items-center justify-center px-[20px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 bg-[#068089]">
+                        <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Print my book</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
+
+                {/* Near-end issue badge + navigation — second row at tablet width, hidden at lg+ */}
+                {isA1NearEnd && (
+                  <div className="flex lg:hidden items-center gap-[12px]">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIssueNavStep(1)
+                        const el = nearEndErrorRowRef.current
+                        if (!el) return
+                        const y = el.getBoundingClientRect().top + window.scrollY - 170
+                        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+                      }}
+                      className="flex gap-[8px] items-center pl-[10px] pr-[8px] h-[28px] rounded-[5px] bg-[#ffefeb] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
+                    >
+                      <div className="size-[10px] rounded-full flex-shrink-0" style={{ backgroundColor: '#ED5D34', boxShadow: '0 0 0 3px #F4A68F' }} />
+                      <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#e6562d] whitespace-nowrap">2 issues to resolve</span>
+                    </button>
+                    {issueNavStep !== null && (
+                      <>
+                        <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#6b7268] whitespace-nowrap">{issueNavStep} of 2</span>
+                        <div className="flex flex-col gap-[2px]">
+                          <button type="button"
+                            disabled={issueNavStep === 1}
+                            onClick={() => setIssueNavStep(1)}
+                            className="w-[28px] h-[28px] flex items-center justify-center rounded-[6px] hover:bg-[#efefef] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default disabled:hover:bg-transparent"
+                          >
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8l4-4 4 4" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          </button>
+                          <button type="button"
+                            disabled={issueNavStep === 2}
+                            onClick={() => setIssueNavStep(2)}
+                            className="w-[28px] h-[28px] flex items-center justify-center rounded-[6px] hover:bg-[#efefef] transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-default disabled:hover:bg-transparent"
+                          >
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
 
                 {/* Active filter pills */}
                 {filterCount > 0 && (
@@ -3951,7 +4251,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 )
                 return (
                 <Fragment key={i}>
-                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa]' : status === 'future' ? 'hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                     {/* Label row */}
                     <div className="flex gap-[8px] items-center flex-wrap">
@@ -4014,7 +4314,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             </div>
           )
         })()
-        : isA1NearEnd ? (() => {
+        : (isA1NearEnd || isAnySubEnded) ? (() => {
           const rows = nearEndRows
           const firstErrorIdx = rows.findIndex(r => r.error)
           const secondErrorIdx = rows.findIndex((r, i) => r.error && i > firstErrorIdx)
@@ -4061,6 +4361,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 if (_hasFilter && status === 'answered' && !rowFilter.answered) return null
                 if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
                 if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
+                if (_hasFilter && status === 'draft' && !rowFilter.drafts) return null
                 if (status === 'this-week') return (
                   <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
@@ -4082,12 +4383,12 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 )
                 return (
                   <Fragment key={i}>
-                  <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
+                  <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] flex-1 min-w-0">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
-                          {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
+                          {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
                         {error && (
                           <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 text-[#ED5D34] whitespace-nowrap">
@@ -4104,9 +4405,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       ) : (
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                       )}
-                      {status === 'answered' && preview && (
+                      {(status === 'answered' || status === 'draft') && preview && (
                         <div className="flex items-start gap-[8px]">
-                          {(variant === 'recording' || variant === 'all') && <AudioBadge />}
+                          {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                           <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
                         </div>
                       )}
@@ -4125,6 +4426,10 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     {status === 'answered' ? (
                       <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
                         <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
+                      </button>
+                    ) : status === 'draft' ? (
+                      <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
                       </button>
                     ) : (status === 'asked' || status === 'future') ? (
                       <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
@@ -4353,22 +4658,22 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
         {(isA1New || isA1FirstQ || isA1Unengaged) && (
           <div className="flex flex-col items-center text-center pt-[20px] pb-[64px] px-[24px]">
             <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
-              Ready to add more questions?
+              {isAnySubEnded ? 'Ready to print your book?' : 'Ready to add more questions?'}
             </p>
             <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mb-[24px]">
-              Write your own, browse our library, or try Magic Questions.
+              {isAnySubEnded ? 'Preview your book and order a premium, hardcover book to put on your shelf.' : 'Write your own, browse our library, or try Magic Questions.'}
             </p>
             <button type="button" className="bg-[#068089] flex h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-              <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Add more questions</span>
+              <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">{isAnySubEnded ? 'Print my book' : 'Add more questions'}</span>
             </button>
           </div>
         )}
         </>
       ) : activeTab === 'stories' ? (
-        <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
-          {(isA1NearEnd || isA1FiveAnswered || isA1FiveAnsweredV2) ? (() => {
-            const answeredRows = (isA1NearEnd ? nearEndRows : fiveAnsweredRows).filter(r => r.status === 'answered')
-            const heartCount = isA1NearEnd ? 3 : 1
+        <div className={(isA1FirstQuestionAnswered || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isAnySubEnded) ? '' : 'max-w-[1189px] mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-[80px] mt-4 sm:mt-0'}>
+          {(isA1NearEnd || isAnySubEnded || isA1FiveAnswered || isA1FiveAnsweredV2) ? (() => {
+            const answeredRows = (isA1NearEnd || isAnySubEnded ? nearEndRows : fiveAnsweredRows).filter(r => r.status === 'answered')
+            const heartCount = (isA1NearEnd || isAnySubEnded) ? 3 : 1
             const AudioBadge = () => (
               <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
                 <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
@@ -4527,7 +4832,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             )
           })()}
         </div>
-      ) : activeTab === 'drafts' && (isA1FirstQuestion || isA1New || isA1FirstQuestionAnswered || isA1NearEnd) ? (
+      ) : activeTab === 'drafts' && (isA1FirstQuestion || isA1New || isA1FirstQuestionAnswered || isA1NearEnd || isAnySubEnded) ? (
         <div className="flex flex-col items-center justify-center text-center py-[64px] px-[24px]">
           <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[30px] tracking-[-0.22px] text-[#042a21] m-0 mb-[12px]">
             Your stories are waiting to be written.
@@ -4551,7 +4856,13 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
       </div>}
 
       {showReorderModal && (
-        <ReorderModal onClose={() => setShowReorderModal(false)} initialItems={reorderInitialItems} />
+        <ReorderModal onClose={() => setShowReorderModal(false)} initialItems={reorderInitialItems} initialFilter={rowFilter} />
+      )}
+      {showSubEndedNewStoryModal && (
+        <SubEndedNewStoryModal onClose={() => setShowSubEndedNewStoryModal(false)} />
+      )}
+      {showSubEndedLowPrintModal && (
+        <SubEndedLowPrintModal onClose={() => setShowSubEndedLowPrintModal(false)} />
       )}
     </div>
   )
