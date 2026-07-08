@@ -53,11 +53,16 @@ const imgPhoto8 = "https://www.figma.com/api/mcp/asset/10ae6512-65f9-45fe-86eb-5
 const imgWavingHandA = "https://www.figma.com/api/mcp/asset/60e78d47-c6b4-4807-a91f-663aa168a5f1";
 
 import imgBadgeUnearned from '../../assets/milestone v2/badge-unearned.svg'
-import imgStory1No  from '../../assets/milestone v2/story-1-no.svg'
-import imgStory5No  from '../../assets/milestone v2/story-5-no.svg'
-import imgStory10No from '../../assets/milestone v2/story-10-no.svg'
-import imgStory20No from '../../assets/milestone v2/story-20-no.svg'
-import imgStory52No from '../../assets/milestone v2/story-52-no.svg'
+import imgUnearned1  from '../../assets/milestone v2/unearned-1.svg'
+import imgUnearned5  from '../../assets/milestone v2/unearned-5.svg'
+import imgUnearned10 from '../../assets/milestone v2/unearned-10.svg'
+import imgUnearned20 from '../../assets/milestone v2/unearned-20.svg'
+import imgUnearned52 from '../../assets/milestone v2/unearned-52.svg'
+import imgEarned1  from '../../assets/milestone v2/earned-1.svg'
+import imgEarned5  from '../../assets/milestone v2/earned-5.svg'
+import imgEarned10 from '../../assets/milestone v2/earned-10.svg'
+import imgEarned20 from '../../assets/milestone v2/earned-20.svg'
+import imgEarned52 from '../../assets/milestone v2/earned-52.svg'
 
 
 // ─── Sub-components ────────────────────────────────────────────────────────
@@ -70,7 +75,6 @@ const devScenarios: { label: string; id: string; implemented: boolean; hidden?: 
   { label: 'Option A.1 — First question',        id: 'a1-first-question',          implemented: true  },
   { label: 'Option A.1 — First q. answered',     id: 'a1-first-question-answered', implemented: true  },
   { label: 'Option A.1 — 5 answered',            id: 'a1-five-answered',           implemented: true  },
-  { label: 'Option A.1 — Milestones v2',          id: 'a1-five-answered-v2',         implemented: true  },
   { label: 'Option A.1 — Unengaged (2 mo.)',     id: 'a1-unengaged',               implemented: true  },
   { label: 'Option A.1 — Near end (avg.)',        id: 'a1-near-end',                implemented: true  },
   { label: 'Option A.1 — Sub. ended',            id: 'a1-sub-ended',               implemented: true  },
@@ -1697,14 +1701,6 @@ const BADGE_STAR_COLORS: Record<string, string> = {
   'Preview your book':       '#3D96BC',
 }
 const STAR_PATH = 'M14.9997 8.58337L15.4935 10.7757C15.9124 12.6352 17.3645 14.0873 19.2241 14.5062L21.4163 15L19.2241 15.4939C17.3645 15.9128 15.9124 17.3649 15.4935 19.2244L14.9997 21.4167L14.5058 19.2244C14.087 17.3649 12.6348 15.9128 10.7753 15.4939L8.58301 15L10.7753 14.5062C12.6348 14.0873 14.087 12.6352 14.5058 10.7757L14.9997 8.58337Z'
-const STORY_TILE_COLORS: Record<number, string> = { 1: '#3D96BC', 5: '#E3A369', 10: '#B38DC4', 20: '#189271', 52: '#F3B92C' }
-const STORY_NUMBER_PATHS: Record<number, string> = {
-  1:  'M16.3931 25H14.6711V17.804C14.3351 18.196 13.6211 18.392 13.0331 18.392H12.5851V16.838H12.8651C13.9151 16.824 14.6571 16.306 14.9651 15.27H16.3931V25Z',
-  5:  'M15.4503 25.21C13.5883 25.21 12.2863 24.188 12.0203 22.564L13.7423 22.326C13.9243 23.194 14.4983 23.81 15.4783 23.81C16.6123 23.81 17.2843 23.054 17.2843 21.794C17.2843 20.52 16.6683 19.666 15.5203 19.666C14.6103 19.666 14.0223 20.184 13.7843 21.08L12.2023 20.926L12.7903 15.27H18.5163V16.684H14.0643L13.7423 19.484C14.2043 18.742 14.9603 18.35 15.9823 18.35C17.8583 18.35 19.0063 19.638 19.0063 21.724C19.0063 23.824 17.6343 25.21 15.4503 25.21Z',
-  10: 'M12.3403 25H10.6183V17.804C10.2823 18.196 9.56832 18.392 8.98032 18.392H8.53232V16.838H8.81232C9.86232 16.824 10.6043 16.306 10.9123 15.27H12.3403V25ZM18.4162 25.21C15.8682 25.21 14.4682 23.292 14.4682 20.142C14.4682 16.978 15.8682 15.06 18.4162 15.06C20.9642 15.06 22.3782 16.978 22.3782 20.142C22.3782 23.292 20.9642 25.21 18.4162 25.21ZM18.4162 23.838C19.8722 23.838 20.6282 22.466 20.6282 20.142C20.6282 17.804 19.8722 16.432 18.4162 16.432C16.9602 16.432 16.2182 17.804 16.2182 20.142C16.2182 22.466 16.9602 23.838 18.4162 23.838Z',
-  20: 'M14.3581 25H7.52613V23.684C8.63213 22.956 9.86413 22.018 10.9281 21.01C12.0341 19.974 12.4261 19.19 12.4261 18.126C12.4261 17.062 11.8801 16.474 10.9001 16.474C9.90613 16.474 9.31813 17.09 9.31813 18.056C9.31813 18.294 9.34613 18.588 9.41613 18.91L7.68013 18.742C7.61013 18.476 7.58213 18.21 7.58213 17.972C7.58213 16.194 8.88413 15.06 10.9841 15.06C13.0421 15.06 14.2601 16.138 14.2601 18.042C14.2601 19.386 13.6301 20.534 12.2721 21.766C11.5721 22.396 10.8301 22.956 9.86413 23.558H14.3581V25ZM19.3664 25.21C16.8184 25.21 15.4184 23.292 15.4184 20.142C15.4184 16.978 16.8184 15.06 19.3664 15.06C21.9144 15.06 23.3284 16.978 23.3284 20.142C23.3284 23.292 21.9144 25.21 19.3664 25.21ZM19.3664 23.838C20.8224 23.838 21.5784 22.466 21.5784 20.142C21.5784 17.804 20.8224 16.432 19.3664 16.432C17.9104 16.432 17.1684 17.804 17.1684 20.142C17.1684 22.466 17.9104 23.838 19.3664 23.838Z',
-  52: 'M11.047 25.21C9.18497 25.21 7.88297 24.188 7.61697 22.564L9.33897 22.326C9.52097 23.194 10.095 23.81 11.075 23.81C12.209 23.81 12.881 23.054 12.881 21.794C12.881 20.52 12.265 19.666 11.117 19.666C10.207 19.666 9.61897 20.184 9.38097 21.08L7.79897 20.926L8.38697 15.27H14.113V16.684H9.66097L9.33897 19.484C9.80097 18.742 10.557 18.35 11.579 18.35C13.455 18.35 14.603 19.638 14.603 21.724C14.603 23.824 13.231 25.21 11.047 25.21ZM22.3484 25H15.5164V23.684C16.6224 22.956 17.8544 22.018 18.9184 21.01C20.0244 19.974 20.4164 19.19 20.4164 18.126C20.4164 17.062 19.8704 16.474 18.8904 16.474C17.8964 16.474 17.3084 17.09 17.3084 18.056C17.3084 18.294 17.3364 18.588 17.4064 18.91L15.6704 18.742C15.6004 18.476 15.5724 18.21 15.5724 17.972C15.5724 16.194 16.8744 15.06 18.9744 15.06C21.0324 15.06 22.2504 16.138 22.2504 18.042C22.2504 19.386 21.6204 20.534 20.2624 21.766C19.5624 22.396 18.8204 22.956 17.8544 23.558H22.3484V25Z',
-}
 
 function V2IllustrationCard({ label, earned }: { label: string; earned?: boolean }) {
   if (!earned) {
@@ -1782,11 +1778,11 @@ function StoryTileUnearned({ n, storyCount, src }: { n: number; storyCount: numb
   const [hovered, setHovered] = useState(false)
   const diff = n - storyCount
   return (
-    <div className="relative shrink-0 cursor-default" style={{ width: 30 }}
+    <div className="relative shrink-0 cursor-default" style={{ width: 40 }}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <img alt="" src={src} width={30} height={40} className="block" />
+      <img alt="" src={src} width={40} height={52} className="block" />
       <p className="absolute left-1/2 pointer-events-none whitespace-nowrap font-['GT_America:Medium'] text-[11px] leading-[16px] text-white bg-[#042a21] rounded-[4px] px-[8px] py-[3px] transition-opacity duration-150"
-        style={{ top: '46px', transform: 'translateX(-50%)', opacity: hovered ? 1 : 0 }}>
+        style={{ top: '58px', transform: 'translateX(-50%)', opacity: hovered ? 1 : 0 }}>
         Write {diff} more {diff === 1 ? 'story' : 'stories'}
       </p>
     </div>
@@ -1825,16 +1821,14 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
           <div className="flex gap-[16px] items-center">
             {([1, 5, 10, 20, 52] as const).map(n => {
               const earned = storyCount >= n
-              const noSrcs: Record<number, string> = { 1: imgStory1No, 5: imgStory5No, 10: imgStory10No, 20: imgStory20No, 52: imgStory52No }
+              const unearnedSrcs: Record<number, string> = { 1: imgUnearned1, 5: imgUnearned5, 10: imgUnearned10, 20: imgUnearned20, 52: imgUnearned52 }
               if (earned) {
+                const earnedSrcs: Record<number, string> = { 1: imgEarned1, 5: imgEarned5, 10: imgEarned10, 20: imgEarned20, 52: imgEarned52 }
                 return (
-                  <svg key={n} width="30" height="40" viewBox="0 0 30 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-                    <rect x="0.5" y="0.5" width="29" height="39" rx="1.5" fill="white" stroke={STORY_TILE_COLORS[n]}/>
-                    <path d={STORY_NUMBER_PATHS[n]} fill="black"/>
-                  </svg>
+                  <img key={n} alt="" src={earnedSrcs[n]} width={48} height={60} className="block shrink-0" style={{ margin: '-3px -4px -5px -4px', filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.05))' }} />
                 )
               }
-              return <StoryTileUnearned key={n} n={n} storyCount={storyCount} src={noSrcs[n]} />
+              return <StoryTileUnearned key={n} n={n} storyCount={storyCount} src={unearnedSrcs[n]} />
             })}
           </div>
           {storyCount === 0 ? (
@@ -3847,7 +3841,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 showBar={false}
                 showBarFill={false}
                 milestoneCount={isA1FiveAnsweredV2 ? 6 : isA1FiveAnswered ? 7 : isA1NearEnd ? 8 : isA1FirstQuestionAnswered ? 2 : 1}
-                storyCount={(isA1FiveAnswered || isA1FiveAnsweredV2) ? 5 : isA1NearEnd ? 15 : undefined}
+                storyCount={(isA1FiveAnswered || isA1FiveAnsweredV2) ? 5 : isA1NearEnd ? 15 : isA1FirstQuestionAnswered ? 1 : undefined}
                 nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnsweredV2 ? 'Add a photo' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
                 nextMilestoneLabel={isA1NearEnd || isA1FiveAnswered || isA1FiveAnsweredV2 ? 'Keep up your storytelling:' : isA1FirstQuestionAnswered ? 'Try something new:' : 'Next:'}
                 nextMilestoneHoverText={isA1NearEnd ? "Add 20 stories: you've written 15/20" : isA1FiveAnswered ? "Add 10 stories: you've written 5/10" : undefined}
