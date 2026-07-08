@@ -52,13 +52,13 @@ const imgPhoto7 = "https://www.figma.com/api/mcp/asset/a11e0c40-e463-40c8-8776-f
 const imgPhoto8 = "https://www.figma.com/api/mcp/asset/10ae6512-65f9-45fe-86eb-5962e1181b9a";
 const imgWavingHandA = "https://www.figma.com/api/mcp/asset/60e78d47-c6b4-4807-a91f-663aa168a5f1";
 
-import imgV2ExploreQ     from '../../assets/milestone v2/questions.svg'
-import imgV2AddStory     from '../../assets/milestone v2/first-story.svg'
-import imgV2AddReader    from '../../assets/milestone v2/reader.svg'
-import imgV2MagicQ       from '../../assets/milestone v2/magic-qs.svg'
-import imgV2RecordPhone  from '../../assets/milestone v2/record.svg'
-import imgV2Podcast      from '../../assets/milestone v2/podcast.svg'
-import imgV2Unearned     from '../../assets/milestone v2/unearned.svg'
+import imgBadgeUnearned from '../../assets/milestone v2/badge-unearned.svg'
+import imgStory1No  from '../../assets/milestone v2/story-1-no.svg'
+import imgStory5No  from '../../assets/milestone v2/story-5-no.svg'
+import imgStory10No from '../../assets/milestone v2/story-10-no.svg'
+import imgStory20No from '../../assets/milestone v2/story-20-no.svg'
+import imgStory52No from '../../assets/milestone v2/story-52-no.svg'
+
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
@@ -1593,6 +1593,7 @@ function MenuButton() {
   )
 }
 
+// v1 backup reference — kept for comparison; all active scenarios use MilestonesModalV2
 function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPercent = 1, subscriptionEnded = false, renewCopy }: { onClose: () => void; earnedCount?: number; storyCount?: number; subscriptionPercent?: number; subscriptionEnded?: boolean; renewCopy?: string }) {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -1650,75 +1651,149 @@ function MilestonesModal({ onClose, earnedCount = 1, storyCount, subscriptionPer
   )
 }
 
-type V2MilestoneItem = { label: string; earned?: boolean; link?: string; earnedLink?: string }
+type V2MilestoneItem = { label: string; earned?: boolean; link?: string; earnedLink?: string; hoverPlain?: string }
 
 const MILESTONE_LIST_V2: V2MilestoneItem[] = [
   { label: 'Explore questions',       earned: true, link: 'Keep exploring →' },
-  { label: 'Add a reader',            earned: true },
-  { label: 'Explore magic questions', earned: true },
-  { label: 'Record over the phone',   earned: true },
-  { label: 'Add a photo' },
-  { label: 'Start your podcast',      earned: true },
-  { label: 'Design your cover' },
-  { label: 'Preview your book' },
+  { label: 'Add a reader',            earned: true, link: 'Add more readers →' },
+  { label: 'Explore magic questions', earned: true, link: 'Add questions →' },
+  { label: 'Record over the phone',   earned: true, link: 'Record a story →' },
+  { label: 'Add a photo',             hoverPlain: 'Open a story to add photos' },
+  { label: 'Start your podcast',      earned: true, link: 'Go to podcast →' },
+  { label: 'Design your cover',       link: 'Design your cover →' },
+  { label: 'Preview your book',       link: 'Preview book →' },
 ]
 
-function V2IllustrationCard({ label, earned }: { label: string; earned?: boolean }) {
-  // Each SVG is self-contained (background + illustration). Base sizes scaled 20% from originals.
-  // Reader (44px) and Podcast (38px) are wider than the standard 36px card.
-  // Reader cheats its extra 8px into the left row padding via negative marginLeft.
-  // Podcast absorbs its extra 2px via negative marginRight, shrinking the gap to the text.
-  if (!earned) return <img alt="" src={imgV2Unearned} width={36} height={48} className="shrink-0 block" />
-  const cards: Record<string, { src: string; w: number; style?: React.CSSProperties }> = {
-    'Explore questions':       { src: imgV2ExploreQ,    w: 36 },
-    'Add your first story':    { src: imgV2AddStory,    w: 36 },
-    'Add a reader':            { src: imgV2AddReader,   w: 44, style: { marginLeft: '-8px' } },
-    'Explore magic questions': { src: imgV2MagicQ,      w: 36 },
-    'Record over the phone':   { src: imgV2RecordPhone, w: 36 },
-    'Start your podcast':      { src: imgV2Podcast,     w: 38, style: { marginRight: '-2px' } },
-  }
-  const card = cards[label]
-  if (!card) return <img alt="" src={imgV2Unearned} width={36} height={48} className="shrink-0 block" />
-  return <img alt="" src={card.src} width={card.w} height={48} className="shrink-0 block" style={card.style} />
+const MILESTONE_LIST_V2_NEW_USER: V2MilestoneItem[] = [
+  { label: 'Explore questions',       earned: true, link: 'Keep exploring →' },
+  { label: 'Add a reader',            link: 'Add more readers →' },
+  { label: 'Explore magic questions', link: 'Add questions →' },
+  { label: 'Record over the phone',   link: 'Record a story →' },
+  { label: 'Add a photo',             hoverPlain: 'Open a story to add photos' },
+  { label: 'Start your podcast',      link: 'Go to podcast →' },
+  { label: 'Design your cover',       link: 'Design your cover →' },
+  { label: 'Preview your book',       link: 'Preview book →' },
+]
+
+const MILESTONE_LIST_V2_NEAR_END: V2MilestoneItem[] = [
+  { label: 'Explore questions',       earned: true, link: 'Keep exploring →' },
+  { label: 'Add a reader',            earned: true, link: 'Add more readers →' },
+  { label: 'Explore magic questions', earned: true, link: 'Add questions →' },
+  { label: 'Record over the phone',   earned: true, link: 'Record a story →' },
+  { label: 'Add a photo',             hoverPlain: 'Open a story to add photos' },
+  { label: 'Start your podcast',      earned: true, link: 'Go to podcast →' },
+  { label: 'Design your cover',       earned: true, link: 'Design your cover →' },
+  { label: 'Preview your book',       earned: true, link: 'Preview book →' },
+]
+
+const BADGE_STAR_COLORS: Record<string, string> = {
+  'Explore questions':       '#189271',
+  'Add a reader':            '#E3A369',
+  'Explore magic questions': '#B38DC4',
+  'Record over the phone':   '#3D96BC',
+  'Add a photo':             '#F3B92C',
+  'Start your podcast':      '#189271',
+  'Design your cover':       '#E3A369',
+  'Preview your book':       '#3D96BC',
+}
+const STAR_PATH = 'M14.9997 8.58337L15.4935 10.7757C15.9124 12.6352 17.3645 14.0873 19.2241 14.5062L21.4163 15L19.2241 15.4939C17.3645 15.9128 15.9124 17.3649 15.4935 19.2244L14.9997 21.4167L14.5058 19.2244C14.087 17.3649 12.6348 15.9128 10.7753 15.4939L8.58301 15L10.7753 14.5062C12.6348 14.0873 14.087 12.6352 14.5058 10.7757L14.9997 8.58337Z'
+const STORY_TILE_COLORS: Record<number, string> = { 1: '#3D96BC', 5: '#E3A369', 10: '#B38DC4', 20: '#189271', 52: '#F3B92C' }
+const STORY_NUMBER_PATHS: Record<number, string> = {
+  1:  'M16.3931 25H14.6711V17.804C14.3351 18.196 13.6211 18.392 13.0331 18.392H12.5851V16.838H12.8651C13.9151 16.824 14.6571 16.306 14.9651 15.27H16.3931V25Z',
+  5:  'M15.4503 25.21C13.5883 25.21 12.2863 24.188 12.0203 22.564L13.7423 22.326C13.9243 23.194 14.4983 23.81 15.4783 23.81C16.6123 23.81 17.2843 23.054 17.2843 21.794C17.2843 20.52 16.6683 19.666 15.5203 19.666C14.6103 19.666 14.0223 20.184 13.7843 21.08L12.2023 20.926L12.7903 15.27H18.5163V16.684H14.0643L13.7423 19.484C14.2043 18.742 14.9603 18.35 15.9823 18.35C17.8583 18.35 19.0063 19.638 19.0063 21.724C19.0063 23.824 17.6343 25.21 15.4503 25.21Z',
+  10: 'M12.3403 25H10.6183V17.804C10.2823 18.196 9.56832 18.392 8.98032 18.392H8.53232V16.838H8.81232C9.86232 16.824 10.6043 16.306 10.9123 15.27H12.3403V25ZM18.4162 25.21C15.8682 25.21 14.4682 23.292 14.4682 20.142C14.4682 16.978 15.8682 15.06 18.4162 15.06C20.9642 15.06 22.3782 16.978 22.3782 20.142C22.3782 23.292 20.9642 25.21 18.4162 25.21ZM18.4162 23.838C19.8722 23.838 20.6282 22.466 20.6282 20.142C20.6282 17.804 19.8722 16.432 18.4162 16.432C16.9602 16.432 16.2182 17.804 16.2182 20.142C16.2182 22.466 16.9602 23.838 18.4162 23.838Z',
+  20: 'M14.3581 25H7.52613V23.684C8.63213 22.956 9.86413 22.018 10.9281 21.01C12.0341 19.974 12.4261 19.19 12.4261 18.126C12.4261 17.062 11.8801 16.474 10.9001 16.474C9.90613 16.474 9.31813 17.09 9.31813 18.056C9.31813 18.294 9.34613 18.588 9.41613 18.91L7.68013 18.742C7.61013 18.476 7.58213 18.21 7.58213 17.972C7.58213 16.194 8.88413 15.06 10.9841 15.06C13.0421 15.06 14.2601 16.138 14.2601 18.042C14.2601 19.386 13.6301 20.534 12.2721 21.766C11.5721 22.396 10.8301 22.956 9.86413 23.558H14.3581V25ZM19.3664 25.21C16.8184 25.21 15.4184 23.292 15.4184 20.142C15.4184 16.978 16.8184 15.06 19.3664 15.06C21.9144 15.06 23.3284 16.978 23.3284 20.142C23.3284 23.292 21.9144 25.21 19.3664 25.21ZM19.3664 23.838C20.8224 23.838 21.5784 22.466 21.5784 20.142C21.5784 17.804 20.8224 16.432 19.3664 16.432C17.9104 16.432 17.1684 17.804 17.1684 20.142C17.1684 22.466 17.9104 23.838 19.3664 23.838Z',
+  52: 'M11.047 25.21C9.18497 25.21 7.88297 24.188 7.61697 22.564L9.33897 22.326C9.52097 23.194 10.095 23.81 11.075 23.81C12.209 23.81 12.881 23.054 12.881 21.794C12.881 20.52 12.265 19.666 11.117 19.666C10.207 19.666 9.61897 20.184 9.38097 21.08L7.79897 20.926L8.38697 15.27H14.113V16.684H9.66097L9.33897 19.484C9.80097 18.742 10.557 18.35 11.579 18.35C13.455 18.35 14.603 19.638 14.603 21.724C14.603 23.824 13.231 25.21 11.047 25.21ZM22.3484 25H15.5164V23.684C16.6224 22.956 17.8544 22.018 18.9184 21.01C20.0244 19.974 20.4164 19.19 20.4164 18.126C20.4164 17.062 19.8704 16.474 18.8904 16.474C17.8964 16.474 17.3084 17.09 17.3084 18.056C17.3084 18.294 17.3364 18.588 17.4064 18.91L15.6704 18.742C15.6004 18.476 15.5724 18.21 15.5724 17.972C15.5724 16.194 16.8744 15.06 18.9744 15.06C21.0324 15.06 22.2504 16.138 22.2504 18.042C22.2504 19.386 21.6204 20.534 20.2624 21.766C19.5624 22.396 18.8204 22.956 17.8544 23.558H22.3484V25Z',
 }
 
-function MilestoneModalRowV2({ label, earned, link, earnedLink }: V2MilestoneItem) {
+function V2IllustrationCard({ label, earned }: { label: string; earned?: boolean }) {
+  if (!earned) {
+    return <img alt="" src={imgBadgeUnearned} width={30} height={30} className="block shrink-0" />
+  }
+  const fill = BADGE_STAR_COLORS[label] ?? '#189271'
+  return (
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <rect width="30" height="30" rx="15" fill={fill}/>
+      <path d={STAR_PATH} stroke="white" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+function MilestoneModalRowV2({ label, earned, link, earnedLink, hoverPlain }: V2MilestoneItem) {
   const [hovered, setHovered] = useState(false)
   const activeLink = earned && earnedLink ? earnedLink : link
+  const hasHover = !!(activeLink || hoverPlain)
+  const unearnedHover = !earned && hasHover
   return (
     <div
-      className={`flex gap-[12px] items-center p-[8px] rounded-[4px] w-full shrink-0 ${activeLink ? 'cursor-pointer' : 'cursor-default'}`}
+      className={`flex gap-[12px] items-center p-[4px] rounded-[4px] w-full shrink-0 h-[48px] ${activeLink ? 'cursor-pointer' : 'cursor-default'}`}
       style={{ background: hovered ? '#f5f5f5' : 'transparent' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <V2IllustrationCard label={label} earned={earned} />
-      <div className="flex flex-col gap-[4px] justify-center min-w-0 flex-1">
-        <p className={`font-['GT_America:${earned ? 'Medium' : 'Regular'}'] text-[14px] leading-[18px] text-[#042a21] whitespace-nowrap`}>
-          {label}
-        </p>
-        {earned && (
-          <div className="relative h-[16px]">
-            <div className="absolute inset-0 flex items-center transition-opacity duration-[180ms]"
-              style={{ opacity: hovered && activeLink ? 0 : 1 }}>
-              <div className="bg-[#D6ECF5] inline-flex items-center px-[5px] py-[2px] rounded-[2px]">
-                <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#068089]">Reached</p>
+      {unearnedHover ? (
+        <div className="relative min-w-0 flex-1" style={{ alignSelf: 'stretch' }}>
+          <p className="absolute inset-0 flex items-center font-['GT_America:Regular'] text-[14px] leading-[18px] text-[#042a21] whitespace-nowrap transition-transform duration-[180ms]"
+            style={{ transform: hovered ? 'translateY(-9px)' : 'translateY(0)' }}>
+            {label}
+          </p>
+          {activeLink && (
+            <p className="absolute bottom-[2px] inset-x-0 font-['GT_America:Regular'] text-[14px] leading-[16px] text-[#07777e] underline [text-decoration-skip-ink:none] [text-underline-position:from-font] whitespace-nowrap transition-opacity duration-[180ms]"
+              style={{ opacity: hovered ? 1 : 0 }}>
+              {activeLink}
+            </p>
+          )}
+          {hoverPlain && (
+            <p className="absolute bottom-[2px] inset-x-0 font-['GT_America:Regular'] text-[14px] leading-[16px] text-[#61706f] whitespace-nowrap transition-opacity duration-[180ms]"
+              style={{ opacity: hovered ? 1 : 0 }}>
+              {hoverPlain}
+            </p>
+          )}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-[4px] justify-center min-w-0 flex-1">
+          <p className={`font-['GT_America:${earned ? 'Medium' : 'Regular'}'] text-[14px] leading-[18px] text-[#042a21] whitespace-nowrap`}>
+            {label}
+          </p>
+          {earned && (
+            <div className="relative h-[16px]">
+              <div className="absolute inset-0 flex items-center transition-opacity duration-[180ms]"
+                style={{ opacity: hovered && hasHover ? 0 : 1 }}>
+                <div className="bg-[#D6ECF5] inline-flex items-center px-[5px] py-[2px] rounded-[2px]">
+                  <p className="font-['GT_America:Regular'] text-[12px] leading-none text-[#068089]">Reached</p>
+                </div>
               </div>
+              {activeLink && (
+                <p className="absolute inset-0 flex items-center font-['GT_America:Regular'] text-[14px] leading-[16px] text-[#07777e] underline [text-decoration-skip-ink:none] [text-underline-position:from-font] whitespace-nowrap transition-opacity duration-[180ms]"
+                  style={{ opacity: hovered ? 1 : 0 }}>
+                  {activeLink}
+                </p>
+              )}
             </div>
-            {activeLink && (
-              <p className="absolute inset-0 flex items-center font-['GT_America:Regular'] text-[14px] leading-[16px] text-[#07777e] underline [text-decoration-skip-ink:none] [text-underline-position:from-font] whitespace-nowrap transition-opacity duration-[180ms]"
-                style={{ opacity: hovered ? 1 : 0 }}>
-                {activeLink}
-              </p>
-            )}
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
-function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0 }: { onClose: () => void; subscriptionPercent?: number; storyCount?: number }) {
+function StoryTileUnearned({ n, storyCount, src }: { n: number; storyCount: number; src: string }) {
+  const [hovered, setHovered] = useState(false)
+  const diff = n - storyCount
+  return (
+    <div className="relative shrink-0 cursor-default" style={{ width: 30 }}
+      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      <img alt="" src={src} width={30} height={40} className="block" />
+      <p className="absolute left-1/2 pointer-events-none whitespace-nowrap font-['GT_America:Medium'] text-[11px] leading-[16px] text-white bg-[#042a21] rounded-[4px] px-[8px] py-[3px] transition-opacity duration-150"
+        style={{ top: '46px', transform: 'translateX(-50%)', opacity: hovered ? 1 : 0 }}>
+        Write {diff} more {diff === 1 ? 'story' : 'stories'}
+      </p>
+    </div>
+  )
+}
+
+function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, milestones = MILESTONE_LIST_V2, subscriptionLabel = '11 months to go' }: { onClose: () => void; subscriptionPercent?: number; storyCount?: number; milestones?: V2MilestoneItem[]; subscriptionLabel?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
@@ -1739,7 +1814,7 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0 }:
               style={{ width: `${subscriptionPercent}%`, backgroundImage: MILESTONE_GRADIENT }} />
           </div>
           <div className="flex items-center justify-between">
-            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">11 months to go</span>
+            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">{subscriptionLabel}</span>
             <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
           </div>
         </div>
@@ -1750,12 +1825,16 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0 }:
           <div className="flex gap-[16px] items-center">
             {([1, 5, 10, 20, 52] as const).map(n => {
               const earned = storyCount >= n
-              const earnedBg: Record<number, string> = { 1: '#4CAED1', 5: '#E8956C', 10: '#A080C8', 20: '#3E8070', 52: '#E8B03A' }
-              return (
-                <div key={n} className={`size-[33px] rounded-full flex items-center justify-center flex-shrink-0 ${earned ? '' : 'border border-dashed border-[#cfcfcf]'}`} style={earned ? { backgroundColor: earnedBg[n] } : undefined}>
-                  <span className={`font-['GT_America:Medium'] text-[14px] leading-normal text-center ${earned ? 'text-white' : 'text-[#cfcfcf]'}`}>{n}</span>
-                </div>
-              )
+              const noSrcs: Record<number, string> = { 1: imgStory1No, 5: imgStory5No, 10: imgStory10No, 20: imgStory20No, 52: imgStory52No }
+              if (earned) {
+                return (
+                  <svg key={n} width="30" height="40" viewBox="0 0 30 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                    <rect x="0.5" y="0.5" width="29" height="39" rx="1.5" fill="white" stroke={STORY_TILE_COLORS[n]}/>
+                    <path d={STORY_NUMBER_PATHS[n]} fill="black"/>
+                  </svg>
+                )
+              }
+              return <StoryTileUnearned key={n} n={n} storyCount={storyCount} src={noSrcs[n]} />
             })}
           </div>
           {storyCount === 0 ? (
@@ -1778,10 +1857,10 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0 }:
         <p className="font-['GT_America:Medium'] text-[14px] leading-normal text-[#042a21] m-0 mb-[12px]">Explore your toolbox</p>
         <div className="flex gap-[16px]">
           <div className="flex flex-col gap-[6px] flex-1">
-            {MILESTONE_LIST_V2.slice(0, 4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
+            {milestones.slice(0, 4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
           </div>
           <div className="flex flex-col gap-[6px] flex-1">
-            {MILESTONE_LIST_V2.slice(4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
+            {milestones.slice(4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
           </div>
         </div>
       </div>
@@ -1803,7 +1882,7 @@ function PurpleBarFill({ gradient = PURPLE_GRADIENT }: { gradient?: string }) {
   )
 }
 
-function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0, subscriptionPercent = 1, milestoneModalV2 = false, subscriptionEnded = false, renewCopy }: {
+function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, weekLabel, showTimeline2, milestoneCount, storyCount, nextMilestoneText, nextMilestoneHoverText, nextMilestoneLabel = 'Next:', showBarFill = true, showBar = true, highlightButton = false, milestoneButtonRef, badgeHopDelay = 0, subscriptionPercent = 1, milestoneModalV2 = false, subscriptionEnded = false, renewCopy, milestoneListV2, subscriptionLabel }: {
   variant: 'new' | 'mid' | 'end' | 'explore'
   fillOverride?: number[]
   animate?: boolean
@@ -1816,6 +1895,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   showBar?: boolean
   nextMilestoneText?: string
   nextMilestoneHoverText?: string
+  nextMilestoneLabel?: string
   highlightButton?: boolean
   milestoneButtonRef?: React.RefObject<HTMLButtonElement | null>
   badgeHopDelay?: number
@@ -1823,13 +1903,15 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
   milestoneModalV2?: boolean
   subscriptionEnded?: boolean
   renewCopy?: string
+  milestoneListV2?: V2MilestoneItem[]
+  subscriptionLabel?: string
 }) {
   const [showMilestonesModal, setShowMilestonesModal] = useState(false)
   if (variant === 'explore') {
     const tealFill = fillOverride?.[0] ?? 0.263
     const barGradient = (milestoneCount ?? 1) >= 2 ? RED_MAGENTA_GRADIENT : PURPLE_GRADIENT
     return (
-      <div className="relative z-[10] flex gap-[16px] items-center w-full cursor-pointer min-h-[40px]">
+      <div className="relative z-[10] flex gap-[16px] items-center w-full min-h-[40px]">
         <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } } @keyframes milestone-glow { 0% { box-shadow:0 0 0 0 rgba(6,128,137,0); } 40% { box-shadow:0 0 0 5px rgba(6,128,137,0.55); } 100% { box-shadow:0 0 0 3px rgba(6,128,137,0.25); } }`}</style>
         {showBar && <div className="relative flex-none w-[146px]">
           <div className="relative h-[20px] w-full rounded-full overflow-hidden">
@@ -1853,7 +1935,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 <button type="button" className="font-['GT_America:Medium'] cursor-pointer underline text-[#068089] transition-colors">Renew your subscription</button>
               </span>
             ) : showTimeline2 ? (
-              <span className="flex flex-wrap items-baseline gap-x-[6px]"><span className="whitespace-nowrap">⛰️ Your next milestone:</span>
+              <span className="flex flex-wrap items-baseline gap-x-[6px]"><span className="whitespace-nowrap">{nextMilestoneLabel}</span>
                 <button type="button" className="font-['GT_America:Medium'] cursor-pointer underline text-[#068089] transition-colors group/next">
                   <span className={nextMilestoneHoverText ? 'group-hover:hidden' : ''}>
                     {nextMilestoneText ?? 'Add your first story'}<span className="opacity-0 group-hover/next:opacity-100 group-hover:opacity-100 transition-opacity"> →</span>
@@ -1864,13 +1946,13 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 </button>
               </span>
             ) : (
-              <>⛰️ Your first milestone: <span className="font-['GT_America:Medium']">Scroll to explore your memoir questions</span></>
+              <>Scroll to explore your memoir questions</>
             )}
           </p>
           {(showTimeline2 || subscriptionEnded) && (
             <div className="relative flex-shrink-0" style={{ animation: 'milestone-in 0.4s ease-out both' }}>
               <button type="button" ref={milestoneButtonRef}
-                className={`flex gap-[8px] items-center h-[40px] px-[14px] rounded-[20px] border-2 transition-colors cursor-pointer group/milestone ${highlightButton ? 'bg-[#D6ECF5] border-[#068089]' : 'hover:bg-white border-transparent hover:border-[#61706f]'}`}
+                className={`flex gap-[12px] items-center h-[40px] px-[14px] rounded-[20px] border-2 transition-colors cursor-pointer group/milestone ${highlightButton ? 'bg-[#D6ECF5] border-[#068089]' : 'hover:bg-white border-transparent hover:border-[#61706f]'}`}
                 onMouseDown={e => e.stopPropagation()}
                 onClick={e => { e.stopPropagation(); setShowMilestonesModal(v => !v) }}>
                 {subscriptionEnded ? (
@@ -1879,36 +1961,29 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                     <img alt="" className="size-[18px] block flex-shrink-0" src={imgChevronDown} />
                   </>
                 ) : (<>
-                <span className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                  {milestoneModalV2 ? '11 months to go' : 'You\'ve reached'}
+                <span className="self-center font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap" style={milestoneModalV2 ? { marginRight: '-2px', transform: 'translateY(-1px)' } : undefined}>
+                  {milestoneModalV2 ? (subscriptionLabel ?? '11 months to go') : 'You\'ve reached'}
                 </span>
-                {milestoneModalV2 ? (
-                  <div className="flex items-center flex-shrink-0">
-                    {(storyCount ?? 0) > 0 && (() => {
-                      const earnedBg: Record<number, string> = { 1: '#4CAED1', 5: '#E8956C', 10: '#A080C8', 20: '#3E8070', 52: '#E8B03A' }
-                      const highest = [1, 5, 10, 20, 52].filter(n => (storyCount ?? 0) >= n).pop()!
-                      return (
-                        <div className="size-[26px] rounded-full flex items-center justify-center flex-shrink-0 border-2 border-white relative z-[3]" style={{ backgroundColor: earnedBg[highest], marginRight: '-6px' }}>
-                          <span className="font-['GT_America:Medium'] text-[13px] leading-none text-white">{highest}</span>
+                {milestoneModalV2 ? (() => {
+                  const earnedBadges = (milestoneListV2 ?? []).filter(m => m.earned)
+                  const items: { kind: 'badge'; label: string }[] = earnedBadges.map(m => ({ kind: 'badge' as const, label: m.label }))
+                  return (
+                    <div className="flex items-center flex-shrink-0 self-center" style={{ marginRight: '-2px' }}>
+                      {items.map((item, i) => (
+                        <div key={i} className="relative flex-shrink-0 flex items-center"
+                          style={{ marginRight: i < items.length - 1 ? '-10px' : '10px', zIndex: i + 1, filter: 'drop-shadow(0px 1px 4px rgba(0,0,0,0.18))', animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay + i * 0.1}s both` }}>
+                          <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.5" y="0.5" width="29" height="29" rx="14.5" fill={BADGE_STAR_COLORS[item.label] ?? '#189271'} stroke="white" strokeWidth="1.5"/>
+                            <path d={STAR_PATH} stroke="white" strokeLinejoin="round"/>
+                          </svg>
                         </div>
-                      )
-                    })()}
-                    <div className="flex items-center justify-center relative z-[2]" style={{ width: '25px', height: '29px', marginRight: '-6px' }}>
-                      <div style={{ transform: 'rotate(-7.53deg)' }}>
-                        <div className="border-2 border-white flex items-center justify-center rounded-[2px] bg-[#189271]" style={{ width: '22px', height: '26px', boxShadow: '0px 2px 6px rgba(0,0,0,0.06)' }}>
-                          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M8 8V1.5M8 1.5C6.5 0.5 3.5 0.5 1 1.5V8C3.5 7 6.5 7 8 8M8 1.5C9.5 0.5 12.5 0.5 15 1.5V8C12.5 7 9.5 7 8 8" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                        </div>
-                      </div>
+                      ))}
+                      <span className="self-center font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap" style={{ transform: 'translateY(-1px)' }}>
+                        Your achievements
+                      </span>
                     </div>
-                    <div className="flex items-center justify-center relative z-[1]" style={{ width: '25px', height: '29px' }}>
-                      <div style={{ transform: 'rotate(7.78deg)' }}>
-                        <div className="border-2 border-white flex items-center justify-center rounded-[2px] bg-[#e3a369]" style={{ width: '22px', height: '26px', boxShadow: '0px 2px 6px rgba(0,0,0,0.06)' }}>
-                          <svg width="16" height="9" viewBox="0 0 16 9" fill="none" aria-hidden="true"><path d="M8 8V1.5M8 1.5C6.5 0.5 3.5 0.5 1 1.5V8C3.5 7 6.5 7 8 8M8 1.5C9.5 0.5 12.5 0.5 15 1.5V8C12.5 7 9.5 7 8 8" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (milestoneCount ?? 1) >= 5 ? (
+                  )
+                })() : (milestoneCount ?? 1) >= 5 ? (
                     <div className="relative flex-shrink-0" style={{ width: '64px', height: '24px' }}>
                       <div className="absolute left-0 top-0 size-[24px]"
                         style={{ animation: `badge-hop-spin 0.6s ease-in-out ${0.4 + badgeHopDelay}s both` }}>
@@ -1985,18 +2060,17 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                       style={{ top: '3.91px', left: '50%', transform: 'translateX(-50%)' }}>⛰️</span>
                   </div>
                 )}
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
-                  {milestoneModalV2
-                    ? `${storyCount ?? 0} ${(storyCount ?? 0) === 1 ? 'story' : 'stories'} · ${milestoneCount ?? 1} milestones`
-                    : `${milestoneCount ?? 1} ${(milestoneCount ?? 1) === 1 ? 'milestone' : 'milestones'}`
-                  }
-                </span>
+                {!milestoneModalV2 && (
+                  <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap">
+                    {milestoneCount ?? 1} {(milestoneCount ?? 1) === 1 ? 'milestone' : 'milestones'}
+                  </span>
+                )}
                 <img alt="" className="size-[18px] block flex-shrink-0" src={imgChevronDown} />
                 </>)}
               </button>
               {showMilestonesModal && (
                 milestoneModalV2
-                  ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} storyCount={storyCount} />
+                  ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} storyCount={storyCount} milestones={milestoneListV2} subscriptionLabel={subscriptionLabel} />
                   : <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} subscriptionEnded={subscriptionEnded} renewCopy={renewCopy} />
               )}
             </div>
@@ -3276,7 +3350,7 @@ export default function MemoirPage() {
   const [timelineAnimating, setTimelineAnimating] = useState(false)
   const [showTimeline2, setShowTimeline2] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [milestoneGlow, setMilestoneGlow] = useState(false)
+
   const [milestoneBarHighlight, setMilestoneBarHighlight] = useState(false)
   const [milestoneCongratsVisible, setMilestoneCongratsVisible] = useState(false)
   const milestoneButtonRef = useRef<HTMLButtonElement>(null)
@@ -3286,7 +3360,7 @@ export default function MemoirPage() {
     // questions move up: card collapses over ~550ms, questions fade in over ~950ms
     setTimeout(() => setTimelineAnimating(true), 900)
     // bar fills in 600ms → timeline2 bounces in
-    setTimeout(() => setShowTimeline2(true), 900 + 600)
+    setTimeout(() => { setShowTimeline2(true); setMilestoneCongratsVisible(true) }, 900 + 600)
     setTimeout(() => setRevealState('revealed'), 900 + 800)
   }
 
@@ -3298,7 +3372,6 @@ export default function MemoirPage() {
     setRevealState('hidden')
     setTimelineAnimating(false)
     setShowTimeline2(false)
-    setMilestoneGlow(false)
     setMilestoneBarHighlight(false)
     setMilestoneCongratsVisible(false)
     setIssueNavStep(null)
@@ -3327,7 +3400,7 @@ export default function MemoirPage() {
         if (entry.isIntersecting) {
           setRevealState('revealing')
           setTimeout(() => setTimelineAnimating(true), 0)
-          setTimeout(() => setShowTimeline2(true), 600)
+          setTimeout(() => { setShowTimeline2(true); if (scenario === 'a1-new' || scenario === 'a1-unengaged') setMilestoneCongratsVisible(true) }, 600)
           setTimeout(() => setRevealState('revealed'), 800)
           obs?.disconnect()
         }
@@ -3339,21 +3412,27 @@ export default function MemoirPage() {
 
   // a1-new: fire full-width confetti, highlight the bar for 1s, then highlight the milestone button
   // Guard on timelineAnimating prevents spurious fire when switching scenarios while showTimeline2 is stale-true
+  // Deferred via setTimeout so React Strict Mode's simulated cleanup fires before confetti runs,
+  // preventing the effect from double-firing in development.
   useEffect(() => {
     if ((scenario !== 'a1-new' && scenario !== 'a1-unengaged') || !showTimeline2 || !timelineAnimating) return
-    const el = milestoneButtonRef.current
-    const rect = el?.getBoundingClientRect()
-    const oy = rect ? rect.top / window.innerHeight : 0.06
-    const base = { angle: 90, spread: 45, scalar: 1, startVelocity: 40, ticks: 200, gravity: 1, decay: 0.9, shapes: ['square' as const, 'circle' as const], colors: ['#068089', '#7dd4d8', '#2E7C69', '#50A890', '#F5DA96', '#7B4ED6', '#c4234e'], disableForReducedMotion: true, zIndex: 9999 }
-    const origins = [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]
-    origins.forEach(x => confetti({ ...base, particleCount: 8, origin: { x, y: oy } }))
-    setMilestoneBarHighlight(true)
-    setMilestoneCongratsVisible(true)
-    const t0 = setTimeout(() => setMilestoneBarHighlight(false), 1000)
-    const t3 = setTimeout(() => setMilestoneCongratsVisible(false), 4500)
-    const t1 = setTimeout(() => setMilestoneGlow(true), 2600)
-    const t2 = setTimeout(() => setMilestoneGlow(false), 6600)
-    return () => { clearTimeout(t0); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    let active = true
+    let t0: ReturnType<typeof setTimeout>
+    let t3: ReturnType<typeof setTimeout>
+    const fireId = setTimeout(() => {
+      if (!active) return
+      const el = milestoneButtonRef.current
+      const rect = el?.getBoundingClientRect()
+      const oy = rect ? rect.top / window.innerHeight : 0.06
+      const base = { angle: 90, spread: 45, scalar: 1, startVelocity: 40, ticks: 200, gravity: 1, decay: 0.9, shapes: ['square' as const, 'circle' as const], colors: ['#068089', '#7dd4d8', '#2E7C69', '#50A890', '#F5DA96', '#7B4ED6', '#c4234e'], disableForReducedMotion: true, zIndex: 9999 }
+      const origins = [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]
+      origins.forEach(x => confetti({ ...base, particleCount: 8, origin: { x, y: oy } }))
+      setMilestoneBarHighlight(true)
+      setMilestoneCongratsVisible(true)
+      t0 = setTimeout(() => setMilestoneBarHighlight(false), 1000)
+      t3 = setTimeout(() => setMilestoneCongratsVisible(false), 4500)
+    }, 0)
+    return () => { active = false; clearTimeout(fireId); clearTimeout(t0); clearTimeout(t3) }
   }, [scenario, showTimeline2, timelineAnimating])
 
   // a1-new / a1-unengaged: track scroll progress from page top to target question for milestone progress bar
@@ -3716,13 +3795,15 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               <MilestoneTimeline
                 variant="explore"
                 animate={timelineAnimating}
-                showTimeline2={showTimeline2}
+                showTimeline2={showTimeline2 && !milestoneCongratsVisible}
                 showBar={false}
                 showBarFill={false}
-                highlightButton={milestoneGlow}
                 milestoneButtonRef={milestoneButtonRef}
-                badgeHopDelay={1}
                 subscriptionPercent={1}
+                milestoneCount={1}
+                milestoneModalV2={showTimeline2 && !milestoneCongratsVisible}
+                milestoneListV2={MILESTONE_LIST_V2_NEW_USER}
+                subscriptionLabel="12 months to go"
               />
             </div>
             {/* Scroll progress bar — bottom edge, full width, 0→100% as user scrolls q1→q8 */}
@@ -3734,7 +3815,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500 z-10 ${milestoneCongratsVisible ? 'opacity-100' : 'opacity-0'}`}
               style={{ backgroundColor: '#E9FAFC' }}>
               <p className="font-['GT_America:Medium'] text-[16px] leading-[24px] text-[#068089] text-center px-[48px] m-0">
-                Congratulations! You've reached your first milestone by exploring your memoir questions!
+                Congratulations! Exploring your questions is the first of many achievements to come.
               </p>
             </div>
           </div>
@@ -3750,6 +3831,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 milestoneCount={8}
                 storyCount={15}
                 subscriptionPercent={100}
+                milestoneModalV2={true}
+                milestoneListV2={MILESTONE_LIST_V2_NEAR_END}
                 renewCopy={isA1SubEndedLow ? 'You have 3 more months to edit stories and answer questions. If you\'d like to receive weekly questions, you can renew your subscription.' : undefined}
               />
             </div>
@@ -3766,9 +3849,12 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 milestoneCount={isA1FiveAnsweredV2 ? 6 : isA1FiveAnswered ? 7 : isA1NearEnd ? 8 : isA1FirstQuestionAnswered ? 2 : 1}
                 storyCount={(isA1FiveAnswered || isA1FiveAnsweredV2) ? 5 : isA1NearEnd ? 15 : undefined}
                 nextMilestoneText={isA1NearEnd ? 'Add 20 stories' : isA1FiveAnsweredV2 ? 'Add a photo' : isA1FiveAnswered ? 'Add 10 stories' : isA1FirstQuestionAnswered ? 'Record a story over the phone, we\'ll write it' : undefined}
+                nextMilestoneLabel={isA1NearEnd || isA1FiveAnswered || isA1FiveAnsweredV2 ? 'Keep up your storytelling:' : isA1FirstQuestionAnswered ? 'Try something new:' : 'Next:'}
                 nextMilestoneHoverText={isA1NearEnd ? "Add 20 stories: you've written 15/20" : isA1FiveAnswered ? "Add 10 stories: you've written 5/10" : undefined}
-                subscriptionPercent={isA1NearEnd ? 90 : isA1FiveAnswered ? 19 : isA1FirstQuestionAnswered ? 10 : 5}
-                milestoneModalV2={isA1FiveAnsweredV2}
+                subscriptionPercent={isA1NearEnd ? 92 : (isA1FiveAnswered || isA1FiveAnsweredV2) ? 17 : 1}
+                milestoneModalV2={true}
+                milestoneListV2={isA1NearEnd ? MILESTONE_LIST_V2_NEAR_END : (isA1FiveAnswered || isA1FiveAnsweredV2) ? MILESTONE_LIST_V2 : MILESTONE_LIST_V2_NEW_USER}
+                subscriptionLabel={isA1NearEnd ? '1 month to go' : (isA1FiveAnswered || isA1FiveAnsweredV2) ? '10 months to go' : '12 months to go'}
               />
             </div>
           </div>
@@ -3777,10 +3863,11 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             onClick={() => question1Ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             <div className="max-w-[1189px] mx-auto px-[24px] py-[24px]">
               <MilestoneTimeline variant="explore" animate={timelineAnimating} showTimeline2={showTimeline2} showBar={false} showBarFill={false}
-                highlightButton={milestoneGlow}
                 milestoneButtonRef={milestoneButtonRef}
-                badgeHopDelay={1}
                 subscriptionPercent={17}
+                milestoneModalV2={showTimeline2}
+                milestoneListV2={MILESTONE_LIST_V2_NEW_USER}
+                subscriptionLabel="10 months to go"
               />
             </div>
             <div className={`absolute bottom-0 left-0 w-full h-[3px] transition-opacity duration-500 ${showTimeline2 ? 'opacity-0' : 'opacity-100'}`}>
@@ -3790,7 +3877,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500 z-10 ${milestoneCongratsVisible ? 'opacity-100' : 'opacity-0'}`}
               style={{ backgroundColor: '#E9FAFC' }}>
               <p className="font-['GT_America:Medium'] text-[16px] leading-[24px] text-[#068089] text-center px-[48px] m-0">
-                Congratulations! You've reached your first milestone by exploring your memoir questions!
+                Congratulations! Exploring your questions is the first of many achievements to come.
               </p>
             </div>
           </div>

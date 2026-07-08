@@ -1,3 +1,54 @@
+## v1.0.483 — 2026-07-07T20:44:56
+- v2 label: wrap badge+stories and minis+milestones as tight units
+
+## v1.0.482 — 2026-07-07T20:43:21
+- v2 label: story badge before X stories, minis before Y milestones, no dot
+
+## v1.0.481 — 2026-07-07T20:41:12
+- Button gap 12px; badge marginRight -43px for real underlap; remove extra marginLeft
+
+## v1.0.480 — 2026-07-07T20:38:28
+- Story badge: +4px right (marginLeft 6px), remove marginTop
+
+## v1.0.479 — 2026-07-07T20:38:05
+- Story badge: marginLeft 2px right, marginTop 1px up
+
+## v1.0.478 — 2026-07-07T20:37:42
+- Story badge position: 2px right, 1px up
+
+## v1.0.477 — 2026-07-07T20:37:09
+- Story badge: dynamic color+number from earned milestone, nudge 2px right
+
+## v1.0.476 — 2026-07-07T20:35:24
+- Story mini behind minis (z:1), shifted down 2px
+
+## v1.0.475 — 2026-07-07T20:34:29
+- Toolbox hover: podcast link, capitalize Preview
+
+## v1.0.474 — 2026-07-07T20:34:10
+- Badge cluster: minis 5% smaller, round badge +5px overlap, all shifted down 3px
+
+## v1.0.473 — 2026-07-07T20:33:20
+- V2 toolbox: hover links and plain text on all rows
+
+## v1.0.472 — 2026-07-07T20:31:17
+- Increase badge cluster overlap margins to -30px
+
+## v1.0.471 — 2026-07-07T20:29:03
+- Animate v2 milestone minis with badge-hop-spin, staggered like v1
+
+## v1.0.470 — 2026-07-07T20:28:26
+- Badge cluster: increase overlap margins, add flex centering to wrappers
+
+## v1.0.469 — 2026-07-07T20:27:28
+- Add 2px white border to earned story progress badges
+
+## v1.0.468 — 2026-07-07T20:26:54
+- Fix badge overlap margins to -12px; add drop shadow to earned story progress tiles
+
+## v1.0.467 — 2026-07-07T20:25:23
+- Dropdown v2 label: use real story-mini and milestone-mini SVG assets
+
 ## v1.0.466 — 2026-07-07T20:20:11
 - Dropdown label v2: story badge + 2 milestone minis + stories·milestones count
 
