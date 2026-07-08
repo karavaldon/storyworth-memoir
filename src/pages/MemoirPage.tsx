@@ -1962,7 +1962,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                   const earnedBadges = (milestoneListV2 ?? []).filter(m => m.earned)
                   const items: { kind: 'badge'; label: string }[] = earnedBadges.map(m => ({ kind: 'badge' as const, label: m.label }))
                   return (
-                    <div className="flex items-center flex-shrink-0 self-center" style={{ marginRight: '-2px' }}>
+                    <div key={earnedBadges.map(b => b.label).join(',')} className="flex items-center flex-shrink-0 self-center" style={{ marginRight: '-2px' }}>
                       {items.map((item, i) => (
                         <div key={i} className="relative flex-shrink-0 flex items-center"
                           style={{ marginRight: i < items.length - 1 ? '-10px' : '10px', zIndex: i + 1, filter: 'drop-shadow(0px 1px 4px rgba(0,0,0,0.18))', animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay + i * 0.1}s both` }}>
