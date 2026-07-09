@@ -1789,7 +1789,7 @@ function StoryTileUnearned({ n, storyCount, src }: { n: number; storyCount: numb
   )
 }
 
-function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, milestones = MILESTONE_LIST_V2, subscriptionLabel = '11 months to go' }: { onClose: () => void; subscriptionPercent?: number; storyCount?: number; milestones?: V2MilestoneItem[]; subscriptionLabel?: string }) {
+function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, milestones = MILESTONE_LIST_V2, subscriptionLabel = '11 months to go', subscriptionEnded = false, renewCopy }: { onClose: () => void; subscriptionPercent?: number; storyCount?: number; milestones?: V2MilestoneItem[]; subscriptionLabel?: string; subscriptionEnded?: boolean; renewCopy?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
@@ -1807,12 +1807,28 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
           <p className="font-['GT_America:Medium'] text-[14px] leading-[18px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
           <div className="relative h-[8px] w-full rounded-full overflow-hidden bg-[#f7f7f7] border border-[#eaeaea] mb-[8px]">
             <div className="absolute top-0 left-0 h-full rounded-full"
-              style={{ width: `${subscriptionPercent}%`, backgroundImage: MILESTONE_GRADIENT }} />
+              style={{ width: subscriptionEnded ? '100%' : `${subscriptionPercent}%`, backgroundImage: subscriptionEnded ? 'none' : MILESTONE_GRADIENT, backgroundColor: subscriptionEnded ? '#d9705f' : undefined }} />
           </div>
           <div className="flex items-center justify-between">
-            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">{subscriptionLabel}</span>
-            <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
+            {subscriptionEnded ? (
+              <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Your subscription ended on May 16, 2027</span>
+            ) : (
+              <>
+                <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">{subscriptionLabel}</span>
+                <span className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f]">Ends May 16, 2027</span>
+              </>
+            )}
           </div>
+          {subscriptionEnded && (
+            <div className="mt-[16px] flex flex-col gap-[16px]">
+              <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0">
+                {renewCopy ?? 'You have 3 more months to edit your existing stories. If you\'d like to receive weekly questions or add new stories, you can renew.'}
+              </p>
+              <button type="button" className="w-full flex items-center justify-center h-[40px] px-[24px] rounded-[24px] bg-[#068089] cursor-pointer hover:opacity-80 transition-opacity">
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Renew for $99</span>
+              </button>
+            </div>
+          )}
         </div>
         <div className="w-full border-t border-[#e8e8e8] my-[24px]" />
         {/* Story progress */}
@@ -2064,7 +2080,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
               </button>
               {showMilestonesModal && (
                 milestoneModalV2
-                  ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} storyCount={storyCount} milestones={milestoneListV2} subscriptionLabel={subscriptionLabel} />
+                  ? <MilestonesModalV2 onClose={() => setShowMilestonesModal(false)} subscriptionPercent={subscriptionPercent} storyCount={storyCount} milestones={milestoneListV2} subscriptionLabel={subscriptionLabel} subscriptionEnded={subscriptionEnded} renewCopy={renewCopy} />
                   : <MilestonesModal onClose={() => setShowMilestonesModal(false)} earnedCount={milestoneCount ?? 1} storyCount={storyCount} subscriptionPercent={subscriptionPercent} subscriptionEnded={subscriptionEnded} renewCopy={renewCopy} />
               )}
             </div>
