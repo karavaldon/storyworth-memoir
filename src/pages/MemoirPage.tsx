@@ -4205,7 +4205,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                   {/* Left: title + filter + reorder + nearEnd badge */}
                   <div className="flex gap-[24px] items-center">
                     <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[36px] tracking-[-0.22px] text-[#042a21] m-0 whitespace-nowrap">Your stories</p>
-                    <div className="hidden sm:flex gap-[16px] items-center">
+                    <div className="flex gap-[16px] items-center">
                       {/* Filter button */}
                       <div className="relative">
                         {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
@@ -4218,7 +4218,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                           <span className="hidden sm:inline font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">
                             Filter{filterCount > 0 ? ` (${filterCount})` : ''}
                           </span>
-                          <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
+                          <img alt="" className="hidden sm:block size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
                         </button>
                         {showFilterMenu && (
                           <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] items-start drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]">

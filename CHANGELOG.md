@@ -1,3 +1,6 @@
+## v1.0.488 — 2026-07-10T21:28:31
+- Show filter icon-only on mobile (was hidden inside sm:flex container)
+
 ## v1.0.487 — 2026-07-10T21:26:28
 - Mobile milestone drawer: stack story progress copy and single-column toolbox below sm
 
