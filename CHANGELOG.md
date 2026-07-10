@@ -1,3 +1,9 @@
+## v1.0.485 — 2026-07-10T16:29:25
+- Hide reorder button below md breakpoint in sub-ended pages
+
+## v1.0.484 — 2026-07-10T15:38:52
+- Tablet: three-dot menu appears next to Answer → button on all story list rows (below 1024px)
+
 ## v1.0.483 — 2026-07-07T20:44:56
 - v2 label: wrap badge+stories and minis+milestones as tight units
 

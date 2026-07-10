@@ -1540,10 +1540,49 @@ const chapterNumbers: Record<number, number> = {}
   )
 }
 
+function QuestionMenuDot() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+  return (
+    <div ref={menuRef} className="relative flex-shrink-0 lg:hidden" onMouseDown={e => e.stopPropagation()}>
+      <button type="button"
+        onClick={() => setMenuOpen(v => !v)}
+        className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center pl-[22px] pr-[18px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors">
+        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">Change question</span>
+        <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
+      </button>
+      {menuOpen && (
+        <div className="absolute left-0 top-[calc(100%+4px)] z-50 bg-white rounded-[10px] border border-[#ebebeb] p-[6px] flex flex-col min-w-[160px]" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
+          <button type="button" className="flex gap-[10px] items-center px-[12px] py-[8px] rounded-[6px] hover:bg-[#f5f5f5] cursor-pointer transition-colors">
+            <img alt="" className="size-[18px] flex-shrink-0" src={imgEditPencilIcon} />
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#042a21] whitespace-nowrap">Edit question</span>
+          </button>
+          <button type="button" className="flex gap-[10px] items-center px-[12px] py-[8px] rounded-[6px] hover:bg-[#f5f5f5] cursor-pointer transition-colors">
+            <img alt="" className="size-[20px] flex-shrink-0" src={imgReplaceIcon} />
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#042a21] whitespace-nowrap">Replace</span>
+          </button>
+          <button type="button" className="flex gap-[10px] items-center px-[12px] py-[8px] rounded-[6px] hover:bg-[#f5f5f5] cursor-pointer transition-colors">
+            <img alt="" className="size-[18px] flex-shrink-0" src={imgTrashIcon} />
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#042a21] whitespace-nowrap">Remove</span>
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function QuestionButtonBank({ horizontal }: { horizontal?: boolean } = {}) {
   if (horizontal) {
     return (
-      <div className="flex gap-[4px] items-center overflow-hidden group-hover:overflow-visible max-w-0 group-hover:max-w-[120px] opacity-0 group-hover:opacity-100 transition-all duration-200 flex-shrink-0 mt-[3px]">
+      /* Desktop (lg+) only: hover-reveal icon buttons */
+      <div className="hidden lg:flex gap-[4px] items-center overflow-hidden group-hover:overflow-visible max-w-0 group-hover:max-w-[120px] opacity-0 group-hover:opacity-100 transition-all duration-200 flex-shrink-0 mt-[3px]">
         <div className="relative group/edit flex-shrink-0">
           <button type="button" className="size-[32px] flex items-center justify-center rounded-full cursor-pointer hover:ring-2 hover:ring-[#07777e] transition-all flex-shrink-0">
             <img alt="Edit question" className="size-[18px]" src={imgEditPencilIcon} />
@@ -1802,8 +1841,8 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
   }, [onClose])
   return (
     <div ref={ref}
-      className="absolute right-0 z-50 bg-white rounded-[12px] overflow-hidden"
-      style={{ top: 'calc(100% + 8px)', width: '600px', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
+      className="absolute left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-0 z-50 bg-white rounded-[12px] overflow-hidden w-[min(600px,calc(100vw-32px))]"
+      style={{ top: 'calc(100% + 8px)', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
       <div className="p-[24px] flex flex-col overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
         <div>
           <p className="font-['GT_America:Medium'] text-[14px] leading-[18px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
@@ -1936,7 +1975,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
     return (
       <div className="relative z-[10] flex gap-[16px] items-center w-full min-h-[40px]">
         <style>{`@keyframes milestone-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } } @keyframes badge-hop-spin { 0% { transform:translateY(0); } 40% { transform:translateY(-10px); } 70% { transform:translateY(2px); } 100% { transform:translateY(0); } } @keyframes milestone-glow { 0% { box-shadow:0 0 0 0 rgba(6,128,137,0); } 40% { box-shadow:0 0 0 5px rgba(6,128,137,0.55); } 100% { box-shadow:0 0 0 3px rgba(6,128,137,0.25); } }`}</style>
-        {showBar && <div className="relative flex-none w-[146px]">
+        {showBar && <div className="hidden md:block relative flex-none w-[146px]">
           <div className="relative h-[20px] w-full rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-[#f7f7f7] border border-[#eaeaea] rounded-full" />
             {/* Teal fill — disappears instantly when timeline2 mounts */}
@@ -1949,8 +1988,8 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             {showTimeline2 && showBarFill && <PurpleBarFill key={barGradient} gradient={barGradient} />}
           </div>
         </div>}
-        <div className={`relative flex flex-1 items-center gap-4 ${!showBar && !showTimeline2 ? 'justify-center' : 'justify-between'}`}>
-          <p className="font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
+        <div className={`relative flex flex-1 items-center gap-4 ${!showBar && !showTimeline2 ? 'justify-center' : 'justify-center md:justify-between'}`}>
+          <p className="hidden md:block font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
             {subscriptionEnded ? (
               <span className="flex flex-wrap items-baseline gap-x-[6px]">
@@ -2255,7 +2294,7 @@ function OptionCNew() {
               </div>
             </div>
             <div className="flex gap-[12px] items-center">
-              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-white hidden md:flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">reorder</span>
               </button>
@@ -2285,7 +2324,7 @@ function OptionCNew() {
               ref={el => { weekRowRefs.current[i] = el }}
               className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
             >
-              <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+              <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
                   {week.weekNum === 1
                     ? `Week 1 · Asked by Raymond (Sends Monday, June 3rd)`
@@ -2300,7 +2339,7 @@ function OptionCNew() {
                   <QuestionButtonBank horizontal />
                 </div>
               </div>
-              <button type="button" className="invisible group-hover:visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+              <button type="button" className="visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                 <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
               </button>
             </div>
@@ -2556,7 +2595,7 @@ function OptionCMidSub() {
               </div>
             </div>
             <div className="flex gap-[12px] items-center">
-              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-white hidden md:flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <img alt="" className="size-[24px] flex-shrink-0" src={imgReorderIcon} />
                 <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] tracking-[1.6px] uppercase text-[#068089] whitespace-nowrap">
                   reorder
@@ -2592,7 +2631,7 @@ function OptionCMidSub() {
                   ref={thisWeekRef}
                   className="bg-white border border-[#288068] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] px-[24px] py-[36px] flex items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#f0f7f4] hover:-translate-y-1 transition-all"
                 >
-                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     <div className="flex gap-[12px] items-center">
                       <div className="bg-[#d8e8e3] px-[12px] py-[2px] rounded-[6px] flex-shrink-0">
                         <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#117459] whitespace-nowrap">Week {week.weekNum}</span>
@@ -2623,7 +2662,7 @@ function OptionCMidSub() {
           if (week.isUpcoming) {
             return (
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#e5e5e5]'}`}>
-                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
                   </p>
@@ -2634,7 +2673,7 @@ function OptionCMidSub() {
                     <QuestionButtonBank horizontal />
                   </div>
                 </div>
-                <button type="button" className="invisible group-hover:visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+                <button type="button" className="visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
                 </button>
               </div>
@@ -2644,8 +2683,8 @@ function OptionCMidSub() {
           const story = week.story!
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
-              <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+              <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
                 </p>
@@ -2848,7 +2887,7 @@ function OptionCEnd() {
               </div>
             </div>
             <div className="flex gap-[12px] items-center">
-              <button type="button" className="bg-white flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
+              <button type="button" className="bg-white hidden md:flex gap-[10px] h-[40px] items-center justify-center px-[24px] rounded-[24px] cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="overflow-clip relative size-[24px] flex-shrink-0">
                   <div className="absolute inset-[12.5%]"><div className="absolute inset-[-4.17%]"><img alt="" className="block max-w-none size-full" src={imgReorderIcon} /></div></div>
                 </div>
@@ -2877,14 +2916,14 @@ function OptionCEnd() {
           if (week.isUpcoming) {
             return (
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] hover:bg-[#e5e5e5]">
-                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
                   <div className="flex items-start gap-[8px]">
                     <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0 min-w-0">{week.question}</p>
                     <QuestionButtonBank horizontal />
                   </div>
                 </div>
-                <button type="button" className="invisible group-hover:visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+                <button type="button" className="visible flex flex-none h-[40px] items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
                 </button>
               </div>
@@ -2892,8 +2931,8 @@ function OptionCEnd() {
           }
           const story = week.story!
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-start justify-between gap-[16px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
-              <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
+              <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
                 <div className="flex gap-[16px] items-start">
@@ -3203,7 +3242,7 @@ function WeekByWeekPanel({
             return (
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="py-[72px] flex flex-col gap-[16px] items-center">
                 <div ref={thisWeekRef} className="bg-white border border-[#288068] rounded-[12px] drop-shadow-[0px_4px_15px_rgba(68,95,89,0.06)] px-[24px] py-[36px] flex items-center justify-between gap-[16px] w-full cursor-pointer hover:bg-[#f0f7f4] hover:-translate-y-1 transition-all">
-                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     <div className="flex gap-[12px] items-center">
                       <div className="bg-[#d8e8e3] px-[12px] py-[2px] rounded-[6px] flex-shrink-0">
                         <span className="font-['GT_America:Regular'] text-[20px] leading-[28px] text-[#117459] whitespace-nowrap">Week {week.weekNum}</span>
@@ -3229,7 +3268,7 @@ function WeekByWeekPanel({
             return (
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
                 className={`${isNewUser && week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] hover:bg-[#e5e5e5]`}>
-                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
                     Week {week.weekNum} · Asked by {week.asker ?? 'Storyworth'}
                   </p>
@@ -3238,7 +3277,7 @@ function WeekByWeekPanel({
                     <QuestionButtonBank horizontal />
                   </div>
                 </div>
-                <button type="button" className="invisible group-hover:visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
+                <button type="button" className="visible flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity">
                   <span className="font-['GT_America:Medium'] text-[16px] text-[#07777e] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">answer</span>
                 </button>
               </div>
@@ -3250,8 +3289,8 @@ function WeekByWeekPanel({
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
             <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
-              className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-start justify-between gap-[16px] cursor-pointer hover:bg-[#f7f7f7] transition-all`}>
-              <div className="flex flex-col gap-[12px] flex-1 min-w-0 max-w-[600px]">
+              className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer hover:bg-[#f7f7f7] transition-all`}>
+              <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">{story.question}</p>
                 <div className="flex gap-[16px] items-start">
@@ -4142,7 +4181,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       {/* Reorder button */}
                       <button
                         type="button"
-                        className="group cursor-pointer flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#efefef] transition-colors"
+                        className="group cursor-pointer hidden md:flex gap-[8px] h-[40px] items-center px-[12px] rounded-[20px] hover:bg-[#efefef] transition-colors"
                         onClick={() => setShowReorderModal(true)}
                       >
                         <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgReorderIcon} />
@@ -4294,8 +4333,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
               if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
               if (status === 'this-week') return (
-                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
-                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                  <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                         This week
@@ -4307,15 +4346,18 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       <QuestionButtonBank horizontal />
                     </div>
                   </div>
-                  <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
-                    <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                  </button>
+                  <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                    <QuestionMenuDot />
+                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                    </button>
+                  </div>
                 </div>
               )
               return (
                 <Fragment key={i}>
-                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
-                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                  <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                       <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
@@ -4332,9 +4374,12 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     )}
                   </div>
                   {(status === 'asked' || status === 'future') && (
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                    </button>
+                    <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                      <QuestionMenuDot />
+                      <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                      </button>
+                    </div>
                   )}
                 </div>
                 </Fragment>
@@ -4385,8 +4430,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
                 if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
-                    <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                    <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                           This week
@@ -4398,21 +4443,25 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                    </button>
+                    <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                      <QuestionMenuDot />
+                      <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                      </button>
+                    </div>
                   </div>
                 )
                 return (
                 <Fragment key={i}>
-                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
-                  <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                  <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     {/* Label row */}
                     <div className="flex gap-[8px] items-center flex-wrap">
                       {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                       <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                         {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
+                      {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                     </div>
                     {/* Question text */}
                     {(status === 'asked' || status === 'future') ? (
@@ -4449,19 +4498,22 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     {status === 'answered' && (variant === 'engagement' || variant === 'all') && <EngagementRow />}
                     {status === 'answered' && (variant === 'plain' || variant === 'photos' || variant === 'recording') && <SharedRow />}
                   </div>
-                  {status === 'answered' ? (
-                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
-                    </button>
-                  ) : status === 'draft' ? (
-                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
-                    </button>
-                  ) : (status === 'asked' || status === 'future') ? (
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                    </button>
-                  ) : null}
+                  <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                    {status === 'answered' ? (
+                      <button type="button" className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open story →</span>
+                      </button>
+                    ) : status === 'draft' ? (
+                      <button type="button" className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open draft →</span>
+                      </button>
+                    ) : (status === 'asked' || status === 'future') ? (
+                      <><QuestionMenuDot />
+                      <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                      </button></>
+                    ) : null}
+                  </div>
                 </div>
                 </Fragment>
               )})}
@@ -4517,8 +4569,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (_hasFilter && status === 'draft' && !rowFilter.drafts) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
-                    <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                    <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
                           This week
@@ -4530,17 +4582,20 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                    </button>
+                    <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                      <QuestionMenuDot />
+                      <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                      </button>
+                    </div>
                   </div>
                 )
                 const chapterNum = status === 'answered' ? rows.slice(0, i + 1).filter(r => r.status === 'answered').length : 0
                 const isPrintReady = isA1NearEnd && (chapterNum === 1 || chapterNum === 2)
                 return (
                   <Fragment key={i}>
-                  <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
-                    <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                  <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                    <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
@@ -4551,6 +4606,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                             </>
                           ) : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
+                        {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                       </div>
                       {(status === 'asked' || status === 'future') ? (
                         <div className="flex items-start gap-[8px]">
@@ -4561,10 +4617,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                       )}
                       {(status === 'answered' || status === 'draft') && preview && (
-                        <div className="flex items-start gap-[8px]">
-                          {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
-                          <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
-                        </div>
+                        <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
                       )}
                       {status === 'answered' && variant === 'photos' && (
                         <div className="flex items-start">
@@ -4578,19 +4631,22 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       {status === 'answered' && variant === 'engagement' && <EngagementRow />}
                       {status === 'answered' && (variant === 'plain' || variant === 'photos' || variant === 'recording') && <SharedRow />}
                     </div>
-                    {status === 'answered' ? (
-                      <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                        <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
-                      </button>
-                    ) : status === 'draft' ? (
-                      <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                        <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
-                      </button>
-                    ) : (status === 'asked' || status === 'future') ? (
-                      <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
-                        <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                      </button>
-                    ) : null}
+                    <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                      {status === 'answered' ? (
+                        <button type="button" className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible">
+                          <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open story →</span>
+                        </button>
+                      ) : status === 'draft' ? (
+                        <button type="button" className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible">
+                          <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open draft →</span>
+                        </button>
+                      ) : (status === 'asked' || status === 'future') ? (
+                        <><QuestionMenuDot />
+                        <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible">
+                          <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                        </button></>
+                      ) : null}
+                    </div>
                   </div>
                   </Fragment>
                 )
@@ -4620,9 +4676,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               if (_hasFilter && i > 0 && !rowFilter.upcoming) return null
               return (<Fragment key={i}>
                 <div
-                className={`border-b border-[#ebebeb] hover:bg-[#fafafa] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
+                className={`border-b border-[#ebebeb] hover:bg-[#fafafa] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}
               >
-                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <div className="flex gap-[8px] items-center flex-wrap">
                     {i > 0 && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                     <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
@@ -4663,21 +4719,24 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     </div>
                   )}
                 </div>
-                {i === 0 ? (
-                  <button
-                    type="button"
-                    className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
-                  >
-                    <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible"
-                  >
-                    <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                  </button>
-                )}
+                <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                  {i === 0 ? (
+                    <button
+                      type="button"
+                      className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible"
+                    >
+                      <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open story →</span>
+                    </button>
+                  ) : (
+                    <><QuestionMenuDot />
+                    <button
+                      type="button"
+                      className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible"
+                    >
+                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                    </button></>
+                  )}
+                </div>
               </div>
               </Fragment>)
             })}
@@ -4703,9 +4762,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               if (_hasFilter && !rowFilter.upcoming) return null
               return (<Fragment key={i}>
                 <div
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}
               >
-                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <div className="flex gap-[8px] items-center flex-wrap">
                     {i === 0 && (
                       <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -4726,12 +4785,15 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     <QuestionButtonBank horizontal />
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible"
-                >
-                  <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                </button>
+                <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                  <QuestionMenuDot />
+                  <button
+                    type="button"
+                    className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible"
+                  >
+                    <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                  </button>
+                </div>
               </div>
               </Fragment>)
             })}
@@ -4752,9 +4814,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       return (<div
                     key={week.weekNum}
                     ref={i === 0 ? question1Ref : i === 7 ? question8Ref : undefined}
-                    className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}
+                    className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer hover:bg-[#fafafa]`}
                   >
-                    <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+                    <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
@@ -4768,12 +4830,15 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible"
-                    >
-                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
-                    </button>
+                    <div className="flex items-center gap-[16px] w-full lg:w-auto">
+                      <QuestionMenuDot />
+                      <button
+                        type="button"
+                        className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all lg:invisible lg:group-hover:visible"
+                      >
+                        <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
+                      </button>
+                    </div>
                   </div>
                   )
                 })}
@@ -4866,15 +4931,15 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             return (
               <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
                 {answeredRows.map(({ q, preview, variant }, i) => (
-                  <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]`}>
-                    <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-                      <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
+                  <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                    <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
+                      <div className="flex gap-[8px] items-center flex-wrap">
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
+                        {(variant === 'recording' || variant === 'all') && <AudioBadge />}
+                      </div>
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                       {preview && (
-                        <div className="flex items-start gap-[8px]">
-                          {(variant === 'recording' || variant === 'all') && <AudioBadge />}
-                          <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
-                        </div>
+                        <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
                       )}
                       {variant === 'photos' && (
                         <div className="flex items-start">
@@ -4893,9 +4958,11 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       {(variant === 'engagement' || variant === 'all') && <EngagementRow />}
                       {(variant === 'plain' || variant === 'photos' || variant === 'recording') && <SharedRow />}
                     </div>
-                    <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
-                    </button>
+                    <div className="w-full lg:w-auto flex">
+                      <button type="button" className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open story →</span>
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -4905,8 +4972,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               className="relative max-w-[1189px] mx-auto"
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}
             >
-              <div className="py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer hover:bg-[#fafafa]">
-                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+              <div className="py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer hover:bg-[#fafafa]">
+                <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                     Chapter 1
                   </p>
@@ -4925,12 +4992,14 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     </p>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
-                >
-                  <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open story →</span>
-                </button>
+                <div className="w-full">
+                  <button
+                    type="button"
+                    className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible"
+                  >
+                    <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open story →</span>
+                  </button>
+                </div>
               </div>
             </div>
           ) : (isA1FirstQuestion || isA1New || isA1Unengaged) ? (
@@ -4972,17 +5041,19 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           {(() => {
             const draftRow = fiveAnsweredRows.find(r => r.status === 'draft')!
             return (
-              <div className="border-b border-[#ebebeb] border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer">
-                <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+              <div className="border-b border-[#ebebeb] border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer">
+                <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]">Draft</p>
                   <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{draftRow.q}</p>
                   {draftRow.preview && (
                     <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{draftRow.preview}</p>
                   )}
                 </div>
-                <button type="button" className="flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                  <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
-                </button>
+                <div className="w-full">
+                  <button type="button" className="group h-[40px] flex items-center justify-center pl-[22px] pr-[18px] cursor-pointer border-2 border-[#068089] hover:border-[#046870] bg-white hover:bg-[#f0fafa] transition-colors rounded-[24px] lg:invisible lg:group-hover:visible">
+                    <span className="font-['GT_America:Medium'] text-[14px] text-[#068089] leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Open draft →</span>
+                  </button>
+                </div>
               </div>
             )
           })()}
