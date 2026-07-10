@@ -4209,7 +4209,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     <p className="font-['GT_Super_Display:Regular'] text-[22px] leading-[36px] tracking-[-0.22px] text-[#042a21] m-0 whitespace-nowrap">Your stories</p>
                     <div className="flex gap-[16px] items-center">
                       {/* Filter button */}
-                      <div className="relative">
+                      <div className="hidden sm:block relative">
                         {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
                         <button
                           type="button"
@@ -4355,9 +4355,52 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                   </div>
                 )}
 
-                {/* Active filter pills */}
+                {/* Mobile filter row: icon button + pills together */}
+                <div className="sm:hidden flex gap-[8px] items-center flex-wrap">
+                  <div className="relative flex-shrink-0">
+                    {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
+                    <button
+                      type="button"
+                      className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex h-[40px] items-center justify-center px-[10px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors relative z-50"
+                      onClick={() => setShowFilterMenu(v => !v)}
+                    >
+                      <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgFilterHorizontalIcon} />
+                    </button>
+                    {showFilterMenu && (
+                      <div className="absolute left-0 top-[calc(100%+6px)] z-50 bg-white border border-[#d1d1d1] rounded-[12px] p-[16px] flex flex-col gap-[12px] items-start drop-shadow-[0px_4px_3px_rgba(0,0,0,0.12)]">
+                        {filterOptions.map(({ key, label }) => {
+                          const on = rowFilter[key]
+                          const avail = filterAvailable[key]
+                          return (
+                            <button key={key} type="button"
+                              disabled={!avail}
+                              onClick={() => avail && setRowFilter(f => ({ ...f, [key]: !f[key] }))}
+                              className={`flex gap-[10px] items-center px-[12px] py-[8px] h-[36px] rounded-[22px] transition-colors ${!avail ? 'cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] cursor-pointer' : 'cursor-pointer'}`}
+                            >
+                              <div className={`w-[16px] h-[16px] flex-shrink-0 rounded-[3px] border flex items-center justify-center ${on && avail ? 'bg-[#068089] border-[#068089]' : 'bg-white border-[#c0c0c0]'}`}>
+                                {on && avail && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                              </div>
+                              <span className={`font-['GT_America:Medium'] text-[14px] leading-[20px] whitespace-nowrap ${!avail ? 'text-[#8a8a8a]' : on ? 'text-[#07777e]' : 'text-[#61706f]'}`}>{label}</span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                  {filterOptions.filter(f => rowFilter[f.key]).map(({ key, label }) => (
+                    <button key={key} type="button"
+                      onClick={() => setRowFilter(f => ({ ...f, [key]: false }))}
+                      className="bg-[#ebebeb] flex gap-[10px] h-[36px] items-center pb-[5px] pl-[16px] pr-[12px] pt-[4px] rounded-[22px] cursor-pointer hover:bg-[#e0e0e0] transition-colors"
+                    >
+                      <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#12473a] whitespace-nowrap">{label}</span>
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M6 6l8 8M14 6l-8 8" stroke="#12473a" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Active filter pills — desktop only */}
                 {filterCount > 0 && (
-                  <div className="flex gap-[8px] items-center flex-wrap">
+                  <div className="hidden sm:flex gap-[8px] items-center flex-wrap">
                     {filterOptions.filter(f => rowFilter[f.key]).map(({ key, label }) => (
                       <button key={key} type="button"
                         onClick={() => setRowFilter(f => ({ ...f, [key]: false }))}
