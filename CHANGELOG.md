@@ -1,3 +1,6 @@
+## v1.0.486 — 2026-07-10T21:18:26
+- Mobile UX: ellipsis menu replaces Change Question on mobile/mid, milestone bottom drawer on mobile, remove row hovers on mobile, prevent horizontal scroll, +X badge style tweaks
+
 ## v1.0.485 — 2026-07-10T16:29:25
 - Hide reorder button below md breakpoint in sub-ended pages
 

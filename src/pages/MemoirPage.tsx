@@ -645,7 +645,7 @@ function StoryRow({ story }: { story: Story }) {
 
   return (
     <div
-      className="border-b border-[#d1d1d1] cursor-pointer py-4 sm:py-[24px] px-0 sm:px-[16px] w-full hover:bg-[#fafafa] transition-colors"
+      className="border-b border-[#d1d1d1] cursor-pointer py-4 sm:py-[24px] px-0 sm:px-[16px] w-full sm:hover:bg-[#fafafa] transition-colors"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -1269,7 +1269,7 @@ const chapterNumbers: Record<number, number> = {}
             <h2 className="font-['GT_Super_Display:Regular'] text-[28px] leading-[36px] tracking-[-0.28px] text-[#042a21] m-0">Reorder</h2>
             <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0 mt-[6px] max-w-[620px]">Drag and drop to reorder questions and stories. Only answered questions will be printed in your book.</p>
           </div>
-          <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full hover:bg-[#f3f3f3] transition-colors cursor-pointer">
+          <button type="button" onClick={onClose} className="flex-shrink-0 ml-[24px] mt-[4px] size-[32px] flex items-center justify-center rounded-full sm:hover:bg-[#f3f3f3] transition-colors cursor-pointer">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
           </button>
         </div>
@@ -1321,7 +1321,7 @@ const chapterNumbers: Record<number, number> = {}
                             <button key={key} type="button"
                               disabled={!avail}
                               onClick={() => avail && setFilterReorder(f => ({ ...f, [key]: !f[key] }))}
-                              className={`flex gap-[10px] items-center px-[12px] py-[8px] h-[36px] rounded-[22px] transition-colors ${!avail ? 'cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] cursor-pointer' : 'hover:bg-[#f7f7f7] cursor-pointer'}`}
+                              className={`flex gap-[10px] items-center px-[12px] py-[8px] h-[36px] rounded-[22px] transition-colors ${!avail ? 'cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] cursor-pointer' : 'sm:hover:bg-[#f7f7f7] cursor-pointer'}`}
                             >
                               <div className={`w-[16px] h-[16px] flex-shrink-0 rounded-[3px] border flex items-center justify-center ${on && avail ? 'bg-[#068089] border-[#068089]' : 'bg-white border-[#c0c0c0]'}`}>
                                 {on && avail && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
@@ -1518,13 +1518,13 @@ const chapterNumbers: Record<number, number> = {}
             </button>
             <button type="button"
               disabled={selectedIds.size === 0}
-              className={`flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 cursor-pointer transition-colors ${selectedIds.size > 0 ? 'border-[#d4d4d4] text-[#61706f] hover:border-[#61706f] hover:bg-[#f3f3f3]' : 'border-[#d4d4d4] text-[#b0bdb9] cursor-not-allowed'}`}>
+              className={`flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 cursor-pointer transition-colors ${selectedIds.size > 0 ? 'border-[#d4d4d4] text-[#61706f] hover:border-[#61706f] sm:hover:bg-[#f3f3f3]' : 'border-[#d4d4d4] text-[#b0bdb9] cursor-not-allowed'}`}>
               <span className="font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase">Move to another volume</span>
             </button>
             <span className="ml-auto font-['GT_America:Regular'] text-[14px] text-[#61706f] whitespace-nowrap">{selectedIds.size} selected</span>
             <button type="button"
               onClick={() => { setSelectMode(false); setSelectedIds(new Set()) }}
-              className="flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 border-[#61706f] cursor-pointer hover:bg-[#f3f3f3] transition-colors">
+              className="flex h-[40px] items-center justify-center px-[24px] rounded-[24px] border-2 border-[#61706f] cursor-pointer sm:hover:bg-[#f3f3f3] transition-colors">
               <span className="font-['GT_America:Medium'] text-[14px] text-[#61706f] tracking-[1.4px] uppercase">Cancel</span>
             </button>
           </div>
@@ -1551,15 +1551,60 @@ function QuestionMenuDot() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
   return (
-    <div ref={menuRef} className="relative flex-shrink-0 lg:hidden" onMouseDown={e => e.stopPropagation()}>
+    <div ref={menuRef} className="relative flex-shrink-0 hidden sm:flex lg:hidden" onMouseDown={e => e.stopPropagation()}>
       <button type="button"
         onClick={() => setMenuOpen(v => !v)}
-        className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center pl-[22px] pr-[18px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors">
-        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">Change question</span>
-        <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
+        className="size-[32px] flex items-center justify-center rounded-full cursor-pointer border-2 border-[#d1d1d1] hover:bg-[#f0f0f0] transition-colors">
+        <svg width="16" height="4" viewBox="0 0 16 4" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <circle cx="2" cy="2" r="1.5" fill="#61706f"/>
+          <circle cx="8" cy="2" r="1.5" fill="#61706f"/>
+          <circle cx="14" cy="2" r="1.5" fill="#61706f"/>
+        </svg>
       </button>
       {menuOpen && (
         <div className="absolute left-0 top-[calc(100%+4px)] z-50 bg-white rounded-[10px] border border-[#ebebeb] p-[6px] flex flex-col min-w-[160px]" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
+          <button type="button" className="flex gap-[10px] items-center px-[12px] py-[8px] rounded-[6px] hover:bg-[#f5f5f5] cursor-pointer transition-colors">
+            <img alt="" className="size-[18px] flex-shrink-0" src={imgEditPencilIcon} />
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#042a21] whitespace-nowrap">Edit question</span>
+          </button>
+          <button type="button" className="flex gap-[10px] items-center px-[12px] py-[8px] rounded-[6px] hover:bg-[#f5f5f5] cursor-pointer transition-colors">
+            <img alt="" className="size-[20px] flex-shrink-0" src={imgReplaceIcon} />
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#042a21] whitespace-nowrap">Replace</span>
+          </button>
+          <button type="button" className="flex gap-[10px] items-center px-[12px] py-[8px] rounded-[6px] hover:bg-[#f5f5f5] cursor-pointer transition-colors">
+            <img alt="" className="size-[18px] flex-shrink-0" src={imgTrashIcon} />
+            <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#042a21] whitespace-nowrap">Remove</span>
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function QuestionEditInline() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+  return (
+    <div ref={menuRef} className="relative sm:hidden flex-shrink-0 ml-auto" onMouseDown={e => e.stopPropagation()}>
+      <button type="button"
+        className="size-[32px] flex items-center justify-center rounded-full cursor-pointer border-2 border-[#d1d1d1] hover:bg-[#f0f0f0] transition-colors"
+        onClick={() => setMenuOpen(v => !v)}
+      >
+        <svg width="16" height="4" viewBox="0 0 16 4" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <circle cx="2" cy="2" r="1.5" fill="#61706f"/>
+          <circle cx="8" cy="2" r="1.5" fill="#61706f"/>
+          <circle cx="14" cy="2" r="1.5" fill="#61706f"/>
+        </svg>
+      </button>
+      {menuOpen && (
+        <div className="absolute right-0 top-[calc(100%+4px)] z-50 bg-white rounded-[10px] border border-[#ebebeb] p-[6px] flex flex-col min-w-[160px]" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
           <button type="button" className="flex gap-[10px] items-center px-[12px] py-[8px] rounded-[6px] hover:bg-[#f5f5f5] cursor-pointer transition-colors">
             <img alt="" className="size-[18px] flex-shrink-0" src={imgEditPencilIcon} />
             <span className="font-['GT_America:Medium'] text-[14px] leading-[20px] text-[#042a21] whitespace-nowrap">Edit question</span>
@@ -1840,10 +1885,15 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
     return () => document.removeEventListener('mousedown', handleMouseDown)
   }, [onClose])
   return (
-    <div ref={ref}
-      className="absolute left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-0 z-50 bg-white rounded-[12px] overflow-hidden w-[min(600px,calc(100vw-32px))]"
-      style={{ top: 'calc(100% + 8px)', boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
-      <div className="p-[24px] flex flex-col overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
+    <>
+      <div className="sm:hidden fixed inset-0 z-40 bg-black/20" />
+      <div ref={ref}
+        className="fixed bottom-0 left-0 right-0 sm:absolute sm:bottom-auto sm:left-1/2 sm:-translate-x-1/2 sm:top-[calc(100%_+_8px)] lg:left-auto lg:translate-x-0 lg:right-0 z-50 bg-white rounded-t-[20px] sm:rounded-[12px] overflow-hidden w-full sm:w-[min(600px,calc(100vw-32px))]"
+        style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
+        <div className="sm:hidden flex justify-center pt-[12px] pb-[4px]">
+          <div className="w-[32px] h-[4px] bg-[#d1d1d1] rounded-full" />
+        </div>
+        <div className="p-[24px] flex flex-col overflow-y-auto" style={{ maxHeight: 'min(80vh, calc(100vh - 100px))' }}>
         <div>
           <p className="font-['GT_America:Medium'] text-[14px] leading-[18px] text-[#042a21] m-0 mb-[12px]">One-year subscription</p>
           <div className="relative h-[8px] w-full rounded-full overflow-hidden bg-[#f7f7f7] border border-[#eaeaea] mb-[8px]">
@@ -1925,8 +1975,9 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
             {milestones.slice(4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -1989,7 +2040,7 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
           </div>
         </div>}
         <div className={`relative flex flex-1 items-center gap-4 ${!showBar && !showTimeline2 ? 'justify-center' : 'justify-center md:justify-between'}`}>
-          <p className="hidden md:block font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]"
+          <p className={`${(showTimeline2 || subscriptionEnded) ? 'hidden md:block' : ''} font-['GT_America:Regular'] text-[16px] leading-[20px] text-[#4c4c4c]`}
             style={showTimeline2 ? { animation: 'milestone-in 0.4s ease-out both' } : undefined}>
             {subscriptionEnded ? (
               <span className="flex flex-wrap items-baseline gap-x-[6px]">
@@ -2029,19 +2080,31 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
                 {milestoneModalV2 ? (() => {
                   const earnedBadges = (milestoneListV2 ?? []).filter(m => m.earned)
                   const items: { kind: 'badge'; label: string }[] = earnedBadges.map(m => ({ kind: 'badge' as const, label: m.label }))
+                  const visibleItems = items.length > 3 ? items.slice(0, 3) : items
+                  const overflowCount = items.length > 3 ? items.length - 3 : 0
                   return (
                     <div key={earnedBadges.map(b => b.label).join(',')} className="flex items-center flex-shrink-0 self-center" style={{ marginRight: '-2px' }}>
-                      {items.map((item, i) => (
+                      {visibleItems.map((item, i) => (
                         <div key={i} className="relative flex-shrink-0 flex items-center"
-                          style={{ marginRight: i < items.length - 1 ? '-10px' : '10px', zIndex: i + 1, filter: 'drop-shadow(0px 1px 4px rgba(0,0,0,0.18))', animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay + i * 0.1}s both` }}>
+                          style={{ marginRight: (overflowCount > 0 || i < visibleItems.length - 1) ? '-10px' : '10px', zIndex: i + 1, filter: 'drop-shadow(0px 1px 4px rgba(0,0,0,0.18))', animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay + i * 0.1}s both` }}>
                           <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="0.5" y="0.5" width="29" height="29" rx="14.5" fill={BADGE_STAR_COLORS[item.label] ?? '#189271'} stroke="white" strokeWidth="1.5"/>
                             <path d={STAR_PATH} stroke="white" strokeLinejoin="round"/>
                           </svg>
                         </div>
                       ))}
+                      {overflowCount > 0 && (
+                        <div className="relative flex-shrink-0 flex items-center"
+                          style={{ marginRight: '10px', zIndex: 4, filter: 'drop-shadow(0px 1px 4px rgba(0,0,0,0.18))', animation: `badge-hop-spin 0.6s ease-in-out ${0.55 + badgeHopDelay + 0.3}s both` }}>
+                          <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.5" y="0.5" width="29" height="29" rx="14.5" fill="#ababab" stroke="white" strokeWidth="1.5"/>
+                            <text x="15" y="19" textAnchor="middle" fill="white" fontSize="11" fontWeight="600">+{overflowCount}</text>
+                          </svg>
+                        </div>
+                      )}
                       <span className="self-center font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#4c4c4c] whitespace-nowrap" style={{ transform: 'translateY(-1px)' }}>
-                        Your achievements
+                        <span className="hidden md:inline">Your achievements</span>
+                        <span className="md:hidden">Progress</span>
                       </span>
                     </div>
                   )
@@ -2322,7 +2385,7 @@ function OptionCNew() {
             <div
               key={week.weekNum}
               ref={el => { weekRowRefs.current[i] = el }}
-              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer hover:bg-[#fafafa]`}
+              className={`${week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer sm:hover:bg-[#fafafa]`}
             >
               <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
@@ -2376,7 +2439,7 @@ function OptionCNew() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
               <button key={n} type="button"
                 onClick={() => { setCurrentPage(n); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
-                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}>
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'sm:hover:bg-[#f7f7f7]'}`}>
                 <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
               </button>
             ))}
@@ -2661,7 +2724,7 @@ function OptionCMidSub() {
 
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#e5e5e5]'}`}>
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] ${focusThisWeek ? 'opacity-50' : 'sm:hover:bg-[#e5e5e5]'}`}>
                 <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                     Week {week.weekNum} · Asked by {week.asker}
@@ -2683,7 +2746,7 @@ function OptionCMidSub() {
           const story = week.story!
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'hover:bg-[#f7f7f7]'}`}>
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer transition-all ${focusThisWeek ? 'opacity-50' : 'sm:hover:bg-[#f7f7f7]'}`}>
               <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">
                   Week {week.weekNum}
@@ -2740,7 +2803,7 @@ function OptionCMidSub() {
                 key={n}
                 type="button"
                 onClick={() => { setCurrentPage(n); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
-                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'sm:hover:bg-[#f7f7f7]'}`}
               >
                 <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
               </button>
@@ -2915,7 +2978,7 @@ function OptionCEnd() {
         {pageWeeks.map((week, i) => {
           if (week.isUpcoming) {
             return (
-              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] hover:bg-[#e5e5e5]">
+              <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] sm:hover:bg-[#e5e5e5]">
                 <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum} · Asked by {week.asker}</p>
                   <div className="flex items-start gap-[8px]">
@@ -2931,7 +2994,7 @@ function OptionCEnd() {
           }
           const story = week.story!
           return (
-            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer transition-all hover:bg-[#f7f7f7]">
+            <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }} className="border-b border-[#ebebeb] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer transition-all sm:hover:bg-[#f7f7f7]">
               <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[color:var(--green\/700,#61706f)] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[color:var(--green\/1000,#042a21)] m-0">{week.question}</p>
@@ -2971,7 +3034,7 @@ function OptionCEnd() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
               <button key={n} type="button"
                 onClick={() => { setCurrentPage(n); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
-                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}>
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'sm:hover:bg-[#f7f7f7]'}`}>
                 <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
               </button>
             ))}
@@ -3146,7 +3209,7 @@ function OptionAEnd() {
             {week.story ? (
               <StoryRow story={week.story} />
             ) : (
-              <div className="border-b border-[#d1d1d1] py-4 sm:py-[24px] px-0 sm:px-[16px] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#f7f7f7] transition-all">
+              <div className="border-b border-[#d1d1d1] py-4 sm:py-[24px] px-0 sm:px-[16px] flex items-center justify-between gap-4 cursor-pointer sm:hover:bg-[#f7f7f7] transition-all">
                 <p className="font-['GT_Super_Display:Medium'] leading-[26px] sm:leading-[34px] text-[15px] sm:text-[20px] text-[color:var(--green\/1000,#042a21)] tracking-[-0.2px] flex-1 min-w-0">
                   {week.question}
                 </p>
@@ -3168,7 +3231,7 @@ function OptionAEnd() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
               <button key={n} type="button"
                 onClick={() => { setCurrentPage(n); tabBarSentinelRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }) }}
-                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}>
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'sm:hover:bg-[#f7f7f7]'}`}>
                 <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
               </button>
             ))}
@@ -3267,7 +3330,7 @@ function WeekByWeekPanel({
           if (week.isUpcoming || isNewUser || (week.isThisWeek && isNewUser)) {
             return (
               <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
-                className={`${isNewUser && week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] hover:bg-[#e5e5e5]`}>
+                className={`${isNewUser && week.weekNum === 3 ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex items-center justify-between gap-[16px] group transition-all cursor-pointer bg-[#ebebeb] sm:hover:bg-[#e5e5e5]`}>
                 <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">
                     Week {week.weekNum} · Asked by {week.asker ?? 'Storyworth'}
@@ -3289,7 +3352,7 @@ function WeekByWeekPanel({
           const isLastBeforeThisWeek = pageWeeks[i + 1]?.isThisWeek
           return (
             <div key={week.weekNum} ref={el => { weekRowRefs.current[i] = el }}
-              className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer hover:bg-[#f7f7f7] transition-all`}>
+              className={`${isLastBeforeThisWeek ? '' : 'border-b border-[#ebebeb] '}py-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] cursor-pointer sm:hover:bg-[#f7f7f7] transition-all`}>
               <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                 <p className="font-['GT_America:Regular'] text-[14px] lg:text-[16px] leading-[28px] text-[#61706f] m-0">Week {week.weekNum}</p>
                 <p className="font-['GT_Super_Display:Medium'] text-[18px] lg:text-[20px] leading-[34px] tracking-[-0.2px] text-[#042a21] m-0">{story.question}</p>
@@ -3354,7 +3417,7 @@ function WeekByWeekPanel({
             {Array.from({ length: totalPages }, (_, j) => j + 1).map(n => (
               <button key={n} type="button"
                 onClick={() => { setCurrentPage(n); snapToTop() }}
-                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'hover:bg-[#f7f7f7]'}`}>
+                className={`flex items-center justify-center rounded-[12px] size-[40px] cursor-pointer transition-colors ${n === currentPage ? 'bg-[#edf2f0]' : 'sm:hover:bg-[#f7f7f7]'}`}>
                 <span className="font-['GT_America:Regular'] text-[18px] leading-[28px] text-[#042a21] text-center">{n}</span>
               </button>
             ))}
@@ -4166,7 +4229,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                                 <button key={key} type="button"
                                   disabled={!avail}
                                   onClick={() => avail && setRowFilter(f => ({ ...f, [key]: !f[key] }))}
-                                  className={`flex gap-[10px] items-center px-[12px] py-[8px] h-[36px] rounded-[22px] transition-colors ${!avail ? 'cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] cursor-pointer' : 'hover:bg-[#f7f7f7] cursor-pointer'}`}
+                                  className={`flex gap-[10px] items-center px-[12px] py-[8px] h-[36px] rounded-[22px] transition-colors ${!avail ? 'cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] cursor-pointer' : 'sm:hover:bg-[#f7f7f7] cursor-pointer'}`}
                                 >
                                   <div className={`w-[16px] h-[16px] flex-shrink-0 rounded-[3px] border flex items-center justify-center ${on && avail ? 'bg-[#068089] border-[#068089]' : 'bg-white border-[#c0c0c0]'}`}>
                                     {on && avail && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
@@ -4333,7 +4396,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
               if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
               if (status === 'this-week') return (
-                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] sm:hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -4342,7 +4405,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by {asker === 'Raymond' ? 'Raymond' : 'Storyworth for Raymond'}</span>
                     </div>
                     <div className="flex items-start gap-[8px]">
-                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                      <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p><QuestionEditInline />
                       <QuestionButtonBank horizontal />
                     </div>
                   </div>
@@ -4356,7 +4419,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               )
               return (
                 <Fragment key={i}>
-                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                <div ref={i === 0 ? question1Ref : i === 4 ? question5Ref : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] sm:hover:bg-[#f3f3f3]' : 'sm:hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     <div className="flex gap-[8px] items-center flex-wrap">
                       {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
@@ -4366,7 +4429,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     </div>
                     {(status === 'asked' || status === 'future') ? (
                       <div className="flex items-start gap-[8px]">
-                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p><QuestionEditInline />
                         <QuestionButtonBank horizontal />
                       </div>
                     ) : (
@@ -4430,7 +4493,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 if (_hasFilter && status === 'asked' && !rowFilter.unanswered) return null
                 if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] sm:hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -4439,7 +4502,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by Raymond</span>
                       </div>
                       <div className="flex items-start gap-[8px]">
-                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p><QuestionEditInline />
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
@@ -4453,7 +4516,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 )
                 return (
                 <Fragment key={i}>
-                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                <div className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] sm:hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] sm:hover:bg-[#fef3c7]' : status === 'future' ? 'sm:hover:bg-[#fafafa]' : 'sm:hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
                   <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                     {/* Label row */}
                     <div className="flex gap-[8px] items-center flex-wrap">
@@ -4466,7 +4529,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     {/* Question text */}
                     {(status === 'asked' || status === 'future') ? (
                       <div className="flex items-start gap-[8px]">
-                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p><QuestionEditInline />
                         <QuestionButtonBank horizontal />
                       </div>
                     ) : (
@@ -4569,7 +4632,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 if (_hasFilter && (status === 'future' || status === 'this-week') && !rowFilter.upcoming) return null
                 if (_hasFilter && status === 'draft' && !rowFilter.drafts) return null
                 if (status === 'this-week') return (
-                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                  <div key={i} className={`border-b border-[#ebebeb] border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] sm:hover:bg-[#e0f4ff] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <span className="bg-[#BDEBFF] text-[#006699] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>
@@ -4578,7 +4641,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <span className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] whitespace-nowrap">Asked by Raymond</span>
                       </div>
                       <div className="flex items-start gap-[8px]">
-                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                        <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p><QuestionEditInline />
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
@@ -4594,7 +4657,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 const isPrintReady = isA1NearEnd && (chapterNum === 1 || chapterNum === 2)
                 return (
                   <Fragment key={i}>
-                  <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
+                  <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] sm:hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] sm:hover:bg-[#fef3c7]' : status === 'future' ? 'sm:hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] sm:hover:bg-[#fafafa]' : 'sm:hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}>
                     <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
@@ -4610,7 +4673,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       </div>
                       {(status === 'asked' || status === 'future') ? (
                         <div className="flex items-start gap-[8px]">
-                          <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p>
+                          <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">{q}</p><QuestionEditInline />
                           <QuestionButtonBank horizontal />
                         </div>
                       ) : (
@@ -4676,7 +4739,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               if (_hasFilter && i > 0 && !rowFilter.upcoming) return null
               return (<Fragment key={i}>
                 <div
-                className={`border-b border-[#ebebeb] hover:bg-[#fafafa] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}
+                className={`border-b border-[#ebebeb] sm:hover:bg-[#fafafa] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}
               >
                 <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -4715,6 +4778,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
                         {q}
                       </p>
+                      <QuestionEditInline />
                       <QuestionButtonBank horizontal />
                     </div>
                   )}
@@ -4762,7 +4826,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               if (_hasFilter && !rowFilter.upcoming) return null
               return (<Fragment key={i}>
                 <div
-                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] hover:bg-[#e0f4ff]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}
+                className={`border-b border-[#ebebeb] ${i === 0 ? 'border-l-[3px] border-l-[#5BB8DF] bg-[#f0f9ff] sm:hover:bg-[#e0f4ff]' : 'sm:hover:bg-[#fafafa]'} py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer`}
               >
                 <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <div className="flex gap-[8px] items-center flex-wrap">
@@ -4782,6 +4846,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
                       {q}
                     </p>
+                    <QuestionEditInline />
                     <QuestionButtonBank horizontal />
                   </div>
                 </div>
@@ -4814,7 +4879,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       return (<div
                     key={week.weekNum}
                     ref={i === 0 ? question1Ref : i === 7 ? question8Ref : undefined}
-                    className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer hover:bg-[#fafafa]`}
+                    className={`border-b border-[#ebebeb] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer sm:hover:bg-[#fafafa]`}
                   >
                     <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
@@ -4827,6 +4892,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0 min-w-0">
                           {week.question}
                         </p>
+                        <QuestionEditInline />
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
@@ -4931,7 +4997,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             return (
               <div className="relative max-w-[1189px] mx-auto" style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}>
                 {answeredRows.map(({ q, preview, variant }, i) => (
-                  <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer hover:bg-[#fafafa]`}>
+                  <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer sm:hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
@@ -4972,7 +5038,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               className="relative max-w-[1189px] mx-auto"
               style={{ minHeight: 'calc(100vh + 1px)', paddingBottom: '80px', marginTop: '-4px' }}
             >
-              <div className="py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer hover:bg-[#fafafa]">
+              <div className="py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer sm:hover:bg-[#fafafa]">
                 <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">
                     Chapter 1
@@ -5041,7 +5107,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           {(() => {
             const draftRow = fiveAnsweredRows.find(r => r.status === 'draft')!
             return (
-              <div className="border-b border-[#ebebeb] border-l-[3px] border-l-[#FCD34D] bg-white hover:bg-[#fafafa] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer">
+              <div className="border-b border-[#ebebeb] border-l-[3px] border-l-[#FCD34D] bg-white sm:hover:bg-[#fafafa] py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer">
                 <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                   <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]">Draft</p>
                   <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{draftRow.q}</p>
