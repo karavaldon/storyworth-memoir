@@ -4498,7 +4498,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           const rows = fiveAnsweredRows
           const AudioBadge = () => (
             <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
-              <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
+              <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(43%) sepia(8%) saturate(340%) hue-rotate(140deg) brightness(94%) contrast(87%)' }} />
               <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Voice recording</span>
             </span>
           )
@@ -4566,10 +4566,10 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     {/* Label row */}
                     <div className="flex gap-[8px] items-center flex-wrap">
                       {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
+                      {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                       <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                         {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                       </p>
-                      {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                     </div>
                     {/* Question text */}
                     {(status === 'asked' || status === 'future') ? (
@@ -4582,10 +4582,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     )}
                     {/* Preview */}
                     {(status === 'answered' || status === 'draft') && preview && (
-                      <div className="flex items-start gap-[8px]">
-                        {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
-                        <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
-                      </div>
+                      <p className="font-['GT_Super_Text:Book'] text-[16px] leading-[28px] text-[#445f59] m-0">{preview}</p>
                     )}
                     {/* Photos */}
                     {status === 'answered' && variant === 'photos' && (
@@ -4635,7 +4632,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
 
           const AudioBadge = () => (
             <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
-              <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
+              <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(43%) sepia(8%) saturate(340%) hue-rotate(140deg) brightness(94%) contrast(87%)' }} />
               <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Voice recording</span>
             </span>
           )
@@ -4706,6 +4703,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
                         {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
+                        {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
                           {status === 'answered' ? (
                             <>
@@ -4714,7 +4712,6 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                             </>
                           ) : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
-                        {status === 'answered' && (variant === 'recording' || variant === 'all') && <AudioBadge />}
                       </div>
                       {(status === 'asked' || status === 'future') ? (
                         <div className="flex items-start gap-[8px]">
@@ -5007,7 +5004,7 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
             const heartCount = (isA1NearEnd || isAnySubEnded) ? 3 : 1
             const AudioBadge = () => (
               <span className="group/audio relative inline-flex flex-shrink-0 mt-[2px]">
-                <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(28%) sepia(8%) saturate(220%) hue-rotate(148deg) brightness(82%) contrast(90%)' }} />
+                <img alt="" className="size-[24px] flex-shrink-0" src={imgVoice} style={{ filter: 'invert(43%) sepia(8%) saturate(340%) hue-rotate(140deg) brightness(94%) contrast(87%)' }} />
                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-[6px] z-[50] bg-[#042a21] text-white rounded-[4px] px-[8px] py-[3px] text-[11px] leading-[16px] whitespace-nowrap opacity-0 group-hover/audio:opacity-100 transition-opacity pointer-events-none font-['GT_America:Medium']">Voice recording</span>
               </span>
             )
@@ -5045,8 +5042,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                   <div key={i} className={`${i < answeredRows.length - 1 ? 'border-b border-[#ebebeb] ' : ''}py-[36px] px-[24px] flex flex-wrap items-center justify-between gap-x-[16px] gap-y-[24px] group cursor-pointer sm:hover:bg-[#fafafa]`}>
                     <div className="flex flex-col gap-[12px] min-w-0 w-full lg:flex-1">
                       <div className="flex gap-[8px] items-center flex-wrap">
-                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                         {(variant === 'recording' || variant === 'all') && <AudioBadge />}
+                        <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] text-[#61706f] m-0 whitespace-nowrap">Chapter {i + 1}</p>
                       </div>
                       <p className="font-['GT_Super_Display:Medium'] text-[22px] leading-[34px] tracking-[-0.22px] text-[#042a21] m-0">{q}</p>
                       {preview && (

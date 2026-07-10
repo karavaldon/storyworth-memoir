@@ -1,3 +1,6 @@
+## v1.0.492 — 2026-07-10T21:36:45
+- Move voice icon left of Chapter label, match gray color, remove from preview
+
 ## v1.0.491 — 2026-07-10T21:33:43
 - Mobile: filter icon + pills move to dedicated row below title
 
