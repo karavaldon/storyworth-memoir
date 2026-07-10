@@ -1321,10 +1321,12 @@ const chapterNumbers: Record<number, number> = {}
                             <button key={key} type="button"
                               disabled={!avail}
                               onClick={() => avail && setFilterReorder(f => ({ ...f, [key]: !f[key] }))}
-                              className={`flex gap-[10px] items-center px-[16px] py-[8px] h-[36px] rounded-[22px] border-2 transition-colors ${!avail ? 'border-[#c0c0c0] cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] border-[#068089] cursor-pointer' : 'border-[#61706f] hover:bg-[#f7f7f7] cursor-pointer'}`}
+                              className={`flex gap-[10px] items-center px-[12px] py-[8px] h-[36px] rounded-[22px] transition-colors ${!avail ? 'cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] cursor-pointer' : 'hover:bg-[#f7f7f7] cursor-pointer'}`}
                             >
+                              <div className={`w-[16px] h-[16px] flex-shrink-0 rounded-[3px] border flex items-center justify-center ${on && avail ? 'bg-[#068089] border-[#068089]' : 'bg-white border-[#c0c0c0]'}`}>
+                                {on && avail && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                              </div>
                               <span className={`font-['GT_America:Medium'] text-[14px] leading-[20px] whitespace-nowrap ${!avail ? 'text-[#8a8a8a]' : on ? 'text-[#07777e]' : 'text-[#61706f]'}`}>{label}</span>
-                              {on && avail && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                             </button>
                           )
                         })}
@@ -4125,10 +4127,12 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                                 <button key={key} type="button"
                                   disabled={!avail}
                                   onClick={() => avail && setRowFilter(f => ({ ...f, [key]: !f[key] }))}
-                                  className={`flex gap-[10px] items-center px-[16px] py-[8px] h-[36px] rounded-[22px] border-2 transition-colors ${!avail ? 'border-[#c0c0c0] cursor-not-allowed opacity-60' : on ? `${key !== 'upcoming' ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0]' : 'hover:bg-[#f7f7f7]'} border-[#068089] cursor-pointer` : 'border-[#61706f] hover:bg-[#f7f7f7] cursor-pointer'}`}
+                                  className={`flex gap-[10px] items-center px-[12px] py-[8px] h-[36px] rounded-[22px] transition-colors ${!avail ? 'cursor-not-allowed opacity-60' : on ? 'bg-[#f0f4f4] hover:bg-[#e6f0f0] cursor-pointer' : 'hover:bg-[#f7f7f7] cursor-pointer'}`}
                                 >
+                                  <div className={`w-[16px] h-[16px] flex-shrink-0 rounded-[3px] border flex items-center justify-center ${on && avail ? 'bg-[#068089] border-[#068089]' : 'bg-white border-[#c0c0c0]'}`}>
+                                    {on && avail && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                                  </div>
                                   <span className={`font-['GT_America:Medium'] text-[14px] leading-[20px] whitespace-nowrap ${!avail ? 'text-[#8a8a8a]' : on ? 'text-[#07777e]' : 'text-[#61706f]'}`}>{label}</span>
-                                  {on && avail && <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="flex-shrink-0"><path d="M4 10.5l4 4 8-8" stroke="#07777e" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                                 </button>
                               )
                             })}
