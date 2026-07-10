@@ -447,8 +447,8 @@ function ThisWeekSection() {
                 </p>
               </div>
             </div>
-            <button type="button" className="bg-[var(--teal\/800,#068089)] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:opacity-90 transition-opacity">
-              <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">
+            <button type="button" className="bg-[var(--teal\/800,#068089)] cursor-pointer flex h-[40px] items-center justify-center px-[32px] rounded-[24px] hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all">
+              <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-white tracking-[1.4px] uppercase whitespace-nowrap">
                 tell my story
               </span>
             </button>
@@ -1824,8 +1824,8 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
               <p className="font-['GT_America:Regular'] text-[16px] leading-[24px] text-[#61706f] m-0">
                 {renewCopy ?? 'You have 3 more months to edit your existing stories. If you\'d like to receive weekly questions or add new stories, you can renew.'}
               </p>
-              <button type="button" className="w-full flex items-center justify-center h-[40px] px-[24px] rounded-[24px] bg-[#068089] cursor-pointer hover:opacity-80 transition-opacity">
-                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Renew for $99</span>
+              <button type="button" className="group w-full flex items-center justify-center h-[40px] px-[24px] rounded-[24px] cursor-pointer bg-[#f5f5f5] hover:bg-[#efefef] border-2 border-transparent hover:border-[#6b7268] transition-colors">
+                <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-[#6b7268] group-hover:text-[#042a21] tracking-[1.6px] uppercase whitespace-nowrap transition-colors duration-150">Renew for $99</span>
               </button>
             </div>
           )}
@@ -1857,8 +1857,11 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
             </div>
           ) : (
             <div className="flex items-center justify-between">
-              <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#042a21]">{storyCount} {storyCount === 1 ? 'story' : 'stories'} captured · 🔥 2 week streak</span>
-              <button type="button" className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#0f89a8] underline cursor-pointer hover:opacity-70 transition-opacity">Preview your book →</button>
+              <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#042a21]">{storyCount} {storyCount === 1 ? 'story' : 'stories'} captured{storyCount > 1 ? ' · 🔥 2 week streak' : ''}</span>
+              {storyCount === 1
+                ? <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#606060]">25 pages needed to print your book</span>
+                : <button type="button" className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#0f89a8] underline cursor-pointer hover:opacity-70 transition-opacity">Preview your book →</button>
+              }
             </div>
           )}
         </div>
@@ -2600,9 +2603,9 @@ function OptionCMidSub() {
                   </div>
                   <button
                     type="button"
-                    className="flex-none bg-[#288068] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity"
+                    className="flex-none bg-[#288068] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all"
                   >
-                    <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">
+                    <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">
                       tell my story
                     </span>
                   </button>
@@ -3207,8 +3210,8 @@ function WeekByWeekPanel({
                     </div>
                     <p className="font-['GT_Super_Display:Medium'] text-[24px] leading-[34px] tracking-[-0.24px] text-[#042a21] m-0 max-w-[600px]">{thisWeekQuestion}</p>
                   </div>
-                  <button type="button" className="flex-none bg-[#288068] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-90 transition-opacity">
-                    <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">tell my story</span>
+                  <button type="button" className="flex-none bg-[#288068] h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all">
+                    <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">tell my story</span>
                   </button>
                 </div>
                 <p className="font-['GT_America:Regular'] text-[14px] leading-[20px] text-[#61706f] m-0 text-center">
@@ -3977,10 +3980,10 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
               <div className="flex flex-col items-center gap-[12px]">
                 <button
                   type="button"
-                  className="h-[40px] rounded-[24px] px-[32px] flex items-center justify-center hover:opacity-90 transition-opacity"
+                  className="h-[40px] rounded-[24px] px-[32px] flex items-center justify-center hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all"
                   style={{ backgroundImage: 'linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%)' }}
                 >
-                  <span className="font-['GT_America:Medium'] text-[16px] tracking-[1.6px] uppercase text-white leading-[20px]">tell my story</span>
+                  <span className="font-['GT_America:Medium'] text-[14px] tracking-[1.4px] uppercase text-white leading-[20px]">tell my story</span>
                 </button>
                 {isA1SubEndedLow && (
                   <button type="button"
@@ -4196,8 +4199,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     {isAnySubEnded && (
                       <button type="button"
                         onClick={() => isA1SubEndedLow && setShowSubEndedLowPrintModal(true)}
-                        className="flex h-[40px] items-center justify-center px-[20px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 bg-[#068089]">
-                        <span className="font-['GT_America:Medium'] leading-[20px] text-[16px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Print my book</span>
+                        className="flex h-[40px] items-center justify-center px-[20px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all flex-shrink-0 bg-[#068089]">
+                        <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-white tracking-[1.4px] uppercase whitespace-nowrap">Print my book</span>
                       </button>
                     )}
                   </div>
@@ -4300,8 +4303,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       <QuestionButtonBank horizontal />
                     </div>
                   </div>
-                  <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                    <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                  <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
+                    <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                   </button>
                 </div>
               )
@@ -4325,8 +4328,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     )}
                   </div>
                   {(status === 'asked' || status === 'future') && (
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   )}
                 </div>
@@ -4391,8 +4394,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   </div>
                 )
@@ -4451,8 +4454,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
                     </button>
                   ) : (status === 'asked' || status === 'future') ? (
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   ) : null}
                 </div>
@@ -4523,11 +4526,13 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <QuestionButtonBank horizontal />
                       </div>
                     </div>
-                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
+                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   </div>
                 )
+                const chapterNum = status === 'answered' ? rows.slice(0, i + 1).filter(r => r.status === 'answered').length : 0
+                const isPrintReady = isA1NearEnd && (chapterNum === 1 || chapterNum === 2)
                 return (
                   <Fragment key={i}>
                   <div ref={i === firstErrorIdx ? nearEndErrorRowRef : i === secondErrorIdx ? nearEndError2RowRef : undefined} className={`border-b border-[#ebebeb] ${status === 'asked' ? 'border-l-[3px] border-l-[#d4d4d4] bg-[#fafafa] hover:bg-[#f3f3f3]' : status === 'draft' ? 'border-l-[3px] border-l-[#FCD34D] bg-[#FFFBEB] hover:bg-[#fef3c7]' : status === 'future' ? 'hover:bg-[#fafafa]' : error ? 'border-l-[3px] border-l-[#ED5D34] hover:bg-[#fafafa]' : 'hover:bg-[#fafafa]'} py-[36px] px-[24px] flex items-center justify-between gap-[16px] group cursor-pointer`}>
@@ -4535,14 +4540,13 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                       <div className="flex gap-[8px] items-center flex-wrap">
                         {status === 'future' && <span className="bg-[#ebebeb] text-[#6b7268] font-['GT_America:Regular'] text-[16px] leading-[18px] rounded-[6px] whitespace-nowrap" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '5px' }}>Upcoming</span>}
                         <p className={`font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 whitespace-nowrap text-[#61706f]`}>
-                          {status === 'answered' ? `Chapter ${rows.slice(0, i + 1).filter(r => r.status === 'answered').length}` : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
+                          {status === 'answered' ? (
+                            <>
+                              {isPrintReady ? <>Chapter {chapterNum} · <span className="text-[#189271]">Marked as ready for print</span></> : `Chapter ${chapterNum}`}
+                              {error && <> · <span className="text-[#ED5D34]">{error} <span className="underline cursor-pointer">Resolve →</span></span></>}
+                            </>
+                          ) : status === 'draft' ? 'Draft' : status === 'asked' ? `Asked on ${getQuestionSendDate(i).replace('Monday, ', '')}` : `Sends on ${getQuestionSendDate(i)}`}
                         </p>
-                        {error && (
-                          <p className="font-['GT_America:Regular'] text-[16px] leading-[28px] m-0 text-[#ED5D34] whitespace-nowrap">
-                            {error}{' '}
-                            <span className="underline cursor-pointer">Resolve →</span>
-                          </p>
-                        )}
                       </div>
                       {(status === 'asked' || status === 'future') ? (
                         <div className="flex items-start gap-[8px]">
@@ -4579,8 +4583,8 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         <span className="font-['GT_America:Medium'] text-[16px] text-[#068089] leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Open draft →</span>
                       </button>
                     ) : (status === 'asked' || status === 'future') ? (
-                      <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible">
-                        <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                      <button type="button" className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible">
+                        <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                       </button>
                     ) : null}
                   </div>
@@ -4665,9 +4669,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 ) : (
                   <button
                     type="button"
-                    className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                    className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible"
                   >
-                    <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                    <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                   </button>
                 )}
               </div>
@@ -4720,9 +4724,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 </div>
                 <button
                   type="button"
-                  className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                  className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible"
                 >
-                  <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                  <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                 </button>
               </div>
               </Fragment>)
@@ -4762,9 +4766,9 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                     </div>
                     <button
                       type="button"
-                      className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:opacity-80 transition-opacity invisible group-hover:visible"
+                      className="bg-[#068089] flex-none h-[40px] flex items-center justify-center px-[32px] rounded-[24px] cursor-pointer hover:ring-2 hover:ring-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.18)] transition-all invisible group-hover:visible"
                     >
-                      <span className="font-['GT_America:Medium'] text-[16px] text-white leading-[20px] tracking-[1.6px] uppercase whitespace-nowrap">Answer →</span>
+                      <span className="font-['GT_America:Medium'] text-[14px] text-white leading-[20px] tracking-[1.4px] uppercase whitespace-nowrap">Answer →</span>
                     </button>
                   </div>
                   )
