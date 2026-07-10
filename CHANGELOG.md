@@ -1,3 +1,6 @@
+## v1.0.490 — 2026-07-10T21:31:33
+- Fix milestone drawer right-overflow at mid breakpoints
+
 ## v1.0.489 — 2026-07-10T21:29:13
 - Replace mobile milestone drawer handle with close X button at top right
 
