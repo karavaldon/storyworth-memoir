@@ -1,3 +1,6 @@
+## v1.0.489 — 2026-07-10T21:29:13
+- Replace mobile milestone drawer handle with close X button at top right
+
 ## v1.0.488 — 2026-07-10T21:28:31
 - Show filter icon-only on mobile (was hidden inside sm:flex container)
 

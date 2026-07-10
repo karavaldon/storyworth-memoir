@@ -1890,8 +1890,10 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
       <div ref={ref}
         className="fixed bottom-0 left-0 right-0 sm:absolute sm:bottom-auto sm:left-1/2 sm:-translate-x-1/2 sm:top-[calc(100%_+_8px)] lg:left-auto lg:translate-x-0 lg:right-0 z-50 bg-white rounded-t-[20px] sm:rounded-[12px] overflow-hidden w-full sm:w-[min(600px,calc(100vw-32px))]"
         style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
-        <div className="sm:hidden flex justify-center pt-[12px] pb-[4px]">
-          <div className="w-[32px] h-[4px] bg-[#d1d1d1] rounded-full" />
+        <div className="sm:hidden flex justify-end px-[16px] pt-[16px]">
+          <button type="button" onClick={onClose} className="size-[32px] flex items-center justify-center rounded-full hover:bg-[#f0f0f0] transition-colors cursor-pointer">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden><path d="M1 1l12 12M13 1L1 13" stroke="#61706f" strokeWidth="1.75" strokeLinecap="round"/></svg>
+          </button>
         </div>
         <div className="p-[24px] flex flex-col overflow-y-auto" style={{ maxHeight: 'min(80vh, calc(100vh - 100px))' }}>
         <div>
