@@ -1303,11 +1303,11 @@ const chapterNumbers: Record<number, number> = {}
                 return (
                   <>
                     <button type="button"
-                      className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[12px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors relative z-50"
+                      className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center px-[10px] sm:pl-[14px] sm:pr-[12px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors relative z-50"
                       onClick={() => setShowReorderFilterMenu(v => !v)}
                     >
                       <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgFilterHorizontalIcon} />
-                      <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">
+                      <span className="hidden sm:inline font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">
                         Filter{filterCount > 0 ? ` (${filterCount})` : ''}
                       </span>
                       <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />
@@ -1939,7 +1939,7 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
             })}
           </div>
           {storyCount === 0 ? (
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-[4px] sm:flex-row sm:items-center sm:justify-between">
               <p className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#042a21] m-0">
                 No stories yet.{' '}
                 <button type="button" className="font-['GT_America:Medium'] text-[#07777e] underline cursor-pointer hover:opacity-70 transition-opacity">Add your first story →</button>
@@ -1947,7 +1947,7 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
               <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#606060]">25 pages needed to print your book</span>
             </div>
           ) : (
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-[4px] sm:flex-row sm:items-center sm:justify-between">
               <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#042a21]">{storyCount} {storyCount === 1 ? 'story' : 'stories'} captured{storyCount > 1 ? ' · 🔥 2 week streak' : ''}</span>
               {storyCount === 1
                 ? <span className="font-['GT_America:Regular'] text-[14px] leading-normal text-[#606060]">25 pages needed to print your book</span>
@@ -1967,11 +1967,11 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
         <div className="w-full border-t border-[#e8e8e8] my-[24px]" />
         {/* Toolbox milestones */}
         <p className="font-['GT_America:Medium'] text-[14px] leading-normal text-[#042a21] m-0 mb-[12px]">Explore your toolbox</p>
-        <div className="flex gap-[16px]">
-          <div className="flex flex-col gap-[6px] flex-1">
+        <div className="flex flex-col sm:flex-row gap-[6px] sm:gap-[16px]">
+          <div className="flex flex-col gap-[6px] sm:flex-1">
             {milestones.slice(0, 4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
           </div>
-          <div className="flex flex-col gap-[6px] flex-1">
+          <div className="flex flex-col gap-[6px] sm:flex-1">
             {milestones.slice(4).map((m, i) => <MilestoneModalRowV2 key={i} {...m} />)}
           </div>
         </div>
@@ -2063,8 +2063,8 @@ function MilestoneTimeline({ variant, fillOverride, animate, milestoneText, week
             )}
           </p>
           {(showTimeline2 || subscriptionEnded) && (
-            <div className="relative flex-shrink-0" style={{ animation: 'milestone-in 0.4s ease-out both' }}>
-              <button type="button" ref={milestoneButtonRef}
+            <div className="relative flex-shrink-0">
+              <button type="button" ref={milestoneButtonRef} style={{ animation: 'milestone-in 0.4s ease-out both' }}
                 className={`flex gap-[12px] items-center h-[40px] px-[14px] rounded-[20px] border-2 transition-colors cursor-pointer group/milestone ${highlightButton ? 'bg-[#D6ECF5] border-[#068089]' : 'hover:bg-white border-transparent hover:border-[#61706f]'}`}
                 onMouseDown={e => e.stopPropagation()}
                 onClick={e => { e.stopPropagation(); setShowMilestonesModal(v => !v) }}>
@@ -4211,11 +4211,11 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                         {showFilterMenu && <div className="fixed inset-0 z-40" onClick={() => setShowFilterMenu(false)} />}
                         <button
                           type="button"
-                          className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center pl-[14px] pr-[12px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors relative z-50"
+                          className="group bg-white border-2 border-[#61706f] hover:border-[#042a21] flex gap-[10px] h-[40px] items-center justify-center px-[10px] sm:pl-[14px] sm:pr-[12px] rounded-[12px] cursor-pointer hover:bg-[#f5f5f5] transition-colors relative z-50"
                           onClick={() => setShowFilterMenu(v => !v)}
                         >
                           <img alt="" className="size-[24px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgFilterHorizontalIcon} />
-                          <span className="font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">
+                          <span className="hidden sm:inline font-['GT_America:Medium'] leading-[20px] text-[14px] text-[#61706f] group-hover:text-[#042a21] tracking-[1.4px] uppercase whitespace-nowrap transition-colors duration-150">
                             Filter{filterCount > 0 ? ` (${filterCount})` : ''}
                           </span>
                           <img alt="" className="size-[18px] flex-shrink-0 group-hover:brightness-0 transition-[filter] duration-150" src={imgChevronDown} />

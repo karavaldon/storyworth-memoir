@@ -1,3 +1,6 @@
+## v1.0.487 — 2026-07-10T21:26:28
+- Mobile milestone drawer: stack story progress copy and single-column toolbox below sm
+
 ## v1.0.486 — 2026-07-10T21:18:26
 - Mobile UX: ellipsis menu replaces Change Question on mobile/mid, milestone bottom drawer on mobile, remove row hovers on mobile, prevent horizontal scroll, +X badge style tweaks
 
