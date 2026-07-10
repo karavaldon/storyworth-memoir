@@ -1862,6 +1862,14 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
             </div>
           )}
         </div>
+        {subscriptionEnded && (
+          <div className="mt-[20px] flex flex-col gap-[8px] items-center">
+            <button type="button" className="w-full flex items-center justify-center h-[40px] px-[24px] rounded-[24px] bg-[#068089] cursor-pointer hover:opacity-80 transition-opacity">
+              <span className="font-['GT_America:Medium'] text-[16px] leading-[20px] text-white tracking-[1.6px] uppercase whitespace-nowrap">Order my book</span>
+            </button>
+            <p className="font-['GT_America:Regular'] text-[14px] leading-[28px] text-[#61706f] m-0 text-center">You have a book credit to use, redeemable for 1 color hardcover book.</p>
+          </div>
+        )}
         <div className="w-full border-t border-[#e8e8e8] my-[24px]" />
         {/* Toolbox milestones */}
         <p className="font-['GT_America:Medium'] text-[14px] leading-normal text-[#042a21] m-0 mb-[12px]">Explore your toolbox</p>
@@ -3931,6 +3939,24 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
           </div>
         </div>
       )}
+      {(isA1New || isA1Unengaged) && (
+        <div
+          className="overflow-hidden pointer-events-none"
+          style={{
+            maxHeight: revealState === 'hidden' ? '116px' : '0px',
+            opacity: revealState === 'hidden' ? 1 : 0,
+            transition: 'max-height 0.4s ease-out, opacity 0.3s ease-out',
+          }}
+        >
+          <div className="flex justify-center pt-[16px]">
+            <img
+              alt=""
+              src={imgScrollArrow}
+              style={{ width: '34px', height: '84px', animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
+            />
+          </div>
+        </div>
+      )}
       {(isA1FirstQuestion || isA1Unengaged || isA1FiveAnswered || isA1FiveAnsweredV2 || isA1NearEnd || isA1Month4 || isA1SubEndedLow) && (
         <div className="max-w-[1189px] mx-auto px-[24px] pt-[44px] pb-[60px]">
           <style>{`.question-card:hover { border: 2px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(80.71deg, rgb(85, 160, 140) 13.53%, rgb(50, 145, 172) 105.76%) border-box; }`}</style>
@@ -3966,24 +3992,6 @@ type MemoirRowVariant = 'plain' | 'engagement' | 'photos' | 'recording' | 'all'
                 )}
               </div>
             </div>
-          </div>
-        </div>
-      )}
-      {(isA1New || isA1Unengaged) && (
-        <div
-          className="overflow-hidden pointer-events-none"
-          style={{
-            maxHeight: revealState === 'hidden' ? '116px' : '0px',
-            opacity: revealState === 'hidden' ? 1 : 0,
-            transition: 'max-height 0.4s ease-out, opacity 0.3s ease-out',
-          }}
-        >
-          <div className="flex justify-center pt-[16px]">
-            <img
-              alt=""
-              src={imgScrollArrow}
-              style={{ width: '34px', height: '84px', animation: 'gentle-bounce 2.4s ease-in-out infinite' }}
-            />
           </div>
         </div>
       )}
