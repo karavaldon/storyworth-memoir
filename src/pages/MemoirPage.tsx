@@ -1808,8 +1808,7 @@ function MilestoneModalRowV2({ label, earned, link, earnedLink, hoverPlain }: V2
   const unearnedHover = !earned && hasHover
   return (
     <div
-      className={`flex gap-[12px] items-center p-[4px] rounded-[4px] w-full shrink-0 h-[48px] ${activeLink ? 'cursor-pointer' : 'cursor-default'}`}
-      style={{ background: hovered ? '#f5f5f5' : 'transparent' }}
+      className={`flex gap-[12px] items-center p-[4px] rounded-[4px] w-full shrink-0 h-[48px] ${activeLink ? 'cursor-pointer' : 'cursor-default'} ${hovered ? 'sm:bg-[#f5f5f5]' : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

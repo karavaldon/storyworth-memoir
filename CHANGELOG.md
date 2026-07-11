@@ -1,3 +1,6 @@
+## v1.0.493 — 2026-07-11T17:18:13
+- Fix mobile horizontal scroll (html overflow-x), remove milestone row hover fill on mobile
+
 ## v1.0.492 — 2026-07-10T21:36:45
 - Move voice icon left of Chapter label, match gray color, remove from preview
 
