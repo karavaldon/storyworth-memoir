@@ -1,3 +1,6 @@
+## v1.0.496 — 2026-07-14T22:00:14
+- New user: fire confetti from bottom when user reaches end of page
+
 ## v1.0.495 — 2026-07-14T20:29:50
 - Remove html overflow-x rule to restore sticky bars
 

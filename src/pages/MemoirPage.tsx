@@ -3536,10 +3536,7 @@ export default function MemoirPage() {
     return () => { cancelAnimationFrame(rafId); obs?.disconnect() }
   }, [scenario, revealState])
 
-  // a1-new: fire full-width confetti, highlight the bar for 1s, then highlight the milestone button
-  // Guard on timelineAnimating prevents spurious fire when switching scenarios while showTimeline2 is stale-true
-  // Deferred via setTimeout so React Strict Mode's simulated cleanup fires before confetti runs,
-  // preventing the effect from double-firing in development.
+  // a1-new: highlight the bar for 1s and show congrats when milestone animation fires
   useEffect(() => {
     if ((scenario !== 'a1-new' && scenario !== 'a1-unengaged') || !showTimeline2 || !timelineAnimating) return
     let active = true
@@ -3547,12 +3544,6 @@ export default function MemoirPage() {
     let t3: ReturnType<typeof setTimeout>
     const fireId = setTimeout(() => {
       if (!active) return
-      const el = milestoneButtonRef.current
-      const rect = el?.getBoundingClientRect()
-      const oy = rect ? rect.top / window.innerHeight : 0.06
-      const base = { angle: 90, spread: 45, scalar: 1, startVelocity: 40, ticks: 200, gravity: 1, decay: 0.9, shapes: ['square' as const, 'circle' as const], colors: ['#068089', '#7dd4d8', '#2E7C69', '#50A890', '#F5DA96', '#7B4ED6', '#c4234e'], disableForReducedMotion: true, zIndex: 9999 }
-      const origins = [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]
-      origins.forEach(x => confetti({ ...base, particleCount: 8, origin: { x, y: oy } }))
       setMilestoneBarHighlight(true)
       setMilestoneCongratsVisible(true)
       t0 = setTimeout(() => setMilestoneBarHighlight(false), 1000)
@@ -3560,6 +3551,22 @@ export default function MemoirPage() {
     }, 0)
     return () => { active = false; clearTimeout(fireId); clearTimeout(t0); clearTimeout(t3) }
   }, [scenario, showTimeline2, timelineAnimating])
+
+  // a1-new: fire confetti from bottom when user scrolls to the bottom of the page
+  useEffect(() => {
+    if (scenario !== 'a1-new' && scenario !== 'a1-unengaged') return
+    let fired = false
+    function handleScroll() {
+      if (fired) return
+      if (window.scrollY + window.innerHeight < document.body.scrollHeight - 50) return
+      fired = true
+      const base = { angle: 90, spread: 75, scalar: 1, startVelocity: 60, ticks: 260, gravity: 0.8, decay: 0.9, shapes: ['square' as const, 'circle' as const], colors: ['#068089', '#7dd4d8', '#2E7C69', '#50A890', '#F5DA96', '#7B4ED6', '#c4234e'], disableForReducedMotion: true, zIndex: 9999 }
+      const origins = [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95]
+      origins.forEach(x => confetti({ ...base, particleCount: 12, origin: { x, y: 1 } }))
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [scenario])
 
   // a1-new / a1-unengaged: track scroll progress from page top to target question for milestone progress bar
   useEffect(() => {
