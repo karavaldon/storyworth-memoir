@@ -1,3 +1,6 @@
+## v1.0.495 — 2026-07-14T20:29:50
+- Remove html overflow-x rule to restore sticky bars
+
 ## v1.0.494 — 2026-07-14T20:28:49
 - Fix sticky bars broken by overflow-x hidden on html; use clip instead
 
