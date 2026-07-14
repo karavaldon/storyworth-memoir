@@ -1,3 +1,6 @@
+## v1.0.494 — 2026-07-14T20:28:49
+- Fix sticky bars broken by overflow-x hidden on html; use clip instead
+
 ## v1.0.493 — 2026-07-11T17:18:13
 - Fix mobile horizontal scroll (html overflow-x), remove milestone row hover fill on mobile
 
