@@ -1887,7 +1887,7 @@ function MilestonesModalV2({ onClose, subscriptionPercent = 5, storyCount = 0, m
     <>
       <div className="sm:hidden fixed inset-0 z-40 bg-black/20" />
       <div ref={ref}
-        className="fixed bottom-0 left-0 right-0 sm:absolute sm:bottom-auto sm:right-0 sm:top-[calc(100%_+_8px)] z-50 bg-white rounded-t-[20px] sm:rounded-[12px] overflow-hidden w-full sm:w-[min(600px,calc(100vw-32px))]"
+        className="fixed bottom-0 left-0 right-0 sm:absolute sm:bottom-auto sm:left-auto sm:right-0 sm:top-[calc(100%_+_8px)] z-50 bg-white rounded-t-[20px] sm:rounded-[12px] overflow-hidden w-full sm:w-[min(600px,calc(100vw-32px))]"
         style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.14)' }}>
         <div className="sm:hidden flex justify-end px-[16px] pt-[16px]">
           <button type="button" onClick={onClose} className="size-[32px] flex items-center justify-center rounded-full hover:bg-[#f0f0f0] transition-colors cursor-pointer">

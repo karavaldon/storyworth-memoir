@@ -1,3 +1,6 @@
+## v1.0.497 — 2026-07-15T17:10:02
+- Fix milestone drawer right-overflow on desktop by resetting left-0 with sm:left-auto
+
 ## v1.0.496 — 2026-07-14T22:00:14
 - New user: fire confetti from bottom when user reaches end of page
 
